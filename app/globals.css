@@ -1,0 +1,319 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes slideUpFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dance {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-10px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  75% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-dance {
+  animation: dance 2s ease-in-out;
+}
+
+@keyframes vibrate {
+  0%, 50%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(10px);
+  }
+  75% {
+    transform: translateX(-10px);
+  }
+}
+
+.animate-vibrate {
+  animation: vibrate 1s ease-out;
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideDown {
+  animation: slideDown 0.3s ease-in-out;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: scale(var(--start-scale, 0.5));
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.appear {
+  animation: appear 0.5s ease-in-out;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+input:focus {
+  outline: none;
+  appearance: none;
+}
+
+@keyframes fading {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  50% {
+    opacity: 70;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 100;
+    transform: translateY(0px);
+  }
+}
+
+.animate-fading-1 {
+  animation-name: fading;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in;
+  animation-fill-mode: backwards;
+}
+
+.animate-fading-2 {
+  animation-name: fading;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in;
+  animation-delay: 500ms;
+  animation-fill-mode: backwards;
+}
+
+.animate-fading-3 {
+  animation-name: fading;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in;
+  animation-delay: 1s;
+  animation-fill-mode: backwards;
+}
+
+@keyframes tingle {
+  0%, 50%, 100% {
+    transform: rotateX(0deg);
+  }
+  25% {
+    transform: rotate(2deg);
+  }
+  75% {
+    transform: rotate(-2deg);
+  }
+}
+
+.animate-tingle {
+  animation: tingle 1000ms infinite;
+}
+
+@keyframes vibrantAnimation {
+  0%, 50%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  25%, 75% {
+    transform: scaleX(1.02) scaleY(1.05);
+  }
+}
+
+.vibrant-animation {
+  animation: vibrantAnimation 3s infinite;
+}
+
+@keyframes floatAnimation {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.2);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.float-animation {
+  animation: floatAnimation 3s ease-in-out infinite;
+}
+
+.pulse-glow {
+  animation: pulseGlow 2s infinite;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.5s ease-out;
+}
+
+.scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+.pannel_tab {
+  width: 100%;
+  margin: 12px auto;
+  display: flex;
+  gap: 12px;
+  height: 80px;
+  align-items: center;
+  justify-content: start;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 50px;
+  position: relative; /* Ensure positioning for child elements */
+}
+
+.pannel_tab:hover {
+  background-color: #ffffff1b;
+  width: 100%;
+  padding: 12px 12px;
+}
+
+.pannel_tab .icon {
+  position: relative; /* Ensure the first child has a positioning context */
+}
+
+.pannel_tab_active {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 50px;
+  margin: 20px 0;
+  background-color: transparent;
+  transform: translateX(-12px);
+}
+
+.pannel_tab_active .icon {
+  position: relative;
+  background: #fff;
+  color: #931ABD;
+  border-radius: 50%;
+  font-size: 24px;
+  padding: 12px;
+  transition-duration: 500ms;
+}
+
+ .pannel_tab_active .icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -48px;
+  transform: translateX(-50%);
+  height: 12px;
+  width: 48px;
+  opacity: 0;
+  background-color: red;
+}
+
+.pannel_tab_active .icon::after {
+  opacity: 1;
+}
+
+.pannel_tab_active :nth-child(2) {
+  background-color: white;
+  flex-grow: 1;
+  padding: 10px 20px;
+  border-radius: 50px;
+  color: #931ABD;
+  font-weight: 600;
+  transition: all 500ms ease-in-out;
+  transform: scaleX(1.05);
+}
+
+.pannel_button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 8px;
+  color: #ffffff8d;
+  opacity: 60;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.pannel_button_active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 8px;
+  color: white;
+  gap: 8px;
+  font-weight: 800;
+}

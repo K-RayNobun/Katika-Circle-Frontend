@@ -1,0 +1,5 @@
+------------------ TAKS TO DO ON TODAY ------------------
+
+- Integrate wallet creation endpoint
+- Saving Redux data towards localStorage
+- Encrypt data in local storage
