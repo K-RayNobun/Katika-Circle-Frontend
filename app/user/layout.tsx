@@ -4,6 +4,14 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faCoins, faTrophy, faGears } from '@fortawesome/free-solid-svg-icons';
+import { Poppins } from 'next/font/google';
+
+
+const poppinsNormal = Poppins({
+    subsets: ['latin'],
+    weight: '400',
+    variable: '--font-poppins-normal'
+  });
 
 export default function UserLayout({
     children,
@@ -23,8 +31,7 @@ export default function UserLayout({
     }
 
     return (
-      <html lang="en">
-        <body className={`relative w-screen bg-gray min-h-screen lg:h-[1024px] px-[8px] lg:px-[12px] flex flex-col lg:flex-row gap-[16px] rounded-lg sm:rounded-3xl mx-auto p-3`}>
+        <section className={`relative w-screen bg-gray min-h-screen lg:h-[1024px] px-[8px] lg:px-[12px] flex flex-col lg:flex-row gap-[16px] rounded-lg sm:rounded-3xl mx-auto p-3`}>
           <aside className={`hidden lg:flex w-[22%] flex-col justify-between bg-primary rounded-3xl p-6`}>
                 <div className={`flex flex-col justify-between h-[456px]`}>
                     <h3 className={`text-white font-bold text-[30px]`}>Katika Wallet</h3>
@@ -73,7 +80,6 @@ export default function UserLayout({
                     </button>
             </section>
             {children}
-        </body>
-      </html>
+        </section>
     );
   }

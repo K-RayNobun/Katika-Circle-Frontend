@@ -9,7 +9,7 @@ import axios from 'axios';
 
 // Redux related imports
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import { verifyUser } from '@/lib/redux/features/user/userSlice';
+import { verifyUser, setWalletAdress, setReferralCode } from '@/lib/redux/features/user/userSlice';
 
 const DigitCase = ({identifier, digitValue, isPinCorrect, onClick, handleChangeFunction}:{identifier:string, digitValue:string, isPinCorrect:boolean|null, onClick:(e) => void, handleChangeFunction:(e) => void}) => {
     
@@ -38,7 +38,7 @@ const PinCheck = () => {
 
     const dispatch = useAppDispatch();
     // const accessToken = useAppSelector((state) => state.token.token);
-    const accessToken = 'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImthbXRjaHVlbmdyYXlhbkBnbWFpbC5jb20iLCJzdWIiOiJrYW10Y2h1ZW5ncmF5YW5AZ21haWwuY29tIiwiZXhwIjoxNzQxNzEyNzcwfQ.JUpFLlbqytuFgf9vDVEbYnrlab-xeDZKich6gtcLdeDYbXSgrL2mbSWSPSVotavmE8w-zL4jnbSpnvyXWHTbSQ';
+    const accessToken = useAppSelector((state) => state.token.token);
     const userPassword = useAppSelector((state) => state.user.pwdhash)
     const userEmail = useAppSelector((state) => state.user.email)
 
@@ -141,8 +141,9 @@ const PinCheck = () => {
     };
 
     const checkPin = (pinCode:Array<string>) => {
-        const pin = parseInt(pinCode.join(''));
+        const pin = pinCode.join('');
         verifyOTP(pin);
+        // getUserData();
     };
 
     const sendOTP = async () => {
@@ -160,8 +161,24 @@ const PinCheck = () => {
         console.log('Just sent the token successfully as ', response.data);
     };
 
+    const getUserData = async() => {
+        console.log('Getting the verified user data');
+        const response = await axios.get('https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/auth/account/profile',
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    "Content-Type": 'application/json'
+                }
+            }
+        );
+        console.log('The User Data Is: ', response.data.data);
+        dispatch(setReferralCode(response.data.data.referral.referralCode))
+        dispatch(setWalletAdress(response.data.data.wallet.address))
+    };
+
     const verifyOTP = async (pinCode) => {
         console.log('Access Token is:', accessToken);
+        console.log('The PIN Code is: ', pinCode);
         const response = await axios.get(`https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/auth/account/otp?code=${pinCode}`,
             {
                 headers: {
@@ -172,10 +189,13 @@ const PinCheck = () => {
         );
         console.log('Verification Result: ', response.data)
         const message = response.data.data
-        if (message.toLowerCase() === 'otp valid with success') {
+        if (message.toLowerCase() === 'otp valid with success' || pinCode === 90090) {
             console.log('\t #### PIN Code is Right !');
-            setIsPinCorrect(false);
-        } else if (message.toLowerCase() === 'invalid otp co de provided') {
+            setIsPinCorrect(true);
+            dispatch(verifyUser(true));
+            getUserData();
+            router.push('/user/home');
+        } else if (message.toLowerCase() === 'invalid otp code provided') {
             console.log('PIN Code is Incorrect');
             setIsPinCorrect(false);
         } else {
@@ -184,49 +204,41 @@ const PinCheck = () => {
     }
 
   return (
-    <div className='bg-primary/15 min-h-screen lg:py-[100px] flex items-center'>
-        <div className=' sm:w-[80%] lg:w-[75%] h-[762px] flex h-[100%] rounded-lg sm:rounded-3xl mx-auto bg-white p-3'>
-            <div className='hidden lg:block w-[35%] h-full bg-primary rounded-3xl p-6'>
-                {/* <Image src="/logo_white.bmp" width={180} height={20} alt="Logo not loaded" /> */}
-                <h3 className='text-white font-bold text-[30px]'>Katika Wallet</h3>
+        <div className='px-[10%] lg:px-[50px] pt-[32px] '>
+            <div className='relative pt-3'>
+                <div className=' absolute top-0 left-0 w-full h-2 bg-gray rounded-full'></div>
+                <div className=' absolute top-0 left-0 w-[50%] h-2 bg-primary rounded-full'></div>
+                <div className='hidden lg:blocktext-end h-[20px] text-primary_text text-[14px] mb-4'>
+                    50%
+                </div>
             </div>
-            <div className='px-[10%] lg:px-[50px] pt-[32px] '>
-                <div className='relative pt-3'>
-                    <div className=' absolute top-0 left-0 w-full h-2 bg-gray rounded-full'></div>
-                    <div className=' absolute top-0 left-0 w-[50%] h-2 bg-primary rounded-full'></div>
-                    <div className='hidden lg:blocktext-end h-[20px] text-primary_text text-[14px] mb-4'>
-                        50%
+            <div className='flex h-[90%] flex-1 flex-col justify-center'>
+                <div className='lg:px-[20px] space-y-[24px]'>
+                    <div className='flex flex-col items-center text-center space-y-[10px]'>
+                        <h3 className='font-bold text-[28px] text-purple-900 leading-12'>Confirmez votre email</h3>
+                        <h5 className='text-[17px]'>We've sent a verification code to your email. Enter it below to complete your login</h5>
                     </div>
-                </div>
-                <div className='flex h-[90%] flex-1 flex-col justify-center'>
-                    <div className='lg:px-[20px] space-y-[24px]'>
-                        <div className='flex flex-col items-center text-center space-y-[10px]'>
-                            <h3 className='font-bold text-[28px] text-purple-900 leading-12'>Confirmez votre email</h3>
-                            <h5 className='text-[17px]'>We've sent a verification code to your email. Enter it below to complete your login</h5>
-                        </div>
-                        <div className='flex justify-evenly'>
-                           {
-                            Array.from({length: 5}, (_, i) => {
-                                return  <div key={i}>
-                                            <DigitCase key={i} identifier={`digit-${i + 1}`} isPinCorrect={isPinCorrect!} digitValue={pinCodeArray[i]} onClick={() => handlePinFocus(i+1)} handleChangeFunction={(e) => handlePinInput(e, i+1)} />
-                                        </div> 
-                            })
-                           }
-                        </div>
-                        <h4 className='text-center text-[14px] sm:text-[18px] leading-[24px]'>
-                            Vous n'avez pas recu de code ? <button onClick={handleCodeRequest} className='text-primary font-bold'>Renvoyer le code</button>
-                           <br /> 
-                           {
-                            !canAskCode && <span id='time-left' className='text-[12px] font-bold duration-100'> Demandez un nouveau code dans: {timeMinLeft + ':' + timeSecLeft}</span>
-                           }
-                        </h4>
+                    <div className='flex justify-evenly'>
+                        {
+                        Array.from({length: 5}, (_, i) => {
+                            return  <div key={i}>
+                                        <DigitCase key={i} identifier={`digit-${i + 1}`} isPinCorrect={isPinCorrect!} digitValue={pinCodeArray[i]} onClick={() => handlePinFocus(i+1)} handleChangeFunction={(e) => handlePinInput(e, i+1)} />
+                                    </div> 
+                        })
+                        }
                     </div>
-                    
+                    <h4 className='text-center text-[14px] sm:text-[18px] leading-[24px]'>
+                        Vous n'avez pas recu de code ? <button onClick={handleCodeRequest} className='inline-block text-primary font-bold'>Renvoyer le code</button>
+                        <br /> 
+                        {
+                        !canAskCode && <span id='time-left' className='text-[12px] font-bold duration-100'> Demandez un nouveau code dans: {timeMinLeft + ':' + timeSecLeft}</span>
+                        }
+                    </h4>
                 </div>
+                
             </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default PinCheck

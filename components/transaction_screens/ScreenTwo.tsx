@@ -25,17 +25,34 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
 
     const dispatch = useAppDispatch();
     const tranzakToken = useAppSelector((state) => state.transaction.tranzaktoken)
+    const amountReceived = useAppSelector((state) => state.transaction.amountReceived)
     
     const transfertTypes = ['Mobile money', 'Compte bancaire']
 
+    useEffect(() => {
+        const createToken = async () => {
+            const response = await axios.post('https://dsapi.tranzak.me/auth/token',
+                {
+                    "appId": `${process.env.NEXT_PUBLIC_TRANZAK_APP_ID}`,
+                    "appKey": `${process.env.NEXT_PUBLIC_TRANZAK_APP_KEY}`
+                }
+            );
+            console.log('Created this token:', response.data.data.token);
+            dispatch(provideToken(
+                response.data.data.token as string
+            ))
+        };
+
+        createToken();
+    }, [])
+
     const testFieldsRegex = () => {
-        const alphabeticalRegex = /^[A-Za-z]+$/ ;
-        const numericRegex = /^\d+$/;
+        const alphabeticalRegex = /^[A-Za-z\s]+$/ ;
+        const numericRegex = /^\d/;
         let isValid = true;
         let fields;
         if (!isTypeMobile) {
             fields = [
-                {name: 'receiver-name', regex: alphabeticalRegex},
                 {name: 'owner-name', regex: alphabeticalRegex},
                 {name: 'iban', regex: numericRegex},
                 {name: 'bank-name', regex: alphabeticalRegex},
@@ -48,10 +65,16 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
 
         fields.forEach(field => {
             const value = formData.get(field.name) as string;
-            if (!field.regex.test(value)) {
+            // console.log('Field value is: ', value);
+            if (!field.regex.test(value.trim())) {
                 document.getElementsByName(field.name)[0].classList.add('border-red');
                 isValid = false
-            } else { 
+            } else if (field.name === 'iban' && field.regex.test(value.replace(/\s/g, '').trim())) {
+                // console.log('\t ### Field now is valid: ', field.name);
+                document.getElementsByName(field.name)[0].classList.remove('border-red');
+                isValid = true
+            } else {
+                // console.log('\t ### Field is valid: ', field.name);
                 document.getElementsByName(field.name)[0].classList.remove('border-red');
                 isValid = true;
             }
@@ -124,7 +147,7 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
             }
             );
             const verifiedName = response.data.data.verifiedName;
-            console.log('Response is: ', response.data.data + ' from ' + formData.get('receiver-number'))
+            console.log('Response is: ', response.data + ' from ')
             setReceiverName(verifiedName);
             console.log('Verified Name is :' , verifiedName);
             setIsNameChecked(true);
@@ -153,9 +176,24 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
 
     const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // const form = document.getElementById('form-one') as HTMLFormElement
-        // const formData = new FormData(form);
-        if (testFieldsRegex() && isNameChecked) {
+        const form = document.getElementById('form-one') as HTMLFormElement
+        const formData = new FormData(form);
+        if (isTypeMobile) dispatch(provideStepMobileData({
+            transfertType: isTypeMobile ? 'MobileMoney': 'Bank',
+            receiverPhoneNumber: formData.get('receiver-number') as string,
+            receiverName: receiverName,
+            latestScreen: 2
+        })); else {
+            console.log('------------------ REGISTERING BANK DATA ------------------');
+            dispatch(provideStepBankData({
+                transfertType: isTypeMobile ? 'MobileMoney': 'Bank',
+                bankAccountOwner: formData.get('owner-name') as string,
+                iban: formData.get('iban') as string,
+                bankCode: formData.get('code') as string,
+                bankName: formData.get('bank-name') as string,
+                latestScreen: 2
+        }))}
+        if (testFieldsRegex() && (isTypeMobile ? isNameChecked : true)) {
             nextScreen();
         }
     }
@@ -185,7 +223,7 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
                     <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Numero du beneficiaire</label>
                     <div className='flex items-center font-semibold w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 gap-[12px]'>
                         <img src={`/countries/${selectedCountry}.png`} alt="Img" className='w-[30px]' />
-                        <input type="number" name='receiver-number' onChange={handlePhoneNumberChange} className={`appearance-none grow text-right ${ isFieldWrong ? 'border-red-500':'border-gray-400'}`} style={{WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
+                        <input type="number" name='receiver-number' placeholder='+2376XXXXXXXX' onChange={handlePhoneNumberChange} className={`appearance-none grow text-right ${ isFieldWrong ? 'border-red-500':'border-gray-400'}`} style={{WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
                     </div>
                     <h4 className='text-[14px]'>{receiverName}</h4>
                 </div>

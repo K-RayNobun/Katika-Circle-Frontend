@@ -15,7 +15,7 @@ interface screenProps {
 
 const ScreenOne = ({onClose, nextScreen}:screenProps) => {
     const [selectedCountry, setSelectedCountry] =  useState('cameroon');
-    const [selectedCurrency, setSelectedCurrency] =  useState('euro');
+    const [selectedCurrency, setSelectedCurrency] =  useState('EUR');
     const [amountSent, setAmountSent] = useState(0);
     const [amountReceived, setAmountReceived] = useState(0);
     const [isFieldWrong, setIsFieldWrong] = useState(false);
@@ -48,12 +48,12 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
     }
 
     const currenciesData: Record<string, {image:string; name:string; symbol:string}> = {
-        euro: {
+        EUR: {
             name: 'EUR',
             symbol: '€',
             image: '/currencies/euro.png'
         },
-        dollar: {
+        USD: {
             name: 'USD',
             symbol: '$',
             image: '/currencies/dollar.png'
@@ -67,7 +67,7 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
 
     const handleSentAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         amountSentRef.current = parseInt(e.target.value);
-        console.log('Amount sent:', amountSentRef.current)
+        // console.log('Amount sent:', amountSentRef.current)
         const numericRegex = /^[1-9]\d*$/
         const formData = new FormData(formRef.current!);
         const value = formData.get('amount-sent') as string;
@@ -77,9 +77,9 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
             console.log('Valeur Envoyee invalide', )
         }
         amountReceivedRef.current = amountSentRef.current * katikaRate;
-        console.log('Amount received', amountReceivedRef.current)
+        console.log('Amount received', amountReceivedRef.current.toLocaleString())
         setAmountReceived(amountReceivedRef.current)
-        console.log(' Are we on EUR ?', modifyingSentAmount);
+        // console.log(' Are we on EUR ?', modifyingSentAmount);
     }
     
     const handleReceivedAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,58 +90,69 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
 
         if (!numericRegex.test(value)) {
             amountSentRef.current = 0;
-            console.log('Valeur Envoyee invalide', )
+            console.log('Valeur Recue invalide', )
         }
         amountSentRef.current = amountReceivedRef.current / katikaRate;
-        console.log('Amount sent:', amountSentRef.current)
+        // console.log('Amount sent:', amountSentRef.current)
         setAmountSent(amountReceivedRef.current)
-        console.log(' Are we on EUR ?', modifyingSentAmount);
+        // console.log(' Are we on EUR ?', modifyingSentAmount);
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setErrorMsg('');
         // const form = document.getElementById('form-one') as HTMLFormElement
         // const formData = new FormData(form);
         const fields = [
             {name: 'amount-sent'},
             {name: 'amount-received'}
            ];
-       fields.forEach((field) => {
-        if (testFieldsRegex(field.name)) {
-            dispatch(provideStepOneData({
-                code: 'EURXAF001',
-                issuerId: '00001',
-                amountSent: amountSentRef.current,
-                currencySent: currenciesData[selectedCurrency]?.symbol,
-                amountReceived: amountReceivedRef.current,
-                currencyReceived: countriesData[selectedCountry]?.currency,
-                receiverCountry: selectedCountry,
-                latestScreen: 2,
-            }));
-            console.log('Everything is fine')
-            nextScreen();
-        } else {
-            console.log('Fields are not correct');
+        let isValid = false;
+       
+        for (let i = 0; i < fields.length; i++) {
+            const field = fields[i];
+            if (testFieldsRegex(field.name)) {
+                console.log(field.name + ' is fine');
+                isValid = true;
+            } else {
+                console.log(`Field ${field.name} is not correct`);
+                isValid = false;
+                break; // Now break works properly
+            }
         }
-       })
+        if (isValid) {
+            if (verifyFields()) {
+                const formData = new FormData(formRef.current!);
+                console.log('The amount received is', parseInt(formData.get('amount-received') as string));
+                const data = {
+                    amountSent: amountSentRef.current,
+                    currencySent: currenciesData[selectedCurrency]?.symbol,
+                    amountReceived: amountReceivedRef.current,
+                    currencyReceived: countriesData[selectedCountry].currency,
+                    receiverCountry: selectedCountry,
+                    latestScreen: 1
+                }
+                dispatch(provideStepOneData(data));
+                nextScreen();
+            } else {
+                console.log('The minimum amount is 20 Euros');
+            }
+        }
+
     }
 
-    const testFieldsRegex = (fieldName) => {
-        const alphabeticalRegex = /^[A-Za-z]+$/ ;
-        const numericRegex = /^[1-9]\d*$/
+    const testFieldsRegex = (fieldName: string) => {
+        const numericDecimalRegex = /^-?\d+(\.\d+)?$/
         let isValid = true;
-
        
        const formData = new FormData(formRef.current!);
 
-       
         const value = formData.get(fieldName) as string;
-        if (!numericRegex.test(value)) {
+        if (!numericDecimalRegex.test(value.replace(/,/g, ''))) {
             isValid = false;
-            console.log('Field is wrong:', fieldName);
+            console.log('Value is wrong:', value.replace(/,/g, ''));
             document.getElementsByName(fieldName)[0].classList.add('border-red');
         } else {
-            console.log('Field is correct:', fieldName);
             document.getElementsByName(fieldName)[0].classList.remove('border-red');
        };
 
@@ -155,10 +166,10 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
 
         const amountSent = parseInt(formData.get('amount-sent') as string);
         const amountReceived = parseInt(formData.get('amount-received') as string);
-        if (amountSent < 19) {
-            setErrorMsg("Le montant minimal d'une transaction est de 19 Euros");
-        } else if (amountSent < 0 || amountReceived < 0) {
-            setErrorMsg("Le montant ne peut etre negatif")
+        if (amountSent < 0 || amountReceived < 0) {
+            setErrorMsg("Le montant ne peut etre negatif");
+        } else if (amountSent < 19) {
+            setErrorMsg("Le montant minimal d'une transaction est de 20 Euros");
         } else {
             isValid = true;
         }
@@ -218,7 +229,7 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
 
                         <input type="number" onChange={handleSentAmountChange} name='amount-sent' className='grow w-[75%] sm:w-full text-right' style={{ WebkitAppearance: 'none', MozAppearance: 'textfield'}}/>
                     :
-                        <input type="number" onClick={() => {setModifyingSentAmount(true)}} readOnly={true} value={amountSentRef.current} name='amount-sent' className='grow w-[75%] sm:w-full text-right' style={{ WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
+                        <input type="text" onClick={() => {setModifyingSentAmount(true)}} readOnly={true} value={amountSentRef.current.toLocaleString('en-US')} name='amount-sent' className='grow w-[75%] sm:w-full text-right' style={{ WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
                     }
                     <h5 className=''>{currenciesData[selectedCurrency]?.symbol}</h5>
                 </div>
@@ -229,7 +240,7 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
                     <img src={`${countriesData[selectedCountry]?.image}`} alt="Img" className='w-[30px]' />
                     {
                         modifyingSentAmount ?
-                        <input onClick={() => {setModifyingSentAmount(false)}} type="number" readOnly={true} value={amountReceivedRef.current} name='amount-received' className='grow w-[75%] sm:w-full text-right' style={{WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
+                        <input onClick={() => {setModifyingSentAmount(false)}} type="text" readOnly={true} value={amountReceivedRef.current.toLocaleString('en-US')} name='amount-received' className='grow w-[75%] sm:w-full text-right' style={{WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
                         :
                         <input type="number" name='amount-received' onChange={handleReceivedAmountChange} className='grow w-[75%] sm:w-full text-right' style={{ WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
 
@@ -237,10 +248,11 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
                     <h5 className=''>{countriesData[selectedCountry]?.currency}</h5>
                 </div>
             </div>
+            <h3 className='text-red text-center font-semibold'>{errorMsg}</h3>
             <div className='flex justify-between'>
                 <div className='flex items-center gap-[8px]'>
                     <h5>Taux d'envoi</h5>
-                    <FontAwesomeIcon icon={faCircleInfo} />
+                    <span className='info-icon'><FontAwesomeIcon icon={faCircleInfo} /></span> 
                 </div>
                 <div className='space-x-[10px] flex items-center'>
                     <span className='size-[8px] rounded-full bg-[#07E36E]'></span>

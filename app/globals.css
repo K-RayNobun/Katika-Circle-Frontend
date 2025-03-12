@@ -249,11 +249,13 @@ input:focus {
 .pannel_tab_active {
   display: flex;
   align-items: center;
-  gap: 24px;
+  z-index: 5;
+  gap: 16px;
   height: 50px;
   margin: 20px 0;
   background-color: transparent;
   transform: translateX(-12px);
+  position: relative;
 }
 
 .pannel_tab_active .icon {
@@ -261,25 +263,26 @@ input:focus {
   background: #fff;
   color: #931ABD;
   border-radius: 50%;
+  z-index: 10;
   font-size: 24px;
   padding: 12px;
   transition-duration: 500ms;
+  box-shadow: 2px 2px 6px #00000088;
+
 }
 
- .pannel_tab_active .icon::after {
+ .pannel_tab_active:before {
+  display: none;
   content: '';
   position: absolute;
+  z-index: 15;
   top: 50%;
-  right: -48px;
-  transform: translateX(-50%);
-  height: 12px;
-  width: 48px;
-  opacity: 0;
-  background-color: red;
-}
-
-.pannel_tab_active .icon::after {
-  opacity: 1;
+  left: 40px;
+  transform: translateY(-50%);
+  height: 5px;
+  width: 20px;
+  opacity: 100;
+  background-color: white;
 }
 
 .pannel_tab_active :nth-child(2) {
@@ -287,10 +290,12 @@ input:focus {
   flex-grow: 1;
   padding: 10px 20px;
   border-radius: 50px;
+  z-index: 10;
   color: #931ABD;
   font-weight: 600;
   transition: all 500ms ease-in-out;
   transform: scaleX(1.05);
+  box-shadow: 2px 2px 6px #00000088;
 }
 
 .pannel_button {
@@ -316,4 +321,32 @@ input:focus {
   color: white;
   gap: 8px;
   font-weight: 800;
+}
+
+.info-icon {
+  display: block;
+  position: relative;
+}
+
+button {
+  display: block;
+  position: relative;
+}
+
+.info-icon:hover {
+  cursor: pointer;
+  color: black;
+}
+
+.info-icon:hover::before{
+  content: 'Votre taux est ainsi';
+  position: absolute;
+  min-width: 180px;
+  top: -90px;
+  left: -10px;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #931ABD;
+  transition: all 300ms ease;
+  color: white;
 }

@@ -14,15 +14,19 @@ interface screenProps {
 
 const ScreenThree = ({onClose, nextScreen}: screenProps) => {
 
-    const katikaRate = 667;
+    const katikaRate = 687;
+    const transactionDetails = useAppSelector((state) => state.transaction);
+    const accessToken = useAppSelector((state) => state.token.token);
     
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         // const form = document.getElementById('form-one') as HTMLFormElement
         // const formData = new FormData(form);
+
+        /// Adddingn logic to create a transaction
+                
         nextScreen();
     }
-    const transactionDetails = useAppSelector((state) => state.transaction);
 
   return (
     <div className={`flex flex-col w-[502px] h-[90%] lg:h-max rounded-t-[12px] lg:rounded-[12px] p-[44px] bg-white`}>
@@ -33,19 +37,19 @@ const ScreenThree = ({onClose, nextScreen}: screenProps) => {
         <div className={`mt-[32px] space-y-[16px]`}>
             <div className={`flex justify-between font-bold`}>
                 <h5>Montant à envoyer</h5>
-                <h5>{transactionDetails.amountSent + ' ' + transactionDetails.currencySent}</h5>
+                <h5>{transactionDetails.amountSent?.toLocaleString('en-US') + ' ' + transactionDetails.currencySent}</h5>
             </div>
             <div className={`flex justify-between font-bold`}>
                 <h5>Montant recu</h5>
-                <h5>{transactionDetails.amountReceived + ' ' + transactionDetails.currencyReceived}</h5>
+                <h5>{transactionDetails.amountReceived?.toLocaleString('en-US') + ' ' + transactionDetails.currencyReceived}</h5>
             </div>
             <div className={`flex justify-between font-bold`}>
                 <h5>Cashback</h5>
-                <h5>0.0001 EUR</h5>
+                <h5>{`${transactionDetails.cashback} ${transactionDetails.currencyReceived}`}</h5>
             </div>
             <div className={`flex justify-between font-bold`}>
                 <h5>Bonus de parrainage</h5>
-                <h5>0.002 EUR</h5>
+                <h5>{`${transactionDetails.referralGain} ${transactionDetails.currencyReceived}`}</h5>
             </div>
             <div className={`flex justify-between font-bold bg-gray-400 h-min`}>
                 <div className={`flex items-center`}>

@@ -24,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${poppinsNormal.variable} font-poppins_normal`}>
+      <body className={`font-poppins_normal`}>
         <ReduxProvider>
           <ClientWrapper>
             {children}

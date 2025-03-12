@@ -20,7 +20,7 @@ interface Transaction {
     bankAccountOwner?: string,
     iban?: string,
     bankCode?: string,
-    bankname?: string,
+    bankName?: string,
 
     tranzaktoken?: string,
 }
@@ -52,20 +52,22 @@ const transactionSlice = createSlice({
         state.latestScreen = action.payload.latestScreen;
         state.referralGain = state.amountReceived! * 0.02;
         state.cashback = state.amountReceived! * 0.001;
-        console.log('Transactiond Details:', '\nCode: ' + state.code + '\Issuer Id: ' + state.issuerId + '\n Receiver Phone Number: ' + state.receiverPhoneNumber + '\n Amount Sent: ' + state.amountSent + '\n Receiver Country: ' + state.receiverCountry + '\n Amount Received: ' + state.amountReceived);
+        console.log('Transactiond Details:', '\nCode: ' + state.code + '\Issuer Id: ' + state.issuerId + '\n Amount Sent: ' + state.amountSent + '\n in ' + state.currencySent + '\n Receiver Country: ' + state.receiverCountry + '\n Amount Received: ' + state.amountReceived);
        },
        provideStepMobileData: (state, action: PayloadAction<Transaction>) => {
         state.transfertType = action.payload.transfertType;
         state.receiverPhoneNumber = action.payload.receiverPhoneNumber;
         state.receiverName = action.payload.receiverName;
         state.latestScreen = action.payload.latestScreen;
+        console.log('Mobile Step details: \n Transfert type: ' + state.transfertType + '\n Receiver Phone Number: ' + state.receiverPhoneNumber + '\n Receiver Name: ' + state.receiverName);
        },
        provideStepBankData: (state, action: PayloadAction<Transaction>) => {
         state.bankAccountOwner = action.payload.bankAccountOwner;
         state.iban = action.payload.iban;
         state.bankCode = action.payload.bankCode;
-        state.bankname = action.payload.bankname;
+        state.bankName = action.payload.bankName;
         state.latestScreen = action.payload.latestScreen;
+        console.log('Bank Step details: \n Bank Account Owner: ' + state.bankAccountOwner + '\n IBAN: ' + state.iban + '\n Bank Code: ' + state.bankCode + '\n Bank Name: ' + state.bankName);
        }
     }
 });
