@@ -32,7 +32,7 @@ interface TransactionListProps {
 }
 
 const handleStatus = (status: string) => {
-    let style = {
+    const style = {
         bgColor: '',
         textColor: '',
         icon: <FontAwesomeIcon icon={faPaperPlane} />,

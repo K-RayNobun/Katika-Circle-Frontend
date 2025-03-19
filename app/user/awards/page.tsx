@@ -56,7 +56,7 @@ const AwardsBoard = () => {
                 dispatch(setReferralList(response.data.data));
 
                 let referralGainTotal = 0;
-                let filleulArray: FilleulDetails[] = [];
+                const filleulArray: FilleulDetails[] = [];
 
                 response.data.data.forEach((referral: any, index: number) => {
                     const filleul: FilleulDetails = {

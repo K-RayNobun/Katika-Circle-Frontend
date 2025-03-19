@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import CookieConsent, { Cookies} from "react-cookie-consent";
 import axios from "axios";
-import { GoogleOAuthProvider } from '@react-oauth/google'
 
 //Redux import ;
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
@@ -26,8 +25,7 @@ const HomePage = () => {
   }; 
 
   const getUserIp = async () => {
-    let res;
-    res = await axios.get("https://api.ipify.org/?format=json");
+    const res = await axios.get("https://api.ipify.org/?format=json");
     await setUserIp(res.data.ip);
   }
 
@@ -41,7 +39,7 @@ const HomePage = () => {
     } else {
       getUserIp()
     };
-  },);
+  }, [setUserIp]);
 
   const router = useRouter();
 
@@ -113,7 +111,7 @@ const HomePage = () => {
             style={{ animation: "slideUpFadeIn 0.8s ease-in-out" }}
           >
             <h2 className="text-xl font-bold text-blue-800">Cashback</h2>
-            <p className="text-gray-600">Gagnez jusqu'à 5% de cashback sur vos transactions.</p>
+            <p className="text-gray-600">Gagnez jusqu&apos;à 5% de cashback sur vos transactions.</p>
           </div>
 
           <div
@@ -132,7 +130,7 @@ const HomePage = () => {
             isButtonClicked ? "animate-dance" : "active:animate-dance hover:shadow-lg hover:from-blue-700 hover:to-purple-700"
           }`}
         >
-          Envoyer de l'argent
+          Envoyer de l&apos;argent
         </button>
       </div>
       :

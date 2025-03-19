@@ -229,7 +229,7 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
   return (
     <div className='w-full h-[90%] lg:h-max lg:w-[502px] rounded-t-[12px] lg:rounded-[12px] p-[44px] gap-[32px] bg-white flex flex-col'>
         <div className='flex w-full justify-between items-center'>
-            <h4 className='text-[20px] font-bold text-primary'>Envoyer de l'argent</h4>
+            <h4 className='text-[20px] font-bold text-primary'>Envoyer de l&apos;argent</h4>
             <button onClick={onClose}><FontAwesomeIcon icon={faXmark} className='h-[24px]' /></button>
         </div>
         <form id='form-one' ref={formRef} onSubmit={handleSubmit} className='flex flex-col gap-[12px] pt-[20px]'>
@@ -277,7 +277,7 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
             <h3 className='text-red text-center font-semibold'>{errorMsg}</h3>
             <div className='flex justify-between'>
                 <div className='flex items-center gap-[8px]'>
-                    <h5>Taux d'envoi</h5>
+                    <h5>Taux d&apos;envoi</h5>
                     <span className='info-icon'><FontAwesomeIcon icon={faCircleInfo} /></span> 
                 </div>
                 <div className='space-x-[10px] flex items-center'>

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faCoins, faTrophy, faGear, faChevronDown,  faSearch, faFilter, faArrowDown, faBan } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import TransactionListAdmin from '@/components/TransactionListAdmin';
 
 // Redux related import

@@ -1,14 +1,9 @@
 'use client';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserPlus, faQrcode, faChevronDown, faChevronUp, faBell } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
-import { setReferralList, resetUser } from '@/lib/redux/features/user/userSlice';
-import { resetToken } from '@/lib/redux/features/token/tokenSlice';
-import { resetTransaction } from '@/lib/redux/features/transaction/transactionSlice';
+import { setReferralList } from '@/lib/redux/features/user/userSlice';
 import axios, { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
 import WelcomeContainer from '@/components/pagesComponents/WelcomeContainer';
 import StatsContainer from '@/components/pagesComponents/StatsContainer';
 import ReferralSection from '@/components/pagesComponents/ReferralSection';
@@ -38,7 +33,6 @@ const Home = () => {
     const userData = useAppSelector((state) => state.user);
     const accessToken = useAppSelector((state) => state.token.token);
     const dispatch = useAppDispatch();
-    const router = useRouter();
 
     // Referral Code Query Params
     const referralCodeParam = {
@@ -47,11 +41,6 @@ const Home = () => {
     const queryParams = new URLSearchParams(referralCodeParam).toString();
 
     // Handlers
-    const sendMoneyForm = () => {
-        setIsScreenVisible(true);
-    };
-
-
     const moveNextScreen = () => {
         if (screenIndex < 5) {
             setScreenIndex((prev) => prev + 1);
@@ -90,7 +79,7 @@ const Home = () => {
                 dispatch(setReferralList(response.data.data));
 
                 let referralGainTotal = 0;
-                let filleulArray: FilleulDetails[] = [];
+                const filleulArray: FilleulDetails[] = [];
 
                 response.data.data.forEach((referral: any, index: number) => {
                     const filleul: FilleulDetails = {
@@ -133,7 +122,7 @@ const Home = () => {
         };
 
         fetchReferrals();
-    }, [accessToken, dispatch, userData.referralCode, filleulList]);
+    }, [accessToken, dispatch, userData.referralCode, filleulList, userData]);
 
     return (
         <div className={`h-full mb-[64px] lg:mb-0 grow flex flex-col lg:flex-row gap-[24px] rounded-lg sm:rounded-3xl`}>

@@ -1,7 +1,7 @@
 'use client'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faCoins, faTrophy, faGear, faChevronDown, faUserPlus, faQrcode, faXmark, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faUserPlus, faQrcode, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import React, { useEffect, useState } from 'react';
 import NotificationList from '@/components/NotificationList';
@@ -11,6 +11,7 @@ import ScreenThree from '@/components/transaction_screens/ScreenThree';
 import ScreenFour from '@/components/transaction_screens/ScreenFour';
 import TransakSDK from '@/components/transaction_screens/TransakSDK';
 import DialogBox from '@/components/DialogBox';
+import Image from 'next/image';
 
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
 import { setReferralList, resetUser } from '@/lib/redux/features/user/userSlice';
@@ -49,7 +50,6 @@ const Home = () => {
     const [isDialogVisible, setIsDialogVisible] = useState(false);
     const [isLogoutVisible, setIsLogoutVisible] = useState(false);
     const [screenIndex, setScreenIndex] = useState<number>(1)
-    const [isAnimationDone, setIsAnimationDone] = useState(false);
     const [filleulList, setFilleulList] = useState<FilleulDetails[]>([]);
     const [referralBonus, setReferralBonus] = useState<number>(0);
 
@@ -62,10 +62,6 @@ const Home = () => {
         ref_code: userData.referralCode?.toString() || '',
     };
     const queryParams = new URLSearchParams(referralCodeParam).toString();
-
-    const sendMoneyForm = () => {
-        setIsScreenVisible(true);
-    }
 
     const logoutUser = () => {
         dispatch(resetUser());
@@ -102,7 +98,7 @@ const Home = () => {
                 console.log('Referral list is:', response.data.data);
                 dispatch(setReferralList(response.data.data));
                 let referralGainTotal = 0;
-                let filleulArray:Array<FilleulDetails> = [];
+                const filleulArray:Array<FilleulDetails> = [];
                 response.data.data.forEach((referral:any, index:number) => {
                     // Get the referral and convert it into a FilleulDetails object
                     const filleul: FilleulDetails = {
@@ -145,7 +141,7 @@ const Home = () => {
         };
 
         fetchReferrals();
-    }, []);
+    }, [accessToken, dispatch, filleulList, userData.referralCode]);
 
     const closeScreen = () => {
         setIsScreenVisible(false);
@@ -160,17 +156,17 @@ const Home = () => {
                     <div className={`lg:block flex flex-col items-center px-[24px] py-[32px]`}>
                         <h2 className={`text-white text-[16px] lg:text-[24px]`}>Welcome back, <span className={`font-bold`}>{`${userData.name}`}</span> {`${userData.surname}`}</h2>
                         <h5 className={`text-white text-[11px] lg:text-[12px]`}>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</h5>
-                        <button onClick={() => setIsScreenVisible(true)} className={`mt-[16px] pulse-glow lg:mt-[32px] flex justify-center text-indigo font-bold px-[18px] py-[8px] rounded-[8px] bg-white`}>Envoyer de l'argent</button>
+                        <button onClick={() => setIsScreenVisible(true)} className={`mt-[16px] pulse-glow lg:mt-[32px] flex justify-center text-indigo font-bold px-[18px] py-[8px] rounded-[8px] bg-white`}>Envoyer de l&apos;argent</button>
                     </div>
                     <div className={`hidden lg:flex items-center`}>
-                        <img src="/home/bulle.png" className={`h-[48px]`} alt="Image not Loaded" />
-                        <img src="/home/person.png" className={`h-[205px]`} alt="Image Not Loaded" />
+                        <Image src="/home/bulle.png" className={`h-[48px]`} alt="Image not Loaded" />
+                        <Image src="/home/person.png" className={`h-[205px]`} alt="Image Not Loaded" />
                     </div>
                 </div>
                 {/* Component 2 containing three container boxes */}
                 <div className={`animate-fading-2 flex w-full h-[204px] gap-[4%] my-[20px] lg:my-[32px]`}>
                     <div className={`bg-indigo/10 border-2 border-indigo flex flex-col items-center py-[16px] justify-evenly lg:justify-center text-indigo h-full font-bold ${containerStyle}`}>
-                        <img src='/home/cashback.png' className={` size-[24px] mb-[6px]`} />
+                        <Image src='/home/cashback.png' className={` size-[24px] mb-[6px]`} alt="Cashback" />
                         <div className={`text-indigo font-bold flex items-start`}>
                             <span className={`text-[14px] lg:text-[16px]`}>XAF</span> <span className={`text-[24px] lg:text-[36px] font-extrabold`}>{userData.cashback}</span>
                         </div>
@@ -178,7 +174,7 @@ const Home = () => {
                         <button className={`w-[45%] mt-[8px] hidden lg:flex justify-center text-white text-[12px] px-[18px] py-[6px] rounded-[4px] bg-indigo hover:vibrant-animation hover:animate-tingle`} >Details</button>
                     </div>
                     <div className={`bg-[#E673D5]/10 border-2 border-[#E673D5] flex flex-col items-center py-[16px] justify-evenly lg:justify-center text-[#E673D5] font-bold w-full ${containerStyle}`}>
-                        <img src='/home/parrainage.png' className={` size-[24px] mb-[6px]`} />
+                        <Image src='/home/parrainage.png' className={` size-[24px] mb-[6px]`} alt="Parrainage" />
                         <div className={`flex items-start`}>
                             <span className={`text-[14px] lg:text-[16px] mt-2`}>XAF</span> <span className={`text-[24px] lg:text-[36px] font-extrabold`}>{referralBonus.toLocaleString('en-US')}</span>
                         </div>
@@ -186,7 +182,7 @@ const Home = () => {
                         <button className={`w-[45%] mt-[8px] hidden lg:flex justify-center text-white text-[12px] px-[18px] py-[6px] rounded-[4px] bg-[#E673D5] focus:animate-tingle scale-110 duration-300`} >Claim</button>
                     </div>
                     <div className={`bg-primary/10 border-2 border-primary flex flex-col items-center py-[16px] justify-evenly lg:justify-center text-primary font-bold ${containerStyle}`}>
-                        <img src='/home/filleuls.png' className={` size-[24px] mb-[6px]`} />
+                        <Image src='/home/filleuls.png' className={` size-[24px] mb-[6px]`} alt="Filleuls" />
                         <div>
                             <span className={`text-[24px] lg:text-[36px] font-extrabold`}>{filleulList.length}</span>
                         </div>

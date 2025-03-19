@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faChevronDown, faPen, faCirclePlus, faCircleMinus } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import ProfileSection from '@/components/pagesComponents/SettingsProfile';
 import HelpFAQSection from '@/components/pagesComponents/SettingsHelpFAQ';
 

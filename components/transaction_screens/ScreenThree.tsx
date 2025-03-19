@@ -1,8 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo, faInfoCircle, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { faBell } from '@fortawesome/free-regular-svg-icons';
-import React, { useEffect, useState, useRef, EventHandler } from 'react';
-import axios from 'axios';
+import { faCircleInfo, faXmark } from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
 
 // Redux related imports
 import { useAppSelector } from '@/lib/redux/hooks';
@@ -53,7 +51,7 @@ const ScreenThree = ({onClose, nextScreen}: screenProps) => {
             </div>
             <div className={`flex justify-between font-bold bg-gray-400 h-min`}>
                 <div className={`flex items-center`}>
-                    <h5>Taux d'envoi</h5>
+                    <h5>Taux d&apos;envoi</h5>
                     <FontAwesomeIcon icon={faCircleInfo} className={`ml-[8px]`} />
                 </div>
                 <div className={`flex items-center space-x-[10px]`}>

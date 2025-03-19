@@ -9,13 +9,6 @@ import { Poppins } from 'next/font/google';
 // Redxu related import
 import { useAppSelector } from '@/lib/redux/hooks';
 
-
-const poppinsNormal = Poppins({
-    subsets: ['latin'],
-    weight: '400',
-    variable: '--font-poppins-normal'
-  });
-
 export default function UserLayout({
     children,
   }: Readonly<{

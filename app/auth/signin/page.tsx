@@ -2,15 +2,14 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import { LuEyeClosed, LuEye } from "react-icons/lu";
 import { useRouter, useSearchParams} from 'next/navigation';
 import { renewToken } from '@/lib/redux/features/token/tokenSlice';
 import Link from 'next/link';
 import axios, { AxiosError } from 'axios';
 
 // Redux related imports
-import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
+import { useAppDispatch } from '@/lib/redux/hooks';
 import { createUser, setReferralCode, setWalletAdress, verifyUser } from '@/lib/redux/features/user/userSlice';
 
  
@@ -165,7 +164,12 @@ const Signin = () => {
             <input type="text" name='email' onChange={handleInputChange} className={`${inputStyle} ${errorField.includes('email') ? 'border-2 border-red': ''}`} placeholder='Email' />
             <div className='relative'>
                 <input name='password' type={isPwdVisible ? 'text' : 'password'} onChange={handleInputChange} className={`${inputStyle} ${errorField.includes('password') ? 'border-2 border-red': ''}`} placeholder='Mot de passe' />
-                <FontAwesomeIcon onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' icon={ isPwdVisible ? faEye : faEyeSlash} />
+                { isPwdVisible ?
+                    <LuEye onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />
+                    :
+                    <LuEyeClosed onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />
+
+                }
             </div>
             <div>
                 {error && <h4 className='text-red font-bold text-center text-sm h-min'>{error}</h4>}
@@ -181,7 +185,7 @@ const Signin = () => {
                 <h6 className='text-center font-bold'>Continuer avec Google</h6>
             </div>
         </form>
-        <h4 className='text-center text-[14px] sm:text-[16px] leading-[24px] mt-4'> Vous n'avez pas de compte ? <Link href='/auth/signup' className='text-primary font-bold'>Inscrivez vous</Link></h4>
+        <h4 className='text-center text-[14px] sm:text-[16px] leading-[24px] mt-4'> Vous n&apos;avez pas de compte ? <Link href='/auth/signup' className='text-primary font-bold'>Inscrivez vous</Link></h4>
     </div>
   )
 }

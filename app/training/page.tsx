@@ -85,7 +85,6 @@
 import React, {useEffect, useState} from 'react';
 
 const FadeInSlideUp = ({ children }) => {
-  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     // Trigger the animation after the component mounts

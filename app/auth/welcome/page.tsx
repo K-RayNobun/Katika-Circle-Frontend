@@ -35,7 +35,7 @@ const Welcome = () => {
                     <div className='px-[20px] space-y-[24px]'>
                         <div className='flex flex-col items-center text-center space-y-[10px]'>
                             <h3 className='font-bold text-[28px] text-purple-900 leading-12'>Welcome {userData.name} {userData.surname} </h3>
-                            <h5 className='text-[17px]'>We're excited to have you onboard. Let's get you started!</h5>
+                            <h5 className='text-[17px]'>We&apos;re excited to have you onboard. Let&apos;s get you started!</h5>
                         </div>
                     </div>
                     <button onClick={handleOnclick} className={buttonStyle}>Get Started</button>

@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo, faInfoCircle, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
-import React, { useEffect, useState, useRef, EventHandler } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios, { AxiosError } from 'axios';
 
 //Redux related imports
@@ -102,7 +102,7 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
         pureInput = pureInput.replace(/\D/g,'');
 
         let formattedValue = '';
-        let spacing = [4, 9, 14, 25];
+        const spacing = [4, 9, 14, 25];
 
         for (let i = 0; i <= pureInput.length - 1; i++ ){
             if (i > 0 && spacing.includes(i)) {
@@ -265,6 +265,7 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
         <button type='submit' className={`lg:hidden bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
             <h6 className='text-center font-semibold '>Continuer</h6>
         </button>
+        <h5>We&apos;ve sent a verification code to your email. Enter it below to complete your login</h5>
     </div>
   )
 }

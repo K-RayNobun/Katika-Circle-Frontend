@@ -68,7 +68,6 @@ const Notification = ({details}:{details: notificationDetails}) => {
 
 const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number}) => {
   const [transactionsList, setTransactionsList] = useState<Array<notificationDetails>>([]);
-  const [cashback, setCashback] = useState<number>(0);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -88,8 +87,8 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
   
             console.log('We got this list of transactions: ', response.data.data);
             const fetchedList = response.data.data.slice().reverse();
-            let transactionArray: Array<notificationDetails> = []
-            fetchedList.forEach((transaction, index) => {
+            const transactionArray: Array<notificationDetails> = []
+            fetchedList.forEach((transaction) => {
               const creationDate = new Date(transaction.creationDate)
               const userTransaction: notificationDetails = {
                 status: transaction.transactionStatus,
@@ -101,7 +100,6 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
 
               const cashback =  (transaction.transactionStatus === 'Success' ? transaction.cashBack.amount : 0);
               if (cashback) {
-                setCashback(prev => prev+cashback);
                 cashbackTotal += cashback;
               }
               
@@ -110,13 +108,13 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
             dispatch(provideCashback(cashbackTotal));
             console.log('---- Total Cashback is ', cashbackTotal);
             console.log('----------------- Finished Getting transactions --------------');
-        } catch(error) {
+        } catch {
             console.error('We met this error  while getting the transaction list')
         }
     }
   
     fecthTransactionList();
-  }, [])
+  }, [accessToken, dispatch, rate])
 
   return (
     <div className={`w-full grow`}>

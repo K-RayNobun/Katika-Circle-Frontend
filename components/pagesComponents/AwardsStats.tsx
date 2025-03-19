@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 interface AwardsStatsProps {
     referralBonus: number;
@@ -20,7 +21,7 @@ const AwardsStats = ({ referralBonus, filleulCount }: AwardsStatsProps) => {
                         Reclamer le bonus
                     </button>
                 </div>
-                <img src="/awards/money.png" alt="" className='hidden lg:block mt-[-12px] w-[250px]' />
+                <Image src="/awards/money.png" alt="Money image" className='hidden lg:block mt-[-12px] w-[250px]' />
             </div>
 
             {/* Filleuls Count */}
@@ -31,7 +32,7 @@ const AwardsStats = ({ referralBonus, filleulCount }: AwardsStatsProps) => {
                     </div>
                     <div className='text-[14px] lg:text-[24px] font-semibold mx-[10px] text-center'>Filleuls</div>
                 </div>
-                <img src="/awards/people.png" alt="" className='hidden lg:block mr-[100px] w-[140px]' />
+                <Image src="/awards/people.png" alt="People image" className='hidden lg:block mr-[100px] w-[140px]' />
             </div>
         </div>
     );

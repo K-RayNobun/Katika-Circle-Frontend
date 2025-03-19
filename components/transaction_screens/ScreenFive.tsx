@@ -19,6 +19,7 @@ const ScreenFour = ({onClose, nextScreen}: screenProps) => {
         </div>
         <div className='grow flex flex-col justify-center'>
           <h4 className='text-center text-[20px] leading-[24px] font-bold text-primary_dark'>Transaction effectuée</h4>
+          <h5>We&apos;ve sent a verification code to your email. Enter it below to complete your login</h5>
         </div>
         <button type='submit' onClick={onClose} className={`lg:hidden bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
             <h6 className='text-center font-bold '>Retour à l'acceuil</h6>

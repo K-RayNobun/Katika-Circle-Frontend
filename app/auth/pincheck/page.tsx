@@ -25,7 +25,6 @@ const PinCheck = () => {
     const router = useRouter()
     const [pinCodeArray, setPinCodeArray] = useState<string[]>(Array(5).fill(''));
     const [pinIndex, setPinIndex] = useState<number>(1);
-    const pinInputsRef = useRef<(HTMLInputElement | null)[]>([]);
     const [isPinCorrect, setIsPinCorrect] = useState<boolean | null>(null)
      
     const [timeMinLeft,setTimeMinLeft] = useState(1);
@@ -34,15 +33,7 @@ const PinCheck = () => {
     const [canAskCode, setCanAskCode] = useState(true);
 
     const dispatch = useAppDispatch();
-    // const accessToken = useAppSelector((state) => state.token.token);
     const accessToken = useAppSelector((state) => state.token.token);
-    const userPassword = useAppSelector((state) => state.user.pwdhash)
-    const userEmail = useAppSelector((state) => state.user.email)
-
-    // console.log(isPinCorrect);        // If the input is filled, move to the next one
-    // console.log('THE ACCESS-TOKEN IS: ', accessToken);
-    // console.log('USER PWD IS: ', userPassword);
-    // console.log('USER EMAIL IS: ', userEmail);
 
     useEffect(() => {
         intervalRef.current = setInterval(() => {
@@ -213,7 +204,7 @@ const PinCheck = () => {
                 <div className='lg:px-[20px] space-y-[24px]'>
                     <div className='flex flex-col items-center text-center space-y-[10px]'>
                         <h3 className='font-bold text-[28px] text-purple-900 leading-12'>Confirmez votre email</h3>
-                        <h5 className='text-[17px]'>We've sent a verification code to your email. Enter it below to complete your login</h5>
+                        <h5 className='text-[17px]'>We&apos;ve sent a verification code to your email. Enter it below to complete your login</h5>
                     </div>
                     <div className='flex justify-evenly'>
                         {
@@ -225,7 +216,7 @@ const PinCheck = () => {
                         }
                     </div>
                     <h4 className='text-center text-[14px] sm:text-[18px] leading-[24px]'>
-                        Vous n'avez pas recu de code ? <button onClick={handleCodeRequest} className='inline-block text-primary font-bold'>Renvoyer le code</button>
+                        Vous n&apos;avez pas recu de code ? <button onClick={handleCodeRequest} className='inline-block text-primary font-bold'>Renvoyer le code</button>
                         <br /> 
                         {
                         !canAskCode && <span id='time-left' className='text-[12px] font-bold duration-100'> Demandez un nouveau code dans: {timeMinLeft + ':' + timeSecLeft}</span>

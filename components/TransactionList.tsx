@@ -101,7 +101,7 @@ const TransactionList = ({accessToken, searchKey, field}:{accessToken:string, se
     
               console.log('We got this list of transactions: ', response.data.data);
               const fetchedList = response.data.data.slice().reverse();
-              let transactionArray:Array<transactionDetails> = [];
+              const transactionArray:Array<transactionDetails> = [];
               fetchedList.forEach((transaction, index) => {
                 const creationDate = new Date(transaction.creationDate);
                 console.log('Transaction status is ', transaction.transactionStatus + 'And it cashback is', transaction.cashback)
@@ -130,12 +130,12 @@ const TransactionList = ({accessToken, searchKey, field}:{accessToken:string, se
           }
       }
       fecthTransactionList();
-    }, []);
+    }, [accessToken]);
 
     useEffect(() => {
       // console.log('A Transaction amount is ', transactionsList[0].amountSent)
       if (searchKey.length > 0) {
-        let transactionArray: Array<transactionDetails> = [];
+        const transactionArray: Array<transactionDetails> = [];
         transactionsList.forEach((transaction) => {
           if (transaction[field].toString().toLowerCase().includes(searchKey.toLowerCase())) {
               console.log('Found it in the transaction sent to ', transaction.destinatoryName + ' on ' + transaction.date);
@@ -144,7 +144,7 @@ const TransactionList = ({accessToken, searchKey, field}:{accessToken:string, se
           setSearchResultList(transactionArray);
         })
       }
-    }, [searchKey, field])
+    }, [searchKey, field, transactionsList])
 
     
 

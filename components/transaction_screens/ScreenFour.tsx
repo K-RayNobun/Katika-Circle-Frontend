@@ -13,7 +13,7 @@ interface screenProps {
   nextScreen: () => void,
 }
 
-const handleSubmit = (e: any) => {
+const handleSubmit = (e: React.FormEvent) => {
     const dispatch = useAppDispatch();
     dispatch(provideStatus('completed'));
 }
@@ -32,6 +32,7 @@ const ScreenFour = ({onClose, nextScreen}: screenProps) => {
             speed={0.75}
           />
         </div>
+        <h5>We&apos;ve sent a verification code to your email. Enter it below to complete your login</h5>
         <button type='submit' onClick={handleSubmit} className={`lg:hidden bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
             <h6 className='text-center font-bold '>Retour à l'acceuil</h6>
         </button>

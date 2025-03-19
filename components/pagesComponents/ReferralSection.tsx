@@ -1,6 +1,6 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserPlus, faQrcode } from '@fortawesome/free-solid-svg-icons';
+import { IoQrCode } from "react-icons/io5";
+import { LuUserRoundPlus } from "react-icons/lu";
 
 const ReferralSection = ({ referralCode, setIsDialogVisible }: { referralCode:string, setIsDialogVisible:(isDialogVisible:boolean) => void }) => {
     return (
@@ -12,11 +12,11 @@ const ReferralSection = ({ referralCode, setIsDialogVisible }: { referralCode:st
             </div>
             <div className={`w-full gap-[18px] flex justify-between`}>
                 <button onClick={() => setIsDialogVisible(true)} className={`gap-[8px] grow bg-primary flex justify-center rounded-[8px] px-[36px] gap-[12px] py-[10px]`}>
-                    <FontAwesomeIcon className={`h-[20px] text-white`} icon={faUserPlus} />
+                    <LuUserRoundPlus className={`h-[20px] text-white`} />
                     <h5 className={`font-bold text-[16px] text-white`}>Invite Friends</h5>
                 </button>
                 <button className={`bg-primary grow rounded-[8px] px-[20px] py-[8px]`}>
-                    <FontAwesomeIcon className={`text-white h-[24px]`} icon={faQrcode} />
+                    <IoQrCode className={`text-white h-[24px]`} />
                 </button>
             </div>
         </div>

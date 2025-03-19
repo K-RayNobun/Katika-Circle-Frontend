@@ -196,7 +196,7 @@ const TransakSDK = ({onClose, nextScreen}: ScreenProps) => {
           transak.init();
           postTransaction();
         }
-      }, [isPaymentAuthorized]);
+      }, [postTransaction, transak]);
     
     return  <div className=" opacity-20 min-w-screen">
               <div id="transak-widget"></div>

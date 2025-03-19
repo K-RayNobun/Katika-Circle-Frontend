@@ -4,8 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 // Redux related import
-import { useAppSelector } from '@/lib/redux/hooks';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 export default function AuthLayout({
     children,
@@ -17,8 +16,8 @@ export default function AuthLayout({
     const [addedStyle, setAddedStyle] = useState('');
 
     const mapping = [
-      {endUrl: '/auth/signup', imageUrl: '/auth/firstep.png', style: 'w-[424px] mt-[24px]'},
-      {endUrl: '/auth/signin', imageUrl: '/auth/firstep.png', style: 'w-[424px] mt-[24px]'},
+      {endUrl: '/auth/signup', imageUrl: '/auth/firstep.png', style: 'w-[224px] mt-[24px]'},
+      {endUrl: '/auth/signin', imageUrl: '/auth/firstep.png', style: 'w-[224px] mt-[24px]'},
       {endUrl: '/auth/pincheck', imageUrl: '/auth/secondstep.png', style: 'w-[80%]'},
       {endUrl: '/auth/welcome', imageUrl: '/auth/thirdstep.png', style: 'w-[180px]'},
     ]
@@ -32,7 +31,7 @@ export default function AuthLayout({
           setAddedStyle(map.style)
         }
       })
-    }, [])
+    }, [mapping, pathName])
 
     return (
         <section className={`bg-primary/15 min-h-screen lg:py-[100px] flex items-center`}>

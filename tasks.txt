@@ -1,4 +1,4 @@
------------------- TAKS TO DO ON TODAY ------------------
+------------------ TASKS TO DO TODAY ------------------
 
 - Change icons and add images
 - Build an impressive dashboard for handling transactions

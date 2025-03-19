@@ -1,8 +1,8 @@
 'use client'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faCoins, faTrophy, faGear, faChevronDown,  faSearch, faFilter, faArrowDown, faBan } from '@fortawesome/free-solid-svg-icons';
-import { faBell, faPaperPlane, faClock } from '@fortawesome/free-regular-svg-icons';
+import { faChevronDown, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faBell } from '@fortawesome/free-regular-svg-icons';
 import React, { useState } from 'react';
 import TransactionList from '@/components/TransactionList';
 

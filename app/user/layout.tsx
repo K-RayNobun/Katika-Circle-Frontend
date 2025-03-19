@@ -7,11 +7,9 @@ import { RiExchangeLine, RiHome9Line, RiTrophyLine } from "react-icons/ri";
 import { PiGearSix } from "react-icons/pi";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faCoins, faTrophy, faGears } from '@fortawesome/free-solid-svg-icons';
-import { Poppins } from 'next/font/google';
 
 // Redxu related import
 import { useAppSelector } from '@/lib/redux/hooks';
-import { pages } from 'next/dist/build/templates/app-page';
 import Link from 'next/link';
 
 export default function UserLayout({
@@ -47,7 +45,7 @@ export default function UserLayout({
                 console.log('###------ This Page Url Has Been Fixed ------###')
             }
         })
-    }, [])
+    }, [actualTab, fullUrl, pagesRoutes, router])
 
     return (
         <section className={`relative w-screen bg-gray min-h-screen lg:h-[1024px] px-[8px] lg:px-[12px] flex flex-col lg:flex-row gap-[16px] rounded-lg sm:rounded-3xl mx-auto p-3`}>
