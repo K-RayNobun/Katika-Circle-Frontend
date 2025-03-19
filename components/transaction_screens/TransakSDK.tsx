@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Transak, TransakConfig } from "@transak/transak-sdk";
+import { Transak } from "@transak/transak-sdk";
 
 //Redux related imports
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
@@ -10,7 +10,7 @@ type WalletAddress = {
   networks?: Record<string, { address: string; addressAdditionalData?: string }>;
   coins?: Record<string, { address: string; addressAdditionalData?: string }>;
 };
-
+ /*
 type UserData = {
   firstName: string;
   lastName: string;
@@ -26,7 +26,7 @@ type UserData = {
     countryCode: string;
   };
 };
-
+*/
 interface ScreenProps {
   onClose: () => void,
   nextScreen: () => void,
@@ -97,7 +97,7 @@ const TransakSDK = ({onClose, nextScreen}: ScreenProps) => {
       }
       );
       console.log('The amount is: ', transactionDetails.amountSent);
-      console.log('The currency is: ', transactionDetails.currencySent === '€' ? 'EUR' : 'USD'),
+      console.log('The currency is: ', (transactionDetails.currencySent === '€' ? 'EUR' : 'USD')),
       console.log('The transaction type is: ', transactionDetails.transfertType),
       console.log('The receiver name is: ', transactionDetails.receiverName),
       console.log('The receiver phone number is: ', transactionDetails.receiverPhoneNumber),

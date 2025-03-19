@@ -1,10 +1,8 @@
 'use client'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faCoins, faTrophy, faGear, faChevronDown, faUserPlus, faQrcode, faBan, faPen } from '@fortawesome/free-solid-svg-icons';
-import { faBell, faPaperPlane, faClock } from '@fortawesome/free-regular-svg-icons';
-import React, { useState } from 'react';
-import { icon } from '@fortawesome/fontawesome-svg-core';
+import { faBell, faChevronDown, faPen } from '@fortawesome/free-regular-svg-icons';
+import React from 'react';
 
 const ProfileBoard = () => {
 

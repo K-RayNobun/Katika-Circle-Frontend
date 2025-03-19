@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useAppSelector } from "./redux/hooks";
 
 // const token = useAppSelector((state) => state.token.token)
 const axiosInstance = axios.create({

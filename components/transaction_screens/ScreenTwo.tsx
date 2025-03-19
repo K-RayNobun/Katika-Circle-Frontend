@@ -1,7 +1,5 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo, faInfoCircle, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { faBell } from '@fortawesome/free-regular-svg-icons';
-import React, { useEffect, useState, useRef, EventHandler } from 'react';
+import { FaXmark } from "react-icons/fa6";
+import React, { useEffect, useState, useRef } from 'react';
 import axios, { AxiosError } from 'axios';
 
 //Redux related imports
@@ -14,12 +12,13 @@ interface screenProps {
 }
 
 const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
-    const [selectedCountry, setSelectedCountry] =  useState('cameroon');
+    // const [selectedCountry, setSelectedCountry] =  useState('cameroon');
+    const selectedCountry = 'cameroon'
     const [isFieldWrong, setIsFieldWrong] =  useState(false);
     const [receiverName, setReceiverName] =  useState('');
     const [isTypeMobile, setIsTypeMobile] = useState(true);
     const [isNameChecked, setIsNameChecked] = useState(false);
-    const [iban, setIban] = useState<string>('');
+    // const [iban, setIban] = useState<string>('');
     const ibanRef = useRef('');
     const formRef = useRef<HTMLFormElement>(null);
 
@@ -102,7 +101,7 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
         pureInput = pureInput.replace(/\D/g,'');
 
         let formattedValue = '';
-        let spacing = [4, 9, 14, 25];
+        const spacing = [4, 9, 14, 25];
 
         for (let i = 0; i <= pureInput.length - 1; i++ ){
             if (i > 0 && spacing.includes(i)) {
@@ -113,7 +112,6 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
         }
         ibanRef.current = formattedValue
         console.log('Iban value: ', ibanRef.current)
-        setIban(formattedValue);
     }
 
     const handlePhoneNumberChange = () => {
@@ -202,18 +200,24 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
     <div className='flex flex-col w-[502px] h-[90%] lg:h-max rounded-t-[12px] lg:rounded-[12px] p-[44px] bg-white'>
         <div className='flex w-full justify-between items-center'>
             <h4 className='text-[20px] font-semibold text-primary'>Envoyer de l'argent</h4>
-            <button onClick={onClose}><FontAwesomeIcon icon={faXmark} className='h-[24px]' /></button>
+            <button onClick={onClose}><FaXmark className='h-[24px]' /></button>
         </div>
         <form id='form-one' ref={formRef} onSubmit={handleSubmit} className='flex flex-col gap-[12px] pt-[32px]'>
             <div className='flex flex-col'>
                 <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Type de transfert</label>
                 <div className='rounded-[8px] px-[14px] py-[10px] border-2 border-gray-400 '>
                     <select id='type-select' name='country' className='bg-transparent w-full font-semibold' onChange={handleTransfertTypeChange}>
-                        { transfertTypes.map((data, index) => (
+                        { amountReceived! > 1000000 ? 
+                        transfertTypes.map((data, index) => (
                             <option key={index} value={data} className='w-full'>
                                     {data}
                             </option>
-                        )) }
+                        ))
+                        :
+                            <option key={1} value={'Mobile Money'} className='w-full'>
+                                    Mobile Money
+                            </option>
+                        }
                     </select>
                 </div>
             </div>

@@ -9,7 +9,7 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
 
   useEffect(() => {
     // Simulate a 2-second loading delay
-    // console.log('Spinner start...');
+    // console.log( 'Spinner start...');
     const timer = setTimeout(() => {
       setLoading(false);
       // console.log('Now the loading should disappear')

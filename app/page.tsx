@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import CookieConsent, { Cookies} from "react-cookie-consent";
 import axios from "axios";
-import { GoogleOAuthProvider } from '@react-oauth/google'
 
 //Redux import ;
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
@@ -26,8 +25,7 @@ const HomePage = () => {
   }; 
 
   const getUserIp = async () => {
-    let res;
-    res = await axios.get("https://api.ipify.org/?format=json");
+    const res = await axios.get("https://api.ipify.org/?format=json");
     await setUserIp(res.data.ip);
   }
 
@@ -41,7 +39,7 @@ const HomePage = () => {
     } else {
       getUserIp()
     };
-  },);
+  }, []);
 
   const router = useRouter();
 

@@ -21,6 +21,7 @@ interface Transaction {
     iban?: string,
     bankCode?: string,
     bankName?: string,
+    rate?: number,
 
     tranzaktoken?: string,
 }
@@ -50,9 +51,10 @@ const transactionSlice = createSlice({
         state.currencyReceived = action.payload.currencyReceived;
         state.receiverCountry = action.payload.receiverCountry;
         state.latestScreen = action.payload.latestScreen;
-        state.referralGain = state.amountReceived! * 0.02;
-        state.cashback = state.amountReceived! * 0.001;
-        console.log('Transactiond Details:', '\nCode: ' + state.code + '\Issuer Id: ' + state.issuerId + '\n Amount Sent: ' + state.amountSent + '\n in ' + state.currencySent + '\n Receiver Country: ' + state.receiverCountry + '\n Amount Received: ' + state.amountReceived);
+        state.rate = action.payload.rate;
+        state.referralGain = state.referralGain;
+        state.cashback = state.cashback;
+        console.log('Transactiond Details:', '\nCode: ' + state.code + '\Issuer Id: ' + state.issuerId + '\n Amount Sent: ' + state.amountSent + '\n in ' + state.currencySent + '\n Receiver Country: ' + state.receiverCountry + '\n Amount Received: ' + state.amountReceived + '\n ');
        },
        provideStepMobileData: (state, action: PayloadAction<Transaction>) => {
         state.transfertType = action.payload.transfertType;
@@ -68,10 +70,34 @@ const transactionSlice = createSlice({
         state.bankName = action.payload.bankName;
         state.latestScreen = action.payload.latestScreen;
         console.log('Bank Step details: \n Bank Account Owner: ' + state.bankAccountOwner + '\n IBAN: ' + state.iban + '\n Bank Code: ' + state.bankCode + '\n Bank Name: ' + state.bankName);
-       }
+       },
+       // Logout logic set all non-nullable fields to initial state and nullable fields to null
+       resetTransaction: (state) => {
+        state.code = '';
+        state.issuerId = '';
+        state.status = '';
+        state.statusCode = 0;
+        state.date = '';
+        state.receiverPhoneNumber = '';
+        state.receiverName = '';
+        state.amountSent = 0;
+        state.currencySent = '';
+        state.amountReceived = 0;
+        state.currencyReceived = '';
+        state.receiverCountry = '';
+        state.cashback = 0;
+        state.referralGain = 0;
+        state.latestScreen = 1;
+        state.transfertType = '';
+        state.bankAccountOwner = '';
+        state.iban = '';
+        state.bankCode = '';
+        state.bankName = '';
+        state.tranzaktoken = '';
+    },
     }
 });
 
-export const { provideStepOneData, provideStepMobileData, provideStepBankData, provideToken, provideStatus } = transactionSlice.actions;
+export const { provideStepOneData, provideStepMobileData, provideStepBankData, provideToken, provideStatus, resetTransaction } = transactionSlice.actions;
 
 export default transactionSlice.reducer;

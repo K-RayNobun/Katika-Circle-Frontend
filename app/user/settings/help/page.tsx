@@ -1,11 +1,10 @@
 'use client'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faCoins, faTrophy, faGear, faChevronDown, faUserPlus, faQrcode, faBan, faPen, faCirclePlus, faCircleMinus } from '@fortawesome/free-solid-svg-icons';
-import { faBell, faPaperPlane, faClock } from '@fortawesome/free-regular-svg-icons';
+import { faChevronDown, faUserPlus, faQrcode, faBan, faPen, faCirclePlus, faCircleMinus } from '@fortawesome/free-solid-svg-icons';
+import { faBell } from '@fortawesome/free-regular-svg-icons';
 import React, { useState } from 'react';
-import { icon } from '@fortawesome/fontawesome-svg-core';
- 
+
 const HelpFAQBoard = () => {
 
     const [toogledIndex, setToogledIndex] = useState<number|null>(null);
@@ -80,7 +79,7 @@ const HelpFAQBoard = () => {
                         <div className=''>
                            {
                             FAQData.map((faq, index) => (
-                                <div className={`py-[18px] pl-[12px] pr-[64px] lg:w-[920px] relative ${index == FAQData.length - 1 ? "":"border-b-2 border-gray"}  ${ toogledIndex == index ? '':'hover:bg-gray hover:border-b-[2px]' }border-gray`}>
+                                <div key={index} className={`py-[18px] pl-[12px] pr-[64px] lg:w-[920px] relative ${index == FAQData.length - 1 ? "":"border-b-2 border-gray"}  ${ toogledIndex == index ? '':'hover:bg-gray hover:border-b-[2px]' }border-gray`}>
                                     <h5 className='font-bold text-[16px] lg:text-[18px] mb-[6px]'>{faq.title}</h5>
                                     <p id={`content-${index}`} className={`text-[14px] lg:text-[16px] transition duration-700 ease-in-out ${index == toogledIndex ? 'block' : 'hidden'}`}> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis labore reprehenderit neque cupiditate natus animi ea error ut rem nemo placeat assumenda quas, aliquid, dolor omnis. Soluta reiciendis nihil libero exercitationem laborum alias, asperiores quaerat velit aliquid quae iusto vitae eum ut magnam temporibus odio quibusdam debitis. Unde error nemo eum pariatur? Excepturi architecto molestiae illum commodi consequuntur doloribus dolorem?</p>
                                     <button className='transition duration-700 ease-in-out' onClick={() => {handleToogle(index)}}>
