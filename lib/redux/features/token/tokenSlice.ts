@@ -22,9 +22,13 @@ const tokenSlice = createSlice({
             state.token = null;
             state.expiresIn = null;
         },
+        resetToken: (state) => {
+            state.token = null;
+            state.expiresIn = null;
+        }
     }
 });
 
-export const { renewToken, clearToken } = tokenSlice.actions;
+export const { renewToken, clearToken, resetToken } = tokenSlice.actions;
 
 export default tokenSlice.reducer;

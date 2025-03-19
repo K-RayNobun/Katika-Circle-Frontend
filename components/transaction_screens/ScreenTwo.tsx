@@ -209,11 +209,17 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
                 <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Type de transfert</label>
                 <div className='rounded-[8px] px-[14px] py-[10px] border-2 border-gray-400 '>
                     <select id='type-select' name='country' className='bg-transparent w-full font-semibold' onChange={handleTransfertTypeChange}>
-                        { transfertTypes.map((data, index) => (
+                        { amountReceived > 1000000 ? 
+                        transfertTypes.map((data, index) => (
                             <option key={index} value={data} className='w-full'>
                                     {data}
                             </option>
-                        )) }
+                        ))
+                        :
+                            <option key={1} value={'Mobile Money'} className='w-full'>
+                                    Mobile Money
+                            </option>
+                        }
                     </select>
                 </div>
             </div>

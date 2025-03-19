@@ -88,6 +88,7 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
   
             console.log('We got this list of transactions: ', response.data.data);
             const fetchedList = response.data.data.slice().reverse();
+            let transactionArray: Array<notificationDetails> = []
             fetchedList.forEach((transaction, index) => {
               const creationDate = new Date(transaction.creationDate)
               const userTransaction: notificationDetails = {
@@ -95,19 +96,19 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
                 date: creationDate.toLocaleString('en-US'),
                 amountSent: transaction.amount,
                 currencySent: transaction.currency.toLowerCase === 'euro' ? '€' : transaction.currency.slice(0, 3).toUpperCase() ,
-                amountReceived: transaction.amount * rate
+                amountReceived: transaction.cashBack.amount * rate,
               }
 
-              const cashback = transaction.cashback;
+              const cashback =  (transaction.transactionStatus === 'Success' ? transaction.cashBack.amount : 0);
               if (cashback) {
                 setCashback(prev => prev+cashback);
                 cashbackTotal += cashback;
               }
-
-              setTransactionsList((prev) => [...prev, userTransaction]);
               
             })
+            setTransactionsList(transactionArray);
             dispatch(provideCashback(cashbackTotal));
+            console.log('---- Total Cashback is ', cashbackTotal);
             console.log('----------------- Finished Getting transactions --------------');
         } catch(error) {
             console.error('We met this error  while getting the transaction list')
@@ -121,10 +122,13 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
     <div className={`w-full grow`}>
       <h4 className='text-primary_dark font-bold mb-3'>Notifications</h4>
       <div className='max-h-[450px] space-y-[16px] py-[6px] overflow-y-auto'>
-        {
+        { transactionsList.length > 1 ?
           transactionsList.map((transaction, i) => {
             return <Notification key={i} details={transaction}/>
-          })
+          }) :
+          <div className='w-full bg-gray p-[32px] rounded-[12px]'>
+            <h5 className='text-[16px] text-gray_dark font-semibold items-center justify-center flex '>No transaction</h5>
+          </div>
         }
       </div>
     </div>

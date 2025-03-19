@@ -5,8 +5,31 @@ import { faHome, faCoins, faTrophy, faGear, faChevronDown,  faSearch, faFilter, 
 import { faBell, faPaperPlane, faClock } from '@fortawesome/free-regular-svg-icons';
 import React, { useState } from 'react';
 import TransactionList from '@/components/TransactionList';
+
+//Redux related imports
+import { useAppSelector } from '@/lib/redux/hooks';
+
+interface transactionDetails {
+    status: string, // Differentt status types: complete, pending, failed
+    date: string,
+    destinatoryName: string,
+    amountSent: number,
+    currencySent: string,
+    cashbackGain: number,
+  }
  
 const TransactionBoard = () => {
+  const accessToken = useAppSelector((state) => state.token.token);
+  const fields = [
+    {name: 'Date et Heure', property: 'date'},
+    {name: 'Destinataire', property: 'destinatoryName'},
+    {name: 'Montant envoyé', property: 'amountSent'},
+    {name: 'Statut de la transaction', property: 'status'},
+    {name: 'Cashback généré', property: 'cashbackGain'}
+    ];
+  const [selectedField, setSelectedField] = useState<keyof transactionDetails>('date');
+  const [searchKey, setSearchKey] = useState('')
+
   return (
         <div className={`relative h-full grow flex flex-col lg:flex-row gap-[24px] rounded-lg sm:rounded-3xl`}>
             <div className='grow flex flex-col space-y-[48px]'>
@@ -29,19 +52,27 @@ const TransactionBoard = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='flex justify-between gap-[24px]'>
-                        <div className='h-[44px] w-full lg:w-[30%] bg-white rounded-[8px] px-[14px] py-[10px] border-2 border-stroke flex space-x-[8px]'>
+                    <div className='flex justify-between gap-[12px] lg:gap-[24px]'>
+                        <div className='h-[44px] w-[80%] lg:w-[30%] bg-white rounded-[8px] px-[14px] py-[10px] border-2 border-stroke flex space-x-[8px]'>
                             <FontAwesomeIcon icon={faSearch} className='size-[20px] text-stroke' />
-                            <h5 className='text-[16px] text-stroke'>Search</h5>
+                            <input placeholder='Search' onChange={(e) => setSearchKey(e.target.value)} className='text-[16px] grow text-gray_dark'/>
+                            
                         </div>
-                        <div className='h-[44px] w-max bg-white border-2 border-stroke rounded-[8px] px-[14px] py-[10px] flex gap-[9px] justify-between items-center'>
-                            <FontAwesomeIcon icon={faFilter} className='size-[20px] text-stroke' />
-                            <h5 className='hidden lg:inline text-[16px] text-stroke'>Filtre</h5>
-                            <FontAwesomeIcon className='h-[16px] text-stroke' icon={faChevronDown} />
+                        <div className='relative h-[44px] w-[40px] lg:w-[220px] bg-white border-2 border-stroke rounded-[8px] flex items-center gap-[9px]'>
+                            <FontAwesomeIcon icon={faFilter} className='size-[20px] text-stroke mx-[8px]'/>
+                            <select onChange={(e) => {setSelectedField(e.target.value as keyof transactionDetails); setSearchKey(searchKey)}} className='inline absolute top-0 left-0 lg:relative right-[8px] size-[100%] lg:w-[80%] bg-transparent text-transparent lg:text-stroke lg:hover:text-primary_dark text-[16px]'>
+                                {
+                                    fields.map((field, index) => (
+                                        <option key={index} value={field.property} className='inline-block text-black'>
+                                            {field.name}
+                                        </option>
+                                    ))
+                                }
+                            </select>
                         </div>
                     </div>
                 </div>
-                <TransactionList />
+                <TransactionList accessToken={accessToken!} searchKey={searchKey} field={selectedField} />
             </div>
     </div>
   )

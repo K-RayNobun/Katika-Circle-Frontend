@@ -19,14 +19,16 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
     const [amountSent, setAmountSent] = useState(0);
     const [amountReceived, setAmountReceived] = useState(0);
     const [isFieldWrong, setIsFieldWrong] = useState(false);
-    // const [officialRate, setOfficialRate] = useState(0);
+    const [officialRate, setOfficialRate] = useState(0);
     const [katikaRate, setKatikaRate] = useState(0);
+    const [cashbackPercentage, setCashbackPercentage] = useState(0);
+    const [referralGainPercentage, setReferralGainPercentage] = useState(0);
     const [gain, setGain] = useState(0);
     const amountSentRef = useRef<number>(0);
     const amountReceivedRef = useRef<number>(0);
     const [errorMsg, setErrorMsg] = useState('');
     const [modifyingSentAmount, setModifyingSentAmount] = useState(true);
-    const formRef  = useRef<HTMLFormElement>(null)
+    const formRef  = useRef<HTMLFormElement>(null);
     
     const countriesData: Record<string, { image: string; name: string, currency:string }> = {
 
@@ -80,6 +82,7 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
         console.log('Amount received', amountReceivedRef.current.toLocaleString())
         setAmountReceived(amountReceivedRef.current)
         // console.log(' Are we on EUR ?', modifyingSentAmount);
+        setGain((katikaRate - officialRate) * amountSentRef.current)
     }
     
     const handleReceivedAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,8 +97,10 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
         }
         amountSentRef.current = amountReceivedRef.current / katikaRate;
         // console.log('Amount sent:', amountSentRef.current)
-        setAmountSent(amountReceivedRef.current)
+        setAmountReceived(amountReceivedRef.current)
         // console.log(' Are we on EUR ?', modifyingSentAmount);
+        setGain((katikaRate - officialRate) * amountSentRef.current)
+
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -123,14 +128,17 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
         if (isValid) {
             if (verifyFields()) {
                 const formData = new FormData(formRef.current!);
-                console.log('The amount received is', parseInt(formData.get('amount-received') as string));
+                console.log(`'Referral % ${referralGainPercentage} \n Amount Sent is ${amountSentRef.current} \n So Gain is ${referralGainPercentage*amountSentRef.current}`)
                 const data = {
                     amountSent: amountSentRef.current,
                     currencySent: currenciesData[selectedCurrency]?.symbol,
                     amountReceived: amountReceivedRef.current,
                     currencyReceived: countriesData[selectedCountry].currency,
                     receiverCountry: selectedCountry,
-                    latestScreen: 1
+                    rate: katikaRate,
+                    cashback: cashbackPercentage * amountSentRef.current,
+                    referralGain: referralGainPercentage * amountSentRef.current,
+                    latestScreen: 1,
                 }
                 dispatch(provideStepOneData(data));
                 nextScreen();
@@ -177,28 +185,46 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
     }
 
     useEffect(() => {
+        let officialRate = 0;
         const fetchActualPrice = async() => {
             try {
                 const response = await axios.get("https://api.exchangerate-api.com/v4/latest/"+currenciesData[selectedCurrency].name.toUpperCase());
                 console.log(response);
                 const currency = countriesData[selectedCountry].currency
-                const usdOff = response.data.rates[currency]; // Assume XOF is the target currency
-                console.log('Taux Officiel:', usdOff);
-                setKatikaRate(usdOff * 1.015);
-                console.log('Katika Rate', usdOff*1.015);
+                officialRate = response.data.rates[currency]; // Assume XOF is the target currency
+                setOfficialRate(officialRate);
                 // Example gain calculation
-                setGain(0.015 * amountReceived); // Example: gain in percentage
-                console.log(0.015 * amountReceived)
               } catch (error) {
                 console.error("Error fetching exchange rate:", error);
               }
         }
+        const fetchRate = async () => {
+            console.log('Access Token is', accessToken)
+            try {
+                const response = await axios.get('https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/api/v1/rate/euro',
+                    {
+                        headers: {
+                            'Authorization': 'Bearer ' + accessToken,
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*'
+                        }
+                    }
+                );
+                setKatikaRate(response.data.data.rate);
+                setCashbackPercentage(response.data.data.cashbackRate);
+                setReferralGainPercentage(response.data.data.referralGainRate);
+            } catch(error) {
+                console.log('Sorry, we couldn;t get the rate due to the error ', error)
+            }
+        }
     
+        fetchRate();
         fetchActualPrice();
     }, [selectedCountry])
 
     const dispatch = useAppDispatch()
     const transactionDetails = useAppSelector((state) => state.transaction);
+    const accessToken = useAppSelector((state) => state.token.token)
 
   return (
     <div className='w-full h-[90%] lg:h-max lg:w-[502px] rounded-t-[12px] lg:rounded-[12px] p-[44px] gap-[32px] bg-white flex flex-col'>
@@ -261,7 +287,7 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
             </div>
             <div className='flex justify-between'>
                 <h5>Gain</h5>
-                <h5>{gain}</h5>
+                <h5>{ gain.toLocaleString('en-US') + ' ' + countriesData[selectedCountry]?.currency }</h5>
             </div>
             <button type='submit' onClick={handleSubmit} className={`hidden lg:block bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
                 <h6 className='text-center font-bold '>Continuer</h6>

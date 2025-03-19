@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Keyframes */
 @keyframes slideUpFadeIn {
   from {
     opacity: 0;
@@ -28,10 +29,6 @@
   }
 }
 
-.animate-dance {
-  animation: dance 2s ease-in-out;
-}
-
 @keyframes vibrate {
   0%, 50%, 100% {
     transform: translateX(0);
@@ -42,10 +39,6 @@
   75% {
     transform: translateX(-10px);
   }
-}
-
-.animate-vibrate {
-  animation: vibrate 1s ease-out;
 }
 
 @keyframes slideDown {
@@ -59,18 +52,6 @@
   }
 }
 
-.animate-slideDown {
-  animation: slideDown 0.3s ease-in-out;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-
 @keyframes appear {
   from {
     opacity: 0;
@@ -80,21 +61,6 @@
     opacity: 1;
     transform: scale(1);
   }
-}
-
-.appear {
-  animation: appear 0.5s ease-in-out;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-input:focus {
-  outline: none;
-  appearance: none;
 }
 
 @keyframes fading {
@@ -112,29 +78,6 @@ input:focus {
   }
 }
 
-.animate-fading-1 {
-  animation-name: fading;
-  animation-duration: 500ms;
-  animation-timing-function: ease-in;
-  animation-fill-mode: backwards;
-}
-
-.animate-fading-2 {
-  animation-name: fading;
-  animation-duration: 500ms;
-  animation-timing-function: ease-in;
-  animation-delay: 500ms;
-  animation-fill-mode: backwards;
-}
-
-.animate-fading-3 {
-  animation-name: fading;
-  animation-duration: 500ms;
-  animation-timing-function: ease-in;
-  animation-delay: 1s;
-  animation-fill-mode: backwards;
-}
-
 @keyframes tingle {
   0%, 50%, 100% {
     transform: rotateX(0deg);
@@ -147,10 +90,6 @@ input:focus {
   }
 }
 
-.animate-tingle {
-  animation: tingle 1000ms infinite;
-}
-
 @keyframes vibrantAnimation {
   0%, 50%, 100% {
     transform: scale(1);
@@ -159,10 +98,6 @@ input:focus {
   25%, 75% {
     transform: scaleX(1.02) scaleY(1.05);
   }
-}
-
-.vibrant-animation {
-  animation: vibrantAnimation 3s infinite;
 }
 
 @keyframes floatAnimation {
@@ -205,6 +140,54 @@ input:focus {
   }
 }
 
+/* Animations */
+.animate-dance {
+  animation: dance 2s ease-in-out;
+}
+
+.animate-vibrate {
+  animation: vibrate 1s ease-out;
+}
+
+.animate-slideDown {
+  animation: slideDown 0.3s ease-in-out;
+}
+
+.appear {
+  animation: appear 0.5s ease-in-out;
+}
+
+.animate-fading-1 {
+  animation-name: fading;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in;
+  animation-fill-mode: backwards;
+}
+
+.animate-fading-2 {
+  animation-name: fading;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in;
+  animation-delay: 500ms;
+  animation-fill-mode: backwards;
+}
+
+.animate-fading-3 {
+  animation-name: fading;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in;
+  animation-delay: 1s;
+  animation-fill-mode: backwards;
+}
+
+.animate-tingle {
+  animation: tingle 1000ms infinite;
+}
+
+.vibrant-animation {
+  animation: vibrantAnimation 3s infinite;
+}
+
 .float-animation {
   animation: floatAnimation 3s ease-in-out infinite;
 }
@@ -221,6 +204,19 @@ input:focus {
   animation: scaleIn 0.3s ease-out;
 }
 
+/* Styles */
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+input:focus {
+  outline: none;
+  appearance: none;
+}
+
+/* Pannel Tab Styles */
 .pannel_tab {
   width: 100%;
   margin: 12px auto;
@@ -243,8 +239,33 @@ input:focus {
 }
 
 .pannel_tab .icon {
-  position: relative; /* Ensure the first child has a positioning context */
+  position: relative;
+  color: white;
+  transition: all 0.3s ease;
+  fill: currentColor; /* Add this to ensure SVG fills with color */
 }
+
+.pannel_tab .icon svg {
+  color: white;
+  fill: currentColor;
+}
+
+.pannel_tab_active .icon {
+  position: relative;
+  color: #931ABD;
+  fill: currentColor;
+  border-radius: 50%;
+  z-index: 10;
+  background-color: #fff;
+  padding: 12px;
+  transition: all 500ms ease-out;
+  box-shadow: 2px 2px 6px #00000088;
+}
+
+.pannel_tab_active .icon svg {
+  color: #931ABD;
+  fill: currentColor;
+} 
 
 .pannel_tab_active {
   display: flex;
@@ -253,6 +274,7 @@ input:focus {
   gap: 16px;
   height: 50px;
   margin: 20px 0;
+  color: #931ABD;
   background-color: transparent;
   transform: translateX(-12px);
   position: relative;
@@ -260,18 +282,21 @@ input:focus {
 
 .pannel_tab_active .icon {
   position: relative;
-  background: #fff;
-  color: #931ABD;
+  color: #931ABD !important;
   border-radius: 50%;
   z-index: 10;
-  font-size: 24px;
+  background-color: #fff;
   padding: 12px;
   transition-duration: 500ms;
   box-shadow: 2px 2px 6px #00000088;
-
 }
 
- .pannel_tab_active:before {
+.pannel_tab .icon {
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.pannel_tab_active:before {
   display: none;
   content: '';
   position: absolute;
@@ -338,7 +363,7 @@ button {
   color: black;
 }
 
-.info-icon:hover::before{
+.info-icon:hover::before {
   content: 'Votre taux est ainsi';
   position: absolute;
   min-width: 180px;
@@ -349,4 +374,12 @@ button {
   background-color: #931ABD;
   transition: all 300ms ease;
   color: white;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }

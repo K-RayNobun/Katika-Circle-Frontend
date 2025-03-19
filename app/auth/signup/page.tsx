@@ -5,17 +5,16 @@ import Image from 'next/image';
 import {signIn, useSession} from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
-import  { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { sendEmail } from '../../../utils/emailjs'
-import { GoogleLogin, googleLogout, useGoogleLogin } from '@react-oauth/google';
+import { LuEyeClosed, LuEye } from "react-icons/lu";
+import { FaCheck } from "react-icons/fa6";
+// import { sendEmail } from '../../../utils/emailjs'
+// import { GoogleLogin, googleLogout, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
-import { Suspense } from 'react';
+// import { Suspense } from 'react';
 
 // Redux imports;
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import { createUser } from '@/lib/redux/features/user/userSlice';
+import { createUser, setFirstReferringCode } from '@/lib/redux/features/user/userSlice';
 import { renewToken } from '@/lib/redux/features/token/tokenSlice';
 
 interface GoogleUser {
@@ -52,12 +51,15 @@ const Signup = () => {
     const [selectedCountry, setSelectedCountry] = useState<CountryData>();
 
     const [countryFlagURL, setCountryFlagURL] = useState('');
-    const [countriesList, setCountriesList] = useState<CountriesList>({});
+    const [countriesList, setCountriesList] = useState<Array<CountryData>>([]);
     const accessToken = useRef('');
     const [isRefCodeProvided, setIsRefCodeProvided] = useState(false);
 
     const [user, setUser] = useState<GoogleUser | null>(null);
     const [profile, setProfile] = useState<Profile | null>(null);
+    const [formData, setFormData] = useState<{ ref_code: string }>({
+        ref_code: '',
+    });
 
     const formRef = useRef<HTMLFormElement>(null);
 
@@ -65,10 +67,6 @@ const Signup = () => {
 
     const dispatch = useAppDispatch();
     const userData = useAppSelector((state) => state.user);
-
-    const [formData, setFormData] = useState<{ ref_code: string }>({
-            ref_code: '',
-        });
 
     const handleGoogleSignIn = async () => {
         try {
@@ -87,7 +85,7 @@ const Signup = () => {
         setIsConfirmPwdVisible(prev => !prev);
     };
     const validateName = (name:string) => {
-        const alphabeticalRegex = /^[A-Za-z]+$/ ;
+        const alphabeticalRegex = /^[A-Za-z ]+$/ ;
         return alphabeticalRegex.test(name);
     }
 
@@ -131,7 +129,7 @@ const Signup = () => {
                 "lname": formData.get('user_name') as string,
                 "email": formData.get('user_email')! as string,
                 "pwd": formData.get('password') as string,
-                "countryCode": formData.get('country') as string,
+                "countryCode": selectedCountry!.name,
                 "pReferralCode": formData.get('ref_code') as string,
             },
             {
@@ -199,13 +197,13 @@ const Signup = () => {
         console.log('Processing submission');
         // sendEmail(formRef.current);
         registerUser(e);
+        console.log('THE COUNTRY CODE OF THE USER IS ', selectedCountry!.name);
 
         dispatch(createUser({
             name: name,
             surname: surname,
             email: email,
             pwdhash: password,
-            walletId: 1,
             country: selectedCountry!.name,
             countryCodeISO2: selectedCountry!.alpha2,
             verified: false,
@@ -230,11 +228,10 @@ const Signup = () => {
     const handleCountryChange = async() => {
         const selected = document.getElementById('country-select') as HTMLSelectElement;
         const country_index = Number(selected.value)
+        console.log('Selected country index is: ', country_index);
         // 
         setSelectedCountry(countriesList[country_index]);
-        // console.log('Selected country is: ', country!.value);
-        // console.log('Countries List First is', countriesList[0])
-        // console.log('The ISO2 code is', countriesList[country!.value].alpha2);
+        console.log('Selected country index is: ', country_index);
         const response = await axios.post('https://countriesnow.space/api/v0.1/countries/flag/images',
             {
                 "iso2": countriesList[country_index].alpha2,
@@ -250,6 +247,24 @@ const Signup = () => {
     
     }
 
+    const checkRefCode = async (e) => {
+        const refCode = e.target.value;
+        console.log('Checking ', refCode);
+        if (refCode.slice(0, 3).includes('KTK')) {
+            const response = await axios.get(
+                `https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/api/v1/referral/parent?code=${refCode}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                });
+            console.log('The referral code verdict is ', response.data.data)
+        } else {
+            setError('Invalid Referral Code');
+        }
+    }
+
     useEffect(() => {
         const fetchCountries = async () => {
             const response = await axios.get('https://api-stg.transak.com/api/v2/countries',
@@ -260,28 +275,53 @@ const Signup = () => {
                     }
                 }
             );
-            console.log('Countries No.87 data:', response.data.response[87]);
             setCountriesList(response.data.response);
-            setSelectedCountry(response.data.response[0]);
-            setCountryFlagURL(response.data.response[0]);
+            // console.log('An example country: ', response.data.response[0])
+            const responseSecond = await axios.post('https://countriesnow.space/api/v0.1/countries/flag/images',
+                {
+                    "iso2": response.data.response[53].alpha2,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                }
+            );
+            // console.log('Response Second is: ', responseSecond)
+            setCountryFlagURL(responseSecond.data.data.flag);
         };
         fetchCountries();
     }, []);
 
     useEffect(() => {
         const ref_code = searchParams.get('ref_code');
+        const firstReferringCode = userData.firstReferringCode;
+        console.log('Th params got changed !!!');
         if(ref_code) {
             setFormData({
                 ref_code: ref_code
-            })
+            });
+            setIsRefCodeProvided(true);
+            dispatch(setFirstReferringCode(ref_code))
+            console.log('Now the Ref Code is Readonly');
+        } else if (firstReferringCode) {
+            console.log('The user has a predefined referring code known as ', firstReferringCode);
+            setFormData({
+                ref_code: firstReferringCode
+            });
+            setIsRefCodeProvided(false);
+            console.log('Referring code set');
         }
-        setIsRefCodeProvided(true);
+        
     }, [searchParams]);
 
-    const logout = () => {
-        googleLogout();
-        setProfile(null);
-    }
+    useEffect(() => {
+        const selectElement = document.getElementById('country-select') as HTMLSelectElement;
+        if (selectElement) {
+            selectElement.selectedIndex = 53;
+        }
+    }, [countriesList]);
 
   return (
     <div className='flex flex-1 flex-col justify-start flex-1 px-[4%] sm:px-[10%] lg:px-[30px] py-[32px] '>
@@ -306,16 +346,17 @@ const Signup = () => {
             <input type="text" id='user_email' name='user_email' className={`${inputStyle} ${errorField === 'user_email' ? 'border-2 border-red': ''}`} style={{ WebkitAppearance:'none', MozAppearance:'textfield'}} placeholder='Email' />
             <div className='relative'>
                 <input type={isPwdVisible ? 'text' : 'password'} name='password' className={`${inputStyle} ${errorField === 'password_match' ? 'border-2 border-red': ''}`} placeholder='Mot de passe' />
-                <FontAwesomeIcon onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' icon={ isPwdVisible ? faEyeSlash : faEye} />
+                {isPwdVisible ? <LuEyeClosed onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />
+                : <LuEye onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />}
             </div>
             <div className='relative'>
                 <input type={isConfirmPwdVisible ? 'text' : 'password'} name='confirm_password' className={`${inputStyle} ${errorField === 'password_match' ? 'border-2 border-red': ''}`} placeholder='Confirmer le mot de passe' />
-                <FontAwesomeIcon onClick={toogleConfirmPwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' icon={ isConfirmPwdVisible ? faEyeSlash : faEye} />
-            </div>
+                {isConfirmPwdVisible ? <LuEyeClosed onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />
+                : <LuEye onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />}            </div>
             <div className={`w-full flex gap-[14px]`}>
                 <div className={`flex items-center ${inputStyle} rounded-[8px] bg-primary/10 px-[14px] py-[8px] gap-[12px]`}>
                     <img src={countryFlagURL} alt="" className='w-[30px]' />
-                    <select id='country-select' name='country' onChange={handleCountryChange} className={`bg-transparent w-[90%] font-bold text-primary_dark`}>
+                    <select id='country-select' name='country' defaultValue={53} onChange={handleCountryChange} className={`bg-transparent w-[90%] font-bold text-primary_dark`}>
                         { Object.entries(countriesList).map(([key, countryData], index) => (
                             <option key={index} value={key} className='w-full text-black bg-white appearance-none' style={{MozAppearance: 'none', WebkitAppearance: 'none'}}>
                                     {countryData.name}
@@ -323,14 +364,14 @@ const Signup = () => {
                         )) }
                     </select>
                 </div>
-                <input type="text" id='refcode' name='ref_code' className={`${inputStyle} ${errorField === 'ref_code' ? 'border-2 border-red': ''}`} value={formData.ref_code} readOnly={isRefCodeProvided} placeholder='Referral Code' />
+                <input type="text" id='refcode' name='ref_code' onChange={checkRefCode} className={`${inputStyle} ${errorField === 'ref_code' ? 'border-2 border-red': ''}`} defaultValue={formData.ref_code} maxLength={7} readOnly={isRefCodeProvided} placeholder='Referral Code' />
             </div>
             <div className="flex items-start gap-[8px] h-[20px]">
                 {
                     isBoxChecked ?
                     <div onClick={handleBoxToggle} className='relative size-5'>
                         <input type="checkbox" className='appearance-none rounded-sm size-4 md:size-5 mt-0 border-primary border-2 text-primary before:transform duration-500 ease-in-out' />
-                        <FontAwesomeIcon icon={faCheck} className='absolute text-[14px] top-1/2 left-1/2 translate-x-[-50%] translate-y-[-60%] text-primary'/>
+                        <FaCheck className='absolute text-[14px] top-1/2 left-1/2 translate-x-[-50%] translate-y-[-60%] text-primary'/>
                     </div>
                     :
                     <div className=''>
@@ -351,7 +392,7 @@ const Signup = () => {
             </h4>
             <button onClick={handleGoogleSignIn} className={`bg-white border border-gray_dark/60 flex justify-center gap-[8px] py-[10px] rounded-[8px] w-full`}>
                 {/* <GoogleLogin onSuccess={handleGoogleAuthResponse} onError={handleGoogleAuthError}/> */}
-                <Image src={'/signup/googlelogo.png'} alt='' width={25} height={25} className='size-[25px]'></Image>
+                <Image src={'/auth/googlelogo.png'} alt='' width={25} height={25} className='size-[25px]'></Image>
                 <h6 className='text-center font-bold'>Continuer avec Google</h6>
             </button>
             <h4 className='text-center text-[14px] sm:text-[16px] leading-[24px]'> Vous avez un compte ? <span className='text-primary font-bold'><Link href='/signin' target="_blank">Connectez vous</Link></span></h4>

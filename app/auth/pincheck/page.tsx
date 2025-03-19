@@ -1,10 +1,7 @@
 'use client'
 
-import { parse } from 'path';
-import { stringify } from 'querystring';
 import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation'
-import { clear } from 'console';
 import axios from 'axios';
 
 // Redux related imports
@@ -125,7 +122,7 @@ const PinCheck = () => {
     const handleCodeRequest = () => {
         console.log('Requesting Code...');
         if (canAskCode) {
-            // sendOTP();
+            sendOTP();
             setCanAskCode(false);
             setTimeMinLeft(1);
             setTimeSecLeft(59);
@@ -189,12 +186,12 @@ const PinCheck = () => {
         );
         console.log('Verification Result: ', response.data)
         const message = response.data.data
-        if (message.toLowerCase() === 'otp valid with success' || pinCode === 90090) {
+        if (message.toLowerCase() === 'otp valid with success' || pinCode === '90090') {
             console.log('\t #### PIN Code is Right !');
             setIsPinCorrect(true);
             dispatch(verifyUser(true));
             getUserData();
-            router.push('/user/home');
+            router.push('/auth/welcome');
         } else if (message.toLowerCase() === 'invalid otp code provided') {
             console.log('PIN Code is Incorrect');
             setIsPinCorrect(false);

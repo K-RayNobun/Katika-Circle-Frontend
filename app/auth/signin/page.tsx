@@ -5,11 +5,14 @@ import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { useRouter, useSearchParams} from 'next/navigation';
-import axiosInstance from '@/lib/axios';
-import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { renewToken } from '@/lib/redux/features/token/tokenSlice';
 import Link from 'next/link';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+
+// Redux related imports
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
+import { createUser, setReferralCode, setWalletAdress, verifyUser } from '@/lib/redux/features/user/userSlice';
+
  
 const Signin = () => {
 
@@ -22,7 +25,7 @@ const Signin = () => {
 
     //Redux related imports
     const dispatch = useAppDispatch();
-    const token = useAppSelector((state) => state.token.token)
+    const accessTokenRef = useRef('');
 
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -46,6 +49,29 @@ const Signin = () => {
         return password.length >= 6
     }
 
+    const getUserData = async() => {
+        console.log('Getting the verified user data');
+        const response = await axios.get('https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/auth/account/profile',
+            {
+                headers: {
+                    Authorization: `Bearer ${accessTokenRef.current}`,
+                    "Content-Type": 'application/json'
+                }
+            }
+        );
+        console.log('The User Data Is: ', response.data.data);
+        dispatch(setReferralCode(response.data.data.referral.referralCode))
+        dispatch(setWalletAdress(response.data.data.wallet.address))
+        dispatch(createUser({
+            name: response.data.data.name,
+            surname: response.data.data.sname,
+            email: response.data.data.email,
+            country: response.data.data.countryCode,
+            referralCode: response.data.data.referral.referralCode,
+        }));
+        dispatch(verifyUser(true));
+    };
+
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -54,14 +80,14 @@ const Signin = () => {
         const password = formData.get('password') as string;
 
         if (!validateEmail(email)) {
-            setErrorField('email');
+            setErrorField((prev) => prev + ' email');
             console.log('Email => ', email);
             setError('Please enter a valid email address.');
             return;
         }
 
         if (!validatePassword(password)) {
-            setErrorField('password');
+            setErrorField((prev) => prev + ' password');
             console.log('Password is => ', password)
             setError('Password is invalid.');
             return;
@@ -71,6 +97,7 @@ const Signin = () => {
         // sendEmail(formRef.current);
 
         setError(null);
+        setErrorField('');
 
         // Axios request
         try {
@@ -87,16 +114,22 @@ const Signin = () => {
                 }
             );
 
-            console.log('The token is ', response.data);
+            console.log('The token is ', response.data.data['access-token']);
+            accessTokenRef.current = response.data.data['access-token'];
             dispatch(renewToken({
                 token: response.data.data.token,
                 expiresIn: 5 * 60 * 1000
             }));
-           
+            getUserData();
         } catch(error) {
-            console.error('Error on precessing login:', error)
+            const axiosError = error as AxiosError;
+            if (axiosError.response?.status === 500) {
+            console.error('Error on precessing login:', error);
+            setError('Invalid email or password');
+            setErrorField('email & password');
+            }
         }
-    router.push('/auth/signup')
+    router.push('/user/home');
     }
 
     useEffect(() => {
@@ -129,9 +162,9 @@ const Signin = () => {
             </div>
         </div>
         <form ref={formRef} onSubmit={handleSubmit} className='w-full mt-6 space-y-[16px]'>
-            <input type="text" name='email' onChange={handleInputChange} className={`${inputStyle} ${errorField === 'email' ? 'border-2 border-red': ''}`} placeholder='Email' />
+            <input type="text" name='email' onChange={handleInputChange} className={`${inputStyle} ${errorField.includes('email') ? 'border-2 border-red': ''}`} placeholder='Email' />
             <div className='relative'>
-                <input name='password' type={isPwdVisible ? 'text' : 'password'} onChange={handleInputChange} className={`${inputStyle} ${errorField === 'password' ? 'border-2 border-red': ''}`} placeholder='Mot de passe' />
+                <input name='password' type={isPwdVisible ? 'text' : 'password'} onChange={handleInputChange} className={`${inputStyle} ${errorField.includes('password') ? 'border-2 border-red': ''}`} placeholder='Mot de passe' />
                 <FontAwesomeIcon onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' icon={ isPwdVisible ? faEye : faEyeSlash} />
             </div>
             <div>
@@ -144,11 +177,11 @@ const Signin = () => {
                 Ou
             </h4>
             <div className={`bg-white border border-gray_dark/60 flex justify-center gap-[8px] py-[10px] rounded-[8px] w-full`}>
-                <Image src={'/signup/googlelogo.png'} alt='' width={25} height={25} className='size-[25px]'></Image>
+                <Image src={'/auth/googlelogo.png'} alt='' width={25} height={25} className='size-[25px]'></Image>
                 <h6 className='text-center font-bold'>Continuer avec Google</h6>
             </div>
         </form>
-        <h4 className='text-center text-[14px] sm:text-[16px] leading-[24px] mt-4'> Vous n'avez pas de compte ? <Link href='/signup' className='text-primary font-bold'>Inscrivez vous</Link></h4>
+        <h4 className='text-center text-[14px] sm:text-[16px] leading-[24px] mt-4'> Vous n'avez pas de compte ? <Link href='/auth/signup' className='text-primary font-bold'>Inscrivez vous</Link></h4>
     </div>
   )
 }

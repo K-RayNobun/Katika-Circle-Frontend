@@ -1,5 +1,12 @@
 ------------------ TAKS TO DO ON TODAY ------------------
 
-- Integrate wallet creation endpoint
-- Saving Redux data towards localStorage
-- Encrypt data in local storage
+- Change icons and add images
+- Build an impressive dashboard for handling transactions
+- Put online on Vercel
+
++ Enable the user credentials modification and picture adding
+x Referral fidelity solution
+
+----------------- ! Left to Do ! ----------------------
+
+- Fix the spinner problem

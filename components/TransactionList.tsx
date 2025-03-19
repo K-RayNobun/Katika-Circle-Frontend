@@ -1,22 +1,22 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClock} from '@fortawesome/free-regular-svg-icons'
 import { faBan, faArrowDown, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios';
+
+
+// Redux related imports
+import { useDispatch } from 'react-redux';
 
 
 interface transactionDetails {
+  order: number,
   status: string, // Differentt status types: complete, pending, failed
   date: string,
   destinatoryName: string,
   amountSent: number,
+  currencySent: string,
   cashbackGain: number,
-}
-const customTransactionDetails = {
-    status: 'Réussie',
-    date: 'Lun 3 à 11:02',
-    destinatoryName: 'Zain Culhane',
-    cashbackGain: 0.01,
-    amountSent: 120,
 }
 
 const handleStatus = (status:string) => {
@@ -26,46 +26,46 @@ const handleStatus = (status:string) => {
     icon: <FontAwesomeIcon icon={faPaperPlane} />
   }
   return (
-  status.toLowerCase() === 'réussie' ? style = {
+  status.toLowerCase() === 'success' ? style = {
     bgColor: 'bg-[#EDFFEC]',
     textColor: 'text-[#009646]',
-    icon: <FontAwesomeIcon icon={faPaperPlane} />
+    icon: <FontAwesomeIcon className='size-[20px]' icon={faPaperPlane} />
   } :
-  status.toLowerCase() === 'en cours' ? 
+  status.toLowerCase() === 'pending' ? 
   style = {
     bgColor: 'bg-[#FFE9DB]',
     textColor: 'text-[#FF5C00]',
-    icon: <FontAwesomeIcon icon={faClock} />
+    icon: <FontAwesomeIcon className='size-[24px]' icon={faClock} />
   } :
-  status.toLowerCase()  === 'echouée' ?
+  status.toLowerCase()  === 'failed' ?
   style = {
-    bgColor: 'bg-[#D3FFDA]',
+    bgColor: 'bg-red/20',
     textColor: 'text-[#FF0004]',
-    icon: <FontAwesomeIcon className='size-[32px]' icon={faBan} />
+    icon: <FontAwesomeIcon className='size-[24px]' icon={faBan} />
   } : style
 );
 }
 
-const Transaction = ({details}:{details: transactionDetails}) => {
+const Transaction = ({details, }:{details: transactionDetails}) => {
 
   const style = handleStatus(details.status);
     return (
     <div>
-      <tr className='hidden lg:flex w-full h-[72px] items-center bg-white border-[#EAECF0] border-b text-[14px] font-bold px-[24px]'>
+      <tr className='hidden lg:flex w-full h-[72px] items-center text-center bg-white border-[#EAECF0] border-b text-[14px] font-bold px-[24px]'>
         <td className='w-[22%] px-[12px] '><h5 className='text-[#AFB4C0]'>{details.date}</h5></td>
         <td className='w-[30%] px-[12px]'><h5 >{details.destinatoryName}</h5></td>
         <td className='w-[14%] px-[12px]'><h5 >{details.amountSent}</h5></td>
-        <td className='w-[20%] px-[12px] flex items-center'><h4 className={` font-bold text-[12px] text-center rounded-[16px] h-[24px] w-[72px]  ${style.textColor+' '+style.bgColor}`}>{details.status}</h4></td>
-        <td className='w-[14%] px-[12px]'>{details.cashbackGain}</td>                
+        <td className='w-[20%] px-[12px] flex items-center justify-center'><h4 className={` font-bold text-[12px] text-center rounded-[16px] h-[24px] w-[72px]  ${style.textColor + ' ' + style.bgColor}`}>{details.status}</h4></td>
+        <td className='w-[14%] px-[12px]'>{details.cashbackGain || 0}</td>                
       </tr>
       <tr className='flex flex-col items-start lg:hidden w-full bg-white border-[#EAECF0] border-b rounded-[8px] text-[14px] font-bold px-[24px] py-[7px]'>
         <td className='font-light'><h5 className='text-[#AFB4C0]'>{details.date}</h5></td>
         <div className='flex items-center w-full'>
-          <div className={`lg:hidden size-[40px] rounded-full flex items-center justify-center px-[24px] ${style.bgColor} ${style.textColor} `}>
+          <div className={`lg:hidden h-[40px] mt-[-30px] text-[16px] rounded-full flex items-center justify-center ${style.bgColor} ${style.textColor} `}>
             {style.icon}
           </div>
           <div>
-            <td className='w-[30%] px-[12px]'><h5 >{details.destinatoryName}</h5></td>
+            <td className='w-[30%] px-[12px]'><h5 className='text-[12px]' >{details.destinatoryName}</h5></td>
             <td className='w-[20%] px-[12px] flex items-center'><h4 className={` font-bold text-[12px] text-center rounded-[16px] h-[24px] w-[72px]  ${style.textColor}`}>{details.status}</h4></td>
           </div>
           <div className='grow'></div>
@@ -76,25 +76,103 @@ const Transaction = ({details}:{details: transactionDetails}) => {
     );
 }
 
-const TransactionList = () => {
+const TransactionList = ({accessToken, searchKey, field}:{accessToken:string, searchKey: string, field:keyof transactionDetails}) => {
   const dataLength = 12;
+  const [transactionsList, setTransactionsList] = useState<Array<transactionDetails>>([]);
+  const [searchResultList, setSearchResultList] = useState<Array<transactionDetails>>([]);
+  const dispatch = useDispatch();
+  console.log('Seacrh Key is', searchKey);
+  console.log('Field concerned is', field);
+
+    useEffect(() => {
+      const fecthTransactionList = async () => {
+          try {
+            let cashbackTotal = 0;
+              console.log('------------------ Getting Transactions --------------')
+              const response = await axios.get(`https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/api/v1/transactions/user`,
+                  {
+                      headers: {
+                          'Authorization': 'Bearer ' + accessToken,
+                          'Content-Type': 'application/json',
+                          'Access-Control-Allow-Origin': '*'
+                      }
+                  }
+              )
+    
+              console.log('We got this list of transactions: ', response.data.data);
+              const fetchedList = response.data.data.slice().reverse();
+              let transactionArray:Array<transactionDetails> = [];
+              fetchedList.forEach((transaction, index) => {
+                const creationDate = new Date(transaction.creationDate);
+                console.log('Transaction status is ', transaction.transactionStatus + 'And it cashback is', transaction.cashback)
+                const userTransaction: transactionDetails = {
+                  order: index,
+                  status: transaction.transactionStatus,
+                  date: creationDate.toLocaleString('en-US'),
+                  amountSent: transaction.amount,
+                  currencySent: transaction.currency.toLowerCase === 'euro' ? '€' : transaction.currency.slice(0, 3).toUpperCase() ,
+                  destinatoryName: transaction.recipient.name,
+                  cashbackGain: transaction.transactionStatus === 'Success' ? transaction.cashBack.amount : 0,
+                }
+  
+                const cashback = transaction.cashback;
+                if (cashback) {
+                  cashbackTotal += cashback;
+                }
+                
+                transactionArray.push(userTransaction);
+                
+              })
+              setTransactionsList(transactionArray);
+              console.log('----------------- Finished Getting transactions --------------');
+          } catch(error) {
+              console.error('We met this error  while getting the transaction list')
+          }
+      }
+      fecthTransactionList();
+    }, []);
+
+    useEffect(() => {
+      // console.log('A Transaction amount is ', transactionsList[0].amountSent)
+      if (searchKey.length > 0) {
+        let transactionArray: Array<transactionDetails> = [];
+        transactionsList.forEach((transaction) => {
+          if (transaction[field].toString().toLowerCase().includes(searchKey.toLowerCase())) {
+              console.log('Found it in the transaction sent to ', transaction.destinatoryName + ' on ' + transaction.date);
+              transactionArray.push(transaction);
+          }
+          setSearchResultList(transactionArray);
+        })
+      }
+    }, [searchKey, field])
+
+    
+
   return (
     <div className={`grow w-full overflow-auto`}>
         <table className='flex flex-col w-full mb-[50px]'>
-            <tr className='hidden lg:flex w-full bg-[#F9FAFB]  text-gray_dark py-[12px] px-[24px] border border-[#EAECF0]'>
-                <thead className='w-[22%] px-[12px]'>Date et Heure <FontAwesomeIcon size='sm' icon={faArrowDown} className='ml-1'/></thead>
-                <thead className='w-[30%] px-[12px]'>Destinataire</thead>
-                <thead className='w-[14%] px-[12px]'>Montant envoyé</thead>
-                <thead className='w-[20%] px-[12px]'>Statut de la transaction</thead>
-                <thead className='w-[14%] px-[12px]'>Cashback généré</thead>
+          <thead>
+              <tr className='hidden lg:flex w-full bg-[#F9FAFB]  text-gray_dark py-[12px] px-[24px] border border-[#EAECF0]'>
+                  <th className='w-[22%] px-[12px]'>Date et Heure <FontAwesomeIcon size='sm' icon={faArrowDown} className='ml-1'/></th>
+                  <th className='w-[30%] px-[12px]'>Destinataire</th>
+                  <th className='w-[14%] px-[12px]'>Montant envoyé</th>
+                  <th className='w-[20%] px-[12px]'>Statut de la transaction</th>
+                  <th className='w-[14%] px-[12px]'>Cashback généré</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr className='block h-full w-full space-y-[16px] lg:space-y-[0px] overflow-auto'>
+              { searchKey.length === 0 ?
+              transactionsList.map((transaction, i) => {
+                  return <Transaction key={i} details={transaction}/>
+                })
+              :
+              searchResultList.map((transaction, i) => {
+                return <Transaction key={i} details={transaction}/>
+              })
+              }
             </tr>
-        <div className='h-full w-full space-y-[16px] lg:space-y-[0px] overflow-auto'>
-          {
-            Array.from({length: dataLength}, (_, i) => {
-              return <Transaction key={i} details={customTransactionDetails}/>
-            })
-          }
-        </div>
+          </tbody>
         <button className={`${dataLength > 10 ? 'hidden lg:block' : 'hidden'} w-full bg-[#F9FAFB] py-[16px] hover:bg-gray rounded-b-[8px]'`}><h5 className='text-center'>Voir plus</h5></button>
       </table>
     </div>

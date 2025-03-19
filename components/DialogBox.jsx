@@ -17,7 +17,7 @@ const DialogBox = ({text, onClose}) => {
     };
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/60">
+        <div className="fixed inset-0 z-10 flex items-center justify-center bg-black/60">
             <div className="bg-primary p-6 rounded-lg shadow-lg w-[500px]">
                 <h2 className="text-xl font-semibold mb-4 text-center text-white uppercase">Refers more people with this link</h2>
                 <div className="mb-4">
