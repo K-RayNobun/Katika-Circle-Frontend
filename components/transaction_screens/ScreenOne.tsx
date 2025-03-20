@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo, faInfoCircle, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { faBell } from '@fortawesome/free-regular-svg-icons';
-import React, { useEffect, useState, useRef, EventHandler } from 'react';
+import { faCircleInfo, faXmark } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 
 //Redux imports
@@ -15,10 +14,7 @@ interface screenProps {
 
 const ScreenOne = ({onClose, nextScreen}:screenProps) => {
     const [selectedCountry, setSelectedCountry] =  useState('cameroon');
-    const [selectedCurrency, setSelectedCurrency] =  useState('EUR');
-    const [amountSent, setAmountSent] = useState(0);
-    const [amountReceived, setAmountReceived] = useState(0);
-    const [isFieldWrong, setIsFieldWrong] = useState(false);
+    const selectedCurrency = 'EUR';
     const [officialRate, setOfficialRate] = useState(0);
     const [katikaRate, setKatikaRate] = useState(0);
     const [cashbackPercentage, setCashbackPercentage] = useState(0);
@@ -80,7 +76,6 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
         }
         amountReceivedRef.current = amountSentRef.current * katikaRate;
         console.log('Amount received', amountReceivedRef.current.toLocaleString())
-        setAmountReceived(amountReceivedRef.current)
         // console.log(' Are we on EUR ?', modifyingSentAmount);
         setGain((katikaRate - officialRate) * amountSentRef.current)
     }
@@ -97,7 +92,6 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
         }
         amountSentRef.current = amountReceivedRef.current / katikaRate;
         // console.log('Amount sent:', amountSentRef.current)
-        setAmountReceived(amountReceivedRef.current)
         // console.log(' Are we on EUR ?', modifyingSentAmount);
         setGain((katikaRate - officialRate) * amountSentRef.current)
 
@@ -127,7 +121,6 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
         }
         if (isValid) {
             if (verifyFields()) {
-                const formData = new FormData(formRef.current!);
                 console.log(`'Referral % ${referralGainPercentage} \n Amount Sent is ${amountSentRef.current} \n So Gain is ${referralGainPercentage*amountSentRef.current}`)
                 const data = {
                     amountSent: amountSentRef.current,
@@ -164,7 +157,6 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
             document.getElementsByName(fieldName)[0].classList.remove('border-red');
        };
 
-       setIsFieldWrong(!isValid);
        return isValid;
     }
 
@@ -223,7 +215,6 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
     }, [selectedCountry])
 
     const dispatch = useAppDispatch()
-    const transactionDetails = useAppSelector((state) => state.transaction);
     const accessToken = useAppSelector((state) => state.token.token)
 
   return (

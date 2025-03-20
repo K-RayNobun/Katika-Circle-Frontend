@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { Transak, TransakConfig } from "@transak/transak-sdk";
+import { useEffect, useRef } from "react";
+import { Transak } from "@transak/transak-sdk";
 
 //Redux related imports
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
@@ -10,7 +10,7 @@ type WalletAddress = {
   networks?: Record<string, { address: string; addressAdditionalData?: string }>;
   coins?: Record<string, { address: string; addressAdditionalData?: string }>;
 };
-
+/*
 type UserData = {
   firstName: string;
   lastName: string;
@@ -26,6 +26,7 @@ type UserData = {
     countryCode: string;
   };
 };
+*/
 
 interface ScreenProps {
   onClose: () => void,
@@ -33,8 +34,6 @@ interface ScreenProps {
 };
 
 const TransakSDK = ({onClose, nextScreen}: ScreenProps) => {
-
-  const [isPaymentAuthorized, setIsPaymentAuthorized] = useState(false);
   const isSDKInit = useRef(false);
   const userData = useAppSelector((state) => state.user);
   const transactionDetails = useAppSelector((state) => state.transaction);
@@ -96,13 +95,13 @@ const TransakSDK = ({onClose, nextScreen}: ScreenProps) => {
           }
       }
       );
-      console.log('The amount is: ', transactionDetails.amountSent);
-      console.log('The currency is: ', transactionDetails.currencySent === '€' ? 'EUR' : 'USD'),
-      console.log('The transaction type is: ', transactionDetails.transfertType),
-      console.log('The receiver name is: ', transactionDetails.receiverName),
-      console.log('The receiver phone number is: ', transactionDetails.receiverPhoneNumber),
-      console.log('The receiver country is: ', transactionDetails.receiverCountry);
       const data = response;
+      console.log('The amount is: ', transactionDetails.amountSent);
+      console.log('The currency is: ', transactionDetails.currencySent === '€' ? 'EUR' : 'USD');
+      console.log('The transaction type is: ', transactionDetails.transfertType);
+      console.log('The receiver name is: ', transactionDetails.receiverName);
+      console.log('The receiver phone number is: ', transactionDetails.receiverPhoneNumber);
+      console.log('The receiver country is: ', transactionDetails.receiverCountry);
       console.log('---------### The Response due to the Transaction is: ', data);
   }
 
@@ -155,7 +154,6 @@ const TransakSDK = ({onClose, nextScreen}: ScreenProps) => {
     console.log('Damn! TRANSAK_WIDGET_CLOSE', orderData);
     transak
       .close();
-    setIsPaymentAuthorized(false);
     dispatch(provideStatus('Cancelled'));
     updateTransactionStatus('Cancelled');
     if(status?.toLowerCase() ===  'pending') {
@@ -174,7 +172,6 @@ const TransakSDK = ({onClose, nextScreen}: ScreenProps) => {
 
   Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
     console.log('TRANSAK_ORDER_SUCCESSFUL', orderData);
-    setIsPaymentAuthorized(true);
     postTransaction();
     dispatch(provideStatus('Completed'))
     updateTransactionStatus('Completed');

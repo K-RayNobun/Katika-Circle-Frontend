@@ -102,6 +102,8 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
               if (cashback) {
                 cashbackTotal += cashback;
               }
+
+              transactionArray.push(userTransaction);
               
             })
             setTransactionsList(transactionArray);

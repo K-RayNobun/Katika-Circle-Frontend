@@ -152,7 +152,7 @@ const TransactionListAdmin = ({ accessToken, searchKey, field, onTransactionClic
 
                 const fetchedList = response.data.data.slice().reverse();
                 console.log('Got the transactions list as', fetchedList.slice(0, 9));
-                const transactionArray: Array<TransactionAdminDetails> = fetchedList.map((transaction: any, index: number) => ({
+                const transactionArray: Array<TransactionAdminDetails> = fetchedList.map((transaction, index: number) => ({
                     id: transaction.id,
                     order: index,
                     status: transaction.transactionStatus,

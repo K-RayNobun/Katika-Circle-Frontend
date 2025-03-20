@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faCoins, faTrophy, faGears } from '@fortawesome/free-solid-svg-icons';
-import { Poppins } from 'next/font/google';
 
 // Redxu related import
 import { useAppSelector } from '@/lib/redux/hooks';

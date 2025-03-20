@@ -64,7 +64,7 @@ export const tasksSlice = createSlice({
         // It merges the state from the server with the client state
         return {
           ...state,
-          // @ts-ignore - The action.payload type is difficult to define correctly
+          // @ts-expect-error - The action.payload type is difficult to define correctly
           ...action.payload.tasks,
         };
       });

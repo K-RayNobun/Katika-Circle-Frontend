@@ -81,7 +81,7 @@ const Home = () => {
                 let referralGainTotal = 0;
                 const filleulArray: FilleulDetails[] = [];
 
-                response.data.data.forEach((referral: any, index: number) => {
+                response.data.data.forEach((referral, index: number) => {
                     const filleul: FilleulDetails = {
                         order: index,
                         name: `${referral.fname} ${referral.lname}`,

@@ -7,6 +7,7 @@ import axios from 'axios';
 
 // Redux related imports
 import { useDispatch } from 'react-redux';
+import { provideCashback } from '@/lib/redux/features/user/userSlice';
 
 
 interface transactionDetails {
@@ -119,6 +120,7 @@ const TransactionList = ({accessToken, searchKey, field}:{accessToken:string, se
                 if (cashback) {
                   cashbackTotal += cashback;
                 }
+                dispatch(provideCashback(cashbackTotal))
                 
                 transactionArray.push(userTransaction);
                 
@@ -126,7 +128,7 @@ const TransactionList = ({accessToken, searchKey, field}:{accessToken:string, se
               setTransactionsList(transactionArray);
               console.log('----------------- Finished Getting transactions --------------');
           } catch(error) {
-              console.error('We met this error  while getting the transaction list')
+              console.error('We met this error  while getting the transaction list', error)
           }
       }
       fecthTransactionList();

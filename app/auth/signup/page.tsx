@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import {signIn, useSession} from 'next-auth/react';
+import {signIn} from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { LuEyeClosed, LuEye } from "react-icons/lu";
@@ -17,16 +17,6 @@ import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { createUser, setFirstReferringCode } from '@/lib/redux/features/user/userSlice';
 import { renewToken } from '@/lib/redux/features/token/tokenSlice';
 
-interface GoogleUser {
-    access_token: string;
-}
-
-interface Profile {
-    id: string;
-    email: string;
-    name: string;
-}
-
 interface CountryData {
     name: string;
     image: string;
@@ -34,9 +24,9 @@ interface CountryData {
     alpha2: string;
 }
 
-interface CountriesList {
-    [key: string]: CountryData;
-}
+// interface CountriesList {
+//     [key: string]: CountryData;
+// }
 
 const Signup = () => {
     // const {data: session, status} = useSession();
@@ -55,8 +45,6 @@ const Signup = () => {
     const accessToken = useRef('');
     const [isRefCodeProvided, setIsRefCodeProvided] = useState(false);
 
-    const [user, setUser] = useState<GoogleUser | null>(null);
-    const [profile, setProfile] = useState<Profile | null>(null);
     const [formData, setFormData] = useState<{ ref_code: string }>({
         ref_code: '',
     });
@@ -84,6 +72,7 @@ const Signup = () => {
     const toogleConfirmPwdVisibility = () => {
         setIsConfirmPwdVisible(prev => !prev);
     };
+
     const validateName = (name:string) => {
         const alphabeticalRegex = /^[A-Za-z ]+$/ ;
         return alphabeticalRegex.test(name);
@@ -157,7 +146,7 @@ const Signup = () => {
         const surname =  formData.get('user_name') as string;
         const email = formData.get('user_email') as string;
         const password = formData.get('password') as string;
-        const refcode = formData.get('ref_code') as string;
+        // const refcode = formData.get('ref_code') as string;
         const confirmPassword = formData.get('confirm_password') as string;
 
         if ( name.length < 2 || !validateName(name)){
@@ -208,7 +197,6 @@ const Signup = () => {
             countryCodeISO2: selectedCountry!.alpha2,
             verified: false,
         }));
-        setProfile(null);// Temporary disabling error
         // sendEmail(formRef.current!)
 
         router.push('/auth/pincheck');
@@ -351,7 +339,7 @@ const Signup = () => {
             </div>
             <div className='relative'>
                 <input type={isConfirmPwdVisible ? 'text' : 'password'} name='confirm_password' className={`${inputStyle} ${errorField === 'password_match' ? 'border-2 border-red': ''}`} placeholder='Confirmer le mot de passe' />
-                {isConfirmPwdVisible ? <LuEyeClosed onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />
+                {isConfirmPwdVisible ? <LuEyeClosed onClick={toogleConfirmPwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />
                 : <LuEye onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />}            </div>
             <div className={`w-full flex gap-[14px]`}>
                 <div className={`flex items-center ${inputStyle} rounded-[8px] bg-primary/10 px-[14px] py-[8px] gap-[12px]`}>

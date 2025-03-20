@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-const StatsContainer = ({ userData, referralBonus, filleulList }: {userData: { cashback: number }, referralBonus:number, filleulList: any[]}) => {
+const StatsContainer = ({ userData, referralBonus, filleulList }: {userData: { cashback: number }, referralBonus:number, filleulList: []}) => {
     return (
         <div className={`animate-fading-2 flex w-full h-[204px] gap-[4%] my-[20px] lg:my-[32px]`}>
             <div className={`bg-indigo/10 border-2 border-indigo flex flex-col items-center py-[16px] justify-evenly lg:justify-center text-indigo h-full font-bold rounded-[12px] w-full flex-1`}>

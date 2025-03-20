@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo, faInfoCircle, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { faBell } from '@fortawesome/free-regular-svg-icons';
+import {faXmark } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState, useRef } from 'react';
 import axios, { AxiosError } from 'axios';
 
@@ -14,12 +13,11 @@ interface screenProps {
 }
 
 const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
-    const [selectedCountry, setSelectedCountry] =  useState('cameroon');
+    const selectedCountry = 'cameroon';
     const [isFieldWrong, setIsFieldWrong] =  useState(false);
     const [receiverName, setReceiverName] =  useState('');
     const [isTypeMobile, setIsTypeMobile] = useState(true);
     const [isNameChecked, setIsNameChecked] = useState(false);
-    const [iban, setIban] = useState<string>('');
     const ibanRef = useRef('');
     const formRef = useRef<HTMLFormElement>(null);
 
@@ -113,7 +111,6 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
         }
         ibanRef.current = formattedValue
         console.log('Iban value: ', ibanRef.current)
-        setIban(formattedValue);
     }
 
     const handlePhoneNumberChange = () => {
@@ -201,7 +198,7 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
   return (
     <div className='flex flex-col w-[502px] h-[90%] lg:h-max rounded-t-[12px] lg:rounded-[12px] p-[44px] bg-white'>
         <div className='flex w-full justify-between items-center'>
-            <h4 className='text-[20px] font-semibold text-primary'>Envoyer de l'argent</h4>
+            <h4 className='text-[20px] font-semibold text-primary'>Envoyer de l&apos;argent</h4>
             <button onClick={onClose}><FontAwesomeIcon icon={faXmark} className='h-[24px]' /></button>
         </div>
         <form id='form-one' ref={formRef} onSubmit={handleSubmit} className='flex flex-col gap-[12px] pt-[32px]'>
@@ -209,7 +206,7 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
                 <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Type de transfert</label>
                 <div className='rounded-[8px] px-[14px] py-[10px] border-2 border-gray-400 '>
                     <select id='type-select' name='country' className='bg-transparent w-full font-semibold' onChange={handleTransfertTypeChange}>
-                        { amountReceived > 1000000 ? 
+                        { amountReceived! > 1000000 ? 
                         transfertTypes.map((data, index) => (
                             <option key={index} value={data} className='w-full'>
                                     {data}
