@@ -15,7 +15,7 @@ const ScreenThree = ({onClose, nextScreen}: screenProps) => {
     const katikaRate = 687;
     const transactionDetails = useAppSelector((state) => state.transaction);
     
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         // const form = document.getElementById('form-one') as HTMLFormElement
         // const formData = new FormData(form);

@@ -58,7 +58,7 @@ const AwardsBoard = () => {
                 let referralGainTotal = 0;
                 const filleulArray: FilleulDetails[] = [];
 
-                response.data.data.forEach((referral, index: number) => {
+                response.data.data.forEach((referral: { fname: string; lname: string; referral: { bonusTotal: number; bonusStatus: string; } }, index: number) => {
                     const filleul: FilleulDetails = {
                         order: index + 1,
                         name: `${referral.fname} ${referral.lname}`,
@@ -99,7 +99,7 @@ const AwardsBoard = () => {
                     }
                 );
 
-                response.data.data.forEach((transaction) => {
+                response.data.data.forEach((transaction: { cashback?: number }) => {
                     if (transaction.cashback) {
                         cashbackTotal += transaction.cashback;
                     }

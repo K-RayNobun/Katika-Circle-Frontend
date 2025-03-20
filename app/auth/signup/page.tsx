@@ -108,7 +108,7 @@ const Signup = () => {
         console.log('Just sent the token successfully as ', response.data);
     };
 
-    const registerUser = async (e) => {
+    const registerUser = async (e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
         console.log('Registering user');
         const formData = new FormData(formRef.current!);
@@ -235,7 +235,8 @@ const Signup = () => {
     
     }
 
-    const checkRefCode = async (e) => {
+
+    const checkRefCode = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const refCode = e.target.value;
         console.log('Checking ', refCode);
         if (refCode.slice(0, 3).includes('KTK')) {
@@ -247,7 +248,7 @@ const Signup = () => {
                         'Access-Control-Allow-Origin': '*'
                     }
                 });
-            console.log('The referral code verdict is ', response.data.data)
+            console.log('The referral code verdict is ', response.data.data);
         } else {
             setError('Invalid Referral Code');
         }

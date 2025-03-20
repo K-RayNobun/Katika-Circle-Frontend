@@ -18,6 +18,16 @@ interface notificationDetails {
   currencySent: string,
 }
 
+interface Transaction {
+  creationDate: string;
+  transactionStatus: string;
+  amount: number;
+  currency: string;
+  cashBack: {
+    amount: number;
+  };
+}
+
 const handleStatus = (status:string) => {
   let style = {
     bgColor: '',
@@ -86,26 +96,26 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
             )
   
             console.log('We got this list of transactions: ', response.data.data);
-            const fetchedList = response.data.data.slice().reverse();
-            const transactionArray: Array<notificationDetails> = []
-            fetchedList.forEach((transaction) => {
-              const creationDate = new Date(transaction.creationDate)
+            const fetchedList: Transaction[] = response.data.data.slice().reverse();
+            const transactionArray: notificationDetails[] = [];
+
+            fetchedList.forEach((transaction: Transaction) => {
+              const creationDate = new Date(transaction.creationDate);
               const userTransaction: notificationDetails = {
                 status: transaction.transactionStatus,
                 date: creationDate.toLocaleString('en-US'),
                 amountSent: transaction.amount,
-                currencySent: transaction.currency.toLowerCase === 'euro' ? '€' : transaction.currency.slice(0, 3).toUpperCase() ,
+                currencySent: transaction.currency.toLowerCase() === 'euro' ? '€' : transaction.currency.slice(0, 3).toUpperCase(),
                 amountReceived: transaction.cashBack.amount * rate,
-              }
+              };
 
-              const cashback =  (transaction.transactionStatus === 'Success' ? transaction.cashBack.amount : 0);
+              const cashback = (transaction.transactionStatus === 'Success' ? transaction.cashBack.amount : 0);
               if (cashback) {
                 cashbackTotal += cashback;
               }
 
               transactionArray.push(userTransaction);
-              
-            })
+            });
             setTransactionsList(transactionArray);
             dispatch(provideCashback(cashbackTotal));
             console.log('---- Total Cashback is ', cashbackTotal);

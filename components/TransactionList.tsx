@@ -20,6 +20,19 @@ interface transactionDetails {
   cashbackGain: number,
 }
 
+interface Transaction {
+  creationDate: string;
+  transactionStatus: string;
+  amount: number;
+  currency: string;
+  cashBack: {
+    amount: number;
+  };
+  recipient: {
+    name: string;
+  };
+}
+
 const handleStatus = (status:string) => {
   let style = {
     bgColor: '',
@@ -103,20 +116,20 @@ const TransactionList = ({accessToken, searchKey, field}:{accessToken:string, se
               console.log('We got this list of transactions: ', response.data.data);
               const fetchedList = response.data.data.slice().reverse();
               const transactionArray:Array<transactionDetails> = [];
-              fetchedList.forEach((transaction, index) => {
+              fetchedList.forEach((transaction: Transaction, index: number) => {
                 const creationDate = new Date(transaction.creationDate);
-                console.log('Transaction status is ', transaction.transactionStatus + 'And it cashback is', transaction.cashback)
+                console.log('Transaction status is ', transaction.transactionStatus + 'And it cashback is', transaction.cashBack.amount)
                 const userTransaction: transactionDetails = {
                   order: index,
                   status: transaction.transactionStatus,
                   date: creationDate.toLocaleString('en-US'),
                   amountSent: transaction.amount,
-                  currencySent: transaction.currency.toLowerCase === 'euro' ? '€' : transaction.currency.slice(0, 3).toUpperCase() ,
+                  currencySent: transaction.currency.toLowerCase() === 'euro' ? '€' : transaction.currency.slice(0, 3).toUpperCase() ,
                   destinatoryName: transaction.recipient.name,
                   cashbackGain: transaction.transactionStatus === 'Success' ? transaction.cashBack.amount : 0,
                 }
   
-                const cashback = transaction.cashback;
+                const cashback = transaction.cashBack.amount;
                 if (cashback) {
                   cashbackTotal += cashback;
                 }

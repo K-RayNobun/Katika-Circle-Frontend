@@ -43,7 +43,7 @@ const TransakSDK = ({onClose, nextScreen}: ScreenProps) => {
 
   const wallet: WalletAddress = {
     networks: {
-      mainnet: { address: userData.walletAdress! || '' },
+      mainnet: { address: userData.walletAddress! || '' },
     },
     coins: {
       USDC: { address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" }
@@ -106,7 +106,7 @@ const TransakSDK = ({onClose, nextScreen}: ScreenProps) => {
   }
 
 
-  const updateTransactionStatus = async(status) => {
+  const updateTransactionStatus = async(status:string) => {
 
     const response = await axios.put('https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/api/v1/transaction/6',
       {

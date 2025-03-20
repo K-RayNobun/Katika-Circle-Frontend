@@ -82,25 +82,25 @@
 // export default Test
 
 
-import React, {useEffect} from 'react';
+import React, {useEffect, ReactNode} from 'react';
 
-const FadeInSlideUp = ({ children }) => {
-
-  useEffect(() => {
-    // Trigger the animation after the component mounts
-    setIsVisible(true);
-  }, []);
-
-  return (
-    <div
-      className={``}
-    >
-      {children}
-    </div>
-  );
-};
 
 const App = () => {
+  const FadeInSlideUp = ({ children }: { children: ReactNode }) => {
+
+    useEffect(() => {
+      // Trigger the animation after the component mounts
+    }, []);
+  
+    return (
+      <div
+        className={``}
+      >
+        {children}
+      </div>
+    );
+  };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen space-y-[20px] bg-gray-100">
       <FadeInSlideUp>

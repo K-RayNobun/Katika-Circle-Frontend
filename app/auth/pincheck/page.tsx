@@ -171,7 +171,7 @@ const PinCheck = () => {
         dispatch(setWalletAdress(response.data.data.wallet.address))
     };
 
-    const verifyOTP = async (pinCode) => {
+    const verifyOTP = async (pinCode:string) => {
         console.log('Access Token is:', accessToken);
         console.log('The PIN Code is: ', pinCode);
         const response = await axios.get(`https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/auth/account/otp?code=${pinCode}`,

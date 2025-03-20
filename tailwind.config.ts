@@ -37,7 +37,7 @@ export default {
     },
   },
   plugins: [
-    plugin(function({addUtilities, theme}) {
+    plugin(function({addUtilities, theme}: { addUtilities: (utilities: Record<string, any>, options?: { variants?: string[], respectPrefix?: boolean, respectImportant?: boolean }) => void, theme: (path: string) => any }) {
       const newUtilities = {
         '.vibrate': {
           animation: 'vibrate 2s infinite'
@@ -51,7 +51,7 @@ export default {
           },
         }
       };
-      addUtilities(newUtilities, ['responsive', 'hover']);
+      addUtilities(newUtilities, { variants: ['responsive', 'hover'] });
 
       const vibrateUtilities = Object.entries(theme('vibrate')).reduce<Record<string, { '--vibrate-distance': string }>>((acc, [key, value]) => {
         acc[`.vibrate-${key}`] = {
@@ -59,7 +59,7 @@ export default {
         };
         return acc;
       }, {});
-      addUtilities(vibrateUtilities, ['responsive', 'hover'])
+      addUtilities(vibrateUtilities, {variants: ['responsive', 'hover']})
     })
   ],
 } satisfies Config;

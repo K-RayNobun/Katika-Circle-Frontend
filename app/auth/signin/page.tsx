@@ -71,7 +71,7 @@ const Signin = () => {
         dispatch(verifyUser(true));
     };
 
-    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async(e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
 
         const formData = new FormData(formRef.current!);

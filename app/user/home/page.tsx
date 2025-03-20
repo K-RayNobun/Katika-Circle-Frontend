@@ -81,7 +81,7 @@ const Home = () => {
                 let referralGainTotal = 0;
                 const filleulArray: FilleulDetails[] = [];
 
-                response.data.data.forEach((referral, index: number) => {
+                response.data.data.forEach((referral: { fname: string; lname: string; referral: { bonusTotal: number; bonusStatus: string; } }, index: number) => {
                     const filleul: FilleulDetails = {
                         order: index,
                         name: `${referral.fname} ${referral.lname}`,
@@ -129,7 +129,7 @@ const Home = () => {
             {/* Left Panel */}
             <div className={`flex flex-col w-full grow mt-[80px] lg:mt-[0px] lg:w-[50%] px-[6px]`}>
                 <WelcomeContainer userData={userData} setIsScreenVisible={setIsScreenVisible} />
-                <StatsContainer userData={userData} referralBonus={referralBonus} filleulList={filleulList} />
+                <StatsContainer userData={{cashback: userData.cashback!}} referralBonus={referralBonus} filleulList={filleulList} />
                 <div className={`animate-fading-3 bg-white rounded-[12px] flex flex-col grow py-[12px] px-[24px] space-y-[24px]`}>
                     {/* Mobile View: Referral Section */}
                     <div className={`block lg:hidden`}>

@@ -31,6 +31,26 @@ interface TransactionListProps {
     onTransactionClick: (transaction: TransactionAdminDetails) => void;
 }
 
+interface Transaction {
+    id: number;
+    creationDate: string;
+    transactionStatus: string;
+    amount: number;
+    currency: string;
+    cashBack: {
+      amount: number;
+    };
+    recipient: {
+      name?: string;
+      amountReceive: number;
+      receiverCountry?: string;
+      phone?: string;
+      bankName?: string;
+      iban?: string;
+    };
+    transactionType: string;
+  }  
+
 const handleStatus = (status: string) => {
     const style = {
         bgColor: '',
@@ -152,7 +172,7 @@ const TransactionListAdmin = ({ accessToken, searchKey, field, onTransactionClic
 
                 const fetchedList = response.data.data.slice().reverse();
                 console.log('Got the transactions list as', fetchedList.slice(0, 9));
-                const transactionArray: Array<TransactionAdminDetails> = fetchedList.map((transaction, index: number) => ({
+                const transactionArray: Array<TransactionAdminDetails> = fetchedList.map((transaction: Transaction, index: number) => ({
                     id: transaction.id,
                     order: index,
                     status: transaction.transactionStatus,
@@ -163,7 +183,7 @@ const TransactionListAdmin = ({ accessToken, searchKey, field, onTransactionClic
                     cashbackGain: transaction.transactionStatus === 'Success' ? transaction.cashBack.amount : 0,
                     transferType: transaction.transactionType,
                     amountReceived: transaction.recipient.amountReceive,
-                    currencyReceived: transaction.recipient.receiverCountry.toLowerCase() === 'cameroon' ? 'XAF' : '???',
+                    currencyReceived: transaction.recipient.receiverCountry!.toLowerCase() === 'cameroon' ? 'XAF' : '???',
                     receiverName: transaction.recipient.name,
                     receiverPhone: transaction.recipient.phone,
                     receiverBankName: transaction.recipient.bankName,
