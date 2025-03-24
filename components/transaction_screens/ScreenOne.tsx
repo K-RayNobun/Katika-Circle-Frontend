@@ -7,6 +7,8 @@ import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { provideStepOneData } from '@/lib/redux/features/transaction/transactionSlice';
 
+
+// 30-50, 50-100, 100-250, 250-500, 500-2000, 2000-70000 
 interface screenProps {
     onClose: () => void,
     nextScreen: () => void,
@@ -16,10 +18,11 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
     const [selectedCountry, setSelectedCountry] =  useState('cameroon');
     const selectedCurrency = 'EUR';
     const [officialRate, setOfficialRate] = useState(0);
-    const [katikaRate, setKatikaRate] = useState(0);
+    const katikaRateRef = useRef(0);
     const [cashbackPercentage, setCashbackPercentage] = useState(0);
     const [referralGainPercentage, setReferralGainPercentage] = useState(0);
     const [gain, setGain] = useState(0);
+    const rateIndex = useRef<number>(0);
     const amountSentRef = useRef<number>(0);
     const amountReceivedRef = useRef<number>(0);
     const [errorMsg, setErrorMsg] = useState('');
@@ -32,17 +35,7 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
             'image': '/countries/cameroon.png',
             'name': 'Cameroun',
             'currency': 'XAF',
-        },
-        'senegal': {
-            'image': '/countries/senegal.png',
-            'name': 'Senegal',
-            'currency': 'XAF',
-        },
-        'congo': {
-            'image': '/countries/congo.png',
-            'name': 'Congo',
-            'currency': 'XAF',
-        },
+        }
     }
 
     const currenciesData: Record<string, {image:string; name:string; symbol:string}> = {
@@ -58,13 +51,58 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
         }
     }
 
+    const fetchRate = async () => {
+        // console.log('Access Token is', accessToken);
+        console.log('Calculating the rate')
+        try {
+            // Rate from €/XAF
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/rate/xaf`,
+                {
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken,
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                }
+            );
+            const ratesData = response.data.data.toCurrency[0].rates;
+            console.log('Rates Data is', ratesData);
+            const ratesArray = [ratesData.firstRate, ratesData.secondRate, ratesData.thirdRate, ratesData.fourthRate, ratesData.fifthRate, ratesData.sixthRate]
+            // 30-50, 50-100, 100-250, 250-500, 500-2000, 2000-70000 
+            if (amountSentRef.current >= 30 && amountSentRef.current < 50) {
+                rateIndex.current = 0;
+            } else if (amountSentRef.current >= 50 && amountSentRef.current < 100) {
+                rateIndex.current = 1;
+            } else if (amountSentRef.current >= 100 && amountSentRef.current < 250) {
+                rateIndex.current = 2;
+            } else if (amountSentRef.current >= 250 && amountSentRef.current < 500) {
+                rateIndex.current = 3;
+            } else if (amountSentRef.current >= 500 && amountSentRef.current < 2000) {
+                rateIndex.current = 4;
+            } else if (amountSentRef.current >= 2000 && amountSentRef.current <= 70000) {
+                rateIndex.current = 5;
+            }
+            katikaRateRef.current = ratesArray[rateIndex.current];
+            console.log('Set the rate as ', ratesArray[rateIndex.current]);
+            setCashbackPercentage(response.data.data.toCurrency[0].cashbackRate);
+            console.log('Cashback Rate is', response.data.data.toCurrency[0].cashbackRate);
+            setReferralGainPercentage(response.data.data.toCurrency[0].referralGainRate);
+            console.log('Referral Gain Rate Rate is', response.data.data.toCurrency[0].referralGainRate)
+        } catch(error) {
+            console.log('Sorry, we couldn;t get the rate due to the error ', error)
+        }
+    }
+
     const handleCountryChange = () => {
         const country = document.getElementById('country-select') as HTMLSelectElement;
         setSelectedCountry(country!.value)
     }
 
-    const handleSentAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSentAmountChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
+        await fetchRate();
+        console.log('Resetting the amount received');
         amountSentRef.current = parseInt(e.target.value);
+
         // console.log('Amount sent:', amountSentRef.current)
         const numericRegex = /^[1-9]\d*$/
         const formData = new FormData(formRef.current!);
@@ -74,13 +112,14 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
             amountSentRef.current = 0;
             console.log('Valeur Envoyee invalide', )
         }
-        amountReceivedRef.current = amountSentRef.current * katikaRate;
+        amountReceivedRef.current = amountSentRef.current * katikaRateRef.current;
         console.log('Amount received', amountReceivedRef.current.toLocaleString())
         // console.log(' Are we on EUR ?', modifyingSentAmount);
-        setGain((katikaRate - officialRate) * amountSentRef.current)
+        setGain((katikaRateRef.current - officialRate) * amountSentRef.current)
     }
     
-    const handleReceivedAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleReceivedAmountChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
+        await fetchRate();
         amountReceivedRef.current = parseInt(e.target.value);
         const numericRegex = /^[1-9]\d*$/
         const formData = new FormData(formRef.current!);
@@ -90,10 +129,10 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
             amountSentRef.current = 0;
             console.log('Valeur Recue invalide', )
         }
-        amountSentRef.current = amountReceivedRef.current / katikaRate;
+        amountSentRef.current = amountReceivedRef.current / katikaRateRef.current;
         // console.log('Amount sent:', amountSentRef.current)
         // console.log(' Are we on EUR ?', modifyingSentAmount);
-        setGain((katikaRate - officialRate) * amountSentRef.current)
+        setGain((katikaRateRef.current - officialRate) * amountSentRef.current)
 
     }
 
@@ -121,16 +160,17 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
         }
         if (isValid) {
             if (verifyFields()) {
-                console.log(`'Referral % ${referralGainPercentage} \n Amount Sent is ${amountSentRef.current} \n So Gain is ${referralGainPercentage*amountSentRef.current}`)
+                const cashback =  cashbackPercentage * amountSentRef.current;
+                const referralGain = referralGainPercentage * amountSentRef.current
                 const data = {
                     amountSent: amountSentRef.current,
                     currencySent: currenciesData[selectedCurrency]?.symbol,
                     amountReceived: amountReceivedRef.current,
                     currencyReceived: countriesData[selectedCountry].currency,
                     receiverCountry: selectedCountry,
-                    rate: katikaRate,
-                    cashback: cashbackPercentage * amountSentRef.current,
-                    referralGain: referralGainPercentage * amountSentRef.current,
+                    transactionRate: katikaRateRef.current,
+                    cashback: cashback,
+                    referralGain: referralGain,
                     latestScreen: 1,
                 }
                 dispatch(provideStepOneData(data));
@@ -168,8 +208,10 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
         const amountReceived = parseInt(formData.get('amount-received') as string);
         if (amountSent < 0 || amountReceived < 0) {
             setErrorMsg("Le montant ne peut etre negatif");
-        } else if (amountSent < 19) {
+        } else if (amountSent < 30) {
             setErrorMsg("Le montant minimal d'une transaction est de 20 Euros");
+        } else if (amountSent > 70000) {
+            setErrorMsg("Le montant maximal d'une transaction est de 70,000 Euros");
         } else {
             isValid = true;
         }
@@ -190,29 +232,9 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
                 console.error("Error fetching exchange rate:", error);
               }
         }
-        const fetchRate = async () => {
-            console.log('Access Token is', accessToken)
-            try {
-                const response = await axios.get('https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/api/v1/rate/euro',
-                    {
-                        headers: {
-                            'Authorization': 'Bearer ' + accessToken,
-                            'Content-Type': 'application/json',
-                            'Access-Control-Allow-Origin': '*'
-                        }
-                    }
-                );
-                setKatikaRate(response.data.data.rate);
-                setCashbackPercentage(response.data.data.cashbackRate);
-                setReferralGainPercentage(response.data.data.referralGainRate);
-            } catch(error) {
-                console.log('Sorry, we couldn;t get the rate due to the error ', error)
-            }
-        }
-    
-        fetchRate();
         fetchActualPrice();
-    }, [selectedCountry])
+    }, [selectedCountry,])
+
 
     const dispatch = useAppDispatch()
     const accessToken = useAppSelector((state) => state.token.token)
@@ -253,7 +275,7 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
             </div>
             <div className='flex flex-col'>
                 <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Montant recu</label>
-                <div className='flex items-center font-bold w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray_dark gap-[12px]'>
+                <div className={`flex items-center font-bold w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray_dark gap-[12px]`}>
                     <img src={`${countriesData[selectedCountry]?.image}`} alt="Img" className='w-[30px]' />
                     {
                         modifyingSentAmount ?
@@ -273,7 +295,7 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
                 </div>
                 <div className='space-x-[10px] flex items-center'>
                     <span className='size-[8px] rounded-full bg-[#07E36E]'></span>
-                    <h5 className=''>{katikaRate}</h5>
+                    <h5 className=''>{katikaRateRef.current}</h5>
                 </div>
             </div>
             <div className='flex justify-between'>

@@ -216,6 +216,21 @@ input:focus {
   appearance: none;
 }
 
+.necessary_input {
+  position: relative;
+}
+
+.necessary_input::before {
+  content: '*';
+  font-size: 16px;
+  font-weight: bold;
+  position: absolute;
+  top: -15px;
+  right: 10px;
+  color: red;
+}
+
+
 /* Pannel Tab Styles */
 .pannel_tab {
   width: 100%;

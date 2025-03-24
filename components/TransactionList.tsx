@@ -103,7 +103,7 @@ const TransactionList = ({accessToken, searchKey, field}:{accessToken:string, se
           try {
             let cashbackTotal = 0;
               console.log('------------------ Getting Transactions --------------')
-              const response = await axios.get(`https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/api/v1/transactions/user`,
+              const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transactions/user`,
                   {
                       headers: {
                           'Authorization': 'Bearer ' + accessToken,

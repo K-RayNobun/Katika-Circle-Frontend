@@ -138,7 +138,7 @@ const TransactionListAdmin = ({ accessToken, searchKey, field, onTransactionClic
     const [selectedTransaction, setSelectedTransaction] = useState<TransactionAdminDetails | null>(null);
 
     const updateTransactionStatus = async({status, id}: {status: string, id:number}) => {
-        const response = await axios.put(`https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/api/v1/transaction/${id}`,
+        const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction/${id}`,
             {
                 "status": status
             },
@@ -162,7 +162,7 @@ const TransactionListAdmin = ({ accessToken, searchKey, field, onTransactionClic
     useEffect(() => {
         const fetchTransactionList = async () => {
             try {
-                const response = await axios.get(`https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/api/v1/transactions`, {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transactions`, {
                     headers: {
                         Authorization: 'Bearer ' + accessToken,
                         'Content-Type': 'application/json',

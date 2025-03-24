@@ -55,8 +55,7 @@ const TransactionBoard = () => {
                     <div className='flex justify-between gap-[12px] lg:gap-[24px]'>
                         <div className='h-[44px] w-[80%] lg:w-[30%] bg-white rounded-[8px] px-[14px] py-[10px] border-2 border-stroke flex space-x-[8px]'>
                             <FontAwesomeIcon icon={faSearch} className='size-[20px] text-stroke' />
-                            <input placeholder='Search' onChange={(e) => setSearchKey(e.target.value)} className='text-[16px] grow text-gray_dark'/>
-                            
+                            <input placeholder='Search' onChange={(e) => setSearchKey(e.target.value)} className='text-[16px] w-[80%] text-gray_dark'/>
                         </div>
                         <div className='relative h-[44px] w-[40px] lg:w-[220px] bg-white border-2 border-stroke rounded-[8px] flex items-center gap-[9px]'>
                             <FontAwesomeIcon icon={faFilter} className='size-[20px] text-stroke mx-[8px]'/>

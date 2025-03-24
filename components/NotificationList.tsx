@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+ import React, {useState, useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane, faClock} from '@fortawesome/free-regular-svg-icons'
 import { faBan } from '@fortawesome/free-solid-svg-icons';
@@ -85,7 +85,8 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
         try {
           let cashbackTotal = 0;
             console.log('------------------ Getting Transactions --------------')
-            const response = await axios.get(`https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/api/v1/transactions/user`,
+            console.log(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transactions/user`)
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transactions/user`,
                 {
                     headers: {
                         'Authorization': 'Bearer ' + accessToken,
@@ -120,8 +121,8 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
             dispatch(provideCashback(cashbackTotal));
             console.log('---- Total Cashback is ', cashbackTotal);
             console.log('----------------- Finished Getting transactions --------------');
-        } catch {
-            console.error('We met this error  while getting the transaction list')
+        } catch(error) {
+            console.error('We met this error  while getting the transaction list: ', error)
         }
     }
   

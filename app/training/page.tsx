@@ -30,7 +30,7 @@
 //   const fetchToken = async() => {
 //     console.log('Fetching token...');
 //     try {
-//       const response  = await axios.post('https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/auth/account/login',{
+//       const response  = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/login`,{
 //         email: 'heracles12th@gmail.com',
 //         pwd: '000000'
 //       }, {

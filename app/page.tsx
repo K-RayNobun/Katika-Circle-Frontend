@@ -50,18 +50,24 @@ const HomePage = () => {
   useEffect(() => {
     const isAuthenticated = false;  // Set this to your actual authentication check logic
     if (!isAuthenticated) {
-      redirect('/auth/signin');  // This will redirect to the signin page
+      console.log('=============== REDIRECTING TO THE HOME PAGE ===============');
+      redirect('/user/home');  // This will redirect to the signin page
+      console.log('=============== PUSHING TO THE HOME PAGE ===============');
+      router.push('/user/home');  // This will redirect to the signin page
     }
-  }, []);
+  }, [router]);
 
   // Simulate banner animation on component mount
+  // The following useEffect was previously commentedPs
   useEffect(() => {
+    console.log('Redirecting to home page');
     router.push('/user/home');
     const timer = setTimeout(() => {
       setIsBannerVisible(true);
     }, 500); // Delay for banner animation
     return () => clearTimeout(timer);
   }, []);
+  
 
   // Handle button click animation
   const handleSendMoneyClick = () => {

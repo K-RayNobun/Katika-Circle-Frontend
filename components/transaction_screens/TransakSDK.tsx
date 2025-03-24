@@ -68,7 +68,7 @@ const TransakSDK = ({onClose, nextScreen}: ScreenProps) => {
 
   const postTransaction = async() => {
       console.log("We are transacting with the access token: ", accessToken)
-      const response  = await axios.post('https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/api/v1/transaction',
+      const response  = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction`,
       { 
           "amount": transactionDetails.amountSent,
           "currency": transactionDetails.currencySent === '€' ? 'EUR' : 'USD',
@@ -108,7 +108,7 @@ const TransakSDK = ({onClose, nextScreen}: ScreenProps) => {
 
   const updateTransactionStatus = async(status:string) => {
 
-    const response = await axios.put('https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/api/v1/transaction/6',
+    const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction/6`,
       {
           "status": status
       },
@@ -173,15 +173,15 @@ const TransakSDK = ({onClose, nextScreen}: ScreenProps) => {
   Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
     console.log('TRANSAK_ORDER_SUCCESSFUL', orderData);
     postTransaction();
-    dispatch(provideStatus('Completed'))
-    updateTransactionStatus('Completed');
+    dispatch(provideStatus('pending'))
+    updateTransactionStatus('Pending');
     transak.close();
     nextScreen();
   });
 
   Transak.on(Transak.EVENTS.TRANSAK_ORDER_CREATED, (orderData) => {
     console.log("Transak order created: ", orderData);
-    dispatch(provideStatus('Pending'));
+    // dispatch(provideStatus('Pending'));
     // Create a transaction in the server
     postTransaction();
   })

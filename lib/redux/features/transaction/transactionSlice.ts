@@ -21,7 +21,7 @@ interface Transaction {
     iban?: string,
     bankCode?: string,
     bankName?: string,
-    rate?: number,
+    transationRate?: number,
 
     tranzaktoken?: string,
 }
@@ -51,10 +51,10 @@ const transactionSlice = createSlice({
         state.currencyReceived = action.payload.currencyReceived;
         state.receiverCountry = action.payload.receiverCountry;
         state.latestScreen = action.payload.latestScreen;
-        state.rate = action.payload.rate;
-        state.referralGain = state.referralGain;
-        state.cashback = state.cashback;
-        console.log('Transactiond Details:', '\nCode: ' + state.code + '\Issuer Id: ' + state.issuerId + '\n Amount Sent: ' + state.amountSent + '\n in ' + state.currencySent + '\n Receiver Country: ' + state.receiverCountry + '\n Amount Received: ' + state.amountReceived + '\n ');
+        state.referralGain = action.payload.referralGain;
+        state.transationRate = action.payload.transationRate;
+        state.cashback = action.payload.cashback;
+        console.log('Transactiond Details:', '\nCode: ' + state.code + '\Issuer Id: ' + state.issuerId + '\n Amount Sent: ' + state.amountSent + '\n in ' + state.currencySent + '\n Receiver Country: ' + state.receiverCountry + '\n Amount Received: ' + state.amountReceived + '\n Cashback: ' + state.cashback + '\n Referral gain: ' + state.referralGain);
        },
        provideStepMobileData: (state, action: PayloadAction<Transaction>) => {
         state.transfertType = action.payload.transfertType;

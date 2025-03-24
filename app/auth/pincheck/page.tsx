@@ -18,7 +18,7 @@ interface DigitCaseProps {
 
 const DigitCase: React.FC<DigitCaseProps> = ({identifier, digitValue, isPinCorrect, onClick, handleChangeFunction}) => {
     return (
-        <input id={identifier} type="text" value={digitValue} onClick={onClick} onChange={handleChangeFunction} maxLength={5} className={`appearance-none size-[56px] text-center text-[28px] font-[400] text-primary_text rounded-[12px] border-2 focus:border-2 ${isPinCorrect == true ? 'border-green focus:border-green' : isPinCorrect == false ? 'border-red focus:border-red' : 'border-gray_dark/60 focus:border-primary'}`} style={{ WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
+        <input id={identifier} type="text" value={digitValue} onClick={onClick} onChange={handleChangeFunction} maxLength={5} className={`appearance-none size-[56px] text-center text-[28px] font-[400] text-primary_text rounded-[12px] border-3 focus:border-2 ${isPinCorrect == true ? 'border-green focus:border-green' : isPinCorrect == false ? 'border-red focus:border-red' : 'border-gray_dark/60 focus:border-primary'}`} style={{ WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
     );
 };
 
@@ -143,7 +143,7 @@ const PinCheck = () => {
 
     const sendOTP = async () => {
         console.log('Access Token is: ', accessToken)
-        const response = await axios.post('https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/auth/account/otp',
+        const response = await axios.post('${process.env.NEXT_PUBLIC_BASE_URL}/auth/account/otp',
             {},
         {
             headers: {
@@ -158,7 +158,7 @@ const PinCheck = () => {
 
     const getUserData = async() => {
         console.log('Getting the verified user data');
-        const response = await axios.get('https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/auth/account/profile',
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/account/profile`,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -174,7 +174,7 @@ const PinCheck = () => {
     const verifyOTP = async (pinCode:string) => {
         console.log('Access Token is:', accessToken);
         console.log('The PIN Code is: ', pinCode);
-        const response = await axios.get(`https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/auth/account/otp?code=${pinCode}`,
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp?code=${pinCode}`,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -184,7 +184,7 @@ const PinCheck = () => {
         );
         console.log('Verification Result: ', response.data)
         const message = response.data.data
-        if (message.toLowerCase() === 'otp valid with success' || pinCode === '90090') {
+        if (message.toLowerCase() === 'otp valid with success') {
             console.log('\t #### PIN Code is Right !');
             setIsPinCorrect(true);
             dispatch(verifyUser(true));

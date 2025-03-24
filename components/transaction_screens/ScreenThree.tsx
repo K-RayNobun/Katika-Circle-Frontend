@@ -12,7 +12,6 @@ interface screenProps {
 
 const ScreenThree = ({onClose, nextScreen}: screenProps) => {
 
-    const katikaRate = 687;
     const transactionDetails = useAppSelector((state) => state.transaction);
     
     const handleSubmit = async (e: React.FormEvent) => {
@@ -20,7 +19,7 @@ const ScreenThree = ({onClose, nextScreen}: screenProps) => {
         // const form = document.getElementById('form-one') as HTMLFormElement
         // const formData = new FormData(form);
 
-        /// Adddingn logic to create a transaction
+        /// Adding logic to create a transaction
                 
         nextScreen();
     }
@@ -42,11 +41,11 @@ const ScreenThree = ({onClose, nextScreen}: screenProps) => {
             </div>
             <div className={`flex justify-between font-bold`}>
                 <h5>Cashback</h5>
-                <h5>{`${transactionDetails.cashback} ${transactionDetails.currencyReceived}`}</h5>
+                <h5>{`${transactionDetails.cashback} ${transactionDetails.currencySent}`}</h5>
             </div>
             <div className={`flex justify-between font-bold`}>
                 <h5>Bonus de parrainage</h5>
-                <h5>{`${transactionDetails.referralGain} ${transactionDetails.currencyReceived}`}</h5>
+                <h5>{`${transactionDetails.referralGain} ${transactionDetails.currencySent}`}</h5>
             </div>
             <div className={`flex justify-between font-bold bg-gray-400 h-min`}>
                 <div className={`flex items-center`}>
@@ -55,7 +54,7 @@ const ScreenThree = ({onClose, nextScreen}: screenProps) => {
                 </div>
                 <div className={`flex items-center space-x-[10px]`}>
                     <span className={`size-[8px] rounded-full bg-[#07E36E]`}></span>
-                    <h5 className={``}>{katikaRate}</h5>
+                    <h5 className={``}>{transactionDetails.transationRate}</h5>
                 </div>
             </div>
             <button type='submit' onClick={handleSubmit} className={`hidden lg:block bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>

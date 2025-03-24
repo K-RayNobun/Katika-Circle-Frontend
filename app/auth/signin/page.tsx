@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
+// import Image from 'next/image';
+import AsyncSpinner from '@/components/AsyncSpinner';
 import { LuEyeClosed, LuEye } from "react-icons/lu";
 import { useRouter, useSearchParams} from 'next/navigation';
 import { renewToken } from '@/lib/redux/features/token/tokenSlice';
@@ -25,6 +26,7 @@ const Signin = () => {
     //Redux related imports
     const dispatch = useAppDispatch();
     const accessTokenRef = useRef('');
+    const isSubmittingRef = useRef(false)
 
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -50,7 +52,7 @@ const Signin = () => {
 
     const getUserData = async() => {
         console.log('Getting the verified user data');
-        const response = await axios.get('https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/auth/account/profile',
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`,
             {
                 headers: {
                     Authorization: `Bearer ${accessTokenRef.current}`,
@@ -68,11 +70,13 @@ const Signin = () => {
             country: response.data.data.countryCode,
             referralCode: response.data.data.referral.referralCode,
         }));
+        isSubmittingRef.current = false;
         dispatch(verifyUser(true));
     };
 
     const handleSubmit = async(e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
+        isSubmittingRef.current = true;
 
         const formData = new FormData(formRef.current!);
         const email = formData.get('email') as string;
@@ -82,6 +86,7 @@ const Signin = () => {
             setErrorField((prev) => prev + ' email');
             console.log('Email => ', email);
             setError('Please enter a valid email address.');
+            isSubmittingRef.current = false;
             return;
         }
 
@@ -89,6 +94,7 @@ const Signin = () => {
             setErrorField((prev) => prev + ' password');
             console.log('Password is => ', password)
             setError('Password is invalid.');
+            isSubmittingRef.current = false;
             return;
         }
 
@@ -100,7 +106,7 @@ const Signin = () => {
 
         // Axios request
         try {
-            const response = await axios.post('https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/auth/account/login', 
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/login`, 
                 {
                     email: email,
                     pwd: password,
@@ -116,7 +122,7 @@ const Signin = () => {
             console.log('The token is ', response.data.data['access-token']);
             accessTokenRef.current = response.data.data['access-token'];
             dispatch(renewToken({
-                token: response.data.data.token,
+                token: response.data.data['access-token'],
                 expiresIn: 5 * 60 * 1000
             }));
             getUserData();
@@ -126,9 +132,10 @@ const Signin = () => {
             console.error('Error on precessing login:', error);
             setError('Invalid email or password');
             setErrorField('email & password');
+            return
             }
         }
-    router.push('/user/home');
+        router.push('/user/home');
     }
 
     useEffect(() => {
@@ -168,22 +175,28 @@ const Signin = () => {
                     <LuEye onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />
                     :
                     <LuEyeClosed onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />
-
                 }
             </div>
             <div>
                 {error && <h4 className='text-red font-bold text-center text-sm h-min'>{error}</h4>}
             </div>
-            <button type='submit' className={`mt-6 bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
-                <h6 className='text-center font-bold'>Connectez vous</h6>
+            <button type='submit' className={`mt-6 bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full ${isSubmittingRef.current ? 'opacity-50' : ''}`}>
+                {isSubmittingRef.current ? (
+                    <>
+                        <AsyncSpinner />
+                        {/* <h6 className='text-center font-bold'>Processing...</h6> */}
+                    </>
+                ) : (
+                    <h6 className='text-center font-bold'>Connectez vous</h6>
+                )}
             </button>
-            <h4 className="font-bold text-center leading-[12px]">
+            {/* <h4 className="font-bold text-center leading-[12px]">
                 Ou
             </h4>
             <div className={`bg-white border border-gray_dark/60 flex justify-center gap-[8px] py-[10px] rounded-[8px] w-full`}>
                 <Image src={'/auth/googlelogo.png'} alt='' width={25} height={25} className='size-[25px]'></Image>
                 <h6 className='text-center font-bold'>Continuer avec Google</h6>
-            </div>
+            </div> */}
         </form>
         <h4 className='text-center text-[14px] sm:text-[16px] leading-[24px] mt-4'> Vous n&apos;avez pas de compte ? <Link href='/auth/signup' className='text-primary font-bold'>Inscrivez vous</Link></h4>
     </div>

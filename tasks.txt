@@ -1,12 +1,19 @@
 ------------------ TASKS TO DO TODAY ------------------
 
-- Change icons and add images
-- Build an impressive dashboard for handling transactions
-- Put online on Vercel
+- Improve the signup logic
+- Add a spinner small spinner component when async functions goes on. 4/13
+-  Add a return button
 
 + Enable the user credentials modification and picture adding
-x Referral fidelity solution
 
 ----------------- ! Left to Do ! ----------------------
+- Update rate integration
+# Fix the spinner problem:
+    - Let appear on a button a spinner over a 80% opacity when button is clicked.
+    - Display the clientWrapper when transitionning between pages.
+----------------- Access Token --------------------
 
-- Fix the spinner problem
+eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5qb3lhanVuaW9yNzc3QGdtYWlsLmNvbSIsInN1YiI6Im5qb3lhanVuaW9yNzc3QGdtYWlsLmNvbSIsImV4cCI6MTc0MzA4OTY3Mn0.f2HA8AlfN5uT14UZJ_4Pin_L05icxl49uRd3PD65Pb0FETbZFzzImpx-784GUZuBzGsnirtBbmrfj0ZVThFX8w
+
+
+--------------- 

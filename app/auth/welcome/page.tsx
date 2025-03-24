@@ -1,10 +1,11 @@
 'use client'
 
-import React from 'react';
+import React, { useRef } from 'react';
 
 // Redux related imports
 import { useAppSelector } from '@/lib/redux/hooks';
 import { useRouter } from 'next/navigation';
+import AsyncSpinner from '@/components/AsyncSpinner';
 
 /*
     1. When an input is getting filled, convert its value into array
@@ -15,9 +16,11 @@ const Welcome = () => {
 
     const userData = useAppSelector((state) => state.user);
     const router = useRouter();
+    const isSubmittingRef = useRef(false)
     const buttonStyle = `bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`;
 
     const handleOnclick = () => {
+        isSubmittingRef.current = true;
         router.push('/user/home');
     }
 
@@ -34,11 +37,20 @@ const Welcome = () => {
                 <div className='flex h-[90%] flex-1 flex-col justify-center space-y-[30px]'>
                     <div className='px-[20px] space-y-[24px]'>
                         <div className='flex flex-col items-center text-center space-y-[10px]'>
-                            <h3 className='font-bold text-[28px] text-purple-900 leading-12'>Welcome {userData.name} {userData.surname} </h3>
+                            <h3 className='font-bold text-[28px] text-purple-900 leading-12'>Welcome {userData.surname} {userData.name}</h3>
                             <h5 className='text-[17px]'>We&apos;re excited to have you onboard. Let&apos;s get you started!</h5>
                         </div>
                     </div>
-                    <button onClick={handleOnclick} className={buttonStyle}>Get Started</button>
+                    <button onClick={handleOnclick} className={buttonStyle}>
+                    {isSubmittingRef.current ? (
+                        <>
+                            <AsyncSpinner />
+                            {/* <h6 className='text-center font-bold'>Processing...</h6> */}
+                        </>
+                    ) : (
+                        <h6 className='text-center font-bold'>Commencer</h6>
+                    )}
+                    </button>
                 </div>
             </div>
         </div>

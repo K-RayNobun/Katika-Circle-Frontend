@@ -10,8 +10,8 @@ const WelcomeContainer = ({ userData, setIsScreenVisible }: { userData: { name: 
                 <button onClick={() => setIsScreenVisible(true)} className={`mt-[16px] pulse-glow lg:mt-[32px] flex justify-center text-indigo font-bold px-[18px] py-[8px] rounded-[8px] bg-white`}>Envoyer de l&apos;argent</button>
             </div>
             <div className={`absolute bottom-0 right-0 hidden lg:flex items-center`}>
-                <Image src="/home/bulle.png" className={`h-[48px]`} alt="Image not Loaded" />
-                <Image src="/home/person_home.png" className={`h-[205px]`} alt="Image Not Loaded" />
+                <Image src="/home/bulle.png" width={64} height={48} className={`h-[48px]`} alt="Image not Loaded" />
+                <Image src="/home/person_home.png" width={142} height={205} className={`h-[205px]`} alt="Image Not Loaded" />
             </div>
         </div>
     );

@@ -27,13 +27,16 @@ export default function UserLayout({
     if (userData.verified === false) {
         router.push('/auth/signin');
         console.log('====== THE USER IS NOT VERIFIED ========')
+    } else {
+        // console.log('\n\n ============================================= The user verified is :', userData.name + ' ' + userData.surname);
     }
 
     const switchTab = (newTab: number) => {
         if (actualTab !== newTab) {
-            setActualTab(newTab);
+            console.log('Previous tab was ', actualTab);
+            setActualTab(newTab);   
             router.push(pagesRoutes[newTab-1]);
-            console.log('Moving to tab', newTab);
+            console.log('Moving to tab', newTab + ' whose url is ' + pagesRoutes[newTab-1]);
         } else return;
     }
 
@@ -45,7 +48,7 @@ export default function UserLayout({
                 console.log('###------ This Page Url Has Been Fixed ------###')
             }
         })
-    }, [actualTab, fullUrl, pagesRoutes, router])
+    }, [])
 
     return (
         <section className={`relative w-screen bg-gray min-h-screen lg:h-[1024px] px-[8px] lg:px-[12px] flex flex-col lg:flex-row gap-[16px] rounded-lg sm:rounded-3xl mx-auto p-3`}>

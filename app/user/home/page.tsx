@@ -33,6 +33,7 @@ const Home = () => {
     const userData = useAppSelector((state) => state.user);
     const accessToken = useAppSelector((state) => state.token.token);
     const dispatch = useAppDispatch();
+    console.log('THE ACCESS TOKEN IS ', accessToken);
 
     // Referral Code Query Params
     const referralCodeParam = {
@@ -58,14 +59,16 @@ const Home = () => {
     // Fetch Referrals
     useEffect(() => {
         const fetchReferrals = async () => {
-            console.log('----------------- Fetching referrals -----------------');
-            console.log('User Referral Code', userData.referralCode);
-            console.log('User statistics are', userData)
-            console.log('Its Access Token is: ', accessToken);
+            // console.log('----------------- Fetching referrals -----------------');
+            // console.log('User Referral Code', userData.referralCode);
+            // console.log('User statistics are', userData)
+            // console.log('Its Access Token is: ', accessToken);
 
             try {
+                console.log('---------------------- GETTING REFERRALS ------------------------');
+                console.log('Getting Referral Code with access token ', accessToken);
                 const response = await axios.get(
-                    `https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/api/v1/referral?code=${userData.referralCode}`,
+                    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/referral?code=${userData.referralCode}`,
                     {
                         headers: {
                             Authorization: 'Bearer ' + accessToken,
@@ -112,9 +115,9 @@ const Home = () => {
                 console.log('------------- Finished fetching referrals -----------------');
             } catch (error) {
                 const axiosError = error as AxiosError;
-                console.log(error);
+                // console.log(error);
                 if (axiosError.response?.status === 500) {
-                    console.log('--------------- Error of type 500 ---------------');
+                    // console.log('--------------- Error of type 500 ---------------');
                     console.log('We suspect the user has no referrals');
                     dispatch(setReferralList([]));
                 }
@@ -122,7 +125,7 @@ const Home = () => {
         };
 
         fetchReferrals();
-    }, [accessToken, dispatch, userData.referralCode, filleulList, userData]);
+    }, []);
 
     return (
         <div className={`h-full mb-[64px] lg:mb-0 grow flex flex-col lg:flex-row gap-[24px] rounded-lg sm:rounded-3xl`}>

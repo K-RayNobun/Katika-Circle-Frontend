@@ -43,7 +43,7 @@ const AwardsBoard = () => {
         const fetchReferrals = async () => {
             try {
                 const response = await axios.get(
-                    `https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/api/v1/referral?code=${referralCode}`,
+                    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/referral?code=${referralCode}`,
                     {
                         headers: {
                             Authorization: 'Bearer ' + accessToken,
@@ -89,7 +89,7 @@ const AwardsBoard = () => {
             try {
                 let cashbackTotal = 0;
                 const response = await axios.get(
-                    `https://blank-lynde-fitzgerald-ef8fba55.koyeb.app/api/v1/transactions/user`,
+                    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transactions/user`,
                     {
                         headers: {
                             Authorization: 'Bearer ' + accessToken,

@@ -88,7 +88,6 @@ const userSlice = createSlice({
         state.pwdhash = '';
         state.walletAddress = '';
         state.country = '';
-        state.verified = false;
         state.referralCode = '';
         state.referralGain = 0;
         state.referralList = [];

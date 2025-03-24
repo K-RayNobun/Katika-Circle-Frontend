@@ -62,10 +62,11 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
         const formData = new FormData(formRef.current!);
 
         fields.forEach(field => {
-            const value = formData.get(field.name) as string;
+            const value = '+' + formData.get(field.name) as string;
             // console.log('Field value is: ', value);
             if (!field.regex.test(value.trim())) {
                 document.getElementsByName(field.name)[0].classList.add('border-red');
+                console.log(`!!! Field ${field.name} value: ${value.trim()} doesn't respect regex !!!`);
                 isValid = false
             } else if (field.name === 'iban' && field.regex.test(value.replace(/\s/g, '').trim())) {
                 // console.log('\t ### Field now is valid: ', field.name);
@@ -119,18 +120,21 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
         console.log('Resetted the name');
         if(isTypeMobile) {
             if (!testFieldsRegex()) {
+                console.log('Phone munbre incorrect please start with 237')
                 return;
             }
-            if (phoneNumber?.slice(0, 4) === '+237' && phoneNumber.slice(5).length === 8 ) {
-                console.log('This is a Cameroonian number: ', phoneNumber?.slice(4));
+            else if (phoneNumber?.slice(0, 3) === '237' && phoneNumber.slice(4).length === 8 ) {
+                console.log('This is a Cameroonian number: ', phoneNumber?.slice(3));
                 handleNameCheck();
+            } else {
+                console.log('Phone number: ', phoneNumber?.slice(3))
             }
         }
     }
 
     const handleNameCheck = async () => {
         const formData = new FormData(formRef.current!);
-        console.log('Redux registered token is:', tranzakToken);
+        // console.log('Redux registered token is:', tranzakToken);
         
         try {
             const response = await axios.post(
@@ -144,7 +148,7 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
             }
             );
             const verifiedName = response.data.data.verifiedName;
-            console.log('Response is: ', response.data + ' from ')
+            console.log('Response is: ', response.data );
             setReceiverName(verifiedName);
             console.log('Verified Name is :' , verifiedName);
             setIsNameChecked(true);
@@ -226,7 +230,7 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
                     <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Numero du beneficiaire</label>
                     <div className='flex items-center font-semibold w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 gap-[12px]'>
                         <img src={`/countries/${selectedCountry}.png`} alt="Img" className='w-[30px]' />
-                        <input type="number" name='receiver-number' placeholder='+2376XXXXXXXX' onChange={handlePhoneNumberChange} className={`appearance-none grow text-right ${ isFieldWrong ? 'border-red-500':'border-gray-400'}`} style={{WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
+                        <input type="number" name='receiver-number' placeholder='2376XXXXXXXX' defaultValue={2376} onChange={handlePhoneNumberChange} className={`appearance-none grow text-right ${ isFieldWrong ? 'border-red-500':'border-gray-400'}`} style={{WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
                     </div>
                     <h4 className='text-[14px]'>{receiverName}</h4>
                 </div>
@@ -262,7 +266,7 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
         <button type='submit' className={`lg:hidden bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
             <h6 className='text-center font-semibold '>Continuer</h6>
         </button>
-        <h5>We&apos;ve sent a verification code to your email. Enter it below to complete your login</h5>
+        {/* <h5>We&apos;ve sent a verification code to your email. Enter it below to complete your login</h5> */}
     </div>
   )
 }

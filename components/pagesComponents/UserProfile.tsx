@@ -46,7 +46,7 @@ const UserProfile = ({ userName, userSurname }: userProfileProps) => {
     };
 
     return (
-        <div className={`absolute top-[12px] lg:relative flex w-[400px] justify-between px-[20px] lg:pr-[0px] h-[59px] transition-all duration-2000`}>
+        <div className={`absolute top-[12px] right-[12px] lg:relative flex w-[400px] justify-between px-[20px] lg:pr-[0px] h-[59px] transition-all duration-2000`}>
             <div className={`size-[59px] bg-white flex justify-center items-center`}>
                 <FontAwesomeIcon className={`h-[38px] lg:h-[32px] text-gray_dark/60`} icon={faBell} />
             </div>
