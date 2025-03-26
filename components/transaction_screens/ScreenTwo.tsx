@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faXmark } from '@fortawesome/free-solid-svg-icons';
+import { IoMdArrowBack,  } from "react-icons/io";
+import { LiaTimesSolid } from "react-icons/lia";
 import React, { useEffect, useState, useRef } from 'react';
 import axios, { AxiosError } from 'axios';
 
@@ -9,10 +9,10 @@ import { provideStepBankData, provideStepMobileData, provideToken } from '@/lib/
 
 interface screenProps {
     onClose: () => void,
-    nextScreen: () => void,
+    moveToScreen: (index: number) => void,
 }
 
-const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
+const ScreenTwo = ({onClose, moveToScreen}: screenProps) => {
     const selectedCountry = 'cameroon';
     const [isFieldWrong, setIsFieldWrong] =  useState(false);
     const [receiverName, setReceiverName] =  useState('');
@@ -23,9 +23,9 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
 
     const dispatch = useAppDispatch();
     const tranzakToken = useAppSelector((state) => state.transaction.tranzaktoken)
-    const amountReceived = useAppSelector((state) => state.transaction.amountReceived)
+    const transactionDetails = useAppSelector((state) => state.transaction)
     
-    const transfertTypes = ['Mobile money', 'Compte bancaire']
+    const transfertTypes = ['Mobile Money', 'Compte bancaire']
 
     useEffect(() => {
         const createToken = async () => {
@@ -171,20 +171,32 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
             }
             console.error("Error fetching recipient name:", error);
             setReceiverName("Utilisateur introuvable");
-            setIsNameChecked(true);
+            setIsNameChecked(false);
         }
     };
 
+    // Calll the name check if the phone is pre-filled
+    useEffect(() => {
+        if (transactionDetails.receiverPhoneNumber) {
+            console.log('Checking the name with predefined data');
+            handleNameCheck();
+        }
+    }, []);
+
     const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
+        console.log('---------------- 000 -------------------');
         const form = document.getElementById('form-one') as HTMLFormElement
         const formData = new FormData(form);
-        if (isTypeMobile) dispatch(provideStepMobileData({
-            transfertType: isTypeMobile ? 'MobileMoney': 'Bank',
-            receiverPhoneNumber: formData.get('receiver-number') as string,
-            receiverName: receiverName,
-            latestScreen: 2
-        })); else {
+        if (isTypeMobile && testFieldsRegex() && isNameChecked) {
+            dispatch(provideStepMobileData({
+                transfertType: isTypeMobile ? 'MobileMoney': 'Bank',
+                receiverPhoneNumber: formData.get('receiver-number') as string,
+                receiverName: receiverName,
+                latestScreen: 2
+            }));
+            console.log('001');
+        } else if ( !isTypeMobile ) {
             console.log('------------------ REGISTERING BANK DATA ------------------');
             dispatch(provideStepBankData({
                 transfertType: isTypeMobile ? 'MobileMoney': 'Bank',
@@ -193,32 +205,39 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
                 bankCode: formData.get('code') as string,
                 bankName: formData.get('bank-name') as string,
                 latestScreen: 2
-        }))}
+            }));
+            console.log('002');
+        }
         if (testFieldsRegex() && (isTypeMobile ? isNameChecked : true)) {
-            nextScreen();
+            moveToScreen(1);
         }
     }
 
   return (
-    <div className='flex flex-col w-[502px] h-[90%] lg:h-max rounded-t-[12px] lg:rounded-[12px] p-[44px] bg-white'>
-        <div className='flex w-full justify-between items-center'>
-            <h4 className='text-[20px] font-semibold text-primary'>Envoyer de l&apos;argent</h4>
-            <button onClick={onClose}><FontAwesomeIcon icon={faXmark} className='h-[24px]' /></button>
+    <div className='flex flex-col w-full lg:w-[502px] h-[90%] lg:h-max rounded-t-[12px] lg:rounded-[12px] p-[44px] pb-[40%] bg-white'>
+        <div className="flex items-center gap-[12px] ml-[-12px]">
+            <button onClick={() => moveToScreen(-1)} className="p-1 rounded-[50%] active:bg-gray">
+                <IoMdArrowBack size={24} className="text-primary_dark" />
+            </button>
+            <div className='flex w-full justify-between items-center'>
+                <h4 className='text-[20px] font-semibold text-primary'>Envoyer de l&apos;argent</h4>
+                <button onClick={onClose}><LiaTimesSolid size={24} className='h-[24px]' /></button>
+            </div>
         </div>
-        <form id='form-one' ref={formRef} onSubmit={handleSubmit} className='flex flex-col gap-[12px] pt-[32px]'>
+        <form id='form-one' ref={formRef} onSubmit={handleSubmit} className='grow flex flex-col gap-[12px] pt-[32px]'>
             <div className='flex flex-col'>
                 <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Type de transfert</label>
                 <div className='rounded-[8px] px-[14px] py-[10px] border-2 border-gray-400 '>
-                    <select id='type-select' name='country' className='bg-transparent w-full font-semibold' onChange={handleTransfertTypeChange}>
-                        { amountReceived! > 1000000 ? 
+                    <select id='type-select' defaultValue={transactionDetails.transfertType === 'MobileMoney' ? transfertTypes[0] : transfertTypes[1]} name='country' className='bg-transparent w-full font-semibold' onChange={handleTransfertTypeChange}>
+                        { transactionDetails.amountReceived! > 1000000 ? 
                         transfertTypes.map((data, index) => (
                             <option key={index} value={data} className='w-full'>
                                     {data}
                             </option>
                         ))
                         :
-                            <option key={1} value={'Mobile Money'} className='w-full'>
-                                    Mobile Money
+                            <option key={1} value={transfertTypes[0]} className='w-full'>
+                                    {transfertTypes[0]}
                             </option>
                         }
                     </select>
@@ -230,7 +249,7 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
                     <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Numero du beneficiaire</label>
                     <div className='flex items-center font-semibold w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 gap-[12px]'>
                         <img src={`/countries/${selectedCountry}.png`} alt="Img" className='w-[30px]' />
-                        <input type="number" name='receiver-number' placeholder='2376XXXXXXXX' defaultValue={2376} onChange={handlePhoneNumberChange} className={`appearance-none grow text-right ${ isFieldWrong ? 'border-red-500':'border-gray-400'}`} style={{WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
+                        <input type="number" name='receiver-number' placeholder='2376XXXXXXXX' defaultValue={ transactionDetails.receiverPhoneNumber || 2376} onChange={handlePhoneNumberChange} className={`appearance-none grow text-right ${ isFieldWrong ? 'border-red-500':'border-gray-400'}`} style={{WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
                     </div>
                     <h4 className='text-[14px]'>{receiverName}</h4>
                 </div>
@@ -261,11 +280,11 @@ const ScreenTwo = ({onClose, nextScreen}: screenProps) => {
             <button type='submit' className={`hidden lg:block bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
                 <h6 className='text-center font-semibold '>Continuer</h6>
             </button>
+            <div className='grow lg:hidden'></div>
+            <button type='submit' className={`lg:hidden bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
+                <h6 className='text-center font-semibold '>Continuer</h6>
+            </button>
         </form>
-        <div className='grow lg:hidden'></div>
-        <button type='submit' className={`lg:hidden bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
-            <h6 className='text-center font-semibold '>Continuer</h6>
-        </button>
         {/* <h5>We&apos;ve sent a verification code to your email. Enter it below to complete your login</h5> */}
     </div>
   )

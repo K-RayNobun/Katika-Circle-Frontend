@@ -43,7 +43,9 @@ const Signup = () => {
     const [countriesList, setCountriesList] = useState<Array<CountryData>>([]);
     const accessToken = useRef('');
     const [isRefCodeProvided, setIsRefCodeProvided] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const isSubmittingRef = useRef(false)
+    const isRegistratedRef = useRef(false)
 
     const [formData, setFormData] = useState<{ ref_code: string }>({
         ref_code: '',
@@ -106,7 +108,7 @@ const Signup = () => {
     }
 
     const validateEmail = (email:string):boolean => {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const regex = /^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\.[a-zA-Z0-9_]+$/;
         return regex.test(email);
     }
 
@@ -130,9 +132,9 @@ const Signup = () => {
                 'Access-Control-Allow-Origin': '*'
             }
         });
-
         console.log('Finished sending OTP with the token', accessToken);
         console.log('Just sent the token successfully as ', response.data);
+        router.push('/auth/pincheck');
     };
 
     const registerUser = async (e: React.FormEvent<HTMLElement>) => {
@@ -164,6 +166,7 @@ const Signup = () => {
 
             console.log('User data: ', response.data.data);
             accessToken.current = (response.data.data['access-token'])
+            isRegistratedRef.current = true;
             console.log('Finished registering user');
             dispatch(renewToken({
                 token: response.data.data['access-token'],
@@ -171,8 +174,13 @@ const Signup = () => {
             }));
             sendOTP();
         } catch (error) {
-            const axiosError = error as AxiosError
-            if (axiosError.response?.status !== 200) {
+            const axiosError = error as AxiosError;
+            setIsSubmitting(false);
+            if (axiosError.response?.status === 500) {
+                setError('User already exists');
+                isSubmittingRef.current = false;
+                console.error('Registration error:', error);
+            } else if (axiosError.response?.status !== 200) {
                 setError(axiosError.response?.statusText + '\n Registration failed. Please try again.');
                 isSubmittingRef.current = false;
                 console.error('Registration error:', error);
@@ -183,6 +191,7 @@ const Signup = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         isSubmittingRef.current = true;
+        setIsSubmitting(true);
         console.log('Is submitting ? ', isSubmittingRef.current);
 
         const formData = new FormData(formRef.current!);
@@ -234,27 +243,25 @@ const Signup = () => {
 
         setError('');
         setErrorField('');
-        console.log('Processing submission');
-        // sendEmail(formRef.current);
-        dispatch(resetToken());
-        dispatch(resetUser());
-        dispatch(resetTransaction());
         registerUser(e);
-        console.log('THE COUNTRY CODE OF THE USER IS ', selectedCountry!.name);
-
-        dispatch(createUser({
-            name: name,
-            surname: surname,
-            email: email,
-            pwdhash: password,
-            country: selectedCountry!.name,
-            countryCodeISO2: selectedCountry!.alpha2,
-            verified: false,
-        }));
+        console.log('Processing submission');
         // sendEmail(formRef.current!)
 
-        router.push('/auth/pincheck');
+        if (isRegistratedRef.current) {
+            dispatch(resetToken());
+            dispatch(resetUser());
+            dispatch(resetTransaction());
 
+            dispatch(createUser({
+                name: name,
+                surname: surname,
+                email: email,
+                pwdhash: password,
+                country: selectedCountry!.name,
+                countryCodeISO2: selectedCountry!.alpha2,
+                verified: false,
+            }));
+        }
         console.log('Finished signup');
     }
 
@@ -433,8 +440,8 @@ const Signup = () => {
                 {error && <h4 className='text-red font-bold text-center text-sm h-min'>{error}</h4>}
             </div>
             <input type="hidden" id='pin_code' name='pin_code' value={'84762'} />
-            <button type='submit' disabled={isSubmittingRef.current} className={`bg-primary hover:bg-primary_dark rounded-[8px] py-[10px] text-white w-full ${isSubmittingRef.current ? 'opacity-50' : ''}`}>
-            {isSubmittingRef.current ? (
+            <button type='submit' disabled={isSubmitting} className={`bg-primary hover:bg-primary_dark rounded-[8px] py-[10px] text-white w-full ${isSubmitting ? 'opacity-50' : ''}`}>
+            {isSubmitting ? (
                 <>
                     <AsyncSpinner />
                     {/* <h6 className='text-center font-bold'>Processing...</h6> */}

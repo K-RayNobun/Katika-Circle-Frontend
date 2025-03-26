@@ -9,7 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faCoins, faTrophy, faGears } from '@fortawesome/free-solid-svg-icons';
 
 // Redxu related import
-import { useAppSelector } from '@/lib/redux/hooks';
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
+import { resetUser } from '@/lib/redux/features/user/userSlice';
+import { resetToken } from '@/lib/redux/features/token/tokenSlice';
+import { resetTransaction } from '@/lib/redux/features/transaction/transactionSlice';
 import Link from 'next/link';
 
 export default function UserLayout({
@@ -18,11 +21,13 @@ export default function UserLayout({
     children: React.ReactNode;
   }>) {
     const [actualTab, setActualTab] = useState<number>(1);
+    const [isLogoutVisible, setIsLogoutVisible] = useState(false)
     const pagesRoutes = ['/user/home', '/user/transactions', '/user/awards', '/user/settings']
     const userData = useAppSelector((state) => state.user);
     const router = useRouter();
 
     const fullUrl = window.location.href;
+    const dispatch = useAppDispatch();
     
     if (userData.verified === false) {
         router.push('/auth/signin');
@@ -40,6 +45,13 @@ export default function UserLayout({
         } else return;
     }
 
+    const logoutUser = () => {
+        dispatch(resetUser());
+        dispatch(resetToken());
+        dispatch(resetTransaction());
+        router.push('/auth/signin');
+    };
+
     useEffect(() => {
         pagesRoutes.forEach((endUrl, index) => {
             if (fullUrl.includes(endUrl) && actualTab !== index+1) {
@@ -51,59 +63,64 @@ export default function UserLayout({
     }, [])
 
     return (
-        <section className={`relative w-screen bg-gray min-h-screen lg:h-[1024px] px-[8px] lg:px-[12px] flex flex-col lg:flex-row gap-[16px] rounded-lg sm:rounded-3xl mx-auto p-3`}>
-          <aside className={`hidden lg:flex w-[22%] flex-col justify-between bg-primary rounded-3xl p-[32px]`}>
+        <section className={`relative w-full bg-gray min-h-screen lg:h-[1024px] lg:px-[12px] px-[4px] py-[12px] flex justify-center flex-col lg:flex-row gap-[16px] rounded-lg sm:rounded-3xl mx-auto`}>
+             { userData.verified &&<aside className={`hidden lg:flex w-[22%] flex-col justify-between bg-primary rounded-3xl p-[32px]`}>
                 <div className={`flex flex-col justify-between h-[456px]`}>
-                    <Image src={'/logo_white.png'} height={60} width={200} alt='' ></Image>
+                    <Image src={'/logo_white.svg'} height={60} width={200} alt='' ></Image>
                     <div className={`h-[60%] flex flex-col justify-between`}>
                         <div onClick={() => switchTab(1)}  className={actualTab == 1 ?`pannel_tab_active`: `pannel_tab`}>
-                            <RiHome9Line className={`icon size-[24px]`} />
+                            <RiHome9Line size={actualTab == 1 ? 48: 24} className={`icon`} />
                             <h4>Acceuil</h4>
                         </div>
                         <div onClick={() => switchTab(2)} className={actualTab == 2 ?`pannel_tab_active`: `pannel_tab`}>
-                            <RiExchangeLine className={`icon size-[24px]`} />
+                            <RiExchangeLine size={actualTab == 2 ? 48: 24} className={`icon`} />
                             <h4>Mes Transactions</h4>
                         </div>
                         <div onClick={() => switchTab(3)} className={actualTab == 3 ?`pannel_tab_active`: `pannel_tab`}>
-                            <RiTrophyLine className={`icon size-[24px]`} />
+                            <RiTrophyLine size={actualTab == 3 ? 48: 24} className={`icon`} />
                             <h4>Mes Recompenses</h4>
                         </div>
                         <div onClick={() => switchTab(4)} className={actualTab == 4 ?`pannel_tab_active`: `pannel_tab`}>
-                            <PiGearSix className={`icon size-[24px]`} />
+                            <PiGearSix size={actualTab == 4 ? 48: 24} className={`icon`} />
                             <h4>Parametres</h4>
                         </div>
                     </div>
                 </div>
-                <div className={`flex flex-col justify-between min-h-[120px]`}>
+                <div className={`flex flex-col justify-between min-h-[200px]`}>
                     <div className={`flex flex-col justify-between gap-[12px]`}>
-                        <Link href={`https://katika.io/userlicenseagreement`} className={`text-white font-light block`}>Mentions légales</Link>
-                        <Link href={`https://katika.io/privacypolicy`} className={`text-white font-light block`}>Politique de confidentialité</Link>
+                        <Link href={`https://katika.io/userlicenseagreement`} target="_blank" rel='noopener noreferrer' className={`text-white font-light block`}>Mentions légales</Link>
+                        <Link href={`https://katika.io/privacypolicy`} target="_blank" rel='noopener noreferrer' className={`text-white font-light block`}>Politique de confidentialité</Link>
                     </div>
                     <h5 className={`text-white/60 font-light`}>Version 1.1</h5>
+                    <div className={`hover:bg-primary_dark rounded-[12px] px-[16px] py-[8px]`}>
+                        <button onClick={logoutUser} className={`text-white transaition-all duration-300 hover:translate-x-[12px] active:scale-110`}>Logout</button>
+                    </div>
                 </div>
-            </aside>
+            </aside>}
 
-            {/* Mobile View Bottombar */}
-            <section className='fixed z-10 bottom-[12px] left-1/2 translate-x-[-50%]  h-[64px] py-[5px] px-[5%] lg:hidden w-[95%] flex justify-between bg-primary rounded-[12px] '>
+            {/* //  Mobile View Data */}
+            { userData.verified && <section className='fixed z-40 bottom-[12px] left-[50%] translate-x-[-50%] h-[64px] py-[5px] px-[5%] lg:hidden w-[95%] flex justify-between bg-primary rounded-[12px] '>
                 {/* <Image src="/logo_white.bmp" width={180} height={20} alt="Logo not loaded" /> */}
                     <button onClick={() => switchTab(1)} className={actualTab == 1 ?`pannel_button_active`: `pannel_button`}>
-                        <FontAwesomeIcon className='h-[16px]' icon={faHome}/>
-                        <h4 className='text-[12px]'>Acceuil</h4>
+                        <RiHome9Line size={actualTab == 1 ? 48 : 24} className={`icon`} />
+                        <h4 className='text-[8px]'>Acceuil</h4>
                     </button>
                     <button onClick={() => switchTab(2)} className={actualTab == 2 ?`pannel_button_active`: `pannel_button`}>
-                        <FontAwesomeIcon className='h-[16px]' icon={faCoins}/>
-                        <h4 className='text-[12px]'>Transactions</h4>
+                        <RiExchangeLine size={actualTab == 2 ? 48: 24} className={`icon`} />
+                        <h4 className='text-[8px]'>Transactions</h4>
                     </button>
                     <button onClick={() => switchTab(3)} className={actualTab == 3 ?`pannel_button_active`: `pannel_button`}>
-                        <FontAwesomeIcon className='h-[16px]' icon={faTrophy}/>
-                        <h4 className='text-[12px]'>Recompenses</h4>
+                        <RiTrophyLine size={24} className={`icon`} />
+                        <h4 className='text-[8px]'>Recompenses</h4>
                     </button>
                     <button onClick={() => switchTab(4)} className={actualTab == 4 ?`pannel_button_active`: `pannel_button`}>
-                        <FontAwesomeIcon className='h-[16px]' icon={faGears}/>
-                        <h4 className='text-[12px]'>Parametres</h4>
+                        <PiGearSix size={actualTab == 4 ? 48: 24} className={`icon`} />
+                        <h4 className='text-[8px]'>Parametres</h4>
                     </button>
-            </section>
+            </section>}
+            <section className='mb-[64px] lg:mb-0'>
                 { userData.verified && children }
+            </section>
             </section>
     );
   }

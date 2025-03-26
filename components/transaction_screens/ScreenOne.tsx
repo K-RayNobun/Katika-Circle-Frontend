@@ -1,20 +1,21 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { IoMdInformationCircle, IoMdArrowBack,  } from "react-icons/io";
+import { LiaTimesSolid } from "react-icons/lia";
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 
 //Redux imports
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { provideStepOneData } from '@/lib/redux/features/transaction/transactionSlice';
+import StatsContainer from "../pagesComponents/StatsContainer";
 
 
 // 30-50, 50-100, 100-250, 250-500, 500-2000, 2000-70000 
 interface screenProps {
     onClose: () => void,
-    nextScreen: () => void,
+    moveToScreen: (index: number) => void,
 }
 
-const ScreenOne = ({onClose, nextScreen}:screenProps) => {
+const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     const [selectedCountry, setSelectedCountry] =  useState('cameroon');
     const selectedCurrency = 'EUR';
     const [officialRate, setOfficialRate] = useState(0);
@@ -28,6 +29,9 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
     const [errorMsg, setErrorMsg] = useState('');
     const [modifyingSentAmount, setModifyingSentAmount] = useState(true);
     const formRef  = useRef<HTMLFormElement>(null);
+
+    const minimalAmount = 30;
+    const maximalAmount = 70000;
     
     const countriesData: Record<string, { image: string; name: string, currency:string }> = {
 
@@ -174,7 +178,7 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
                     latestScreen: 1,
                 }
                 dispatch(provideStepOneData(data));
-                nextScreen();
+                moveToScreen(1);
             } else {
                 console.log('The minimum amount is 20 Euros');
             }
@@ -209,9 +213,9 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
         if (amountSent < 0 || amountReceived < 0) {
             setErrorMsg("Le montant ne peut etre negatif");
         } else if (amountSent < 30) {
-            setErrorMsg("Le montant minimal d'une transaction est de 20 Euros");
+            setErrorMsg(`Le montant minimal d'une transaction est de ${minimalAmount} Euros`);
         } else if (amountSent > 70000) {
-            setErrorMsg("Le montant maximal d'une transaction est de 70,000 Euros");
+            setErrorMsg(`Le montant maximal d'une transaction est de ${maximalAmount.toLocaleString('en-US')} Euros`);
         } else {
             isValid = true;
         }
@@ -237,13 +241,16 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
 
 
     const dispatch = useAppDispatch()
-    const accessToken = useAppSelector((state) => state.token.token)
+    const accessToken = useAppSelector((state) => state.token.token);
+    const transactionDetails = useAppSelector((state) => state.transaction)
 
   return (
-    <div className='w-full h-[90%] lg:h-max lg:w-[502px] rounded-t-[12px] lg:rounded-[12px] p-[44px] gap-[32px] bg-white flex flex-col'>
-        <div className='flex w-full justify-between items-center'>
-            <h4 className='text-[20px] font-bold text-primary'>Envoyer de l&apos;argent</h4>
-            <button onClick={onClose}><FontAwesomeIcon icon={faXmark} className='h-[24px]' /></button>
+    <div className='w-full h-[90%] pb-[86px] lg:h-max lg:w-[502px] rounded-t-[12px] lg:rounded-[12px] p-[44px] gap-[32px] bg-white flex flex-col'>
+        <div className="flex items-center gap-[12px]">
+            <div className='flex w-full justify-between items-center'>
+                <h4 className='text-[20px] font-bold text-primary'>Envoyer de l&apos;argent</h4>
+                <button onClick={onClose}><LiaTimesSolid size={24} className='h-[24px]' /></button>
+            </div>
         </div>
         <form id='form-one' ref={formRef} onSubmit={handleSubmit} className='flex flex-col gap-[12px] pt-[20px]'>
             <div className='flex flex-col'>
@@ -266,9 +273,9 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
                     {
                     modifyingSentAmount ?
 
-                        <input type="number" onChange={handleSentAmountChange} name='amount-sent' className='grow w-[75%] sm:w-full text-right' style={{ WebkitAppearance: 'none', MozAppearance: 'textfield'}}/>
+                        <input type="number" defaultValue={transactionDetails.amountSent} onChange={handleSentAmountChange} name='amount-sent' className='grow w-[75%] sm:w-full text-right' style={{ WebkitAppearance: 'none', MozAppearance: 'textfield'}}/>
                     :
-                        <input type="text" onClick={() => {setModifyingSentAmount(true)}} readOnly={true} value={amountSentRef.current.toLocaleString('en-US')} name='amount-sent' className='grow w-[75%] sm:w-full text-right' style={{ WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
+                        <input type="text" defaultValue={transactionDetails.amountReceived} onClick={() => {setModifyingSentAmount(true)}} readOnly={true} value={amountSentRef.current.toLocaleString('en-US')} name='amount-sent' className='grow w-[75%] sm:w-full text-right' style={{ WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
                     }
                     <h5 className=''>{currenciesData[selectedCurrency]?.symbol}</h5>
                 </div>
@@ -291,7 +298,7 @@ const ScreenOne = ({onClose, nextScreen}:screenProps) => {
             <div className='flex justify-between'>
                 <div className='flex items-center gap-[8px]'>
                     <h5>Taux d&apos;envoi</h5>
-                    <span className='info-icon'><FontAwesomeIcon icon={faCircleInfo} /></span> 
+                    <span className='info-icon font-semibold'><IoMdInformationCircle /></span> 
                 </div>
                 <div className='space-x-[10px] flex items-center'>
                     <span className='size-[8px] rounded-full bg-[#07E36E]'></span>

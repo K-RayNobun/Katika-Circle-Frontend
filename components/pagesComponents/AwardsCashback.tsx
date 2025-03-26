@@ -9,10 +9,10 @@ const AwardsCashback = ({ cashbackGain }: AwardsCashbackProps) => {
     return (
         <div className='bg-indigo/20 rounded-[12px] p-[12px] gap-[8px] border-2 border-indigo flex flex-col items-center'>
             <div className="flex items-center justify-between w-[90%]">
-                <Image src='/awards/phonepay.png' width={120} height={90} alt='Phonepay' className='h-[100px] mb-[6px]' />
+                <Image src='/awards/phonepay.svg' width={120} height={90} alt='Phonepay' className='h-[100px] mb-[6px]' />
                 <div className="flex flex-col items-end text-indigo">
                     <h5 className='font-bold flex items-start'>
-                        <span className='text-[16px]'>XAF</span>
+                        <span className='text-[16px]'>{'€'}</span>
                         <span className='text-[36px]'>{cashbackGain}</span>
                     </h5>
                     <h5 className='font-bold text-[14px]'>Cashback disponibles</h5>

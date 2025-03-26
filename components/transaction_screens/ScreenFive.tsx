@@ -8,7 +8,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 interface screenProps {
   onClose: () => void,
-  nextScreen: () => void,
+  moveToScreen: () => void,
 }
 
 const ScreenFour = ({onClose}: screenProps) => {

@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation'
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 // Redux related imports
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import { verifyUser, setWalletAdress, setReferralCode } from '@/lib/redux/features/user/userSlice';
+import { verifyUser, setWalletAdress, setReferralCode, provideId } from '@/lib/redux/features/user/userSlice';
 
 interface DigitCaseProps {
     identifier: string;
@@ -18,7 +18,7 @@ interface DigitCaseProps {
 
 const DigitCase: React.FC<DigitCaseProps> = ({identifier, digitValue, isPinCorrect, onClick, handleChangeFunction}) => {
     return (
-        <input id={identifier} type="text" value={digitValue} onClick={onClick} onChange={handleChangeFunction} maxLength={5} className={`appearance-none size-[56px] text-center text-[28px] font-[400] text-primary_text rounded-[12px] border-3 focus:border-2 ${isPinCorrect == true ? 'border-green focus:border-green' : isPinCorrect == false ? 'border-red focus:border-red' : 'border-gray_dark/60 focus:border-primary'}`} style={{ WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
+        <input id={identifier} type="text" value={digitValue} onClick={onClick} onChange={handleChangeFunction} maxLength={5} className={`appearance-none size-[56px] text-center text-[28px] font-[400] text-primary_text rounded-[12px] border-2 focus:border-2 ${isPinCorrect === true ? 'border-green focus:border-green' : isPinCorrect === false ? 'border-red focus:border-red' : 'border-gray_dark/60 focus:border-primary'}`} style={{ WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
     );
 };
 
@@ -121,9 +121,6 @@ const PinCheck = () => {
         console.log('Requesting Code...');
         if (canAskCode) {
             sendOTP();
-            setCanAskCode(false);
-            setTimeMinLeft(1);
-            setTimeSecLeft(59);
         } else {
             document.getElementById('time-left')?.classList.add('translate-x-[20px]');
             document.getElementById('time-left')?.classList.add('translate-x-[-20px]');
@@ -143,17 +140,24 @@ const PinCheck = () => {
 
     const sendOTP = async () => {
         console.log('Access Token is: ', accessToken)
-        const response = await axios.post('${process.env.NEXT_PUBLIC_BASE_URL}/auth/account/otp',
-            {},
-        {
-            headers: {
-                'Authorization': 'Bearer ' + accessToken,
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            }
-        });
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/account/otp`,
+                {},
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                }
+            });
 
-        console.log('Just sent the token successfully as ', response.data);
+            console.log('Just sent the token successfully as ', response.data);
+            setCanAskCode(false);
+            setTimeMinLeft(1);
+            setTimeSecLeft(59);
+        } catch(error: any) {
+            console.log('Failed to send OTP code ',  error.message)
+        }
     };
 
     const getUserData = async() => {
@@ -167,6 +171,7 @@ const PinCheck = () => {
             }
         );
         console.log('The User Data Is: ', response.data.data);
+        dispatch(provideId(response.data.data.id))
         dispatch(setReferralCode(response.data.data.referral.referralCode))
         dispatch(setWalletAdress(response.data.data.wallet.address))
     };

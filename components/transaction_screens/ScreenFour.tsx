@@ -10,7 +10,6 @@ import { provideStatus } from '@/lib/redux/features/transaction/transactionSlice
 
 interface screenProps {
   onClose: () => void,
-  nextScreen: () => void,
 }
 
 const ScreenFour = ({onClose}: screenProps) => {

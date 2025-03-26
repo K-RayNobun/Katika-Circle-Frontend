@@ -1,18 +1,20 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { IoMdInformationCircle, IoMdArrowBack,  } from "react-icons/io";
+import { LiaTimesSolid } from "react-icons/lia";
 import React from 'react';
 
 // Redux related imports
-import { useAppSelector } from '@/lib/redux/hooks';
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
+import { resetTransaction } from "@/lib/redux/features/transaction/transactionSlice";
 
 interface screenProps {
     onClose: () => void,
-    nextScreen: () => void,
+    moveToScreen: (index: number) => void,
 }
 
-const ScreenThree = ({onClose, nextScreen}: screenProps) => {
+const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
 
     const transactionDetails = useAppSelector((state) => state.transaction);
+    const dispatch = useAppDispatch()
     
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -20,17 +22,22 @@ const ScreenThree = ({onClose, nextScreen}: screenProps) => {
         // const formData = new FormData(form);
 
         /// Adding logic to create a transaction
-                
-        nextScreen();
+        dispatch(resetTransaction());
+        moveToScreen(1);
     }
 
   return (
-    <div className={`flex flex-col w-[502px] h-[90%] lg:h-max rounded-t-[12px] lg:rounded-[12px] p-[44px] bg-white`}>
-        <div className={`flex w-full justify-between items-center`}>
-            <h4 className={`text-[20px] font-bold text-primary`}>Recapitulatif de la transaction</h4>
-            <button onClick={onClose}><FontAwesomeIcon icon={faXmark} className={`h-[24px]`} /></button>
+    <div className={`flex flex-col w-full lg:w-[502px] h-[90%] lg:h-max rounded-t-[12px] lg:rounded-[12px] p-[44px] pb-[40%] bg-white`}>
+        <div className='flex items-center gap-[12px] ml-[-12px]'>
+            <button onClick={() => moveToScreen(-1)} className="p-1 rounded-[50%] active:bg-gray">
+                <IoMdArrowBack size={24} className="text-primary_dark" />
+            </button>
+            <div className={`flex w-full justify-between items-center`}>
+                <h4 className={`text-[20px] font-bold text-primary`}>Recapitulatif de la transaction</h4>
+                <button onClick={onClose}><LiaTimesSolid size={24} className={`h-[24px]`} /></button>
+            </div>
         </div>
-        <div className={`mt-[32px] space-y-[16px]`}>
+        <div className={`grow flex flex-col mt-[32px] space-y-[16px]`}>
             <div className={`flex justify-between font-bold`}>
                 <h5>Montant à envoyer</h5>
                 <h5>{transactionDetails.amountSent?.toLocaleString('en-US') + ' ' + transactionDetails.currencySent}</h5>
@@ -50,7 +57,7 @@ const ScreenThree = ({onClose, nextScreen}: screenProps) => {
             <div className={`flex justify-between font-bold bg-gray-400 h-min`}>
                 <div className={`flex items-center`}>
                     <h5>Taux d&apos;envoi</h5>
-                    <FontAwesomeIcon icon={faCircleInfo} className={`ml-[8px]`} />
+                    <IoMdInformationCircle size={24} className={`ml-[8px]`} />
                 </div>
                 <div className={`flex items-center space-x-[10px]`}>
                     <span className={`size-[8px] rounded-full bg-[#07E36E]`}></span>
@@ -60,12 +67,13 @@ const ScreenThree = ({onClose, nextScreen}: screenProps) => {
             <button type='submit' onClick={handleSubmit} className={`hidden lg:block bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
                 <h6 className={`text-center font-bold `}>Payer</h6>
             </button>
+            <div className={`grow lg:hidden`}></div>
+            <button type='submit' onClick={handleSubmit} className={`lg:hidden bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
+                <h6 className={`text-center font-bold `}>Payer</h6>
+            </button>
         </div>
-        <div className={`grow lg:hidden`}></div>
-        <button type='submit' onClick={handleSubmit} className={`lg:hidden bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
-            <h6 className={`text-center font-bold `}>Payer</h6>
-        </button>
-</div>
+        
+    </div>
   )
 }
 

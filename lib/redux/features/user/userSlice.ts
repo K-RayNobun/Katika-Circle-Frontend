@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface User {
+    id?: string,
     name: string,
     surname: string,
     email: string,
@@ -37,6 +38,7 @@ const userSlice = createSlice({
     reducers: {
        createUser: (state, action: PayloadAction<User>) => {
         console.log('Hello I am creating a user...');
+        state.id = action.payload.id;
         state.name = action.payload.name;
         state.surname = action.payload.surname;
         state.email = action.payload.email;
@@ -44,8 +46,11 @@ const userSlice = createSlice({
         state.country = action.payload.country;
         console.log('The user information are : ', state.name + state.pwdhash  + state.email);
        },
+       provideId: (state, action: Payload<string>) => {
+        state.id = action.payload;
+       },
        verifyUser: (state, action:PayloadAction<boolean>) => {
-        state.verified = action.payload
+        state.verified = action.payload;
         console.log('\t ###Verifying the user as ', state.verified);
        },
        setWalletAdress : (state, action:PayloadAction<string>) => {
@@ -82,6 +87,7 @@ const userSlice = createSlice({
        },
        // Logout logic
        resetUser: (state) => {
+        state.id = '';
         state.name = '';
         state.surname = '';
         state.email = '';
@@ -96,6 +102,6 @@ const userSlice = createSlice({
     }
 });
 
-export const { createUser, verifyUser, setWalletAdress, setReferralCode, setFirstReferringCode, setProfileImageKey, setReferralList, provideCashback, provideFilleulsList, provideReferralGain, resetUser } = userSlice.actions;
+export const { createUser, verifyUser, setWalletAdress, setReferralCode, setFirstReferringCode, setProfileImageKey, setReferralList, provideCashback, provideId, provideFilleulsList, provideReferralGain, resetUser } = userSlice.actions;
 
 export default userSlice.reducer;

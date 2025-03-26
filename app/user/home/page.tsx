@@ -12,6 +12,7 @@ import UserProfile from '@/components/pagesComponents/UserProfile';
 import FilleulList from '@/components/pagesComponents/FilleulList';
 import DialogBox from '@/components/DialogBox';
 import TransactionScreens from '@/components/pagesComponents/TransactionScreens';
+import { resetTransaction } from '@/lib/redux/features/transaction/transactionSlice';
 
 interface FilleulDetails {
     order: number;
@@ -33,7 +34,6 @@ const Home = () => {
     const userData = useAppSelector((state) => state.user);
     const accessToken = useAppSelector((state) => state.token.token);
     const dispatch = useAppDispatch();
-    console.log('THE ACCESS TOKEN IS ', accessToken);
 
     // Referral Code Query Params
     const referralCodeParam = {
@@ -42,18 +42,31 @@ const Home = () => {
     const queryParams = new URLSearchParams(referralCodeParam).toString();
 
     // Handlers
-    const moveNextScreen = () => {
-        if (screenIndex < 5) {
-            setScreenIndex((prev) => prev + 1);
-            console.log('Moved to screen of index', screenIndex + 1);
+    const moveToScreen = (index: number) => {
+        console.log('Just triggered Screen moving')
+        if (index === 1) {
+            if (screenIndex < 5) {
+                setScreenIndex((prev) => prev + 1);
+                console.log('Moved to next screen :>', screenIndex + 1);
+            } else {
+                setScreenIndex(1);
+            }
+        } else if (index === -1) {
+            if (screenIndex > 1) {
+                setScreenIndex((prev) => prev - 1);
+                console.log('Moved to previous screen :>', screenIndex - 1);
+            } else {
+                setScreenIndex(1);
+            }
         } else {
-            setScreenIndex(1);
+            console.log('The index passed instead is', index);
         }
-    };
+    };    
 
     const closeScreen = () => {
         setIsScreenVisible(false);
         setScreenIndex(1);
+        dispatch(resetTransaction());
     };
 
     // Fetch Referrals
@@ -90,7 +103,7 @@ const Home = () => {
                         name: `${referral.fname} ${referral.lname}`,
                         commission: referral.referral.bonusTotal,
                         bonusClaimed: referral.referral.bonusStatus === 'UNCLAIMED' ? false : true,
-                    };
+                    }
 
                     if (filleulList.length !== 0) {
                         filleulList.forEach((filleulRegistered) => {
@@ -128,7 +141,7 @@ const Home = () => {
     }, []);
 
     return (
-        <div className={`h-full mb-[64px] lg:mb-0 grow flex flex-col lg:flex-row gap-[24px] rounded-lg sm:rounded-3xl`}>
+        <div className={`h-full grow flex flex-col lg:flex-row gap-[24px] rounded-lg sm:rounded-3xl`}>
             {/* Left Panel */}
             <div className={`flex flex-col w-full grow mt-[80px] lg:mt-[0px] lg:w-[50%] px-[6px]`}>
                 <WelcomeContainer userData={userData} setIsScreenVisible={setIsScreenVisible} />
@@ -140,7 +153,7 @@ const Home = () => {
                             <h4 className={`text-primary_dark text-[16px]`}>Parrainage</h4>
                             <h4 className={`text-primary text-[12px]`}>Voir les filleuls</h4>
                         </div>
-                        <ReferralSection referralCode={userData.referralCode!} setIsDialogVisible={setIsDialogVisible} />
+                        <ReferralSection referralCode={userData.referralCode!}  isScreenVisible={isScreenVisible}/>
                     </div>
                     <NotificationList accessToken={accessToken!} rate={667} />
                 </div>
@@ -151,12 +164,10 @@ const Home = () => {
                 <UserProfile
                     userName={userData.name}
                     userSurname={userData.surname}
-                    isLogoutVisible={isLogoutVisible}
-                    setIsLogoutVisible={setIsLogoutVisible}
                 />
                 {/* Desktop View: Referral Section and Filleul List */}
-                <div className={`${isLogoutVisible ? 'mt-[78px]' : 'mt-[36px]'} hidden grow lg:flex flex-col gap-[36px] justify-between h-full rounded-[12px] bg-white px-[24px] py-[32px] transition-all duration-500`}>
-                    <ReferralSection referralCode={userData.referralCode!} setIsDialogVisible={setIsDialogVisible} />
+                <div className={`mt-[100px] hidden grow lg:flex flex-col gap-[36px] justify-between h-full rounded-[12px] bg-white px-[24px] py-[32px] transition-all duration-500`}>
+                    <ReferralSection referralCode={userData.referralCode!} isScreenVisible={isScreenVisible} />
                     <FilleulList filleulList={filleulList} />
                 </div>
             </div>
@@ -168,7 +179,7 @@ const Home = () => {
 
             {/* Transaction Screens */}
             {isScreenVisible && (
-                <TransactionScreens screenIndex={screenIndex} closeScreen={closeScreen} moveNextScreen={moveNextScreen} />
+                <TransactionScreens screenIndex={screenIndex} closeScreen={closeScreen} moveToScreen={moveToScreen} />
             )}
         </div>
     );

@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const DialogBox = ({text, onClose}) => {
 
     const [isCopied, setIsCopied] = useState(false);
-    const key = text;
 
     const handleCopy = () => {
         navigator.clipboard.writeText(text).then(() => {

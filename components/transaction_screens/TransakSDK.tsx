@@ -30,10 +30,10 @@ type UserData = {
 
 interface ScreenProps {
   onClose: () => void,
-  nextScreen: () => void,
+  moveToScreen: (index: number) => void,
 };
 
-const TransakSDK = ({onClose, nextScreen}: ScreenProps) => {
+const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
   const isSDKInit = useRef(false);
   const userData = useAppSelector((state) => state.user);
   const transactionDetails = useAppSelector((state) => state.transaction);
@@ -176,7 +176,7 @@ const TransakSDK = ({onClose, nextScreen}: ScreenProps) => {
     dispatch(provideStatus('pending'))
     updateTransactionStatus('Pending');
     transak.close();
-    nextScreen();
+    moveToScreen(1);
   });
 
   Transak.on(Transak.EVENTS.TRANSAK_ORDER_CREATED, (orderData) => {

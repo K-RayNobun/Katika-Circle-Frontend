@@ -2,7 +2,7 @@ import { ReduxProvider } from "@/lib/redux/Provider";
 import type { Metadata } from "next";
 import { Poppins } from 'next/font/google';
 import ClientWrapper from "@/components/ClientWrapper";
-import './globals.css'
+import './globals.css';
 
 
 const poppinsNormal = Poppins({
@@ -13,7 +13,7 @@ const poppinsNormal = Poppins({
 
 
 export const metadata: Metadata = {
-  title: "Katika Wallet NextJs + Redux App",
+  title: "Katika Wallet",
   description: "Using Redux Toolkit + TailwindCss"
 };
 

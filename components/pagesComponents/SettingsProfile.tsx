@@ -1,9 +1,18 @@
 'use client';
 
 import React, { useState } from 'react';
+import { PiPencilSimpleLineDuotone } from "react-icons/pi";
+import { LiaTimesSolid, LiaCheckSolid } from "react-icons/lia";
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import OTPModal from '@/components/pagesComponents/OTPModal'; // Import the OTP modal component
+
+import UserProfile from './UserProfile';
+
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
+import { provideId } from '@/lib/redux/features/user/userSlice';
+import axios, { AxiosError } from 'axios';
 
 const ProfileSettings = () => {
     const [isEditingName, setIsEditingName] = useState(false);
@@ -18,6 +27,25 @@ const ProfileSettings = () => {
     const [password, setPassword] = useState('********');
     const [currentPassword, setCurrentPassword] = useState('');
 
+    const userData = useAppSelector((state) => state.user);
+    const accessToken = useAppSelector((state) => state.token.token);
+    const dispatch = useAppDispatch();
+
+    // Get the user profile and its id
+    const getUserData = async() => {
+        console.log('Getting the verified user data with token: ', accessToken);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    "Content-Type": 'application/json'
+                }
+            }
+        );
+        console.log('The User Data Is: ', response.data.data);
+        dispatch(provideId(response.data.data.id));
+    }
+
     const handleNameChange = () => {
         setIsEditingName(false);
         // Call API to update name and surname
@@ -31,6 +59,7 @@ const ProfileSettings = () => {
 
     const handlePasswordChange = () => {
         setIsEditingPassword(false);
+        updateMainCredentials();
         setShowOTPModal(true); // Show OTP modal for password change
     };
 
@@ -42,6 +71,30 @@ const ProfileSettings = () => {
             alert('Incorrect password');
         }
     };
+
+    // Update email & pwd funtion
+    const updateMainCredentials = async() => {
+
+        if (!userData.id || userData.id === '') {
+            getUserData()
+        }
+
+        const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/user/${userData.id}`,
+          {
+              "email": email,
+              "pwd": password,
+          },
+          {
+            headers: {
+              'Authorization': 'Bearer ' + accessToken,
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            }
+          }
+        );
+        console.log('The response is:', response.data);
+      }
+
 
     return (
         <div className='w-full py-[12px] px-[18px] space-y-[16px] lg:space-y-[26px]'>
@@ -57,13 +110,13 @@ const ProfileSettings = () => {
                                 onClick={handleNameChange}
                                 className='flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
                             >
-                                <FontAwesomeIcon icon={faCheck} className='text-primary' />
+                                <LiaCheckSolid size={20} className='text-primary' />
                             </button>
                             <button
                                 onClick={() => setIsEditingName(false)}
                                 className='flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-red'
                             >
-                                <FontAwesomeIcon icon={faTimes} className='text-red' />
+                                <LiaTimesSolid size={20} className='text-red' />
                             </button>
                         </div>
                     ) : (
@@ -72,7 +125,7 @@ const ProfileSettings = () => {
                             className='hidden lg:flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
                         >
                             <h5 className='font-bold text-primary'>Edit</h5>
-                            <FontAwesomeIcon icon={faPen} size='sm' className='text-primary' />
+                            <PiPencilSimpleLineDuotone size={20} className='text-primary' />
                         </button>
                     )}
                 </div>
@@ -82,12 +135,12 @@ const ProfileSettings = () => {
                         {isEditingName ? (
                             <input
                                 type='text'
-                                value={name}
+                                value={userData.name}
                                 onChange={(e) => setName(e.target.value)}
                                 className='w-full p-[8px] border-2 border-gray rounded-[8px]'
                             />
                         ) : (
-                            <h5>{name}</h5>
+                            <h5>{userData.name}</h5>
                         )}
                     </div>
                     <div className='space-y-[8px]'>
@@ -95,12 +148,12 @@ const ProfileSettings = () => {
                         {isEditingName ? (
                             <input
                                 type='text'
-                                value={surname}
+                                value={userData.surname}
                                 onChange={(e) => setSurname(e.target.value)}
                                 className='w-full p-[8px] border-2 border-gray rounded-[8px]'
                             />
                         ) : (
-                            <h5>{surname}</h5>
+                            <h5>{userData.surname}</h5>
                         )}
                     </div>
                 </div>
@@ -110,7 +163,7 @@ const ProfileSettings = () => {
                         className='lg:hidden flex items-center justify-between w-full gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
                     >
                         <h5 className='font-bold text-primary'>Save</h5>
-                        <FontAwesomeIcon icon={faCheck} size='sm' className='text-primary' />
+                        <LiaCheckSolid size={20} className='text-primary' />
                     </button>
                 )}
             </div>
@@ -125,13 +178,13 @@ const ProfileSettings = () => {
                                 onClick={handleEmailChange}
                                 className='flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
                             >
-                                <FontAwesomeIcon icon={faCheck} className='text-primary' />
+                                <LiaCheckSolid size={20} className='text-primary' />
                             </button>
                             <button
                                 onClick={() => setIsEditingEmail(false)}
                                 className='flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-red'
                             >
-                                <FontAwesomeIcon icon={faTimes} className='text-red' />
+                                <LiaTimesSolid size={20} className='text-red' />
                             </button>
                         </div>
                     ) : (
@@ -140,7 +193,7 @@ const ProfileSettings = () => {
                             className='hidden lg:flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
                         >
                             <h5 className='font-bold text-primary'>Edit</h5>
-                            <FontAwesomeIcon icon={faPen} size='sm' className='text-primary' />
+                            <PiPencilSimpleLineDuotone size={20} className='text-primary' />
                         </button>
                     )}
                 </div>
@@ -149,7 +202,7 @@ const ProfileSettings = () => {
                     {isEditingEmail ? (
                         <input
                             type='email'
-                            value={email}
+                            value={userData.email}
                             onChange={(e) => setEmail(e.target.value)}
                             className='w-full p-[8px] border-2 border-gray rounded-[8px]'
                         />
@@ -163,7 +216,7 @@ const ProfileSettings = () => {
                         className='lg:hidden flex items-center justify-between w-full gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
                     >
                         <h5 className='font-bold text-primary'>Save</h5>
-                        <FontAwesomeIcon icon={faCheck} size='sm' className='text-primary' />
+                        <LiaCheckSolid size={20} className='text-primary' />
                     </button>
                 )}
             </div>
@@ -178,13 +231,13 @@ const ProfileSettings = () => {
                                 onClick={handlePasswordChange}
                                 className='flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
                             >
-                                <FontAwesomeIcon icon={faCheck} className='text-primary' />
+                                <LiaCheckSolid size={20} className='text-primary' />
                             </button>
                             <button
                                 onClick={() => setIsEditingPassword(false)}
                                 className='flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-red'
                             >
-                                <FontAwesomeIcon icon={faTimes} className='text-red' />
+                                <LiaTimesSolid size={20} className='text-red' />
                             </button>
                         </div>
                     ) : (
@@ -193,7 +246,7 @@ const ProfileSettings = () => {
                             className='hidden lg:flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
                         >
                             <h5 className='font-bold text-primary'>Edit</h5>
-                            <FontAwesomeIcon icon={faPen} size='sm' className='text-primary' />
+                            <PiPencilSimpleLineDuotone size={20} className='text-primary' />
                         </button>
                     )}
                 </div>
@@ -202,7 +255,7 @@ const ProfileSettings = () => {
                     {isEditingPassword ? (
                         <>
                             <input
-                                type='password'
+                                // type='password'
                                 placeholder='Current Password'
                                 value={currentPassword}
                                 onChange={(e) => setCurrentPassword(e.target.value)}
@@ -216,7 +269,7 @@ const ProfileSettings = () => {
                             </button>
                             {isPasswordConfirmed && (
                                 <input
-                                    type='password'
+                                    // type='password'
                                     placeholder='New Password'
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
@@ -234,7 +287,7 @@ const ProfileSettings = () => {
                         className='lg:hidden flex items-center justify-between w-full gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
                     >
                         <h5 className='font-bold text-primary'>Save</h5>
-                        <FontAwesomeIcon icon={faCheck} size='sm' className='text-primary' />
+                        <LiaCheckSolid size={20} className='text-primary' />
                     </button>
                 )}
             </div>

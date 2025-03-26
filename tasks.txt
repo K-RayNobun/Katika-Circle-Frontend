@@ -1,8 +1,8 @@
 ------------------ TASKS TO DO TODAY ------------------
 
 - Improve the signup logic
-- Add a spinner small spinner component when async functions goes on. 4/13
--  Add a return button
+- Add a small spinner component when async functions goes on. 4/13
+- Add a return button to transactions
 
 + Enable the user credentials modification and picture adding
 

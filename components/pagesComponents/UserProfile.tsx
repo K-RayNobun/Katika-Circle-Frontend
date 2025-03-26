@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { FaRegBell, FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import { useRouter } from 'next/navigation';
 
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
@@ -11,8 +10,6 @@ import { resetTransaction } from '@/lib/redux/features/transaction/transactionSl
 interface userProfileProps {
     userName: string,
     userSurname: string,
-    isLogoutVisible: boolean,
-    setIsLogoutVisible: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 const UserProfile = ({ userName, userSurname }: userProfileProps) => {
@@ -46,9 +43,10 @@ const UserProfile = ({ userName, userSurname }: userProfileProps) => {
     };
 
     return (
-        <div className={`absolute top-[12px] right-[12px] lg:relative flex w-[400px] justify-between px-[20px] lg:pr-[0px] h-[59px] transition-all duration-2000`}>
+        <div className={`absolute top-[12px] 
+        right-[12px] lg:absolute flex w-[400px] justify-between px-[20px] lg:pr-[0px] h-[59px] transition-all duration-2000`}>
             <div className={`size-[59px] bg-white flex justify-center items-center`}>
-                <FontAwesomeIcon className={`h-[38px] lg:h-[32px] text-gray_dark/60`} icon={faBell} />
+                <FaRegBell size={24} className={`h-[64px] lg:h-[80px] text-gray_dark/60`} />
             </div>
             <div className={`relative h-full flex items-center rounded-[8px] gap-[16px] px-[24px] py-[9px] bg-white`}>
                 <div onClick={() => setIsModalVisible(true)} className={`size-[41px] rounded-sm bg-gray`}>
@@ -69,7 +67,12 @@ const UserProfile = ({ userName, userSurname }: userProfileProps) => {
                 </div>
                 <button onClick={() => setIsLogoutVisible((prev) => !prev)} className={`flex justify-between items-center text-gray_dark/60 hover:text-primary_dark w-[164px]`}>
                     <h5 className={`text-[16px] leading-[20px] font-semibold`}>{`${userName}  ${userSurname}`}</h5>
-                    <FontAwesomeIcon className={`h-[16px] transition-all duration-400`} icon={ !isLogoutVisible ? faChevronDown : faChevronUp} />
+                    {
+                    !isLogoutVisible ? 
+                    <FaChevronDown className={`h-[16px] transition-all duration-400`} />
+                        :
+                    <FaChevronUp className={`h-[16px] transition-all duration-400`} />
+                    }
                 </button>
                 { isLogoutVisible && <div className={`absolute top-[10%] transition-all duration-2000 translate-y-[60px] right-[0] bg-white rounded-[12px] w-[70%] px-[16px] py-[8px]`}>
                     <button onClick={logoutUser} className={`w-full py-[6px] text-primary_dark font-semibold active:scale-110`}>Logout</button>

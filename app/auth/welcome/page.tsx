@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
 // Redux related imports
 import { useAppSelector } from '@/lib/redux/hooks';
@@ -16,11 +16,13 @@ const Welcome = () => {
 
     const userData = useAppSelector((state) => state.user);
     const router = useRouter();
-    const isSubmittingRef = useRef(false)
+    const isSubmittingRef = useRef(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const buttonStyle = `bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`;
 
     const handleOnclick = () => {
         isSubmittingRef.current = true;
+        setIsSubmitting(true);
         router.push('/user/home');
     }
 
@@ -41,8 +43,8 @@ const Welcome = () => {
                             <h5 className='text-[17px]'>We&apos;re excited to have you onboard. Let&apos;s get you started!</h5>
                         </div>
                     </div>
-                    <button onClick={handleOnclick} className={buttonStyle}>
-                    {isSubmittingRef.current ? (
+                    <button onClick={handleOnclick} className={`${buttonStyle} ${isSubmitting ? "opacity-50" : 'opacity-100'}`}>
+                    {isSubmitting ? (
                         <>
                             <AsyncSpinner />
                             {/* <h6 className='text-center font-bold'>Processing...</h6> */}

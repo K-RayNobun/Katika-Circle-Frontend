@@ -121,7 +121,7 @@ const AwardsBoard = () => {
             <main className='grow max-h-[100%] hidden lg:flex flex-col space-y-[48px]'>
                 <div className='flex justify-between grow px-[6px]'>
                     <h5 className='text-[24px] mt-[20px] lg:mt-[40px] font-bold'>Mes Récompenses</h5>
-                    <UserProfile userName={userData.name} userSurname={userData.surname} isLogoutVisible={isLogoutVisible} setIsLogoutVisible={setIsLogoutVisible}  />
+                    <UserProfile userName={userData.name} userSurname={userData.surname}  />
                 </div>
 
                 <div className={isLogoutVisible ? `mt-[60px]` : ``}>
@@ -131,7 +131,7 @@ const AwardsBoard = () => {
                 <div className='flex grow gap-[32px] overflow-auto'>
                     <FilleulList filleulList={filleulList} />
                     <div className='h-full max-w-[32%] flex flex-col gap-[20px]'>
-                        <ReferralSection referralCode={referralCode!} setIsDialogVisible={setIsDialogVisible} />
+                        <ReferralSection referralCode={referralCode!} />
                         <AwardsCashback cashbackGain={cashbackGain} />
                         <AwardsInitiateTransaction />
                     </div>
@@ -143,7 +143,7 @@ const AwardsBoard = () => {
                 <h5 className='text-[24px] mt-[20px] lg:mt-[40px] font-bold'>Mes Récompenses</h5>
                 <AwardsCashback cashbackGain={cashbackGain} />
                 <AwardsStats referralBonus={referralBonus} filleulCount={filleulList.length} />
-                <ReferralSection referralCode={referralCode!} setIsDialogVisible={setIsDialogVisible} />
+                <ReferralSection referralCode={referralCode!} />
                 <FilleulList filleulList={filleulList} />
             </main>
 

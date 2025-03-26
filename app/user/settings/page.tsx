@@ -3,22 +3,29 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import UserProfile from '@/components/pagesComponents/UserProfile';
 import ProfileSection from '@/components/pagesComponents/SettingsProfile';
 import HelpFAQSection from '@/components/pagesComponents/SettingsHelpFAQ';
 
+import { useAppSelector } from '@/lib/redux/hooks';
+
 const SettingsPage = () => {
     const [activeTab, setActiveTab] = useState<'profile' | 'notifications' | 'help'>('profile');
+    const userData = useAppSelector((state) => state.user)
 
     const SidebarButton = ({tabName, title}:{tabName:string, title:string}) => {
         return (
-            <button
-                onClick={() => {if(tabName === 'profile' || tabName === 'help') {setActiveTab(tabName)}}}
-                className={`grow flex items-center justify-center lg:justify-start h-full w-full px-[16px] py-[10px] rounded-[8px] ${
-                    activeTab === tabName ? 'bg-primary/20 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary hover:font-bold'
-                }`}
-            >
-                <h5>{title}</h5>
-            </button>
+            <>  
+                <button
+                    onClick={() => {if(tabName === 'profile' || tabName === 'help') {setActiveTab(tabName)}}}
+                    className={`grow flex items-center justify-center lg:justify-start h-full w-full px-[16px] py-[10px] rounded-[8px] ${
+                        activeTab === tabName ? 'bg-primary/20 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary hover:font-bold'
+                    }`}
+                >
+                    <h5>{title}</h5>
+                </button>
+
+            </>
         )
     }
 
@@ -28,20 +35,7 @@ const SettingsPage = () => {
                 {/* Settings Header */}
                 <div className='flex justify-between px-[6px] max-h-[100px]'>
                     <h5 className='text-[24px] my-[20px] lg:mt-[40px] font-bold'>Parametres</h5>
-                    <div className='hidden lg:flex justify-between pl-[32px] gap-[32px] h-[59px]'>
-                        <div className='size-[59px] flex justify-center items-center'>
-                            <FontAwesomeIcon className='h-[32px] text-gray_dark' icon={faBell} />
-                        </div>
-                        <div className='h-full flex items-center rounded-[8px] gap-[16px] px-[24px] py-[9px] bg-white'>
-                            <div className='size-[41px] rounded-sm bg-gray'>
-                                {/* Profile Image here */}
-                            </div>
-                            <div className='flex justify-between items-center w-[108px]'>
-                                <h5 className='text-[16px] text-gray_dark/60'>John Doe</h5>
-                                <FontAwesomeIcon className='h-[16px] text-gray_dark/60' icon={faChevronDown} />
-                            </div>
-                        </div>
-                    </div>
+                    <UserProfile userName={userData.name}  userSurname={userData.surname} />
                 </div>
 
                 {/* Settings Content */}

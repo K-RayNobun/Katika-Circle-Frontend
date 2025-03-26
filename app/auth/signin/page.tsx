@@ -26,7 +26,8 @@ const Signin = () => {
     //Redux related imports
     const dispatch = useAppDispatch();
     const accessTokenRef = useRef('');
-    const isSubmittingRef = useRef(false)
+    const isSubmittingRef = useRef(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -64,6 +65,7 @@ const Signin = () => {
         dispatch(setReferralCode(response.data.data.referral.referralCode))
         dispatch(setWalletAdress(response.data.data.wallet.address))
         dispatch(createUser({
+            id: response.data.data.id,
             name: response.data.data.name,
             surname: response.data.data.sname,
             email: response.data.data.email,
@@ -77,6 +79,8 @@ const Signin = () => {
     const handleSubmit = async(e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
         isSubmittingRef.current = true;
+        setIsSubmitting(true);
+        console.log('Submitting ...');
 
         const formData = new FormData(formRef.current!);
         const email = formData.get('email') as string;
@@ -114,7 +118,6 @@ const Signin = () => {
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*'
                     }
                 }
             );
@@ -127,11 +130,13 @@ const Signin = () => {
             }));
             getUserData();
         } catch(error) {
+            setIsSubmitting(false);
             const axiosError = error as AxiosError;
             if (axiosError.response?.status === 500) {
             console.error('Error on precessing login:', error);
             setError('Invalid email or password');
             setErrorField('email & password');
+            isSubmittingRef.current = false;
             return
             }
         }
@@ -180,8 +185,8 @@ const Signin = () => {
             <div>
                 {error && <h4 className='text-red font-bold text-center text-sm h-min'>{error}</h4>}
             </div>
-            <button type='submit' className={`mt-6 bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full ${isSubmittingRef.current ? 'opacity-50' : ''}`}>
-                {isSubmittingRef.current ? (
+            <button type='submit' className={`mt-6 bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full ${isSubmitting ? 'opacity-50' : ''}`}>
+                {isSubmitting ? (
                     <>
                         <AsyncSpinner />
                         {/* <h6 className='text-center font-bold'>Processing...</h6> */}
