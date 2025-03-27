@@ -1,7 +1,7 @@
 'use client'
 
 // pages/index.js
-import { useState } from 'react';
+// import { useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 
 export default function QrCodeDialog({link}:{link:string}) {

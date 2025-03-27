@@ -24,7 +24,6 @@ const AwardsBoard = () => {
     const [filleulList, setFilleulList] = useState<FilleulDetails[]>([]);
     const [referralBonus, setReferralBonus] = useState(0);
     const [cashbackGain, setCashbackGain] = useState(0);
-    const [isLogoutVisible, setIsLogoutVisible] = useState(false);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
 
     const dispatch = useAppDispatch();
@@ -124,7 +123,7 @@ const AwardsBoard = () => {
                     <UserProfile userName={userData.name} userSurname={userData.surname}  />
                 </div>
 
-                <div className={isLogoutVisible ? `mt-[60px]` : ``}>
+                <div className={`mt-[60px]`}>
                     <AwardsStats referralBonus={referralBonus} filleulCount={filleulList.length} />
                 </div>
 

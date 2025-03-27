@@ -411,7 +411,11 @@ const Signup = () => {
                 : <LuEye onClick={toogleConfirmPwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />}            </div>
             <div className={`w-full flex gap-[14px]`}>
                 <div className={`flex items-center ${inputStyle} rounded-[8px] bg-primary/10 px-[14px] py-[8px] gap-[12px]`}>
-                    <img src={countryFlagURL} alt="" className='w-[30px]' />
+                    {countryFlagURL ? (
+                        <img src={countryFlagURL} alt="Country flag" className='w-[30px]' />
+                    ) : (
+                        <div className="w-[30px] h-[20px] bg-gray-200 animate-pulse rounded" />
+                    )}
                     <select id='country-select' name='country' defaultValue={53} onChange={handleCountryChange} className={`bg-transparent w-[90%] font-bold text-primary_dark`}>
                         { Object.entries(countriesList).map(([key, countryData], index) => (
                             <option key={index} value={key} className='w-full text-black bg-white appearance-none' style={{MozAppearance: 'none', WebkitAppearance: 'none'}}>
@@ -434,7 +438,26 @@ const Signup = () => {
                         <input onClick={handleBoxToggle} type="checkbox" className='appearance-none rounded-sm size-4 md:size-5 mt-0 border-primary border-2 text-primary before:transform duration-500 ease-in-out' />
                     </div>
                 }
-                <h4 className='text-[12px] leading-4 sm:leading-4 sm:text-[14px] text-gray_dark/60 leading-[24px]'> By clicking this button, you agree to the <a href='https://katika.io/userlicenseagreement' className='text-primary font-bold'>terms and conditions</a> and <a href='https://katika.io/privacypolicy' className='text-primary font-bold'>privacy policy</a></h4>
+                <h4 className='text-[12px] leading-4 sm:leading-4 sm:text-[14px] text-gray_dark/60 leading-[24px]'>
+                    By clicking this button, you agree to the{' '}
+                    <Link 
+                        href="https://katika.io/userlicenseagreement" 
+                        className='text-primary font-bold hover:text-primary_dark transition-colors'
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        terms and conditions
+                    </Link>
+                    {' '}and{' '}
+                    <Link 
+                        href="https://katika.io/privacypolicy" 
+                        className='text-primary font-bold hover:text-primary_dark transition-colors'
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        privacy policy
+                    </Link>
+                </h4>
             </div>
             <div className={`min-h-[20px]`}>
                 {error && <h4 className='text-red font-bold text-center text-sm h-min'>{error}</h4>}

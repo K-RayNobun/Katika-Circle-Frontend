@@ -3,16 +3,11 @@
 import React, { useState } from 'react';
 import { PiPencilSimpleLineDuotone } from "react-icons/pi";
 import { LiaTimesSolid, LiaCheckSolid } from "react-icons/lia";
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import OTPModal from '@/components/pagesComponents/OTPModal'; // Import the OTP modal component
-
-import UserProfile from './UserProfile';
 
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
 import { provideId } from '@/lib/redux/features/user/userSlice';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
 const ProfileSettings = () => {
     const [isEditingName, setIsEditingName] = useState(false);

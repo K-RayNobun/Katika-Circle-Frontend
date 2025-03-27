@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import { RiHandCoinLine } from "react-icons/ri";
 import { TbUserHeart } from "react-icons/tb";
 import { GrGroup } from "react-icons/gr";

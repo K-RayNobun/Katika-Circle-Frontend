@@ -1,4 +1,4 @@
-import { IoMdInformationCircle, IoMdArrowBack,  } from "react-icons/io";
+import { IoMdInformationCircle } from "react-icons/io";
 import { LiaTimesSolid } from "react-icons/lia";
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
@@ -6,8 +6,6 @@ import axios from 'axios';
 //Redux imports
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { provideStepOneData } from '@/lib/redux/features/transaction/transactionSlice';
-import StatsContainer from "../pagesComponents/StatsContainer";
-
 
 // 30-50, 50-100, 100-250, 250-500, 500-2000, 2000-70000 
 interface screenProps {

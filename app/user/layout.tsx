@@ -5,8 +5,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { RiExchangeLine, RiHome9Line, RiTrophyLine } from "react-icons/ri";
 import { PiGearSix } from "react-icons/pi";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faCoins, faTrophy, faGears } from '@fortawesome/free-solid-svg-icons';
 
 // Redxu related import
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
@@ -21,28 +19,23 @@ export default function UserLayout({
     children: React.ReactNode;
   }>) {
     const [actualTab, setActualTab] = useState<number>(1);
-    const [isLogoutVisible, setIsLogoutVisible] = useState(false)
     const pagesRoutes = ['/user/home', '/user/transactions', '/user/awards', '/user/settings']
     const userData = useAppSelector((state) => state.user);
     const router = useRouter();
 
-    const fullUrl = window.location.href;
     const dispatch = useAppDispatch();
     
-    if (userData.verified === false) {
-        router.push('/auth/signin');
-        console.log('====== THE USER IS NOT VERIFIED ========')
-    } else {
-        // console.log('\n\n ============================================= The user verified is :', userData.name + ' ' + userData.surname);
-    }
 
     const switchTab = (newTab: number) => {
-        if (actualTab !== newTab) {
-            console.log('Previous tab was ', actualTab);
-            setActualTab(newTab);   
-            router.push(pagesRoutes[newTab-1]);
-            console.log('Moving to tab', newTab + ' whose url is ' + pagesRoutes[newTab-1]);
-        } else return;
+        setActualTab((prevTab) => {
+            if (actualTab !== newTab) {
+                console.log('Previous tab was ', prevTab);
+                router.push(pagesRoutes[newTab-1]);
+                console.log('Moving to tab', newTab + ' whose url is ' + pagesRoutes[newTab-1]);
+                return prevTab;
+            }
+            return prevTab;
+        })
     }
 
     const logoutUser = () => {
@@ -53,18 +46,23 @@ export default function UserLayout({
     };
 
     useEffect(() => {
-        pagesRoutes.forEach((endUrl, index) => {
-            if (fullUrl.includes(endUrl) && actualTab !== index+1) {
-                router.push(endUrl);
-                setActualTab(index+1)
-                console.log('###------ This Page Url Has Been Fixed ------###')
-            }
-        })
-    }, [])
+        if (userData.verified ==false) {
+            router.push('/auth/signin')
+        }
+    }, [userData.verified, router]);
+
+// Identify the problem
+    useEffect(() => {
+        const currentPath = window.location.pathname;
+        const index = pagesRoutes.findIndex(route => route === currentPath);
+        if (index !== -1 && actualTab !== index + 1) {
+            setActualTab(index + 1)
+        }
+    })
 
     return (
         <section className={`relative w-full bg-gray min-h-screen lg:h-[1024px] lg:px-[12px] px-[4px] py-[12px] flex justify-center flex-col lg:flex-row gap-[16px] rounded-lg sm:rounded-3xl mx-auto`}>
-             { userData.verified &&<aside className={`hidden lg:flex w-[22%] flex-col justify-between bg-primary rounded-3xl p-[32px]`}>
+             { userData.verified && <aside className={`hidden lg:flex w-[22%] flex-col justify-between bg-primary rounded-3xl p-[32px]`}>
                 <div className={`flex flex-col justify-between h-[456px]`}>
                     <Image src={'/logo_white.svg'} height={60} width={200} alt='' ></Image>
                     <div className={`h-[60%] flex flex-col justify-between`}>
@@ -96,7 +94,8 @@ export default function UserLayout({
                         <button onClick={logoutUser} className={`text-white transaition-all duration-300 hover:translate-x-[12px] active:scale-110`}>Logout</button>
                     </div>
                 </div>
-            </aside>}
+            </aside>
+            }
 
             {/* //  Mobile View Data */}
             { userData.verified && <section className='fixed z-40 bottom-[12px] left-[50%] translate-x-[-50%] h-[64px] py-[5px] px-[5%] lg:hidden w-[95%] flex justify-between bg-primary rounded-[12px] '>
@@ -118,9 +117,7 @@ export default function UserLayout({
                         <h4 className='text-[8px]'>Parametres</h4>
                     </button>
             </section>}
-            <section className='mb-[64px] lg:mb-0'>
                 { userData.verified && children }
-            </section>
             </section>
     );
   }

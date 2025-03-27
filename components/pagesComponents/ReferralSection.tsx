@@ -4,7 +4,7 @@ import { IoQrCode } from "react-icons/io5";
 import { LuUserRoundPlus } from "react-icons/lu";
 import DialogBox from '../DialogBox';
 import { useAppSelector } from '@/lib/redux/hooks';
-import QrCodeDialog from '../QrCodeDialog';
+// import QrCodeDialog from '../QrCodeDialog';
 
 const ReferralSection = ({ referralCode,  isScreenVisible }: { referralCode:string, isScreenVisible?:boolean | null }) => {
     const isSubmittingRef = useRef(false);

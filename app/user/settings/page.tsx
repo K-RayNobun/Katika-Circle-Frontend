@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import UserProfile from '@/components/pagesComponents/UserProfile';
 import ProfileSection from '@/components/pagesComponents/SettingsProfile';
 import HelpFAQSection from '@/components/pagesComponents/SettingsHelpFAQ';

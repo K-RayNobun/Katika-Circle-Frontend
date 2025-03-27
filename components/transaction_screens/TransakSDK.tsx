@@ -127,7 +127,7 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
   const transak: Transak = new Transak({
     hideExchangeScreen: true,
     apiKey:  `${process.env.NEXT_PUBLIC_TRANSAK_API_KEY}`, // Replace with your Transak API Key
-    environment: Transak.ENVIRONMENTS.STAGING, // Use 'PRODUCTION' for live environment
+    environment: Transak.ENVIRONMENTS.PRODUCTION, // STAGING // Use 'PRODUCTION' for live environment
     widgetHeight: '550px',
     widgetWidth: '450px',
     hideMenu: true,

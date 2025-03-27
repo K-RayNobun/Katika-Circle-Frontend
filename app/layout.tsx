@@ -1,3 +1,4 @@
+import Provider from "@/lib/query/Provider";
 import { ReduxProvider } from "@/lib/redux/Provider"; 
 import type { Metadata } from "next";
 import { Poppins } from 'next/font/google';
@@ -25,11 +26,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppinsNormal.className}`}>
-        <ReduxProvider>
-          <ClientWrapper>
-            {children}
-          </ClientWrapper>
-        </ReduxProvider>
+        <Provider>
+          <ReduxProvider>
+            <ClientWrapper>
+              {children}
+            </ClientWrapper>
+          </ReduxProvider>
+        </Provider>
       </body>
     </html>
   );

@@ -44,9 +44,9 @@ const userSlice = createSlice({
         state.email = action.payload.email;
         state.pwdhash = action.payload.pwdhash;
         state.country = action.payload.country;
-        console.log('The user information are : ', state.name + state.pwdhash  + state.email);
+        console.log('------------- The user information are : ', state.name + state.pwdhash  + state.email + ' -----------------');
        },
-       provideId: (state, action: Payload<string>) => {
+       provideId: (state, action: PayloadAction<string>) => {
         state.id = action.payload;
        },
        verifyUser: (state, action:PayloadAction<boolean>) => {

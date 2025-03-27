@@ -5,13 +5,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import AsyncSpinner from '@/components/AsyncSpinner';
 import { LuEyeClosed, LuEye } from "react-icons/lu";
 import { useRouter, useSearchParams} from 'next/navigation';
-import { renewToken } from '@/lib/redux/features/token/tokenSlice';
 import Link from 'next/link';
 import axios, { AxiosError } from 'axios';
 
 // Redux related imports
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { createUser, setReferralCode, setWalletAdress, verifyUser } from '@/lib/redux/features/user/userSlice';
+import { renewToken } from '@/lib/redux/features/token/tokenSlice';
+
 
  
 const Signin = () => {
@@ -102,7 +103,7 @@ const Signin = () => {
             return;
         }
 
-        console.log('Processing submission');
+        console.log('Processing sign in');
         // sendEmail(formRef.current);
 
         setError(null);

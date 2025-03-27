@@ -155,8 +155,12 @@ const PinCheck = () => {
             setCanAskCode(false);
             setTimeMinLeft(1);
             setTimeSecLeft(59);
-        } catch(error: any) {
-            console.log('Failed to send OTP code ',  error.message)
+        } catch(error) {
+            if (error instanceof AxiosError) {
+                console.log('Failed to send OTP code ', error.response?.data?.message || error.message);
+            } else {
+                console.log('An unexpected error occurred');
+            }
         }
     };
 

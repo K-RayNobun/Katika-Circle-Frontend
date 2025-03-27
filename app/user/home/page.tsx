@@ -25,7 +25,6 @@ const Home = () => {
     // State Management
     const [isScreenVisible, setIsScreenVisible] = useState(false);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
-    const [isLogoutVisible, setIsLogoutVisible] = useState(false);
     const [screenIndex, setScreenIndex] = useState<number>(1);
     const [filleulList, setFilleulList] = useState<FilleulDetails[]>([]);
     const [referralBonus, setReferralBonus] = useState<number>(0);
@@ -166,7 +165,7 @@ const Home = () => {
                     userSurname={userData.surname}
                 />
                 {/* Desktop View: Referral Section and Filleul List */}
-                <div className={`mt-[100px] hidden grow lg:flex flex-col gap-[36px] justify-between h-full rounded-[12px] bg-white px-[24px] py-[32px] transition-all duration-500`}>
+                <div className={`mt-[100px] hidden grow lg:flex flex-col gap-[36px] justify-between h-[100%] rounded-[12px] bg-white px-[24px] py-[32px] transition-all duration-500`}>
                     <ReferralSection referralCode={userData.referralCode!} isScreenVisible={isScreenVisible} />
                     <FilleulList filleulList={filleulList} />
                 </div>
