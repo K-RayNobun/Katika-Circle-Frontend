@@ -142,15 +142,28 @@ const Signup = () => {
         try {
             console.log('Registering user');
             const formData = new FormData(formRef.current!);
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/signin`, 
-                {
+            let payload;
+            if (formData.get('ref_code')?.toString().length === 0) {
+                console.log('NO REFERRAL CODE PRECISED');
+                payload = {
+                    "fname": formData.get('user_firstname') as string,
+                    "lname": formData.get('user_name') as string,
+                    "email": formData.get('user_email')! as string,
+                    "pwd": formData.get('password') as string,
+                    "countryCode": selectedCountry!.name,
+                }
+            } else {
+                payload = {
                     "fname": formData.get('user_firstname') as string,
                     "lname": formData.get('user_name') as string,
                     "email": formData.get('user_email')! as string,
                     "pwd": formData.get('password') as string,
                     "countryCode": selectedCountry!.name,
                     "pReferralCode": formData.get('ref_code') as string,
-                },
+                }
+            }
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/signin`, 
+                payload,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -173,13 +186,17 @@ const Signup = () => {
                 expiresIn: null
             }));
             sendOTP();
-        } catch (error) {
+        } catch (error:any) {
             const axiosError = error as AxiosError;
             setIsSubmitting(false);
-            if (axiosError.response?.status === 500) {
+            console.log('Data rendered is ', error.response.data.message)
+            // Handle error `Referral Does not exit Exist`
+            if (axiosError.response?.status === 500 && error.response.data.message.includes('Referral Does not exit Exist')) {
+                setError('This referral code is invalid');
+                isSubmittingRef.current = false;
+            } else if (axiosError.response?.status === 500 && error.response.data.message.toLowerCase().includes('user already exists')) {
                 setError('User already exists');
                 isSubmittingRef.current = false;
-                console.error('Registration error:', error);
             } else if (axiosError.response?.status !== 200) {
                 setError(axiosError.response?.statusText + '\n Registration failed. Please try again.');
                 isSubmittingRef.current = false;
@@ -191,7 +208,6 @@ const Signup = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         isSubmittingRef.current = true;
-        setIsSubmitting(true);
         console.log('Is submitting ? ', isSubmittingRef.current);
 
         const formData = new FormData(formRef.current!);
@@ -205,44 +221,45 @@ const Signup = () => {
         if ( name.length < 2 || !validateName(name)){
             setError('Enter a valid name ');
             setErrorField('user_firstname');
-            isSubmittingRef.current = false;
+            setIsSubmitting(false);
             return;
         }
         if ( surname.length < 2 || !validateName(surname)){
             setError('Enter a valid surname');
             setErrorField('user_name');
-            isSubmittingRef.current = false;
+            setIsSubmitting(false)
             return;
         }
 
         if (!validatePassword(password, confirmPassword)) {
             setError('Password do not match.');
             setErrorField('password_match');
-            isSubmittingRef.current = false;
+            setIsSubmitting(false)
             return;
         }
 
         if (!validateEmail(email)) {
             setError('Please enter a valid email address.');
             setErrorField('user_email');
-            isSubmittingRef.current = false;
+            setIsSubmitting(false)
             return;
         }
 
         if(!validateCountry(selectedCountry!.name)) {
             setError('Please select a country.');
-            isSubmittingRef.current = false;
+            setIsSubmitting(false);
             return;
         }
 
         if (!isBoxChecked) {
             setError('Please accept the terms and conditions.');
-            isSubmittingRef.current = false;
+            setIsSubmitting(false)
             return;
         }
 
         setError('');
         setErrorField('');
+        setIsSubmitting(true);
         registerUser(e);
         console.log('Processing submission');
         // sendEmail(formRef.current!)
@@ -297,19 +314,29 @@ const Signup = () => {
 
     const checkRefCode = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const refCode = e.target.value;
-        console.log('Checking ', refCode);
-        if (refCode.slice(0, 3).includes('KTK')) {
-            const response = await axios.get(
-                `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/referral/parent?code=${refCode}`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*'
-                    }
-                });
-            console.log('The referral code verdict is ', response.data.data);
+        const regex = /^KTK\d{4,5}$/;
+        if (regex.test(refCode)) {
+            setError('');
+            try {
+                console.log('Checking ', refCode);
+                const response = await axios.get(
+                    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/referral/parent?code=${refCode}`,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*'
+                        }
+                    });
+                console.log('The referral code verdict is ', response.data.data);
+            } catch (error) {
+                console.error('The error => ', error);
+                setError('Inexistant referral code');
+            }
+        } else if( refCode.length === 0 ) {
+            setError('');
         } else {
-            setError('Invalid Referral Code');
+            console.log(`Ref code is => ${refCode}`)
+            setError('Enter a valid Referral Code');
         }
     }
 
@@ -345,7 +372,7 @@ const Signup = () => {
     useEffect(() => {
         const ref_code = searchParams.get('ref_code');
         const firstReferringCode = userData.firstReferringCode;
-        console.log('Th params got changed !!!');
+        console.log('The params got changed !!!');
         if(ref_code) {
             setFormData({
                 ref_code: ref_code
@@ -424,9 +451,9 @@ const Signup = () => {
                         )) }
                     </select>
                 </div>
-                <input type="text" id='refcode' name='ref_code' onChange={checkRefCode} className={`${inputStyle} ${errorField === 'ref_code' ? 'border-2 border-red': ''}`} defaultValue={formData.ref_code} maxLength={7} readOnly={isRefCodeProvided} placeholder='Referral Code' />
+                <input type="text" id='refcode' name='ref_code' onChange={checkRefCode} className={`${inputStyle} ${errorField === 'ref_code' ? 'border-2 border-red': ''}`} defaultValue={formData.ref_code} maxLength={8} readOnly={isRefCodeProvided} placeholder='Referral Code' />
             </div>
-            <div className="flex necessary_input items-start gap-[8px] h-[20px]">
+            <div className="flex necessary_input items-start gap-[8px] mb-[8px]">
                 {
                     isBoxChecked ?
                     <div onClick={handleBoxToggle} className='relative size-5'>
@@ -438,7 +465,7 @@ const Signup = () => {
                         <input onClick={handleBoxToggle} type="checkbox" className='appearance-none rounded-sm size-4 md:size-5 mt-0 border-primary border-2 text-primary before:transform duration-500 ease-in-out' />
                     </div>
                 }
-                <h4 className='text-[12px] leading-4 sm:leading-4 sm:text-[14px] text-gray_dark/60 leading-[24px]'>
+                <h4 className='text-[12px] bg-gray leading-[16px] sm:leading-[24px] sm:text-[14px] text-gray_dark/60 leading-[24px]'>
                     By clicking this button, you agree to the{' '}
                     <Link 
                         href="https://katika.io/userlicenseagreement" 

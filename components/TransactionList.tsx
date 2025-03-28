@@ -166,8 +166,8 @@ const TransactionList = ({accessToken, searchKey, field}:{accessToken:string, se
   return (
     <div className={`grow w-full overflow-auto`}>
         <table className='flex flex-col w-full mb-[50px]'>
-          <thead>
-              <tr className='hidden lg:flex w-full bg-[#F9FAFB]  text-gray_dark py-[12px] px-[24px] border border-[#EAECF0]'>
+          <thead className='hidden lg:flex'>
+              <tr className=' w-full bg-[#F9FAFB]  text-gray_dark py-[12px] px-[24px] border border-[#EAECF0]'>
                   <th className='w-[22%] px-[12px]'>Date et Heure <FontAwesomeIcon size='sm' icon={faArrowDown} className='ml-1'/></th>
                   <th className='w-[30%] px-[12px]'>Destinataire</th>
                   <th className='w-[14%] px-[12px]'>Montant envoyé</th>
@@ -176,7 +176,9 @@ const TransactionList = ({accessToken, searchKey, field}:{accessToken:string, se
               </tr>
           </thead>
           <tbody>
-            <tr className='block h-full w-full space-y-[16px] lg:space-y-[0px] overflow-auto'>
+            {
+              transactionsList.length === 0 ?
+              <tr className='block h-full w-full space-y-[16px] lg:space-y-[0px] overflow-auto'>
               { searchKey.length === 0 ?
               transactionsList.map((transaction, i) => {
                   return <Transaction key={i} details={transaction}/>
@@ -187,6 +189,12 @@ const TransactionList = ({accessToken, searchKey, field}:{accessToken:string, se
               })
               }
             </tr>
+            :
+            <div className='w-full bg-gray p-[32px] rounded-[12px]'>
+              <h5 className='text-[16px] text-gray_dark font-semibold items-center justify-center flex '>No transaction</h5>
+            </div>
+            }
+            
           </tbody>
         <button className={`${dataLength > 10 ? 'hidden lg:block' : 'hidden'} w-full bg-[#F9FAFB] py-[16px] hover:bg-gray rounded-b-[8px]'`}><h5 className='text-center'>Voir plus</h5></button>
       </table>

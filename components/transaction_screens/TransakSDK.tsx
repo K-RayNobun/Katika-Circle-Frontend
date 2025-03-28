@@ -124,6 +124,7 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
     console.log('The response is:', response);
   }
 
+  console.log(`The Transak API key is : ${process.env.NEXT_PUBLIC_TRANSAK_API_KEY}`);
   const transak: Transak = new Transak({
     hideExchangeScreen: true,
     apiKey:  `${process.env.NEXT_PUBLIC_TRANSAK_API_KEY}`, // Replace with your Transak API Key

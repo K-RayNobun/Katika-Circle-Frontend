@@ -138,7 +138,7 @@ const AwardsBoard = () => {
             </main>
 
             {/* Mobile View */}
-            <main className='lg:hidden mb-[84px] space-y-[24px] px-[6px]'>
+            <main className='lg:hidden space-y-[24px] px-[6px]'>
                 <h5 className='text-[24px] mt-[20px] lg:mt-[40px] font-bold'>Mes Récompenses</h5>
                 <AwardsCashback cashbackGain={cashbackGain} />
                 <AwardsStats referralBonus={referralBonus} filleulCount={filleulList.length} />

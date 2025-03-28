@@ -2,7 +2,7 @@
 "use client"; // Mark this as a Client Component
 
 import { useState, useEffect } from "react";
-import Spinner from "./Spinner";
+// import Spinner from "./Spinner";
 
 export default function ClientWrapper({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -23,7 +23,8 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
   return (
     <>
       {loading ? (
-        <Spinner />
+        // <Spinner />
+        <div></div>
       ) : (
         children
       )}

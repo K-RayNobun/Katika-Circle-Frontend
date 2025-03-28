@@ -66,6 +66,10 @@ const PinCheck = () => {
             )
         }, 1000);
 
+        if(timeMinLeft === 0 && timeSecLeft === 0) {
+            setCanAskCode(true)
+        }
+
         return () => clearInterval(intervalRef.current);
     })
 
@@ -141,7 +145,7 @@ const PinCheck = () => {
     const sendOTP = async () => {
         console.log('Access Token is: ', accessToken)
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/account/otp`,
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`,
                 {},
             {
                 headers: {
@@ -166,7 +170,7 @@ const PinCheck = () => {
 
     const getUserData = async() => {
         console.log('Getting the verified user data');
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/account/profile`,
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,

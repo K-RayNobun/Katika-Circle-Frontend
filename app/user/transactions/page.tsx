@@ -33,7 +33,7 @@ const TransactionBoard = () => {
 
   return (
         <div className={`relative h-full grow flex flex-col lg:flex-row gap-[24px] rounded-lg sm:rounded-3xl`}>
-            <UserProfile userName={userData.name} userSurname={userData.surname} />
+            <UserProfile  userName={userData.name} userSurname={userData.surname} />
             <div className='grow flex flex-col space-y-[48px]'>
                 <div className="flex flex-col space-y-[72px] px-[6px] ">
                     <div className={`flex justify-between grow`}>

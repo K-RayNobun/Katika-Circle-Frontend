@@ -29,7 +29,7 @@ const SettingsPage = () => {
 
     return (
         <div className='relative h-full grow flex flex-col lg:flex-row gap-[24px] rounded-lg sm:rounded-3xl'>
-            <main className='flex flex-col grow mb-[84px] lg:mb-0 lg:space-y-[16px]'>
+            <main className='flex flex-col grow lg:space-y-[16px]'>
                 {/* Settings Header */}
                 <div className='flex justify-between px-[6px] max-h-[100px]'>
                     <h5 className='text-[24px] my-[20px] lg:mt-[40px] font-bold'>Parametres</h5>

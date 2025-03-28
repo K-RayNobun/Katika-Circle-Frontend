@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "export": "next build"
+    "static": "serve out"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -26,7 +26,7 @@
     "crypto-js": "^4.2.0",
     "dotenv": "^16.4.7",
     "emailjs": "^4.0.3",
-    "next": "15.1.7",
+    "next": "^15.2.4",
     "next-auth": "5.0.0-beta.25",
     "next-redux-wrapper": "^8.1.0",
     "qrcode.react": "^4.2.0",
@@ -47,7 +47,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
+    "next-router-mock": "^0.9.13",
     "postcss": "^8.5.3",
+    "serve": "^14.2.4",
     "tailwindcss": "^3.4.17",
     "typescript": "^5"
   }

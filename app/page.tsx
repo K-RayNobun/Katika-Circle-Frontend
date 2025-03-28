@@ -1,26 +1,21 @@
 'use client'
 
-import React, { useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import React, {useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Spinner from '@/components/Spinner';
 
 
 const HomePage = () => {
-
-  const router =  useRouter();
-  const pathName = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
-    // If the path is `/` moves to `/user/home`
-    console.log('The pathName is: ', pathName);
-    if (pathName === '/') {
-      console.log('========= Moving to Home =========')
-      router.push('/user/home');
-    }
-  }, [pathName])
+    console.log('Triggering redirection');
+    router.push('/user/home');
+  }, [])
 
-  return (
-    <div className='bg-blue-700/40 h-screen w-screen flex items-center justify-center'>
-      <h1 className='text-[86px] font-semibold text-white'>App</h1>
+return (
+    <div className='bg-primary/15 h-screen w-screen flex items-center justify-center'>
+      <Spinner />
     </div>
   )
 }

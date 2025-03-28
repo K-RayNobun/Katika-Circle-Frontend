@@ -10,9 +10,10 @@ import { resetTransaction } from '@/lib/redux/features/transaction/transactionSl
 interface userProfileProps {
     userName: string,
     userSurname: string,
+    isMobileDisplayed?: boolean,
 }
 
-const UserProfile = ({ userName, userSurname }: userProfileProps) => {
+const UserProfile = ({ userName, userSurname, isMobileDisplayed=false }: userProfileProps) => {
     const [isLogoutVisible, setIsLogoutVisible] = useState(false)
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -43,7 +44,7 @@ const UserProfile = ({ userName, userSurname }: userProfileProps) => {
     };
 
     return (
-        <div className={`absolute top-[12px] 
+        <div className={`${isMobileDisplayed ? 'flex' : 'hidden'} lg:flex  absolute top-[12px] 
         right-[12px] lg:absolute flex w-[400px] justify-between px-[20px] lg:pr-[0px] h-[59px] transition-all duration-2000`}>
             <div className={`size-[59px] bg-white flex justify-center items-center`}>
                 <FaRegBell size={24} className={`h-[64px] lg:h-[80px] text-gray_dark/60`} />

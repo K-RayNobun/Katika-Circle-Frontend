@@ -163,6 +163,7 @@ const Home = () => {
                 <UserProfile
                     userName={userData.name}
                     userSurname={userData.surname}
+                    isMobileDisplayed={true}
                 />
                 {/* Desktop View: Referral Section and Filleul List */}
                 <div className={`mt-[100px] hidden grow lg:flex flex-col gap-[36px] justify-between h-[100%] rounded-[12px] bg-white px-[24px] py-[32px] transition-all duration-500`}>
