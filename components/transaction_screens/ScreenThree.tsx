@@ -1,6 +1,7 @@
 import { IoMdInformationCircle, IoMdArrowBack,  } from "react-icons/io";
 import { LiaTimesSolid } from "react-icons/lia";
 import React from 'react';
+import TransakSDKFunction from "@/lib/transak/transakSdk";
 
 // Redux related imports
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
@@ -23,7 +24,7 @@ const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
 
         /// Adding logic to create a transaction
         dispatch(resetTransaction());
-        moveToScreen(1);
+        TransakSDKFunction({onClose, moveToScreen});
     }
 
   return (

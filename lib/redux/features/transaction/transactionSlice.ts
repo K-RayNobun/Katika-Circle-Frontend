@@ -56,7 +56,7 @@ const transactionSlice = createSlice({
             state.transactionRate = action.payload.transactionRate;
             state.cashback = action.payload.cashback;
             state.transakAmount = action.payload.transakAmount;
-            console.log('Transactiond Details:', '\n' + '\Issuer Id: ' + state.issuerId + '\n Amount Sent: ' + state.amountSent + '\n in ' + state.currencySent + '\n Receiver Country: ' + state.receiverCountry + '\n Amount Received: ' + state.amountReceived + '\n Cashback: ' + state.cashback + '\n Referral gain: ' + state.referralGain);
+            console.log('Transactiond Details:', '\n' + '\Issuer Id: ' + state.issuerId + '\n Amount Sent: ' + state.amountSent + '\n in ' + state.currencySent + '\n Receiver Country: ' + state.receiverCountry + '\n Amount Received: ' + state.amountReceived + '\n Cashback: ' + state.cashback + '\n Referral gain: ' + state.referralGain + '\n Transak amount passed ' + state.transakAmount);
         },
         provideStepMobileData: (state, action: PayloadAction<Transaction>) => {
             state.transfertType = action.payload.transfertType;
@@ -85,7 +85,6 @@ const transactionSlice = createSlice({
             state.receiverPhoneNumber = '';
             state.receiverName = '';
             state.amountSent = 0;
-            state.currencySent = '';
             state.amountReceived = 0;
             state.currencyReceived = '';
             state.receiverCountry = '';

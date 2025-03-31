@@ -195,6 +195,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                     transactionRate: katikaRateRef.current,
                     cashback: cashback,
                     referralGain: referralGain,
+                    transakAmount: amountSentRef.current,
                     latestScreen: 1,
                 }
                 dispatch(provideStepOneData(data));

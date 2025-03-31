@@ -16,7 +16,7 @@ interface ScreenProps {
   moveToScreen: (index: number) => void,
 };
 
-const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
+const TransakSDKFunction = ({onClose, moveToScreen}: ScreenProps): void => {
   const isSDKInit = useRef(false);
   const userData = useAppSelector((state) => state.user);
   const transactionDetails = useAppSelector((state) => state.transaction);
@@ -50,7 +50,7 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
   };
 
   const postTransaction = async() => {
-      console.log(`We are transacting with the access token: + ${accessToken}`);
+      console.log(`We are transacting with Function SDK with the access token: + ${accessToken}`);
       const response  = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction`,
       { 
           "amount": transactionDetails.amountSent,
@@ -132,6 +132,7 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
     email: userData.email, // User's email (optional)
     paymentMethod: 'sepa_bank_transfer',
     disablePaymentMethods: ['credit_debit_card', 'apple_pay', 'google_pay'],
+    containerId
   }
 
   const transak: Transak = new Transak(transakConfig);
@@ -172,21 +173,17 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
     // postTransaction();
   })
 
-    useEffect(() => {
-        if (!isSDKInit.current) {
-          isSDKInit.current = true;
-          console.log('--------------------- Initiating Transak SDK -------------------');
-          transak.init();
+useEffect(() => {
+    if (!isSDKInit.current) {
+        isSDKInit.current = true;
+        console.log('--------------------- Initiating Transak SDK -------------------');
+        transak.init();
 
-          return () => {
-            transak.close();
-          }
+        return () => {
+        transak.close();
         }
-      }, [transak]);
-    
-    return  <div className=" opacity-20 min-w-screen">
-              <div id="transak-widget"></div>
-            </div>;
-}
+    }
+    }, []);
+} 
 
-export default TransakSDK;
+export default TransakSDKFunction;
