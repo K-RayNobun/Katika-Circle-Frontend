@@ -57,10 +57,11 @@ export default function UserLayout({
             if (actualTab !== newTab) {
                 setActualTab(newTab);
             }
-        } else {
-            // Handle invalid paths
-            router.push('/user/home');
         }
+        // } else {
+        //     // Handle invalid paths
+        //     router.push('/user/home');
+        // }
     }, [pathName]);
 
     return (

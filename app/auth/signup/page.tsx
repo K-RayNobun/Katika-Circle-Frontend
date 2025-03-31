@@ -24,6 +24,14 @@ interface CountryData {
     alpha2: string;
 }
 
+interface ErrorType {
+    response: {
+        data: {
+            message: ''
+        }
+    }
+}
+
 // interface CountriesList {
 //     [key: string]: CountryData;
 // }
@@ -186,10 +194,10 @@ const Signup = () => {
                 expiresIn: null
             }));
             sendOTP();
-        } catch (error:any) {
-            const axiosError = error as AxiosError;
+        } catch (err) {
+            const axiosError = err as AxiosError;
+            const error = err as ErrorType;
             setIsSubmitting(false);
-            console.log('Data rendered is ', error.response.data.message)
             // Handle error `Referral Does not exit Exist`
             if (axiosError.response?.status === 500 && error.response.data.message.includes('Referral Does not exit Exist')) {
                 setError('This referral code is invalid');
@@ -268,7 +276,6 @@ const Signup = () => {
             dispatch(resetToken());
             dispatch(resetUser());
             dispatch(resetTransaction());
-
             dispatch(createUser({
                 name: name,
                 surname: surname,

@@ -1,7 +1,7 @@
 import { IoMdInformationCircle } from "react-icons/io";
 import { LiaTimesSolid } from "react-icons/lia";
 import React, { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 //Redux imports
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
@@ -18,6 +18,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     const selectedCurrency = 'EUR';
     const [officialRate, setOfficialRate] = useState(0);
     const katikaRateRef = useRef(0);
+    const [katikaRates, setKatikaRates] = useState<Array<number>>([])
     const [cashbackPercentage, setCashbackPercentage] = useState(0);
     const [referralGainPercentage, setReferralGainPercentage] = useState(0);
     const [gain, setGain] = useState(0);
@@ -32,7 +33,6 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     const maximalAmount = 70000;
     
     const countriesData: Record<string, { image: string; name: string, currency:string }> = {
-
         'cameroon': {
             'image': '/countries/cameroon.png',
             'name': 'Cameroun',
@@ -53,9 +53,27 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
         }
     }
 
+    const updateRate = async() => {
+        if (amountSentRef.current >= 30 && amountSentRef.current < 50) {
+            rateIndex.current = 0;
+        } else if (amountSentRef.current >= 50 && amountSentRef.current < 100) {
+            rateIndex.current = 1;
+        } else if (amountSentRef.current >= 100 && amountSentRef.current < 250) {
+            rateIndex.current = 2;
+        } else if (amountSentRef.current >= 250 && amountSentRef.current < 500) {
+            rateIndex.current = 3;
+        } else if (amountSentRef.current >= 500 && amountSentRef.current < 2000) {
+            rateIndex.current = 4;
+        } else if (amountSentRef.current >= 2000 && amountSentRef.current <= 70000) {
+            rateIndex.current = 5;
+        }
+        console.log('Rates index is', rateIndex.current);
+        console.log('Updated the rate to ', katikaRates[rateIndex.current]);
+        katikaRateRef.current = katikaRates[rateIndex.current];
+    }
     const fetchRate = async () => {
         // console.log('Access Token is', accessToken);
-        console.log('Calculating the rate')
+        console.log('Calculating the rate');
         try {
             // Rate from €/XAF
             const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/rate/xaf`,
@@ -69,30 +87,32 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
             );
             const ratesData = response.data.data.toCurrency[0].rates;
             console.log('Rates Data is', ratesData);
-            const ratesArray = [ratesData.firstRate, ratesData.secondRate, ratesData.thirdRate, ratesData.fourthRate, ratesData.fifthRate, ratesData.sixthRate]
-            // 30-50, 50-100, 100-250, 250-500, 500-2000, 2000-70000 
-            if (amountSentRef.current >= 30 && amountSentRef.current < 50) {
-                rateIndex.current = 0;
-            } else if (amountSentRef.current >= 50 && amountSentRef.current < 100) {
-                rateIndex.current = 1;
-            } else if (amountSentRef.current >= 100 && amountSentRef.current < 250) {
-                rateIndex.current = 2;
-            } else if (amountSentRef.current >= 250 && amountSentRef.current < 500) {
-                rateIndex.current = 3;
-            } else if (amountSentRef.current >= 500 && amountSentRef.current < 2000) {
-                rateIndex.current = 4;
-            } else if (amountSentRef.current >= 2000 && amountSentRef.current <= 70000) {
-                rateIndex.current = 5;
-            }
-            katikaRateRef.current = ratesArray[rateIndex.current];
-            console.log('Set the rate as ', ratesArray[rateIndex.current]);
+            const ratesArray = [ratesData.firstRate, ratesData.secondRate, ratesData.thirdRate, ratesData.fourthRate, ratesData.fifthRate, ratesData.sixthRate]            
+            setKatikaRates(ratesArray);
+            console.log('Set the rates as ', ratesArray);
             setCashbackPercentage(response.data.data.toCurrency[0].cashbackRate);
             console.log('Cashback Rate is', response.data.data.toCurrency[0].cashbackRate);
             setReferralGainPercentage(response.data.data.toCurrency[0].referralGainRate);
-            console.log('Referral Gain Rate Rate is', response.data.data.toCurrency[0].referralGainRate)
+            console.log('Referral Gain Rate Rate is', response.data.data.toCurrency[0].referralGainRate);
+            katikaRateRef.current = ratesArray[0];
         } catch(error) {
-            console.log('Sorry, we couldn;t get the rate due to the error ', error)
+            const axiosError = error as AxiosError;
+            console.log('Sorry, we couldn;t get the rate due to the error ', axiosError)
+            if(axiosError.message === 'Network Error') {
+                setErrorMsg('Network error');
+            }
         }
+    }
+
+    const fetchActualPrice = async() => {
+        try {
+            const response = await axios.get("https://api.exchangerate-api.com/v4/latest/"+currenciesData[selectedCurrency].name.toUpperCase());
+            console.log(response);
+            const currency = countriesData[selectedCountry].currency
+            setOfficialRate(response.data.rates[currency]);
+          } catch (error) {
+            console.error("Error fetching exchange rate:", error);
+          }
     }
 
     const handleCountryChange = () => {
@@ -101,9 +121,9 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     }
 
     const handleSentAmountChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
-        await fetchRate();
         console.log('Resetting the amount received');
         amountSentRef.current = parseInt(e.target.value);
+        updateRate();
 
         // console.log('Amount sent:', amountSentRef.current)
         const numericRegex = /^[1-9]\d*$/
@@ -121,7 +141,6 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     }
     
     const handleReceivedAmountChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
-        await fetchRate();
         amountReceivedRef.current = parseInt(e.target.value);
         const numericRegex = /^[1-9]\d*$/
         const formData = new FormData(formRef.current!);
@@ -138,8 +157,11 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
 
     }
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if(errorMsg === 'Network error') {
+            return;
+        }
         setErrorMsg('');
         // const form = document.getElementById('form-one') as HTMLFormElement
         // const formData = new FormData(form);
@@ -221,21 +243,9 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     }
 
     useEffect(() => {
-        let officialRate = 0;
-        const fetchActualPrice = async() => {
-            try {
-                const response = await axios.get("https://api.exchangerate-api.com/v4/latest/"+currenciesData[selectedCurrency].name.toUpperCase());
-                console.log(response);
-                const currency = countriesData[selectedCountry].currency
-                officialRate = response.data.rates[currency]; // Assume XOF is the target currency
-                setOfficialRate(officialRate);
-                // Example gain calculation
-              } catch (error) {
-                console.error("Error fetching exchange rate:", error);
-              }
-        }
         fetchActualPrice();
-    }, [selectedCountry,])
+        fetchRate()
+    }, [])
 
 
     const dispatch = useAppDispatch()
@@ -250,7 +260,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                 <button onClick={onClose}><LiaTimesSolid size={24} className='h-[24px]' /></button>
             </div>
         </div>
-        <form id='form-one' ref={formRef} onSubmit={handleSubmit} className='flex flex-col gap-[12px] pt-[20px]'>
+        <form id='form-one' ref={formRef} onSubmit={handleSubmit} className='flex grow flex-col gap-[12px] pt-[20px]'>
             <div className='flex flex-col'>
                 <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Pays de destination</label>
                 <div className='flex items-center w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 gap-[12px]'>
@@ -310,11 +320,12 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
             <button type='submit' onClick={handleSubmit} className={`hidden lg:block bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
                 <h6 className='text-center font-bold '>Continuer</h6>
             </button>
+            <div className='grow lg:hidden'></div>
+            <button type='submit' onClick={handleSubmit} className={`lg:hidden block bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
+                <h6 className='text-center font-bold '>Continuer</h6>
+            </button>
         </form>
-        <div className='grow lg:hidden'></div>
-        <button type='submit' onClick={handleSubmit} className={`lg:hidden block bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
-            <h6 className='text-center font-bold '>Continuer</h6>
-        </button>
+        
     </div>
   )
 }

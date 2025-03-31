@@ -139,6 +139,7 @@ const TransactionList = ({accessToken, searchKey, field}:{accessToken:string, se
                 
               })
               setTransactionsList(transactionArray);
+              console.log(`Transactions list is ${transactionArray}`)
               console.log('----------------- Finished Getting transactions --------------');
           } catch(error) {
               console.error('We met this error  while getting the transaction list', error)
@@ -175,9 +176,9 @@ const TransactionList = ({accessToken, searchKey, field}:{accessToken:string, se
                   <th className='w-[14%] px-[12px]'>Cashback généré</th>
               </tr>
           </thead>
+          {
+              transactionsList.length !== 0 ?
           <tbody>
-            {
-              transactionsList.length === 0 ?
               <tr className='block h-full w-full space-y-[16px] lg:space-y-[0px] overflow-auto'>
               { searchKey.length === 0 ?
               transactionsList.map((transaction, i) => {
@@ -189,14 +190,13 @@ const TransactionList = ({accessToken, searchKey, field}:{accessToken:string, se
               })
               }
             </tr>
-            :
+            <button className={`${dataLength > 10 ? 'hidden lg:block' : 'hidden'} w-full bg-[#F9FAFB] py-[16px] hover:bg-gray rounded-b-[8px]'`}><h5 className='text-center'>Voir plus</h5></button>
+          </tbody>
+          :
             <div className='w-full bg-gray p-[32px] rounded-[12px]'>
               <h5 className='text-[16px] text-gray_dark font-semibold items-center justify-center flex '>No transaction</h5>
             </div>
             }
-            
-          </tbody>
-        <button className={`${dataLength > 10 ? 'hidden lg:block' : 'hidden'} w-full bg-[#F9FAFB] py-[16px] hover:bg-gray rounded-b-[8px]'`}><h5 className='text-center'>Voir plus</h5></button>
       </table>
     </div>
   )

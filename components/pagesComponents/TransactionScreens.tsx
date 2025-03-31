@@ -4,6 +4,7 @@ import ScreenTwo from '@/components/transaction_screens/ScreenTwo';
 import ScreenThree from '@/components/transaction_screens/ScreenThree';
 import ScreenFour from '@/components/transaction_screens/ScreenFour';
 import TransakSDK from '@/components/transaction_screens/TransakSDK';
+// import TransakRedirect from '@/components/transaction_screens/TransakRedirect';
 
 const TransactionScreens = ({screenIndex, closeScreen, moveToScreen}: { screenIndex: number, closeScreen: () => void, moveToScreen: (index: number) => void }) => {
     return (
@@ -11,6 +12,7 @@ const TransactionScreens = ({screenIndex, closeScreen, moveToScreen}: { screenIn
             { screenIndex==1 && <ScreenOne onClose={closeScreen} moveToScreen={moveToScreen}/>}
             { screenIndex==2 && <ScreenTwo onClose={closeScreen} moveToScreen={moveToScreen} />}
             { screenIndex==3 && <ScreenThree onClose={closeScreen} moveToScreen={moveToScreen} />}
+            {/* { screenIndex==4 && <TransakRedirect onClose={closeScreen} />} */}
             { screenIndex==4 && <TransakSDK onClose={closeScreen} moveToScreen={moveToScreen} />}
             { screenIndex==5 && <ScreenFour onClose={closeScreen} />}
         </div>

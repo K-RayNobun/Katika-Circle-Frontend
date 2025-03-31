@@ -214,7 +214,7 @@ const ScreenTwo = ({onClose, moveToScreen}: screenProps) => {
     }
 
   return (
-    <div className='flex flex-col w-full lg:w-[502px] h-[90%] lg:h-max rounded-t-[12px] lg:rounded-[12px] p-[44px] pb-[40%] bg-white'>
+    <div className='flex flex-col w-full lg:w-[502px] h-[90%] rounded-t-[12px] lg:rounded-[12px] p-[44px] pb-[30%] bg-white'>
         <div className="flex items-center gap-[12px] ml-[-12px]">
             <button onClick={() => moveToScreen(-1)} className="p-1 rounded-[50%] active:bg-gray">
                 <IoMdArrowBack size={24} className="text-primary_dark" />

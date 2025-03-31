@@ -61,7 +61,7 @@ const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
                 </div>
                 <div className={`flex items-center space-x-[10px]`}>
                     <span className={`size-[8px] rounded-full bg-[#07E36E]`}></span>
-                    <h5 className={``}>{transactionDetails.transationRate}</h5>
+                    <h5 className={``}>{transactionDetails.transactionRate}</h5>
                 </div>
             </div>
             <button type='submit' onClick={handleSubmit} className={`hidden lg:block bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
