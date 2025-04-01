@@ -249,7 +249,7 @@ const ScreenTwo = ({onClose, moveToScreen}: screenProps) => {
                     <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Numero du beneficiaire</label>
                     <div className='flex items-center font-semibold w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 gap-[12px]'>
                         <img src={`/countries/${selectedCountry}.png`} alt="Img" className='w-[30px]' />
-                        <input type="number" name='receiver-number' placeholder='2376XXXXXXXX' defaultValue={ transactionDetails.receiverPhoneNumber || 2376} onChange={handlePhoneNumberChange} className={`appearance-none grow text-right ${ isFieldWrong ? 'border-red-500':'border-gray-400'}`} style={{WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
+                        <input type="number" name='receiver-number' placeholder='2376XXXXXXXX' defaultValue={ transactionDetails.receiverPhoneNumber || 2376} onChange={handlePhoneNumberChange} className={`appearance-none grow float-left block text-right max-w-[85%] ${ isFieldWrong ? 'border-red-500':'border-gray-400'}`} style={{WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
                     </div>
                     <h4 className='text-[14px]'>{receiverName}</h4>
                 </div>

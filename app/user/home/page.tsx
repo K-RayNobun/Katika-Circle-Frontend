@@ -12,7 +12,7 @@ import UserProfile from '@/components/pagesComponents/UserProfile';
 import FilleulList from '@/components/pagesComponents/FilleulList';
 import DialogBox from '@/components/DialogBox';
 import TransactionScreens from '@/components/pagesComponents/TransactionScreens';
-import { resetTransaction } from '@/lib/redux/features/transaction/transactionSlice';
+import { resetTransaction, provideTransakReturnedData } from '@/lib/redux/features/transaction/transactionSlice';
 
 interface FilleulDetails {
     order: number;
@@ -33,6 +33,23 @@ const Home = () => {
     const userData = useAppSelector((state) => state.user);
     const accessToken = useAppSelector((state) => state.token.token);
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('orderId');
+        const status = urlParams.get('status');
+        const totalFeeInFiat = urlParams.get('totalFeeInFiat');
+        if (orderId || status || totalFeeInFiat) {
+            console.log(`---> We identified parameters  as ${orderId} + status ${status}`);
+            dispatch(
+                provideTransakReturnedData({
+                    transakOrderId: orderId || '',
+                    transakOrderStatus: status || '',
+                    transakOrderFeesInFiat: totalFeeInFiat || '',
+                })
+            );
+        }
+    }, []);
 
     // Referral Code Query Params
     const referralCodeParam = {

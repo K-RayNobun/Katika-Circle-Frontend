@@ -254,7 +254,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     const transactionDetails = useAppSelector((state) => state.transaction)
 
   return (
-    <div className='w-full h-[90%] pb-[86px] lg:h-max lg:w-[502px] rounded-t-[12px] lg:rounded-[12px] p-[44px] gap-[32px] bg-white flex flex-col'>
+    <div className='w-full h-[90%] pb-[86px] lg:h-max lg:w-[502px] rounded-t-[12px] text-[14px] lg:text-[16px] lg:rounded-[12px] p-[32px] lg:p-[44px] gap-[18px] bg-white flex flex-col'>
         <div className="flex items-center gap-[12px]">
             <div className='flex w-full justify-between items-center'>
                 <h4 className='text-[20px] font-bold text-primary'>Envoyer de l&apos;argent</h4>

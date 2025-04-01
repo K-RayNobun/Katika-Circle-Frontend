@@ -1,10 +1,8 @@
 ------------------ TASKS TO DO TODAY ------------------
 
 
-- Name overflowing in WelcomeContainer
 - Screens transaction so long
-- taux up to date
-- state not being displayed
+- state not being displayed directly after signup
 + Enable the user credentials modification and picture adding
 
 ----------------- ! Left to Do ! ----------------------

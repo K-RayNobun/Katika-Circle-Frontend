@@ -111,7 +111,7 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
   const transakConfig: TransakConfig = {
     hideExchangeScreen: true,
     apiKey:  `${process.env.NEXT_PUBLIC_TRANSAK_API_KEY}`, // Replace with your Transak API Key
-    environment: Transak.ENVIRONMENTS.PRODUCTION, // STAGING // Use 'PRODUCTION' for live environment
+    environment: Transak.ENVIRONMENTS.STAGING, // STAGING // Use 'PRODUCTION' for live environment
     widgetHeight: '550px',
     widgetWidth: '450px',
     hideMenu: true,
@@ -132,6 +132,7 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
     email: userData.email, // User's email (optional)
     paymentMethod: 'sepa_bank_transfer',
     disablePaymentMethods: ['credit_debit_card', 'apple_pay', 'google_pay'],
+    redirectURL: `${process.env.NEXT_PUBLIC_REDIRECT_URL}`,
   }
 
   const transak: Transak = new Transak(transakConfig);
@@ -159,32 +160,19 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
   Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
     console.log('TRANSAK_ORDER_SUCCESSFUL', orderData);
     postTransaction();
-    dispatch(provideStatus('pending'))
-    updateTransactionStatus('Pending');
     transak.close();
     moveToScreen(1);
   });
-
-  Transak.on(Transak.EVENTS.TRANSAK_ORDER_CREATED, (orderData) => {
-    console.log("Transak order created: ", orderData);
-    // dispatch(provideStatus('Pending'));
-    // Create a transaction in the server
-    // postTransaction();
-  })
 
     useEffect(() => {
         if (!isSDKInit.current) {
           isSDKInit.current = true;
           console.log('--------------------- Initiating Transak SDK -------------------');
           transak.init();
-
-          return () => {
-            transak.close();
-          }
         }
       }, [transak]);
     
-    return  <div className=" opacity-20 min-w-screen">
+    return  <div className="opacity-20 min-w-screen">
               <div id="transak-widget"></div>
             </div>;
 }

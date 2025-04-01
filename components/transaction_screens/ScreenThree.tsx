@@ -1,7 +1,6 @@
 import { IoMdInformationCircle, IoMdArrowBack,  } from "react-icons/io";
 import { LiaTimesSolid } from "react-icons/lia";
 import React from 'react';
-import TransakSDKFunction from "@/lib/transak/transakSdk";
 
 // Redux related imports
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
@@ -19,16 +18,12 @@ const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
     
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // const form = document.getElementById('form-one') as HTMLFormElement
-        // const formData = new FormData(form);
-
-        /// Adding logic to create a transaction
         dispatch(resetTransaction());
-        TransakSDKFunction({onClose, moveToScreen});
+        moveToScreen(1);
     }
 
   return (
-    <div className={`flex flex-col w-full lg:w-[502px] h-[90%] lg:h-max rounded-t-[12px] lg:rounded-[12px] p-[44px] pb-[40%] bg-white`}>
+    <div className={`flex flex-col w-full lg:w-[502px] h-[90%] rounded-t-[12px] lg:rounded-[12px] p-[32px] lg:p-[44px] pb-[40%] bg-white`}>
         <div className='flex items-center gap-[12px] ml-[-12px]'>
             <button onClick={() => moveToScreen(-1)} className="p-1 rounded-[50%] active:bg-gray">
                 <IoMdArrowBack size={24} className="text-primary_dark" />
@@ -38,7 +33,7 @@ const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
                 <button onClick={onClose}><LiaTimesSolid size={24} className={`h-[24px]`} /></button>
             </div>
         </div>
-        <div className={`grow flex flex-col mt-[32px] space-y-[16px]`}>
+        <div className={`grow flex flex-col mt-[32px] text-[14px] lg:text-[16px] space-y-[12px] space-y-[16px]`}>
             <div className={`flex justify-between font-bold`}>
                 <h5>Montant à envoyer</h5>
                 <h5>{transactionDetails.amountSent?.toLocaleString('en-US') + ' ' + transactionDetails.currencySent}</h5>
@@ -46,6 +41,14 @@ const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
             <div className={`flex justify-between font-bold`}>
                 <h5>Montant recu</h5>
                 <h5>{transactionDetails.amountReceived?.toLocaleString('en-US') + ' ' + transactionDetails.currencyReceived}</h5>
+            </div>
+            <div className={`flex justify-between font-bold`}>
+                <h5>Tel Destinataire</h5>
+                <h5>{transactionDetails.receiverPhoneNumber}</h5>
+            </div>
+            <div className={`flex justify-between font-bold`}>
+                <h5>Nom Destinataire</h5>
+                <h5 className="text-right text-[12px]">{transactionDetails.receiverName}</h5>
             </div>
             <div className={`flex justify-between font-bold`}>
                 <h5>Cashback</h5>
@@ -65,9 +68,11 @@ const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
                     <h5 className={``}>{transactionDetails.transactionRate}</h5>
                 </div>
             </div>
-            <button type='submit' onClick={handleSubmit} className={`hidden lg:block bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
-                <h6 className={`text-center font-bold `}>Payer</h6>
-            </button>
+            <div className="flex gap-[12px] px-[8px]">
+                <button type='submit' onClick={handleSubmit} className={`hidden lg:block bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
+                    <h6 className={`text-center font-bold `}>Redirect</h6>
+                </button>
+            </div>
             <div className={`grow lg:hidden`}></div>
             <button type='submit' onClick={handleSubmit} className={`lg:hidden bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
                 <h6 className={`text-center font-bold `}>Payer</h6>

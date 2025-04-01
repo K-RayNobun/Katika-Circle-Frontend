@@ -10,23 +10,6 @@ type WalletAddress = {
   networks?: Record<string, { address: string; addressAdditionalData?: string }>;
   coins?: Record<string, { address: string; addressAdditionalData?: string }>;
 };
-/*
-type UserData = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  mobileNumber: string;
-  dob: string;
-  address: {
-    addressLine1: string;
-    addressLine2: string;
-    city: string;
-    state: string;
-    postCode: string;
-    countryCode: string;
-  };
-};
-*/
 
 interface ScreenProps {
   onClose: () => void,
@@ -196,9 +179,9 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
         }
       }, [transak]);
     
-    return  <div className=" opacity-20 min-w-screen">
+    return <div className="opacity-20 min-w-screen">
               <div id="transak-widget"></div>
             </div>;
-}
+          }
 
 export default TransakSDK;
