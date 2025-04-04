@@ -16,6 +16,7 @@ interface User {
     cashback?: number,
     firstReferringCode?: string,
     profileImageKey?: string,
+    language: string,
 }
 interface Referral {
     id: number,
@@ -30,6 +31,7 @@ const initialState: User = {
     pwdhash: '',
     country: '',
     verified: false,
+    language: 'fr'
 };
 
 const userSlice = createSlice({
@@ -85,6 +87,9 @@ const userSlice = createSlice({
         state.referralList = action.payload
         console.log('\t ### The user referral list is ', state.referralList);
        },
+       setLanguage: (state, action: PayloadAction<string>) => {
+        state.language = action.payload;
+       },
        // Logout logic
        resetUser: (state) => {
         state.id = '';
@@ -102,6 +107,6 @@ const userSlice = createSlice({
     }
 });
 
-export const { createUser, verifyUser, setWalletAdress, setReferralCode, setFirstReferringCode, setProfileImageKey, setReferralList, provideCashback, provideId, provideFilleulsList, provideReferralGain, resetUser } = userSlice.actions;
+export const { createUser, verifyUser, setWalletAdress, setReferralCode, setFirstReferringCode, setProfileImageKey, setReferralList, setLanguage, provideCashback, provideId, provideFilleulsList, provideReferralGain, resetUser } = userSlice.actions;
 
 export default userSlice.reducer;

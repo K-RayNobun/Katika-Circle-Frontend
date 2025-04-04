@@ -4,13 +4,13 @@ import { combineReducers } from 'redux';
 import Storage from 'redux-persist/lib/storage';
 import { persistStore, persistReducer } from 'redux-persist';
 
-import counterReducer from './features/counterSlice'
+import metadataReducer from './features/metadata/metadataSlice'; 
 import userReducer from './features/user/userSlice';
 import tokenReducer from './features/token/tokenSlice';
 import TransactionReducer from './features/transaction/transactionSlice'
 
 const rootReducer = combineReducers({
-    counter: counterReducer,
+    metadata: metadataReducer,
     user: userReducer,
     token: tokenReducer,
     transaction: TransactionReducer,

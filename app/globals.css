@@ -204,16 +204,20 @@
   animation: scaleIn 0.3s ease-out;
 }
 
+
+/* ------------------------------ Style ------------------------------ */
+
 /* Styles */
+
+:root {
+  --backgroung-color: #ffffff;
+  --text-color: #000000
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
-}
-
-input:focus {
-  outline: none;
-  appearance: none;
 }
 
 .necessary_input {
@@ -378,24 +382,45 @@ button {
   cursor: pointer;
   color: black;
 }
-
+  /* 'Plus grand est le montant de la transaction,\A plus avantageux est le taux:\A\A'  */
+          /* '30€ - 50€: 656 XAF\A'
+          '50€ - 100€: 660 XAF\A'
+          '100€ - 250€: 662 XAF\A'
+          '250€ - 500€: 664 XAF\A'
+          '500€ - 2000€: 667 XAF\A'
+          '2000€ - 70000€: 670 XAF'; */
 .info-icon:hover::before {
-  content: 'Votre taux est ainsi';
+  content: var(--info-content);
   position: absolute;
-  min-width: 180px;
-  top: -90px;
-  left: -10px;
-  padding: 10px;
-  border-radius: 6px;
+  width: 460px;
+  bottom: 20px;
+  left: 10px;
+  padding: 16px;
+  border-radius: 8px;
   background-color: #931ABD;
   transition: all 300ms ease;
   color: white;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+  transition: all 300ms ease;
 }
 
-/* Dark Mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: textfield;
+}
+
+/* Firefox */
+input[type="number"]:focus {
+  outline: none;
+  appearance: textfield;
 }

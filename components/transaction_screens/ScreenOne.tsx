@@ -6,6 +6,7 @@ import axios, { AxiosError } from 'axios';
 //Redux imports
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { provideStepOneData } from '@/lib/redux/features/transaction/transactionSlice';
+import { useTranslation } from '@/lib/hooks/useTranslation';
 
 // 30-50, 50-100, 100-250, 250-500, 500-2000, 2000-70000 
 interface screenProps {
@@ -14,6 +15,7 @@ interface screenProps {
 }
 
 const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
+    const { translations } = useTranslation();
     const [selectedCountry, setSelectedCountry] =  useState('cameroon');
     const selectedCurrency = 'EUR';
     const [officialRate, setOfficialRate] = useState(0);
@@ -40,6 +42,19 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
         }
     }
 
+    useEffect(() => {
+        // Create the content string using translation
+        const content = translations?.transactionScreens?.screenOne?.form?.rate?.tooltip
+            .replace('{0}', katikaRates[0])
+            .replace('{1}', katikaRates[1])
+            .replace('{2}', katikaRates[2])
+            .replace('{3}', katikaRates[3])
+            .replace('{4}', katikaRates[4])
+            .replace('{5}', katikaRates[5]);
+
+        document.documentElement.style.setProperty('--info-content', `'${content}'`);
+    }, [katikaRates, translations]);
+
     const currenciesData: Record<string, {image:string; name:string; symbol:string}> = {
         EUR: {
             name: 'EUR',
@@ -52,7 +67,6 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
             image: '/currencies/dollar.png'
         }
     }
-
     const updateRate = async() => {
         if (amountSentRef.current >= 30 && amountSentRef.current < 50) {
             rateIndex.current = 0;
@@ -122,22 +136,20 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
 
     const handleSentAmountChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
         console.log('Resetting the amount received');
-        amountSentRef.current = parseInt(e.target.value);
         updateRate();
 
-        // console.log('Amount sent:', amountSentRef.current)
-        const numericRegex = /^[1-9]\d*$/
-        const formData = new FormData(formRef.current!);
-        const value = formData.get('amount-sent') as string;
+        const value = e.target.value.replace(/,/g, '');
+        const numericRegex = /^\d*\.?\d*$/;  // Allow decimals and numbers
 
-        if (!numericRegex.test(value)) {
+        if (numericRegex.test(value)) {
+            amountSentRef.current = parseFloat(value) || 0;
+        } else {
             amountSentRef.current = 0;
-            console.log('Valeur Envoyee invalide', )
+            console.log('Invalid sent amount');
         }
+
         amountReceivedRef.current = amountSentRef.current * katikaRateRef.current;
-        console.log('Amount received', amountReceivedRef.current.toLocaleString())
-        // console.log(' Are we on EUR ?', modifyingSentAmount);
-        setGain((katikaRateRef.current - officialRate) * amountSentRef.current)
+        setGain((katikaRateRef.current - officialRate) * amountSentRef.current);
     }
     
     const handleReceivedAmountChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -257,13 +269,17 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     <div className='w-full h-[90%] pb-[86px] lg:h-max lg:w-[502px] rounded-t-[12px] text-[14px] lg:text-[16px] lg:rounded-[12px] p-[32px] lg:p-[44px] gap-[18px] bg-white flex flex-col'>
         <div className="flex items-center gap-[12px]">
             <div className='flex w-full justify-between items-center'>
-                <h4 className='text-[20px] font-bold text-primary'>Envoyer de l&apos;argent</h4>
+                <h4 className='text-[20px] font-bold text-primary'>
+                    {String(translations?.transactionScreens?.screenOne?.title)}
+                </h4>
                 <button onClick={onClose}><LiaTimesSolid size={24} className='h-[24px]' /></button>
             </div>
         </div>
         <form id='form-one' ref={formRef} onSubmit={handleSubmit} className='flex grow flex-col gap-[12px] pt-[20px]'>
             <div className='flex flex-col'>
-                <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Pays de destination</label>
+                <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>
+                    {String(translations?.transactionScreens?.screenOne?.form?.destination?.label)}
+                </label>
                 <div className='flex items-center w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 gap-[12px]'>
                     <img src={`${countriesData[selectedCountry]?.image}`} alt="Img" className='w-[30px]' />
                     <select id='country-select' name='country' onChange={handleCountryChange} className='bg-transparent grow font-bold'>
@@ -276,28 +292,32 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                 </div>
             </div>
             <div className='flex flex-col'>
-                <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Vous envoyez</label>
+                <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>
+                    {String(translations?.transactionScreens?.screenOne?.form?.send?.label)}
+                </label>
                 <div className='flex items-center font-bold w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 gap-[12px]'>
                     <img src={`${currenciesData[selectedCurrency]?.image}`} alt="Img" className='w-[30px]' />
                     {
                     modifyingSentAmount ?
 
-                        <input type="number" defaultValue={transactionDetails.amountSent} onChange={handleSentAmountChange} name='amount-sent' className='grow w-[75%] sm:w-full text-right' style={{ WebkitAppearance: 'none', MozAppearance: 'textfield'}}/>
+                        <input type="number" defaultValue={transactionDetails.amountSent === 0 ? '' : transactionDetails.amountSent?.toLocaleString('en-US')} onChange={handleSentAmountChange} name='amount-sent' className='grow w-[75%] sm:w-full text-right' style={{ margin: 0, padding: 0}}/>
                     :
-                        <input type="text" defaultValue={transactionDetails.amountReceived} onClick={() => {setModifyingSentAmount(true)}} readOnly={true} value={amountSentRef.current.toLocaleString('en-US')} name='amount-sent' className='grow w-[75%] sm:w-full text-right' style={{ WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
+                        <input type="text" defaultValue={transactionDetails.amountSent === 0 ? '' : transactionDetails.amountSent?.toLocaleString('en-US')} onClick={() => {setModifyingSentAmount(true)}} readOnly={true} value={amountSentRef.current === 0 ? '': amountSentRef.current.toLocaleString('en-US')} name='amount-sent' className='grow w-[75%] sm:w-full text-right' />
                     }
                     <h5 className=''>{currenciesData[selectedCurrency]?.symbol}</h5>
                 </div>
             </div>
             <div className='flex flex-col'>
-                <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Montant recu</label>
+                <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>
+                    {String(translations?.transactionScreens?.screenOne?.form?.receive?.label)}
+                </label>
                 <div className={`flex items-center font-bold w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray_dark gap-[12px]`}>
                     <img src={`${countriesData[selectedCountry]?.image}`} alt="Img" className='w-[30px]' />
                     {
                         modifyingSentAmount ?
-                        <input onClick={() => {setModifyingSentAmount(false)}} type="text" readOnly={true} value={amountReceivedRef.current.toLocaleString('en-US')} name='amount-received' className='grow w-[75%] sm:w-full text-right' style={{WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
+                        <input onClick={() => {setModifyingSentAmount(false)}} type="text" readOnly={true} defaultValue={transactionDetails.amountReceived === 0 ? '' : transactionDetails.amountReceived?.toLocaleString('en-US')} value={amountReceivedRef.current === 0 ? '' : amountReceivedRef.current.toLocaleString('en-US')} name='amount-received' className='grow w-[75%] sm:w-full text-right' />
                         :
-                        <input type="number" name='amount-received' onChange={handleReceivedAmountChange} className='grow w-[75%] sm:w-full text-right' style={{ WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
+                        <input type="number" name='amount-received' defaultValue={transactionDetails.amountReceived === 0 ? '' : transactionDetails.amountReceived?.toLocaleString('en-US')} onChange={handleReceivedAmountChange} className='grow w-[75%] sm:w-full text-right' />
 
                     }
                     <h5 className=''>{countriesData[selectedCountry]?.currency}</h5>
@@ -306,8 +326,8 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
             <h3 className='text-red text-center font-semibold'>{errorMsg}</h3>
             <div className='flex justify-between'>
                 <div className='flex items-center gap-[8px]'>
-                    <h5>Taux d&apos;envoi</h5>
-                    <span className='info-icon font-semibold'><IoMdInformationCircle /></span> 
+                    <h5>{String(translations?.transactionScreens?.screenOne?.form?.rate?.label)}</h5>
+                    <span className='info-icon'><IoMdInformationCircle /></span> 
                 </div>
                 <div className='space-x-[10px] flex items-center'>
                     <span className='size-[8px] rounded-full bg-[#07E36E]'></span>
@@ -315,15 +335,19 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                 </div>
             </div>
             <div className='flex justify-between'>
-                <h5>Gain</h5>
+                <h5>{String(translations?.transactionScreens?.screenOne?.form?.gain?.label)}</h5>
                 <h5>{ gain.toLocaleString('en-US') + ' ' + countriesData[selectedCountry]?.currency }</h5>
             </div>
             <button type='submit' onClick={handleSubmit} className={`hidden lg:block bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
-                <h6 className='text-center font-bold '>Continuer</h6>
+                <h6 className='text-center font-bold '>
+                    {String(translations?.transactionScreens?.screenOne?.buttons?.continue)}
+                </h6>
             </button>
             <div className='grow lg:hidden'></div>
             <button type='submit' onClick={handleSubmit} className={`lg:hidden block bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
-                <h6 className='text-center font-bold '>Continuer</h6>
+                <h6 className='text-center font-bold '>
+                    {String(translations?.transactionScreens?.screenOne?.buttons?.continue)}
+                </h6>
             </button>
         </form>
         

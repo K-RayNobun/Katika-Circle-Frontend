@@ -28,6 +28,7 @@ const Home = () => {
     const [screenIndex, setScreenIndex] = useState<number>(1);
     const [filleulList, setFilleulList] = useState<FilleulDetails[]>([]);
     const [referralBonus, setReferralBonus] = useState<number>(0);
+    const [state, stateUpdate] = useState();
 
     // Redux and Router
     const userData = useAppSelector((state) => state.user);
@@ -49,6 +50,8 @@ const Home = () => {
                 })
             );
         }
+        // State update
+        console.log(state);
     }, []);
 
     // Referral Code Query Params
@@ -181,6 +184,7 @@ const Home = () => {
                     userName={userData.name}
                     userSurname={userData.surname}
                     isMobileDisplayed={true}
+                    stateUpdate={stateUpdate}
                 />
                 {/* Desktop View: Referral Section and Filleul List */}
                 <div className={`mt-[100px] hidden grow lg:flex flex-col gap-[36px] justify-between h-[100%] rounded-[12px] bg-white px-[24px] py-[32px] transition-all duration-500`}>

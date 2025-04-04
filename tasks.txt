@@ -1,17 +1,14 @@
 ------------------ TASKS TO DO TODAY ------------------
 
 
-- Screens transaction so long
 - state not being displayed directly after signup
-+ Enable the user credentials modification and picture adding
-
------------------ ! Left to Do ! ----------------------
-
-- Set up a static routing within NextJs.
-
+- add animations
+- set up dynamically language // 40mins-HARD, 1h10mins-Medium, 2h-easy
+- Add pop up for stats containers
+- Information popup in Transaction screens // 10mins-hard, 17mins-mediumm, 25mins-easy
+- Disable input arrows and check input types
+- Add theme toggle and test it 30mins-HARD, 45mins-Medium, 1h10mins-easy
 ----------------- Access Token --------------------
-CHAMPAGNE JASON:
-eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5qb3lhanVuaW9yNzc3QGdtYWlsLmNvbSIsInN1YiI6Im5qb3lhanVuaW9yNzc3QGdtYWlsLmNvbSIsImV4cCI6MTc0MzA4OTY3Mn0.f2HA8AlfN5uT14UZJ_4Pin_L05icxl49uRd3PD65Pb0FETbZFzzImpx-784GUZuBzGsnirtBbmrfj0ZVThFX8w
 
 FITZGERALD:
 eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vdWxpb2ZpdHpnZXJhcmRAZ21haWwuY29tIiwic3ViIjoibW91bGlvZml0emdlcmFyZEBnbWFpbC5jb20iLCJleHAiOjE3NDM3ODcwNTh9.Jp4TP2psL6eZAuhnj2rKB5ty1LYV2oHSY8vm4eQBCgDbtZ-FhnXc3s7uFYxC_RxsCj2izr1coz_fTaPTjM1u6A

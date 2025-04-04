@@ -1,11 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
+import { useTranslation } from '@/lib/hooks/useTranslation';
 
 interface AwardsCashbackProps {
     cashbackGain: number;
 }
 
 const AwardsCashback = ({ cashbackGain }: AwardsCashbackProps) => {
+    const { translations } = useTranslation();
+
     return (
         <div className='bg-indigo/20 rounded-[12px] p-[12px] gap-[8px] border-2 border-indigo flex flex-col items-center'>
             <div className="flex items-center justify-between w-[90%]">
@@ -15,11 +18,11 @@ const AwardsCashback = ({ cashbackGain }: AwardsCashbackProps) => {
                         <span className='text-[16px]'>{'€'}</span>
                         <span className='text-[36px]'>{cashbackGain}</span>
                     </h5>
-                    <h5 className='font-bold text-[14px]'>Cashback disponibles</h5>
+                    <h5 className='font-bold text-[14px]'>{translations?.awardsCashback?.cashbackAvailable || 'Cashback available'}</h5>
                 </div>
             </div>
             <button className='px-[18px] py-[10px] w-full bg-indigo text-white rounded-[4px]'>
-                Convertir en Transaction
+                {translations?.awardsCashback?.convertToTransaction || 'Convert to Transaction'}
             </button>
         </div>
     );

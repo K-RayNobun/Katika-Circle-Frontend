@@ -72,6 +72,7 @@ const Signin = () => {
             email: response.data.data.email,
             country: response.data.data.countryCode,
             referralCode: response.data.data.referral.referralCode,
+            language: 'fr'
         }));
         isSubmittingRef.current = false;
         dispatch(verifyUser(true));

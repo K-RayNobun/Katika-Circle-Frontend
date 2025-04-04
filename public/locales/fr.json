@@ -1,0 +1,238 @@
+{
+    "welcome": "Bienvenue sur notre site",
+    "getStarted": "Commençons. Pour effectuer une transaction, appuyez sur le bouton ci-dessous.",
+    "sendMoney": "Envoyer de l'argent",
+    "awardsCashback": {
+        "cashbackAvailable": "Cashback disponible",
+        "convertToTransaction": "Convertir en transaction"
+    },
+    "awardsInitiateTransaction": {
+        "timeToTransfer": "C'est le moment de faire un transfert",
+        "readyToTransfer": "Prêt à transférer de l'argent ? Cliquez ici pour commencer et profiter d'une expérience rapide, sécurisée et sans tracas.",
+        "sendMoney": "Envoyer de l'argent"
+    },
+    "awardsStats": {
+        "referralBonus": "Bonus de parrainage",
+        "claimBonus": "Réclamer le bonus",
+        "filleuls": "Filleuls"
+    },
+    "filleulList": {
+        "myReferrals": "Mes filleuls",
+        "noReferrals": "Vous n'avez pas encore de filleuls"
+    },
+    "otpModal": {
+        "otpVerification": "Vérification OTP",
+        "close": "Fermer"
+    },
+    "referralSection": {
+        "yourReferralCode": "Votre code de parrainage",
+        "copy": "Copier",
+        "copied": "Copié",
+        "inviteFriends": "Inviter des amis"
+    },
+    "settingsHelpFAQ": {
+        "helpAndFAQ": "Aide & FAQ"
+    },
+    "settingsProfile": {
+        "profile": "Profil",
+        "personalInfo": "Informations personnelles",
+        "edit": "Modifier",
+        "save": "Enregistrer",
+        "email": "Email",
+        "password": "Mot de passe",
+        "confirmPassword": "Confirmer le mot de passe",
+        "newPassword": "Nouveau mot de passe"
+    },
+    "statsContainer": {
+        "cashbackAvailable": "Cashback disponible",
+        "referralBonus": "Bonus de parrainage",
+        "referrals": "Filleuls",
+        "details": "Détails",
+        "claim": "Réclamer"
+    },
+    "transactionScreens": {
+        "manageTransactions": "Gérez vos transactions ici",
+        "common": {
+            "continue": "Continuer",
+            "back": "Retour",
+            "close": "Fermer",
+            "sendMoney": "Envoyer de l'argent"
+        },
+        "screenOne": {
+            "title": "Envoyer de l'argent",
+            "form": {
+                "destination": {
+                    "label": "Pays de destination",
+                    "countries": {
+                        "cameroon": "Cameroun"
+                    }
+                },
+                "send": {
+                    "label": "Vous envoyez",
+                    "placeholder": "Entrez le montant"
+                },
+                "receive": {
+                    "label": "Montant reçu",
+                    "placeholder": "Le destinataire reçoit"
+                },
+                "rate": {
+                    "label": "Taux de change",
+                    "tooltip": "Taux de change par tranches de montant:\n\n30€ - 50€: {0} XAF | 50€ - 100€: {1} XAF\n100€ - 250€: {2} XAF | 250€ - 500€: {3} XAF\n500€ - 2000€: {4} XAF | 2000€ - 70000€: {5} XAF"
+                },
+                "gain": {
+                    "label": "Votre gain"
+                }
+            },
+            "errors": {
+                "network": "Erreur réseau",
+                "negativeAmount": "Le montant ne peut pas être négatif",
+                "minAmount": "Le montant minimum de transaction est de {0} Euros",
+                "maxAmount": "Le montant maximum de transaction est de {0} Euros",
+                "invalidAmount": "Veuillez entrer un montant valide"
+            },
+            "buttons": {
+                "continue": "Continuer",
+                "close": "Fermer"
+            }
+        },
+        "screenTwo": {
+            "title": "Envoyer de l'argent",
+            "transferType": {
+                "label": "Type de transfert",
+                "options": {
+                    "mobileMoney": "Mobile Money",
+                    "bankAccount": "Compte bancaire"
+                }
+            },
+            "recipient": {
+                "phoneLabel": "Numéro de téléphone du destinataire",
+                "phonePlaceholder": "2376XXXXXXXX",
+                "notFound": "Utilisateur non trouvé",
+                "tryAgain": "Veuillez réessayer dans 5 secondes"
+            },
+            "bank": {
+                "accountHolder": {
+                    "label": "Nom du titulaire du compte",
+                    "placeholder": "Entrez le nom du destinataire"
+                },
+                "iban": {
+                    "label": "IBAN",
+                    "placeholder": "XXXX XXXXX XXXXX XXXXXXXXXXX XX"
+                },
+                "code": {
+                    "label": "Code",
+                    "placeholder": "XXXXX"
+                },
+                "bankName": {
+                    "label": "Nom de la banque",
+                    "placeholder": "Entrez le nom de la banque"
+                }
+            },
+            "errors": {
+                "invalidFields": "Veuillez remplir tous les champs correctement"
+            }
+        },
+        "screenThree": {
+            "title": "Résumé de la transaction",
+            "details": {
+                "amountToSend": "Montant à envoyer",
+                "amountReceived": "Montant reçu",
+                "recipientPhone": "Téléphone du destinataire",
+                "recipientName": "Nom du destinataire",
+                "cashback": "Cashback",
+                "referralBonus": "Bonus de parrainage",
+                "exchangeRate": "Taux de change"
+            },
+            "buttons": {
+                "redirect": "Rediriger",
+                "pay": "Payer",
+                "back": "Retour"
+            }
+        },
+        "screenFour": {
+            "title": "Transaction terminée",
+            "verificationMessage": "Nous avons envoyé un code de vérification à votre email. Saisissez-le ci-dessous pour terminer votre connexion",
+            "buttons": {
+                "backToHome": "Retour à l'accueil",
+                "close": "Fermer"
+            }
+        }
+    },
+    "notifications": {
+        "title": "Historique des transactions",
+        "noTransactions": "Aucune transaction",
+        "status": {
+            "completed": "Terminée",
+            "pending": "En cours",
+            "failed": "Échec",
+            "success": "Succès"
+        },
+        "amount": {
+            "received": "Montant reçu",
+            "sent": "Montant envoyé"
+        },
+        "currency": {
+            "euro": "€",
+            "default": "XAF"
+        }
+    },
+    "userProfile": {
+        "selectImage": "Sélectionner une image de profil",
+        "close": "Fermer",
+        "logout": "Déconnexion"
+    },
+    "filleulList": {
+        "referralDetails": {
+            "order": "Ordre",
+            "name": "Nom",
+            "commission": "Commission",
+            "currency": "€"
+        }
+    },
+    "dialogBox": {
+        "title": "Partager votre lien de parrainage",
+        "copyButton": "Copier",
+        "copied": "Copié !",
+        "cancelButton": "Annuler"
+    },
+    "transactionList": {
+        "table": {
+            "date": "Date et heure",
+            "recipient": "Destinataire",
+            "amountSent": "Montant envoyé",
+            "status": "Statut de la transaction",
+            "cashback": "Cashback généré"
+        },
+        "status": {
+            "success": "Succès",
+            "pending": "En cours",
+            "failed": "Échec"
+        },
+        "buttons": {
+            "viewMore": "Voir plus"
+        },
+        "noTransactions": "Aucune transaction",
+        "mobile": {
+            "amount": "Montant",
+            "status": "Statut"
+        }
+    },
+    "qrCodeDialog": {
+        "title": "Partager le QR Code",
+        "subtitle": "Partagez ce QR Code pour parrainer",
+        "close": "Fermer"
+    },
+    "otpModal": {
+        "title": "Vérification de sécurité",
+        "subtitle": "Entrez le code de vérification",
+        "close": "Fermer",
+        "invalidCode": "Code de vérification invalide",
+        "verificationSuccess": "Vérification réussie",
+        "placeholder": "Entrez le code"
+    },
+    "welcomeContainer": {
+        "welcome": "Bienvenue",
+        "getStarted": "Commençons. Pour effectuer une transaction, appuyez sur le bouton ci-dessous.",
+        "sendMoney": "Envoyer de l'argent"
+    }
+}

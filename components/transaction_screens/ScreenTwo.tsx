@@ -6,6 +6,7 @@ import axios, { AxiosError } from 'axios';
 //Redux related imports
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { provideStepBankData, provideStepMobileData, provideToken } from '@/lib/redux/features/transaction/transactionSlice';
+import {useTranslation} from '@/lib/hooks/useTranslation';
 
 interface screenProps {
     onClose: () => void,
@@ -13,7 +14,8 @@ interface screenProps {
 }
 
 const ScreenTwo = ({onClose, moveToScreen}: screenProps) => {
-    const selectedCountry = 'cameroon';
+    const { t } = useTranslation();
+    const { translations } = useTranslation();
     const [isFieldWrong, setIsFieldWrong] =  useState(false);
     const [receiverName, setReceiverName] =  useState('');
     const [isTypeMobile, setIsTypeMobile] = useState(true);
@@ -25,7 +27,14 @@ const ScreenTwo = ({onClose, moveToScreen}: screenProps) => {
     const tranzakToken = useAppSelector((state) => state.transaction.tranzaktoken)
     const transactionDetails = useAppSelector((state) => state.transaction)
     
-    const transfertTypes = ['Mobile Money', 'Compte bancaire']
+    const transfertTypes = [
+        `${t('transactionScreens.screenTwo.transferType.options.mobileMoney')}`,  // Keep raw strings to match exactly in comparison
+        `${String(translations?.transactionScreens?.screenTwo?.transferType.options.bankAccount)}`,  // Keep raw strings to match exactly in comparison
+    ];
+
+    const countriesData = [
+        { name: 'Cameroon', code: '+237', imgUrl: '/countries/cameroon.png' },
+    ];
 
     useEffect(() => {
         const createToken = async () => {
@@ -63,17 +72,14 @@ const ScreenTwo = ({onClose, moveToScreen}: screenProps) => {
 
         fields.forEach(field => {
             const value = '+' + formData.get(field.name) as string;
-            // console.log('Field value is: ', value);
             if (!field.regex.test(value.trim())) {
                 document.getElementsByName(field.name)[0].classList.add('border-red');
                 console.log(`!!! Field ${field.name} value: ${value.trim()} doesn't respect regex !!!`);
                 isValid = false
             } else if (field.name === 'iban' && field.regex.test(value.replace(/\s/g, '').trim())) {
-                // console.log('\t ### Field now is valid: ', field.name);
                 document.getElementsByName(field.name)[0].classList.remove('border-red');
                 isValid = true
             } else {
-                // console.log('\t ### Field is valid: ', field.name);
                 document.getElementsByName(field.name)[0].classList.remove('border-red');
                 isValid = true;
             }
@@ -85,19 +91,13 @@ const ScreenTwo = ({onClose, moveToScreen}: screenProps) => {
 
     const handleTransfertTypeChange = () => {
         const transfertType = document.getElementById('type-select') as HTMLSelectElement;
-        if (transfertType.value === 'Mobile money') {
-            setIsTypeMobile(true);
-        } else {
-            setIsTypeMobile(false);
-        }
-        console.log('Type is mobile :', isTypeMobile)
+        setIsTypeMobile(transfertType.value === 'Mobile Money');
+        console.log('Transfer type changed to:', transfertType.value, 'isTypeMobile:', transfertType.value === 'Mobile Money');
     }
 
     const handleIbanChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let pureInput =  e.target.value;
-        console.log('Input field changed')
         
-        //Remove any non numeric character
         pureInput = pureInput.replace(/\D/g,'');
 
         let formattedValue = '';
@@ -105,12 +105,13 @@ const ScreenTwo = ({onClose, moveToScreen}: screenProps) => {
 
         for (let i = 0; i <= pureInput.length - 1; i++ ){
             if (i > 0 && spacing.includes(i)) {
-                console.log('Adding a space then at indice \n', i);
+                // console.log('Adding a space then at indice \n', i);
                 formattedValue += ' ';
             }
             formattedValue += pureInput[i];
         }
         ibanRef.current = formattedValue
+        e.target.value = formattedValue;
         console.log('Iban value: ', ibanRef.current)
     }
 
@@ -134,7 +135,6 @@ const ScreenTwo = ({onClose, moveToScreen}: screenProps) => {
 
     const handleNameCheck = async () => {
         const formData = new FormData(formRef.current!);
-        // console.log('Redux registered token is:', tranzakToken);
         
         try {
             const response = await axios.post(
@@ -175,7 +175,6 @@ const ScreenTwo = ({onClose, moveToScreen}: screenProps) => {
         }
     };
 
-    // Calll the name check if the phone is pre-filled
     useEffect(() => {
         if (transactionDetails.receiverPhoneNumber) {
             console.log('Checking the name with predefined data');
@@ -185,29 +184,31 @@ const ScreenTwo = ({onClose, moveToScreen}: screenProps) => {
 
     const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('---------------- 000 -------------------');
-        const form = document.getElementById('form-one') as HTMLFormElement
+        const form = document.getElementById('form-one') as HTMLFormElement;
         const formData = new FormData(form);
-        if (isTypeMobile && testFieldsRegex() && isNameChecked) {
-            dispatch(provideStepMobileData({
-                transfertType: isTypeMobile ? 'MobileMoney': 'Bank',
-                receiverPhoneNumber: formData.get('receiver-number') as string,
-                receiverName: receiverName,
-                latestScreen: 2
-            }));
-            console.log('001');
-        } else if ( !isTypeMobile ) {
-            console.log('------------------ REGISTERING BANK DATA ------------------');
-            dispatch(provideStepBankData({
-                transfertType: isTypeMobile ? 'MobileMoney': 'Bank',
-                bankAccountOwner: formData.get('owner-name') as string,
-                iban: formData.get('iban') as string,
-                bankCode: formData.get('code') as string,
-                bankName: formData.get('bank-name') as string,
-                latestScreen: 2
-            }));
-            console.log('002');
+
+        if (isTypeMobile) {
+            if (testFieldsRegex() && isNameChecked) {
+                dispatch(provideStepMobileData({
+                    transfertType: 'MobileMoney',
+                    receiverPhoneNumber: formData.get('receiver-number') as string,
+                    receiverName: receiverName,
+                    latestScreen: 2
+                }));
+            }
+        } else {
+            if (testFieldsRegex()) {
+                dispatch(provideStepBankData({
+                    transfertType: 'Bank',
+                    bankAccountOwner: formData.get('owner-name') as string,
+                    iban: formData.get('iban') as string,
+                    bankCode: formData.get('code') as string,
+                    bankName: formData.get('bank-name') as string,
+                    latestScreen: 2
+                }));
+            }
         }
+
         if (testFieldsRegex() && (isTypeMobile ? isNameChecked : true)) {
             moveToScreen(1);
         }
@@ -220,24 +221,36 @@ const ScreenTwo = ({onClose, moveToScreen}: screenProps) => {
                 <IoMdArrowBack size={24} className="text-primary_dark" />
             </button>
             <div className='flex w-full justify-between items-center'>
-                <h4 className='text-[20px] font-semibold text-primary'>Envoyer de l&apos;argent</h4>
-                <button onClick={onClose}><LiaTimesSolid size={24} className='h-[24px]' /></button>
+                <h4 className='text-[20px] font-semibold text-primary'>
+                    {String(translations?.transactionScreens?.screenTwo?.title)}
+                </h4>
+                <button onClick={onClose}>
+                    <LiaTimesSolid size={24} className='h-[24px]' />
+                </button>
             </div>
         </div>
         <form id='form-one' ref={formRef} onSubmit={handleSubmit} className='grow flex flex-col gap-[12px] pt-[32px]'>
             <div className='flex flex-col'>
-                <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Type de transfert</label>
+                <label className='mb-[4px] text-[14px] text-gray_dark/60'>
+                    {String(translations?.transactionScreens?.screenTwo?.transferType?.label)}
+                </label>
                 <div className='rounded-[8px] px-[14px] py-[10px] border-2 border-gray-400 '>
-                    <select id='type-select' defaultValue={transactionDetails.transfertType === 'MobileMoney' ? transfertTypes[0] : transfertTypes[1]} name='country' className='bg-transparent w-full font-semibold' onChange={handleTransfertTypeChange}>
+                    <select 
+                        id='type-select' 
+                        defaultValue={transactionDetails.transfertType === 'MobileMoney' ? 'Mobile Money' : 'Bank Account'} 
+                        name='country' 
+                        className='bg-transparent w-full font-semibold' 
+                        onChange={handleTransfertTypeChange}
+                    >
                         { transactionDetails.amountReceived! > 1000000 ? 
-                        transfertTypes.map((data, index) => (
-                            <option key={index} value={data} className='w-full'>
+                            transfertTypes.map((data, index) => (
+                                <option key={index} value={data} className='w-full'>
                                     {data}
-                            </option>
-                        ))
-                        :
-                            <option key={1} value={transfertTypes[0]} className='w-full'>
-                                    {transfertTypes[0]}
+                                </option>
+                            ))
+                            :
+                            <option key={0} value='Mobile Money' className='w-full'>
+                                {String(translations?.transactionScreens?.screenTwo?.transferType?.options?.mobileMoney)}
                             </option>
                         }
                     </select>
@@ -246,48 +259,88 @@ const ScreenTwo = ({onClose, moveToScreen}: screenProps) => {
             {    
                 isTypeMobile ?
                 <div className='flex flex-col'>
-                    <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Numero du beneficiaire</label>
-                    <div className='flex items-center font-semibold w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 gap-[12px]'>
-                        <img src={`/countries/${selectedCountry}.png`} alt="Img" className='w-[30px]' />
-                        <input type="number" name='receiver-number' placeholder='2376XXXXXXXX' defaultValue={ transactionDetails.receiverPhoneNumber || 2376} onChange={handlePhoneNumberChange} className={`appearance-none grow float-left block text-right max-w-[85%] ${ isFieldWrong ? 'border-red-500':'border-gray-400'}`} style={{WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
+                    <label className='mb-[4px] text-[14px] text-gray_dark/60'>
+                        {String(translations?.transactionScreens?.screenTwo?.recipient?.phoneLabel)}
+                    </label>
+                    <div className='flex items-center gap-[12px]'>
+                        <div className="flex items-center gap-[8px] border-2 rounded-[8px] py-[8px] px-[12px]">
+                            <img src={`${countriesData[0].imgUrl}`} alt="Img" className='w-[30px]' />
+                            <span className='text-[16px] text-gray_dark font-semibold'>{countriesData[0].code}</span>
+                        </div>
+                       <div className=" font-semibold grow rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 text-end">
+                            <input 
+                                type="number" 
+                                name='receiver-number' 
+                                placeholder={String(translations?.transactionScreens?.screenTwo?.recipient?.phonePlaceholder)}
+                                defaultValue={ transactionDetails.receiverPhoneNumber || 2376}
+                                onChange={handlePhoneNumberChange}
+                                className={`appearance-none w-full float-left block text-right ${isFieldWrong ? 'border-red-500':'border-gray-400'}`}
+                            />
+                       </div>
                     </div>
                     <h4 className='text-[14px]'>{receiverName}</h4>
                 </div>
                 : 
                 <div className='flex flex-col gap-[12px]'>
                     <div>
-                        <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Nom du titulaire du compte</label>
-                        <input type="text" placeholder='Entrer le nom du beneficiaire' name='owner-name' className={`w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 grow ${ isFieldWrong ? 'border-red-500':'border-gray-400'}`} />
+                        <label className='mb-[4px] text-[14px] text-gray_dark/60'>
+                            {String(translations?.transactionScreens?.screenTwo?.bank?.accountHolder?.label)}
+                        </label>
+                        <input 
+                            type="text" 
+                            placeholder={String(translations?.transactionScreens?.screenTwo?.bank?.accountHolder?.placeholder)}
+                            name='owner-name'
+                            className={`w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 grow ${isFieldWrong ? 'border-red-500':'border-gray-400'}`}
+                        />
                     </div>
                     <div>
-                        <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>IBAN</label>
-                        <input type="text" maxLength={31} placeholder='XXXX XXXXX XXXXX XXXXXXXXXXX XX' name='iban' value={ibanRef.current} onChange={handleIbanChange} className={`w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 grow ${ isFieldWrong ? 'border-red-500':'border-gray-400'}`} style={{WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
+                        <label className='mb-[4px] text-[14px] text-gray_dark/60'>
+                            {String(translations?.transactionScreens?.screenTwo?.bank?.iban?.label)}
+                        </label>
+                        <input 
+                            type="text" 
+                            maxLength={31} 
+                            placeholder={String(translations?.transactionScreens?.screenTwo?.bank?.iban?.placeholder)}
+                            name='iban' 
+                            onChange={handleIbanChange} 
+                            className={`w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 grow ${isFieldWrong ? 'border-red-500':'border-gray-400'}`}
+                        />
                     </div>
                     <div>
-                        <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Code</label>
-                        <input type="text" placeholder='XXXXX' name='code' className={`w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 grow ${ isFieldWrong ? 'border-red-500':'border-gray-400'}`} style={{WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
-                    </div>
-                    <div>
-                        <label htmlFor="" className='mb-[4px] text-[14px] text-gray_dark/60'>Nom de la banque</label>
-                        <input type="text" placeholder='Entrer le nom de la banque' name='bank-name' className={`w-full rounded-[8px] px-[14px] py-[8px] border-2 grow ${ isFieldWrong ? 'border-red-500':'border-gray-400'}`} />
+                        <label className='mb-[4px] text-[14px] text-gray_dark/60'>
+                            {String(translations?.transactionScreens?.screenTwo?.bank?.bankName?.label)}
+                        </label>
+                        <input 
+                            type="text" 
+                            placeholder={String(translations?.transactionScreens?.screenTwo?.bank?.bankName?.placeholder)}
+                            name='bank-name' 
+                            className={`w-full rounded-[8px] px-[14px] py-[8px] border-2 grow ${isFieldWrong ? 'border-red-500':'border-gray-400'}`}
+                        />
                     </div>
                 </div>
             }
             {
-                isFieldWrong && <h5 className='text-red-500 text-center font-semibold text-[14px]'>Veuillez remplir correctement les champs</h5>
+                isFieldWrong && (
+                    <h5 className='text-red-500 text-center font-semibold text-[14px]'>
+                        {String(translations?.transactionScreens?.screenTwo?.errors?.invalidFields)}
+                    </h5>
+                )
             }
             
             <button type='submit' className={`hidden lg:block bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
-                <h6 className='text-center font-semibold '>Continuer</h6>
+                <h6 className='text-center font-semibold'>
+                    {String(translations?.transactionScreens?.common?.continue)}
+                </h6>
             </button>
             <div className='grow lg:hidden'></div>
             <button type='submit' className={`lg:hidden bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
-                <h6 className='text-center font-semibold '>Continuer</h6>
+                <h6 className='text-center font-semibold'>
+                    {String(translations?.transactionScreens?.common?.continue)}
+                </h6>
             </button>
         </form>
-        {/* <h5>We&apos;ve sent a verification code to your email. Enter it below to complete your login</h5> */}
     </div>
   )
 }
 
-export default ScreenTwo
+export default ScreenTwo;

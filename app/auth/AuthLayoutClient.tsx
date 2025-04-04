@@ -13,10 +13,10 @@ interface RouteMapping {
 }
 
 const mapping: RouteMapping[] = [
-  {endUrl: '/auth/signup', imageUrl: '/auth/firstep_signup.svg', style: 'w-[100%] bottom-0'},
-  {endUrl: '/auth/signin', imageUrl: '/auth/firstep_signin.svg', style: 'w-[100%] bottom-0'},
-  {endUrl: '/auth/pincheck', imageUrl: '/auth/secondstep.svg', style: 'w-[80%]'},
-  {endUrl: '/auth/welcome', imageUrl: '/auth/thirdstep.png', style: 'w-[180px]'},
+  {endUrl: '/auth/signup/', imageUrl: '/auth/firstep_signup.svg', style: 'w-[100%] bottom-0'},
+  {endUrl: '/auth/signin/', imageUrl: '/auth/firstep_signin.svg', style: 'w-[100%] bottom-0'},
+  {endUrl: '/auth/pincheck/', imageUrl: '/auth/secondstep.svg', style: 'w-[80%]'},
+  {endUrl: '/auth/welcome/', imageUrl: '/auth/thirdstep.png', style: 'w-[180px]'},
 ];
 
 export default function AuthLayoutClient({

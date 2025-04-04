@@ -1,0 +1,236 @@
+{
+    "welcome": "Welcome to our website",
+    "getStarted": "Let's get started. To make a transaction just push the button below.",
+    "sendMoney": "Send Money",
+    "awardsCashback": {
+        "cashbackAvailable": "Cashback available",
+        "convertToTransaction": "Convert to Transaction"
+    },
+    "awardsInitiateTransaction": {
+        "timeToTransfer": "It's time to make a transfer",
+        "readyToTransfer": "Ready to transfer money? Click here to start and enjoy a fast, secure, and hassle-free experience.",
+        "sendMoney": "Send Money"
+    },
+    "awardsStats": {
+        "referralBonus": "Referral Bonus",
+        "claimBonus": "Claim Bonus",
+        "filleuls": "Referrals"
+    },
+    "referralSection": {
+        "yourReferralCode": "Your Referral Code",
+        "copy": "Copy",
+        "copied": "Copied",
+        "inviteFriends": "Invite Friends",
+        "shareQRCode": "Share QR Code",
+        "processing": "Processing...",
+        "referralLinkTitle": "Share Referral Link",
+        "copyReferralError": "Failed to copy referral code"
+    },
+    "settingsHelpFAQ": {
+        "helpAndFAQ": "Help & FAQ"
+    },
+    "settingsProfile": {
+        "profile": "Profile",
+        "personalInfo": "Personal Information",
+        "edit": "Edit",
+        "save": "Save",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "newPassword": "New Password"
+    },
+    "statsContainer": {
+        "cashbackAvailable": "Cashback available",
+        "referralBonus": "Referral Bonus",
+        "referrals": "Referrals",
+        "details": "Details",
+        "claim": "Claim"
+    },
+    "transactionScreens": {
+        "manageTransactions": "Manage your transactions here",
+        "common": {
+            "continue": "Continue",
+            "back": "Back",
+            "close": "Close",
+            "sendMoney": "Send Money"
+        },
+        "screenTwo": {
+            "title": "Send Money",
+            "transferType": {
+                "label": "Transfer Type",
+                "options": {
+                    "mobileMoney": "Mobile Money",
+                    "bankAccount": "Bank Account"
+                }
+            },
+            "recipient": {
+                "phoneLabel": "Recipient Phone Number",
+                "phonePlaceholder": "2376XXXXXXXX",
+                "notFound": "User not found",
+                "tryAgain": "Please try again in 5 seconds"
+            },
+            "bank": {
+                "accountHolder": {
+                    "label": "Account Holder Name",
+                    "placeholder": "Enter recipient name"
+                },
+                "iban": {
+                    "label": "IBAN",
+                    "placeholder": "XXXX XXXXX XXXXX XXXXXXXXXXX XX"
+                },
+                "code": {
+                    "label": "Code",
+                    "placeholder": "XXXXX"
+                },
+                "bankName": {
+                    "label": "Bank Name",
+                    "placeholder": "Enter bank name"
+                }
+            },
+            "errors": {
+                "invalidFields": "Please fill in all fields correctly"
+            }
+        },
+        "screenOne": {
+            "title": "Send Money",
+            "form": {
+                "destination": {
+                    "label": "Destination Country",
+                    "countries": {
+                        "cameroon": "Cameroon"
+                    }
+                },
+                "send": {
+                    "label": "You Send",
+                    "placeholder": "Enter amount"
+                },
+                "receive": {
+                    "label": "Amount Received",
+                    "placeholder": "Recipient gets"
+                },
+                "rate": {
+                    "label": "Exchange Rate",
+                    "tooltip": "Exchange rates by amount ranges:\n\n30€ - 50€: {0} XAF | 50€ - 100€: {1} XAF\n100€ - 250€: {2} XAF | 250€ - 500€: {3} XAF\n500€ - 2000€: {4} XAF | 2000€ - 70000€: {5} XAF"
+                },
+                "gain": {
+                    "label": "Your Gain"
+                }
+            },
+            "errors": {
+                "network": "Network error",
+                "negativeAmount": "Amount cannot be negative",
+                "minAmount": "Minimum transaction amount is {0} Euros",
+                "maxAmount": "Maximum transaction amount is {0} Euros",
+                "invalidAmount": "Please enter a valid amount"
+            },
+            "buttons": {
+                "continue": "Continue",
+                "close": "Close"
+            }
+        },
+        "screenThree": {
+            "title": "Transaction Summary",
+            "details": {
+                "amountToSend": "Amount to Send",
+                "amountReceived": "Amount Received",
+                "recipientPhone": "Recipient Phone",
+                "recipientName": "Recipient Name",
+                "cashback": "Cashback",
+                "referralBonus": "Referral Bonus",
+                "exchangeRate": "Exchange Rate"
+            },
+            "buttons": {
+                "redirect": "Redirect",
+                "pay": "Pay",
+                "back": "Back"
+            }
+        },
+        "screenFour": {
+            "title": "Transaction Complete",
+            "verificationMessage": "We've sent a verification code to your email. Enter it below to complete your login",
+            "buttons": {
+                "backToHome": "Back to Home",
+                "close": "Close"
+            }
+        }
+    },
+    "welcomeContainer": {
+        "welcome": "Welcome",
+        "getStarted": "Let's get started. To make a transaction just push the button below.",
+        "sendMoney": "Send Money"
+    },
+    "notifications": {
+        "title": "Transaction History",
+        "noTransactions": "No transactions yet",
+        "status": {
+            "completed": "Completed",
+            "pending": "Processing",
+            "failed": "Failed",
+            "success": "Success"
+        },
+        "amount": {
+            "received": "Amount Received",
+            "sent": "Amount Sent"
+        },
+        "currency": {
+            "euro": "€",
+            "default": "XAF"
+        }
+    },
+    "userProfile": {
+        "selectImage": "Select a Profile Image",
+        "close": "Close",
+        "logout": "Logout"
+    },
+    "filleulList": {
+        "myReferrals": "My Referrals",
+        "noReferrals": "You have no referrals yet",
+        "referralDetails": {
+            "order": "Order",
+            "name": "Name",
+            "commission": "Commission",
+            "currency": "€"
+        }
+    },
+    "dialogBox": {
+        "title": "Share Your Referral Link",
+        "copyButton": "Copy",
+        "copied": "Copied!",
+        "cancelButton": "Cancel"
+    },
+    "transactionList": {
+        "table": {
+            "date": "Date & Time",
+            "recipient": "Recipient",
+            "amountSent": "Amount Sent",
+            "status": "Transaction Status",
+            "cashback": "Generated Cashback"
+        },
+        "status": {
+            "success": "Success",
+            "pending": "Pending",
+            "failed": "Failed"
+        },
+        "buttons": {
+            "viewMore": "View More"
+        },
+        "noTransactions": "No transactions",
+        "mobile": {
+            "amount": "Amount",
+            "status": "Status"
+        }
+    },
+    "qrCodeDialog": {
+        "title": "Share QR Code",
+        "subtitle": "Share this QR Code for referring",
+        "close": "Close"
+    },
+    "otpModal": {
+        "title": "Security Verification",
+        "subtitle": "Enter the verification code",
+        "close": "Close",
+        "invalidCode": "Invalid verification code",
+        "verificationSuccess": "Verification successful",
+        "placeholder": "Enter code"
+    }
+}

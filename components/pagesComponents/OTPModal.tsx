@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useTranslation } from '@/lib/hooks/useTranslation';
 
 interface OTPModalProps {
     onClose: () => void;
@@ -8,6 +9,7 @@ interface OTPModalProps {
 }
 
 const OTPModal = ({ onClose, onVerify }: OTPModalProps) => {
+    const { translations } = useTranslation();
     const [otp, setOtp] = useState<string[]>(Array(5).fill(''));
     const [isOtpCorrect, setIsOtpCorrect] = useState<boolean | null>(null);
 
@@ -47,7 +49,12 @@ const OTPModal = ({ onClose, onVerify }: OTPModalProps) => {
     return (
         <div className='fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black/50 z-50'>
             <div className='bg-white rounded-[12px] p-[24px] w-[90%] lg:w-[50%] max-h-[80vh] overflow-auto'>
-                <h3 className='text-[24px] font-bold mb-[16px]'>OTP Verification</h3>
+                <h3 className='text-[24px] font-bold mb-[16px]'>
+                    {String(translations?.otpModal?.title)}
+                </h3>
+                <p className='text-gray-600 mb-4'>
+                    {String(translations?.otpModal?.subtitle)}
+                </p>
                 <div className='flex justify-evenly'>
                     {Array.from({ length: 5 }, (_, i) => (
                         <input
@@ -57,6 +64,7 @@ const OTPModal = ({ onClose, onVerify }: OTPModalProps) => {
                             value={otp[i]}
                             onChange={(e) => handleOtpInput(e, i)}
                             maxLength={1}
+                            placeholder={String(translations?.otpModal?.placeholder)}
                             className={`appearance-none size-[56px] text-center text-[28px] font-[400] text-primary_text rounded-[12px] border-2 focus:border-2 ${
                                 isOtpCorrect === true
                                     ? 'border-green focus:border-green'
@@ -64,7 +72,6 @@ const OTPModal = ({ onClose, onVerify }: OTPModalProps) => {
                                     ? 'border-red focus:border-red'
                                     : 'border-gray_dark/60 focus:border-primary'
                             }`}
-                            style={{ WebkitAppearance: 'none', MozAppearance: 'textfield' }}
                         />
                     ))}
                 </div>
@@ -72,7 +79,7 @@ const OTPModal = ({ onClose, onVerify }: OTPModalProps) => {
                     onClick={onClose}
                     className='mt-[16px] bg-primary text-white px-[16px] py-[8px] rounded-[8px]'
                 >
-                    Close
+                    {String(translations?.otpModal?.close)}
                 </button>
             </div>
         </div>

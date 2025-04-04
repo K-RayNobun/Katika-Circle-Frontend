@@ -1,9 +1,11 @@
- import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane, faClock} from '@fortawesome/free-regular-svg-icons'
 import { faBan } from '@fortawesome/free-solid-svg-icons';
 
 import axios from 'axios';
+
+import { useTranslation } from '@/lib/hooks/useTranslation';
 
 //Redux related imports
 import { useAppDispatch } from '@/lib/redux/hooks';
@@ -23,6 +25,9 @@ interface Transaction {
   transactionStatus: string;
   amount: number;
   currency: string;
+  recipient: {
+    amountReceive: number;
+  };
   cashBack: {
     amount: number;
   };
@@ -56,36 +61,44 @@ const handleStatus = (status:string) => {
 }
 
 const Notification = ({details}:{details: notificationDetails}) => {
-
+  const { translations } = useTranslation();
   const style = handleStatus(details.status);
-    return (
+  
+  return (
     <div className='w-full bg-gray p-[16px] rounded-[12px]'>
         <h5 className='text-[10px] text-gray_dark/60 font-semibold'>{details.date}</h5>
         <div className='flex w-full mt-[10px] justify-between'>
             <div className='flex items-center gap-[8px]'>
-                <div className={`size-[40px] rounded-full flex items-center justify-center ${style.bgColor} ${style.textColor} `}>
-                  {style.icon}
+                <div className={`size-[40px] rounded-full flex items-center justify-center ${style.bgColor} ${style.textColor}`}>
+                    {style.icon}
                 </div>
-                <h4 className={`text-[14px] font-bold ${style.textColor}`}>{details.status}</h4>
+                <h4 className={`text-[14px] font-bold ${style.textColor}`}>
+                    {String(translations?.notifications?.status[details.status.toLowerCase()])}
+                </h4>
             </div>
             <div className='flex flex-col items-end'>
-                <h5 className='text-[14px] text-primary_dark font-bold'>XAF {details.amountReceived.toLocaleString('en-US')}</h5>
-                <h5 className='text-[10px] text-gray_dark/60 font-semibold'>{details.amountSent} {details.currencySent}</h5>
+                <h5 className='text-[14px] text-primary_dark font-bold'>
+                    {translations?.notifications?.currency?.default} {details.amountReceived.toLocaleString('en-US')}
+                </h5>
+                <h5 className='text-[10px] text-gray_dark/60 font-semibold'>
+                    {details.amountSent} {details.currencySent}
+                </h5>
             </div>
         </div>
-    </div>);
+    </div>
+  );
 }
 
 const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number}) => {
   const [transactionsList, setTransactionsList] = useState<Array<notificationDetails>>([]);
   const dispatch = useAppDispatch();
+  const { translations } = useTranslation();
 
   useEffect(() => {
     const fecthTransactionList = async () => {
         try {
           let cashbackTotal = 0;
             console.log('------------------ Getting Transactions --------------')
-            console.log(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transactions/user`)
             const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transactions/user`,
                 {
                     headers: {
@@ -107,10 +120,10 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
                 date: creationDate.toLocaleString('en-US'),
                 amountSent: transaction.amount,
                 currencySent: transaction.currency.toLowerCase() === 'euro' ? '€' : transaction.currency.slice(0, 3).toUpperCase(),
-                amountReceived: transaction.cashBack.amount * rate,
+                amountReceived: transaction.recipient.amountReceive,
               };
 
-              const cashback = (transaction.transactionStatus === 'Success' ? transaction.cashBack.amount : 0);
+              const cashback = (transaction.cashBack ? transaction.cashBack.amount : 0);
               if (cashback) {
                 cashbackTotal += cashback;
               }
@@ -131,14 +144,18 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
 
   return (
     <div className={`w-full grow`}>
-      <h4 className='text-primary_dark font-bold mb-3'>Notifications</h4>
+      <h4 className='text-primary_dark font-bold mb-3'>
+        {String(translations?.notifications?.title)}
+      </h4>
       <div className='max-h-[450px] space-y-[16px] py-[6px] overflow-y-auto'>
-        { transactionsList.length > 1 ?
+        { transactionsList.length >= 1 ?
           transactionsList.map((transaction, i) => {
             return <Notification key={i} details={transaction}/>
           }) :
           <div className='w-full bg-gray p-[32px] rounded-[12px]'>
-            <h5 className='text-[16px] text-gray_dark font-semibold items-center justify-center flex '>No transaction</h5>
+            <h5 className='text-[16px] text-gray_dark font-semibold items-center justify-center flex'>
+              {String(translations?.notifications?.noTransactions)}
+            </h5>
           </div>
         }
       </div>

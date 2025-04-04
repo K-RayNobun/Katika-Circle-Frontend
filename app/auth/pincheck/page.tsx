@@ -18,7 +18,7 @@ interface DigitCaseProps {
 
 const DigitCase: React.FC<DigitCaseProps> = ({identifier, digitValue, isPinCorrect, onClick, handleChangeFunction}) => {
     return (
-        <input id={identifier} type="text" value={digitValue} onClick={onClick} onChange={handleChangeFunction} maxLength={5} className={`appearance-none size-[56px] text-center text-[28px] font-[400] text-primary_text rounded-[12px] border-2 focus:border-2 ${isPinCorrect === true ? 'border-green focus:border-green' : isPinCorrect === false ? 'border-red focus:border-red' : 'border-gray_dark/60 focus:border-primary'}`} style={{ WebkitAppearance: 'none', MozAppearance: 'textfield'}} />
+        <input id={identifier} type="text" value={digitValue} onClick={onClick} onChange={handleChangeFunction} maxLength={5} className={`appearance-none size-[56px] text-center text-[28px] font-[400] text-primary_text rounded-[12px] border-2 focus:border-2 ${isPinCorrect === true ? 'border-green focus:border-green' : isPinCorrect === false ? 'border-red focus:border-red' : 'border-gray_dark/60 focus:border-primary'}`} />
     );
 };
 

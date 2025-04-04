@@ -284,6 +284,7 @@ const Signup = () => {
                 country: selectedCountry!.name,
                 countryCodeISO2: selectedCountry!.alpha2,
                 verified: false,
+                language: 'fr',
             }));
         }
         console.log('Finished signup');
@@ -424,15 +425,15 @@ const Signup = () => {
         </div>
         <form ref={formRef} onSubmit={handleSubmit} className='w-full mt-4 space-y-[16px]'>
             <div className='w-full flex flex-row-reverse gap-[14px]'>
-                <div className='necessary_input'>
+                <div className='necessary_input w-full'>
                     <input type="text"name='user_firstname' onChange={handleNamesVerification}  className={`${inputStyle} ${errorField === 'user_firstname' ? 'border-2 border-red': ''}`} placeholder='Nom(s)' />
                 </div>
-                <div className='necessary_input'>
+                <div className='necessary_input w-full'>
                     <input type="text" id='user_name' name='user_name' onChange={handleNamesVerification} className={`${inputStyle} ${errorField === 'user_name' ? 'border-2 border-red': ''}`} placeholder='Prénom(s)' />
                 </div>
             </div>
             <div className='necessary_input'>
-                <input type="text" id='user_email' name='user_email' onChange={handleEmailChange} className={`${inputStyle} ${errorField === 'user_email' ? 'border-2 border-red': ''}`} style={{ WebkitAppearance:'none', MozAppearance:'textfield'}} placeholder='Email' />
+                <input type="text" id='user_email' name='user_email' onChange={handleEmailChange} className={`${inputStyle} ${errorField === 'user_email' ? 'border-2 border-red': ''}`} placeholder='Email' />
             </div>
             <div className='necessary_input'>
                 <input type={isPwdVisible ? 'text' : 'password'} onChange={handlePasswordChange} name='password' className={`${inputStyle} ${errorField === 'password_match' ? 'border-2 border-red': ''}`} placeholder='Mot de passe' />
@@ -452,7 +453,7 @@ const Signup = () => {
                     )}
                     <select id='country-select' name='country' defaultValue={53} onChange={handleCountryChange} className={`bg-transparent w-[90%] font-bold text-primary_dark`}>
                         { Object.entries(countriesList).map(([key, countryData], index) => (
-                            <option key={index} value={key} className='w-full text-black bg-white appearance-none' style={{MozAppearance: 'none', WebkitAppearance: 'none'}}>
+                            <option key={index} value={key} className='w-full text-black bg-white appearance-none' >
                                     {countryData.name}
                             </option>
                         )) }
