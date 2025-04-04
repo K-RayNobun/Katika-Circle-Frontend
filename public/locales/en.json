@@ -164,7 +164,7 @@
         "noTransactions": "No transactions yet",
         "status": {
             "completed": "Completed",
-            "pending": "Processing",
+            "pending": "Pending",
             "failed": "Failed",
             "success": "Success"
         },

@@ -40,7 +40,7 @@ const handleStatus = (status:string) => {
     icon: <FontAwesomeIcon icon={faPaperPlane} />
   }
   return (
-  status.toLowerCase() === 'completed' ? style = {
+  status.toLowerCase() === 'success' ? style = {
     bgColor: 'bg-[#EDFFEC]',
     textColor: 'text-[#009646]',
     icon: <FontAwesomeIcon icon={faPaperPlane} />

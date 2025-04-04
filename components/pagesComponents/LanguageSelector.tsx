@@ -38,9 +38,12 @@ const LanguageSelector = ({stateUpdate}: LanguageSelectorProps) => {
     try {
       await switchLanguage(selectedLanguage);
       setLanguage(selectedLanguage);
-      // Force a re-render by triggering a state update in the parent component
+      stateUpdate(undefined); // Reset the state in the parent component
+
+      // State update for page reloading
+      window.localStorage.setItem("language", selectedLanguage);
+      window.localStorage.setItem("locale", selectedLanguage);
       window.dispatchEvent(new Event('languageChange'));
-      stateUpdate(undefined);
     } catch (error) {
       console.error('Error switching language:', error);
     }
@@ -49,9 +52,11 @@ const LanguageSelector = ({stateUpdate}: LanguageSelectorProps) => {
   return (
     <select
       id="language"
-      value={language.slice(0, 1).toUpperCase() + language.slice(1)}
+      value={language.slice(0, 2).toLowerCase()}
       onChange={handleLanguageChange}
-      className="p-2 max-w-[50px border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200"
+      className="p-2 max-w-[50px] bg-white tex-primary_dark rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-primary/50 focus:ring-opacity-50"
+      dir={languageOptions.find(option => option.code === language)?.dir}
+      aria-label="Select language"
     >
       {languageOptions.map(({ language, code }) => (
         <option value={code} key={code} className="text-primary_dark bg-primary/20">

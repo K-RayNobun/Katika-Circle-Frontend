@@ -17,7 +17,6 @@ export function useTranslation() {
         const keys = key.split('.');
         let current: NestedJSON | string = translations;
         for (const k of keys) {
-            if(k ==='filleulList') console.log('Accessing key:', k, 'Current key value:', current[k]);
             if (typeof current === 'string' || !(k in current)) {
                 return key;
             }
@@ -44,6 +43,7 @@ export function useTranslation() {
         setLocale(lang);
         setTranslations(newTranslations);
         localStorage.setItem('language', lang);
+        console.log('--------- Switching language to:', lang);
         dispatch({ type: 'SET_LANGUAGE', payload: lang });
     }, [dispatch, loadTranslations]);
 

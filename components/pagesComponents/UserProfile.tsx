@@ -52,8 +52,7 @@ const UserProfile = ({ userName, userSurname, isMobileDisplayed=false, stateUpda
         <div className={`${isMobileDisplayed ? 'flex' : 'hidden'} lg:flex  absolute top-[12px] 
         right-[12px] lg:absolute flex lg:max-w-[400px] w-[400px] lg:w-[30%] justify-between px-[20px] lg:pr-[0px] h-[59px] transition-all duration-2000`}>
             <div className={`h-[59px] bg-white flex justify-between items-center gap-[12px] p-[6px]`}>
-                <DarkModeToggle />+
-                
+                <DarkModeToggle />
                 <LanguageSelector stateUpdate={stateUpdate} />
                 <FaRegBell size={24} className={`h-[64px] lg:h-[80px] text-gray_dark/60`} />
             </div>
