@@ -11,7 +11,8 @@ import AwardsInitiateTransaction from '@/components/pagesComponents/AwardsInitia
 import FilleulList from '@/components/pagesComponents/FilleulList';
 import UserProfile from '@/components/pagesComponents/UserProfile';
 import ReferralSection from '@/components/pagesComponents/ReferralSection';
-import DialogBox from '@/components/DialogBox';
+import ReferralDialogBox from '@/components/ReferralDialogBox';
+import { useTranslation } from '@/lib/hooks/useTranslation';
 
 interface FilleulDetails {
     order: number;
@@ -25,18 +26,19 @@ const AwardsBoard = () => {
     const [referralBonus, setReferralBonus] = useState(0);
     const [cashbackGain, setCashbackGain] = useState(0);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
+    const [isCashbackModalVisible, setIsCashbackModalVisible] = useState(false);
 
     const dispatch = useAppDispatch();
     const accessToken = useAppSelector((state) => state.token.token);
     const userData = useAppSelector((state) => state.user);
     const referralCode = userData.referralCode;
+    const { t } = useTranslation();
 
     // Referral Code Query Params
     const referralCodeParam = {
         ref_code: referralCode?.toString() || '',
     };
     const queryParams = new URLSearchParams(referralCodeParam).toString();
-    
 
     useEffect(() => {
         const fetchReferrals = async () => {
@@ -78,7 +80,7 @@ const AwardsBoard = () => {
                 const axiosError = error as AxiosError;
                 console.log(error);
                 if (axiosError.response?.status === 500) {
-                    console.log('We suspect the user has no referrals');
+                    console.log(t('awardsPage.filleulList.noReferrals'));
                     dispatch(setReferralList([]));
                 }
             }
@@ -106,7 +108,7 @@ const AwardsBoard = () => {
 
                 setCashbackGain(cashbackTotal);
             } catch (error) {
-                console.error('Error while fetching transaction list:', error);
+                console.error(t('settingsHelpFAQ.faq[5].content'), error);
             }
         };
 
@@ -114,24 +116,32 @@ const AwardsBoard = () => {
         fetchTransactionList();
     }, [accessToken, dispatch, referralCode]);
 
+    const handleCashbackClick = () => {
+        setIsCashbackModalVisible(true);
+    };
+
+    const closeCashbackModal = () => {
+        setIsCashbackModalVisible(false);
+    };
+
     return (
         <div className='relative h-full grow flex flex-col lg:flex-row gap-[24px] rounded-lg sm:rounded-3xl'>
             {/* Desktop View */}
             <main className='grow max-h-[100%] hidden lg:flex flex-col space-y-[48px]'>
                 <div className='flex justify-between grow px-[6px]'>
-                    <h5 className='text-[24px] mt-[20px] lg:mt-[40px] font-bold'>Mes Récompenses</h5>
-                    <UserProfile userName={userData.name} userSurname={userData.surname}  />
+                    <h5 className='text-[24px] mt-[20px] lg:mt-[40px] font-bold'>{t('awardsPage.title')}</h5>
+                    <UserProfile userName={userData.name} userSurname={userData.surname} />
                 </div>
 
                 <div className={`mt-[60px]`}>
                     <AwardsStats referralBonus={referralBonus} filleulCount={filleulList.length} />
                 </div>
 
-                <div className='flex grow gap-[32px] overflow-auto'>
+                <div className='flex grow gap-[32px] overflow-auto animate-fading-2'>
                     <FilleulList filleulList={filleulList} />
                     <div className='h-full max-w-[32%] flex flex-col gap-[20px]'>
                         <ReferralSection referralCode={referralCode!} />
-                        <AwardsCashback cashbackGain={cashbackGain} />
+                        <AwardsCashback cashbackGain={cashbackGain} onClick={handleCashbackClick} />
                         <AwardsInitiateTransaction />
                     </div>
                 </div>
@@ -139,16 +149,24 @@ const AwardsBoard = () => {
 
             {/* Mobile View */}
             <main className='lg:hidden space-y-[24px] px-[6px]'>
-                <h5 className='text-[24px] mt-[20px] lg:mt-[40px] font-bold'>Mes Récompenses</h5>
-                <AwardsCashback cashbackGain={cashbackGain} />
+                <h5 className='text-[24px] mt-[20px] lg:mt-[40px] font-bold'>{t('awardsPage.title')}</h5>
+                <AwardsCashback cashbackGain={cashbackGain} onClick={handleCashbackClick} />
                 <AwardsStats referralBonus={referralBonus} filleulCount={filleulList.length} />
                 <ReferralSection referralCode={referralCode!} />
                 <FilleulList filleulList={filleulList} />
             </main>
 
+            {/* Cashback Modal */}
+            {isCashbackModalVisible && (
+                <ReferralDialogBox
+                    text={t('awardsCashback.cashbackAvailable')}
+                    onClose={closeCashbackModal}
+                />
+            )}
+
             {/* Dialog Box */}
             {isDialogVisible && (
-                <DialogBox text={`${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup?${queryParams}`} onClose={() => setIsDialogVisible(false)} />
+                <ReferralDialogBox text={`${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup?${queryParams}`} onClose={() => setIsDialogVisible(false)} />
             )}
         </div>
     );

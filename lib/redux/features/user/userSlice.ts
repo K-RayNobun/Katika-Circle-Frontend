@@ -39,14 +39,14 @@ const userSlice = createSlice({
     initialState,
     reducers: {
        createUser: (state, action: PayloadAction<User>) => {
-        console.log('Hello I am creating a user...');
+        console.log('CREATING USER...');
         state.id = action.payload.id;
         state.name = action.payload.name;
         state.surname = action.payload.surname;
         state.email = action.payload.email;
         state.pwdhash = action.payload.pwdhash;
         state.country = action.payload.country;
-        console.log('------------- The user information are : ', state.name + state.pwdhash  + state.email + ' -----------------');
+        console.log(`------------- USER INFO : ${state.name}  ${state.pwdhash} ${state.email}  -----------------`);
        },
        provideId: (state, action: PayloadAction<string>) => {
         state.id = action.payload;
@@ -103,6 +103,7 @@ const userSlice = createSlice({
         state.referralGain = 0;
         state.referralList = [];
         state.cashback = 0;
+        console.log('USER DATA HAVE BEEN RESET');
        }
     }
 });

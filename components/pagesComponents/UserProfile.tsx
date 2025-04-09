@@ -14,11 +14,11 @@ interface userProfileProps {
     userName: string,
     userSurname: string,
     isMobileDisplayed?: boolean,
-    stateUpdate: Dispatch<SetStateAction<undefined>>,
+    stateUpdate?: Dispatch<SetStateAction<string>>,
 }
 
-const UserProfile = ({ userName, userSurname, isMobileDisplayed=false, stateUpdate }: userProfileProps) => {
-    const { translations } = useTranslation();
+const UserProfile = ({ userName, userSurname, isMobileDisplayed=false }: userProfileProps) => {
+    const { t } = useTranslation();
     const [isLogoutVisible, setIsLogoutVisible] = useState(false)
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -50,10 +50,10 @@ const UserProfile = ({ userName, userSurname, isMobileDisplayed=false, stateUpda
 
     return (
         <div className={`${isMobileDisplayed ? 'flex' : 'hidden'} lg:flex  absolute top-[12px] 
-        right-[12px] lg:absolute flex lg:max-w-[400px] w-[400px] lg:w-[30%] justify-between px-[20px] lg:pr-[0px] h-[59px] transition-all duration-2000`}>
+        right-[12px] lg:absolute flex lg:max-w-[400px] w-[400px] lg:w-[30%] justify-between lg:pr-[0px] h-[59px] transition-all duration-2000`}>
             <div className={`h-[59px] bg-white flex justify-between items-center gap-[12px] p-[6px]`}>
                 <DarkModeToggle />
-                <LanguageSelector stateUpdate={stateUpdate} />
+                <LanguageSelector />
                 <FaRegBell size={24} className={`h-[64px] lg:h-[80px] text-gray_dark/60`} />
             </div>
             <div className={`relative h-full flex items-center rounded-[8px] gap-[16px] px-[24px] py-[9px] bg-white`}>
@@ -84,7 +84,7 @@ const UserProfile = ({ userName, userSurname, isMobileDisplayed=false, stateUpda
                 </button>
                 { isLogoutVisible && <div className={`absolute top-[10%] transition-all duration-2000 translate-y-[60px] right-[0] bg-white rounded-[12px] w-[70%] px-[16px] py-[8px]`}>
                     <button onClick={logoutUser} className={`w-full py-[6px] text-primary_dark font-semibold active:scale-110`}>
-                        {String(translations?.userProfile?.logout)}
+                        {t('userProfile.logout')}
                     </button>
                 </div>}
             </div>
@@ -93,7 +93,7 @@ const UserProfile = ({ userName, userSurname, isMobileDisplayed=false, stateUpda
                 <div className='fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black/50 z-50'>
                     <div className='bg-white rounded-[12px] p-[24px] w-[90%] lg:w-[50%] max-h-[80vh] overflow-auto'>
                         <h3 className='text-[24px] font-bold mb-[16px]'>
-                            {String(translations?.userProfile?.selectImage)}
+                            {t('userProfile.selectImage')}
                         </h3>
                         <div className='grid grid-cols-2 lg:grid-cols-3 gap-[16px]'>
                             {images.map((image) => (
@@ -114,7 +114,7 @@ const UserProfile = ({ userName, userSurname, isMobileDisplayed=false, stateUpda
                             onClick={() => setIsModalVisible(false)}
                             className='mt-[16px] bg-primary text-white px-[16px] py-[8px] rounded-[8px]'
                         >
-                            {String(translations?.userProfile?.close)}
+                            {t('userProfile.close')}
                         </button>
                     </div>
                 </div>

@@ -1,7 +1,95 @@
 {
-    "welcome": "Welcome to our website",
-    "getStarted": "Let's get started. To make a transaction just push the button below.",
-    "sendMoney": "Send Money",
+    "signin": {
+        "title": "Welcome Back",
+        "subtitle": "Please sign in to your account.",
+        "emailPlaceholder": "Email",
+        "passwordPlaceholder": "Password",
+        "submitButton": "Sign In",
+        "noAccount": "Don't have an account?",
+        "signupLink": "Sign Up",
+        "errors": {
+            "invalidEmail": "Please enter a valid email address.",
+            "invalidPassword": "Password must be at least 6 characters.",
+            "invalidCredentials": "Invalid email or password."
+        }
+    },
+    "signup": {
+        "title": "Create an Account",
+        "subtitle": "Sign up to get started.",
+        "firstNamePlaceholder": "First Name",
+        "lastNamePlaceholder": "Last Name",
+        "emailPlaceholder": "Email",
+        "passwordPlaceholder": "Password",
+        "confirmPasswordPlaceholder": "Confirm Password",
+        "submitButton": "Sign Up",
+        "alreadyHaveAccount": "Already have an account?",
+        "signinLink": "Sign In",
+        "errors": {
+            "invalidName": "Please enter a valid first name.",
+            "invalidSurname": "Please enter a valid last name.",
+            "invalidEmail": "Please enter a valid email address.",
+            "userAlreadyExists": "This email is already registered.",
+            "passwordMismatch": "Passwords do not match.",
+            "serverError": "An error occurred. Please try again.",
+            "invalidReferralCode": "Invalid referral code.",
+            "tryAgain": "Please try again."
+        }
+    },
+    "welcomePage": {
+        "title": "Welcome",
+        "subtitle": "We're excited to have you onboard. Let's get you started!",
+        "button": "Get Started",
+        "progress": "100%"
+    },
+    "pinCheck": {
+        "title": "Confirm Your Email",
+        "subtitle": "We've sent a verification code to your email. Enter it below to complete your login.",
+        "noCode": "Didn't receive a code?",
+        "resendCode": "Resend Code",
+        "timeLeft": "Request a new code in: {minutes}:{seconds}",
+        "progress": "50%"
+    },
+    "transactionsPage": {
+        "title": "My Transactions",
+        "searchPlaceholder": "Search",
+        "filterPlaceholder": "Filter by",
+        "fields": {
+            "date": "Date & Time",
+            "destinatoryName": "Recipient",
+            "amountSent": "Amount Sent",
+            "status": "Transaction Status",
+            "cashbackGain": "Generated Cashback"
+        }
+    },
+    "awardsPage": {
+        "title": "My Rewards",
+        "referralBonus": "Referral Bonus",
+        "filleulCount": "Number of Referrals",
+        "cashbackGain": "Cashback Earned",
+        "referralSection": {
+            "title": "Share Your Referral Code",
+            "copyButton": "Copy",
+            "copiedMessage": "Copied!",
+            "shareQRCode": "Share QR Code"
+        },
+        "filleulList": {
+            "title": "My Referrals",
+            "noReferrals": "You have no referrals yet",
+            "columns": {
+                "order": "Order",
+                "name": "Name",
+                "commission": "Commission",
+                "bonusClaimed": "Bonus Claimed"
+            }
+        },
+        "ReferralDialogBox": {
+            "title": "Share Your Referral Link",
+            "text": "Use the link below to invite your friends:",
+            "copyButton": "Copy",
+            "copiedMessage": "Copied!",
+            "closeButton": "Close"
+        }
+    },
     "awardsCashback": {
         "cashbackAvailable": "Cashback available",
         "convertToTransaction": "Convert to Transaction"
@@ -27,7 +115,33 @@
         "copyReferralError": "Failed to copy referral code"
     },
     "settingsHelpFAQ": {
-        "helpAndFAQ": "Help & FAQ"
+        "helpAndFAQ": "Help & FAQ",
+        "faq": [
+            {
+                "title": "How long does a money transfer with a decentralized wallet take?",
+                "content": "Transactions with a decentralized wallet are generally almost instantaneous. However, the speed may vary depending on the blockchain network used and the level of congestion. In most cases, funds are transferred within seconds to a few minutes."
+            },
+            {
+                "title": "What are the ways to confirm my transaction?",
+                "content": "You can confirm your transaction by checking: \n- The transaction history of your Katika Wallet. \n- A confirmation notification in the app after validation."
+            },
+            {
+                "title": "What payment methods do you accept?",
+                "content": "Katika Wallet supports several payment methods, including: \n- Cryptocurrencies compatible with the wallet. \n- Crypto purchases via integrated partners (credit cards, mobile money, orange money, etc.)."
+            },
+            {
+                "title": "Can I pay in installments?",
+                "content": "Cryptocurrency transactions require a single payment to be validated on the blockchain. Therefore, it is not possible to make a payment in installments directly via the wallet."
+            },
+            {
+                "title": "How can I get an invoice for my transaction?",
+                "content": "Once your transaction is completed, you can generate a receipt from the transaction history of your Katika Wallet. Depending on the service used, an invoice may also be sent by email."
+            },
+            {
+                "title": "Can I modify or cancel my transaction?",
+                "content": "No. Blockchain transactions are irreversible once confirmed. Before validating a transfer, make sure you have entered the correct address and amount. In case of an error, it is recommended to contact the recipient directly if possible."
+            }
+        ]
     },
     "settingsProfile": {
         "profile": "Profile",
@@ -163,10 +277,10 @@
         "title": "Transaction History",
         "noTransactions": "No transactions yet",
         "status": {
-            "completed": "Completed",
             "pending": "Pending",
             "failed": "Failed",
-            "success": "Success"
+            "success": "Success",
+            "cancelled": "Cancelled"
         },
         "amount": {
             "received": "Amount Received",
@@ -192,7 +306,7 @@
             "currency": "€"
         }
     },
-    "dialogBox": {
+    "ReferralDialogBox": {
         "title": "Share Your Referral Link",
         "copyButton": "Copy",
         "copied": "Copied!",
@@ -220,6 +334,10 @@
             "status": "Status"
         }
     },
+    "cashbackDialog": {
+        "title": "Receive your cashback",
+        "subtitle": "You can claim your cahsback now by clicking the button below once you have the minimum amount required for a transaction."
+    },
     "qrCodeDialog": {
         "title": "Share QR Code",
         "subtitle": "Share this QR Code for referring",
@@ -232,5 +350,29 @@
         "invalidCode": "Invalid verification code",
         "verificationSuccess": "Verification successful",
         "placeholder": "Enter code"
+    },
+    "resetPassword": {
+        "title": "Reset Password",
+        "subtitle": "Enter your email to reset your password.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "Enter your email",
+        "send": "Send",
+        "sending": "Sending..."
+    },
+    "mailCheck": {
+        "title": "Check your mail",
+        "subtitle": "We have sent the password recovery instructions to your mail.",
+        "openMailApp": "Open mail app",
+        "notReceived": "Did not receive the email? Check your spam filter."
+    },
+    "passwordRenew": {
+        "title": "Create new password",
+        "subtitle": "Enter your new password below.",
+        "newPasswordLabel": "New Password",
+        "newPasswordPlaceholder": "Enter new password",
+        "confirmPasswordLabel": "Confirm Password",
+        "confirmPasswordPlaceholder": "Confirm new password",
+        "resetButton": "Reset password",
+        "resetting": "Resetting..."
     }
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faClock } from '@fortawesome/free-regular-svg-icons'
-import { faBan, faArrowDown, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { RiSendPlaneLine } from "react-icons/ri";
+import { MdOutlinePending, MdOutlineArrowDownward } from "react-icons/md";
+import { VscError } from "react-icons/vsc";
 import axios from 'axios';
 
 // Redux related imports
@@ -36,31 +36,31 @@ const handleStatus = (status: string) => {
   let style = {
     bgColor: '',
     textColor: '',
-    icon: <FontAwesomeIcon icon={faPaperPlane} />
+    icon: <RiSendPlaneLine />
   }
   return (
     status.toLowerCase() === 'success' ? style = {
       bgColor: 'bg-[#EDFFEC]',
       textColor: 'text-[#009646]',
-      icon: <FontAwesomeIcon className='size-[20px]' icon={faPaperPlane} />
+      icon: <RiSendPlaneLine className='size-[20px]' />
     } :
       status.toLowerCase() === 'pending' ?
         style = {
           bgColor: 'bg-[#FFE9DB]',
           textColor: 'text-[#FF5C00]',
-          icon: <FontAwesomeIcon className='size-[24px]' icon={faClock} />
+          icon: <MdOutlinePending className='size-[24px]' />
         } :
         status.toLowerCase() === 'failed' ?
           style = {
             bgColor: 'bg-red/20',
             textColor: 'text-[#FF0004]',
-            icon: <FontAwesomeIcon className='size-[24px]' icon={faBan} />
+            icon: <VscError className='size-[24px]' />
           } : style
   );
 }
 
 const Transaction = ({ details }: { details: transactionDetails }) => {
-  const { translations } = useTranslation();
+  const { t } = useTranslation();
   const style = handleStatus(details.status);
 
   return (
@@ -71,7 +71,7 @@ const Transaction = ({ details }: { details: transactionDetails }) => {
         <td className='w-[14%] px-[12px]'><h5>{details.amountSent}</h5></td>
         <td className='w-[20%] px-[12px] flex items-center justify-center'>
           <h4 className={`font-bold text-[12px] text-center rounded-[16px] h-[24px] w-[72px] ${style.textColor + ' ' + style.bgColor}`}>
-            {String(translations?.transactionList?.status[details.status.toLowerCase()])}
+            {t(`transactionList.status.${details.status.toLowerCase()}`)}
           </h4>
         </td>
         <td className='w-[14%] px-[12px]'>{details.cashbackGain || 0}</td>
@@ -87,7 +87,7 @@ const Transaction = ({ details }: { details: transactionDetails }) => {
             <td className='w-[30%] px-[12px]'><h5 className='text-[12px]'>{details.destinatoryName}</h5></td>
             <td className='w-[20%] px-[12px] flex items-center'>
               <h4 className={`font-bold text-[12px] text-center rounded-[16px] h-[24px] w-[72px] ${style.textColor}`}>
-                {String(translations?.transactionList?.status[details.status.toLowerCase()])}
+                {t(`transactionList.status.${details.status.toLowerCase()}`)}
               </h4>
             </td>
           </div>
@@ -100,7 +100,7 @@ const Transaction = ({ details }: { details: transactionDetails }) => {
 }
 
 const TransactionList = ({ accessToken, searchKey, field }: { accessToken: string, searchKey: string, field: keyof transactionDetails }) => {
-  const { translations } = useTranslation();
+  const { t } = useTranslation();
   const dataLength = 12;
   const [transactionsList, setTransactionsList] = useState<Array<transactionDetails>>([]);
   const [searchResultList, setSearchResultList] = useState<Array<transactionDetails>>([]);
@@ -175,13 +175,13 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
     <div className={`grow w-full overflow-auto`}>
       <table className='flex flex-col w-full mb-[50px]'>
         <thead className='hidden lg:flex'>
-          <tr className='w-full bg-[#F9FAFB] text-gray_dark py-[12px] px-[24px] border border-[#EAECF0]'>
-            <th className='w-[22%] px-[12px]'>{String(translations?.transactionList?.table?.date)} <FontAwesomeIcon size='sm' icon={faArrowDown} className='ml-1' /></th>
-            <th className='w-[30%] px-[12px]'>{String(translations?.transactionList?.table?.recipient)}</th>
-            <th className='w-[14%] px-[12px]'>{String(translations?.transactionList?.table?.amountSent)}</th>
-            <th className='w-[20%] px-[12px]'>{String(translations?.transactionList?.table?.status)}</th>
-            <th className='w-[14%] px-[12px]'>{String(translations?.transactionList?.table?.cashback)}</th>
-          </tr>
+            <tr className='w-full bg-[#F9FAFB] text-gray_dark py-[12px] px-[24px] border border-[#EAECF0]'>
+            <th className='w-[22%] px-[12px]'>{t('transactionList.table.date')} <MdOutlineArrowDownward size='24px' className='ml-1' /></th>
+            <th className='w-[30%] px-[12px]'>{t('transactionList.table.recipient')}</th>
+            <th className='w-[14%] px-[12px]'>{t('transactionList.table.amountSent')}</th>
+            <th className='w-[20%] px-[12px]'>{t('transactionList.table.status')}</th>
+            <th className='w-[14%] px-[12px]'>{t('transactionList.table.cashback')}</th>
+            </tr>
         </thead>
         {
           transactionsList.length > 0 ?
@@ -203,7 +203,7 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
             <tbody className='w-full bg-gray p-[32px] rounded-[12px]'>
               <tr>
                 <h5 className='text-[16px] text-gray_dark font-semibold items-center justify-center flex'>
-                  {String(translations?.transactionList?.noTransactions)}
+                  {t('transactionList.noTransactions')}
                 </h5>
               </tr>
             </tbody>

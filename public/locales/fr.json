@@ -2,6 +2,121 @@
     "welcome": "Bienvenue sur notre site",
     "getStarted": "Commençons. Pour effectuer une transaction, appuyez sur le bouton ci-dessous.",
     "sendMoney": "Envoyer de l'argent",
+    "signin": {
+        "title": "Content de vous revoir",
+        "subtitle": "Veuillez vous connecter à votre compte.",
+        "emailPlaceholder": "Email",
+        "passwordPlaceholder": "Mot de passe",
+        "submitButton": "Connectez-vous",
+        "noAccount": "Vous n'avez pas de compte ?",
+        "signupLink": "Inscrivez-vous",
+        "errors": {
+            "invalidEmail": "Veuillez entrer une adresse email valide.",
+            "invalidPassword": "Le mot de passe doit contenir au moins 6 caractères.",
+            "invalidCredentials": "Email ou mot de passe invalide."
+        }
+    },
+    "signup": {
+        "title": "Créer un compte",
+        "subtitle": "Inscrivez-vous pour commencer.",
+        "firstNamePlaceholder": "Prénom",
+        "lastNamePlaceholder": "Nom",
+        "emailPlaceholder": "Email",
+        "passwordPlaceholder": "Mot de passe",
+        "confirmPasswordPlaceholder": "Confirmer le mot de passe",
+        "submitButton": "S'inscrire",
+        "alreadyHaveAccount": "Vous avez déjà un compte ?",
+        "signinLink": "Connectez-vous",
+        "errors": {
+            "invalidName": "Veuillez entrer un prénom valide.",
+            "invalidSurname": "Veuillez entrer un nom valide.",
+            "invalidEmail": "Veuillez entrer une adresse email valide.",
+            "userAlreadyExists": "Un compte existe déjà avec cet email.",
+            "passwordMismatch": "Les mots de passe ne correspondent pas.",
+            "serverError": "Une erreur s'est produite. Veuillez réessayer.",
+            "invalidReferralCode": "Le code de parrainage est invalide.",
+            "tryAgain": "Veuillez réessayer dans quelques instants."
+        }
+    },
+    "welcomePage": {
+        "title": "Bienvenue",
+        "subtitle": "Nous sommes ravis de vous accueillir. Commençons !",
+        "button": "Commencer",
+        "progress": "100%"
+    },
+    "pinCheck": {
+        "title": "Confirmez votre email",
+        "subtitle": "Nous avons envoyé un code de vérification à votre email. Entrez-le ci-dessous pour terminer votre connexion.",
+        "noCode": "Vous n'avez pas reçu de code ?",
+        "resendCode": "Renvoyer le code",
+        "timeLeft": "Demandez un nouveau code dans: {minutes}:{seconds}",
+        "progress": "50%"
+    },
+    "transactionsPage": {
+        "title": "Mes Transactions",
+        "searchPlaceholder": "Rechercher",
+        "filterPlaceholder": "Filtrer par",
+        "fields": {
+            "date": "Date & Heure",
+            "destinatoryName": "Destinataire",
+            "amountSent": "Montant Envoyé",
+            "status": "Statut de la Transaction",
+            "cashbackGain": "Cashback Généré"
+        }
+    },
+    "awardsPage": {
+        "title": "Mes Récompenses",
+        "referralBonus": "Bonus de Parrainage",
+        "filleulCount": "Nombre de Parrainages",
+        "cashbackGain": "Cashback Gagné",
+        "referralSection": {
+            "title": "Partagez Votre Code de Parrainage",
+            "copyButton": "Copier",
+            "copiedMessage": "Copié !",
+            "shareQRCode": "Partager le Code QR"
+        },
+        "filleulList": {
+            "title": "Mes Parrainages",
+            "noReferrals": "Vous n'avez pas encore de parrainages",
+            "columns": {
+                "order": "Ordre",
+                "name": "Nom",
+                "commission": "Commission",
+                "bonusClaimed": "Bonus Réclamé"
+            }
+        },
+        "ReferralDialogBox": {
+            "title": "Partagez Votre Lien de Parrainage",
+            "text": "Utilisez le lien ci-dessous pour inviter vos amis :",
+            "copyButton": "Copier",
+            "copiedMessage": "Copié !",
+            "closeButton": "Fermer"
+        }
+    },
+    "resetPassword": {
+        "title": "Réinitialiser le mot de passe",
+        "subtitle": "Entrez votre email pour réinitialiser votre mot de passe.",
+        "emailLabel": "Email",
+        "emailPlaceholder": "Entrez votre email",
+        "send": "Envoyer",
+        "sending": "Envoi en cours..."
+    },
+    "mailCheck": {
+        "title": "Vérifiez votre courrier",
+        "subtitle": "Nous avons envoyé les instructions de récupération de mot de passe à votre courrier.",
+        "openMailApp": "Ouvrir l'application de messagerie",
+        "notReceived": "Vous n'avez pas reçu l'email ? Vérifiez votre dossier spam."
+    },
+    "passwordRenew": {
+        "title": "Créer un nouveau mot de passe",
+        "subtitle": "Entrez votre nouveau mot de passe ci-dessous.",
+        "newPasswordLabel": "Nouveau mot de passe",
+        "newPasswordPlaceholder": "Entrez un nouveau mot de passe",
+        "confirmPasswordLabel": "Confirmer le mot de passe",
+        "confirmPasswordPlaceholder": "Confirmez le nouveau mot de passe",
+        "resetButton": "Réinitialiser le mot de passe",
+        "resetting": "Réinitialisation..."
+    },
     "awardsCashback": {
         "cashbackAvailable": "Cashback disponible",
         "convertToTransaction": "Convertir en transaction"
@@ -16,14 +131,6 @@
         "claimBonus": "Réclamer le bonus",
         "filleuls": "Filleuls"
     },
-    "filleulList": {
-        "myReferrals": "Mes filleuls",
-        "noReferrals": "Vous n'avez pas encore de filleuls"
-    },
-    "otpModal": {
-        "otpVerification": "Vérification OTP",
-        "close": "Fermer"
-    },
     "referralSection": {
         "yourReferralCode": "Votre code de parrainage",
         "copy": "Copier",
@@ -31,7 +138,33 @@
         "inviteFriends": "Inviter des amis"
     },
     "settingsHelpFAQ": {
-        "helpAndFAQ": "Aide & FAQ"
+        "helpAndFAQ": "Aide & FAQ",
+        "faq": [
+            {
+                "title": "Combien de temps prend un transfert d'argent avec un wallet décentralisé ?",
+                "content": "Les transactions avec un wallet décentralisé sont généralement quasi-instantanées. Cependant, la vitesse peut varier en fonction du réseau blockchain utilisé et du niveau de congestion. Dans la plupart des cas, les fonds sont transférés en quelques secondes à quelques minutes."
+            },
+            {
+                "title": "Quels sont les moyens de confirmer ma transaction ?",
+                "content": "Vous pouvez confirmer votre transaction en consultant : \n- L'historique de transactions de votre Katika Wallet. \n- Une notification de confirmation dans l'application après validation."
+            },
+            {
+                "title": "Quels moyens de paiement acceptez-vous ?",
+                "content": "Katika Wallet prend en charge plusieurs moyens de paiement, notamment : \n- Les cryptomonnaies compatibles avec le wallet. \n- L’achat de crypto via des partenaires intégrés (cartes bancaires, mobile money, orange money…)."
+            },
+            {
+                "title": "Puis-je payer en plusieurs fois ?",
+                "content": "Les transactions en cryptomonnaie nécessitent un paiement unique pour être validées sur la blockchain. Il n'est donc pas possible d’effectuer un paiement en plusieurs fois directement via le wallet."
+            },
+            {
+                "title": "Comment obtenir une facture pour ma transaction ?",
+                "content": "Une fois votre transaction effectuée, vous pouvez générer un justificatif depuis l’historique des transactions de votre Katika Wallet. Selon le service utilisé, une facture peut également être envoyée par email."
+            },
+            {
+                "title": "Puis-je modifier ou annuler ma transaction ?",
+                "content": "Non. Les transactions en blockchain sont irréversibles une fois confirmées. Avant de valider un envoi, assurez-vous d’avoir saisi la bonne adresse et le bon montant. En cas d’erreur, il est recommandé de contacter directement le destinataire si possible."
+            }
+        ]
     },
     "settingsProfile": {
         "profile": "Profil",
@@ -162,7 +295,7 @@
         "title": "Historique des transactions",
         "noTransactions": "Aucune transaction",
         "status": {
-            "completed": "Terminée",
+            "cancelled": "Annullée",
             "pending": "En cours",
             "failed": "Échec",
             "success": "Succès"
@@ -189,7 +322,7 @@
             "currency": "€"
         }
     },
-    "dialogBox": {
+    "ReferralDialogBox": {
         "title": "Partager votre lien de parrainage",
         "copyButton": "Copier",
         "copied": "Copié !",
@@ -216,6 +349,10 @@
             "amount": "Montant",
             "status": "Statut"
         }
+    },
+    "cashbackDialog": {
+        "title": "Recevoir votre cahsback",
+        "subtitle": " Vous pouvez réclamer votre cashback maintenant en cliquant sur le bouton ci-dessous une fois que vous avez le montant minimum requis pour une transaction."
     },
     "qrCodeDialog": {
         "title": "Partager le QR Code",

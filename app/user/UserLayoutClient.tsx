@@ -44,8 +44,11 @@ export default function UserLayout({
     };
 
     useEffect(() => {
-        if (!userData.verified) {
+        if (!userData.verified || userData.email.length === 0) {
+            // If the user is not verified or has logout, redirect to the sign-in page
             router.push('/auth/signin')
+        } else {
+            console.log(`---> Is user ${userData.email} verified ? ${userData.verified}`);
         }
     }, [userData.verified]);
 

@@ -13,7 +13,7 @@ interface screenProps {
 }
 
 const ScreenFour = ({onClose}: screenProps) => {
-    const { translations } = useTranslation();
+    const { t } = useTranslation();
     const dispatch = useAppDispatch();
 
     const handleSubmit = () => {
@@ -25,14 +25,14 @@ const ScreenFour = ({onClose}: screenProps) => {
             <div className='hidden lg:flex w-full justify-end items-center'>
                 <button 
                     onClick={onClose}
-                    title={String(translations?.transactionScreens?.screenFour?.buttons?.close)}
+                    title={t('transactionScreens.screenFour.buttons.close')}
                 >
                     <FontAwesomeIcon icon={faXmark} className='h-[24px]' />
                 </button>
             </div>
             <div className='relative grow flex flex-col justify-evenly items-center'>
                 <h4 className='text-center text-[20px] leading-[24px] font-bold text-primary_dark'>
-                    {String(translations?.transactionScreens?.screenFour?.title)}
+                    {t('transactionScreens.screenFour.title')}
                 </h4>
                 <DotLottieReact 
                     className='h-[120px]'
@@ -42,7 +42,7 @@ const ScreenFour = ({onClose}: screenProps) => {
                 />
             </div>
             <h5>
-                {String(translations?.transactionScreens?.screenFour?.verificationMessage)}
+                {t('transactionScreens.screenFour.verificationMessage')}
             </h5>
             <button 
                 type='submit' 
@@ -50,7 +50,7 @@ const ScreenFour = ({onClose}: screenProps) => {
                 className={`lg:hidden bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}
             >
                 <h6 className='text-center font-bold'>
-                    {String(translations?.transactionScreens?.screenFour?.buttons?.backToHome)}
+                    {t('transactionScreens.screenFour.buttons.backToHome')}
                 </h6>
             </button>
         </div>

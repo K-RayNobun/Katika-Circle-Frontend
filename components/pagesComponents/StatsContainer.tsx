@@ -12,7 +12,7 @@ interface FilleulDetails {
 }
 
 const StatsContainer = ({ userData, referralBonus, filleulList }: {userData: { cashback: number }, referralBonus:number, filleulList: Array<FilleulDetails>}) => {
-    const { translations } = useTranslation();
+    const { t } = useTranslation();
 
     return (
         <div className={`animate-fading-2 flex w-full h-[204px] gap-[4%] my-[20px] lg:my-[32px]`}>
@@ -21,9 +21,9 @@ const StatsContainer = ({ userData, referralBonus, filleulList }: {userData: { c
                 <div className={`text-indigo font-bold flex items-start`}>
                     <span className={`text-[14px] lg:text-[16px]`}>{'€'}</span> <span className={`text-[24px] lg:text-[36px] font-extrabold`}>{userData.cashback}</span>
                 </div>
-                <div className={`text-[12px] mx-[10px] text-center`}>{translations?.statsContainer?.cashbackAvailable || 'Cashback available'}</div>
+                <div className={`text-[12px] mx-[10px] text-center`}>{t('statsContainer.cashbackAvailable')}</div>
                 <button className={`w-[45%] mt-[8px] hidden lg:flex justify-center text-white text-[12px] px-[18px] py-[6px] rounded-[4px] bg-indigo hover:vibrant-animation hover:animate-tingle`} >
-                    {translations?.statsContainer?.details || 'Details'}
+                    {t('statsContainer.details')}
                 </button>
             </div>
             <div className={`bg-[#E673D5]/10 border-2 border-[#E673D5] flex flex-col items-center py-[16px] justify-evenly lg:justify-center text-[#E673D5] font-bold w-full rounded-[12px] w-full flex-1`}>
@@ -31,9 +31,9 @@ const StatsContainer = ({ userData, referralBonus, filleulList }: {userData: { c
                 <div className={`flex items-start`}>
                     <span className={`text-[14px] lg:text-[16px] mt-2`}>{'€'}</span> <span className={`text-[24px] lg:text-[36px] font-extrabold`}>{referralBonus.toLocaleString('en-US')}</span>
                 </div>
-                <div className={`text-[12px] mx-[10px] text-center`}>{translations?.statsContainer?.referralBonus || 'Referral Bonus'}</div>
+                <div className={`text-[12px] mx-[10px] text-center`}>{t('statsContainer.referralBonus')}</div>
                 <button className={`w-[45%] mt-[8px] hidden lg:flex justify-center text-white text-[12px] px-[18px] py-[6px] rounded-[4px] bg-[#E673D5] focus:animate-tingle scale-110 duration-300`} >
-                    {translations?.statsContainer?.claim || 'Claim'}
+                    {t('statsContainer.claim')}
                 </button>
             </div>
             <div className={`bg-primary/10 border-2 border-primary flex flex-col items-center py-[16px] justify-evenly lg:justify-center text-primary font-bold rounded-[12px] w-full flex-1`}>
@@ -41,9 +41,9 @@ const StatsContainer = ({ userData, referralBonus, filleulList }: {userData: { c
                 <div>
                     <span className={`text-[24px] lg:text-[36px] font-extrabold`}>{filleulList.length}</span>
                 </div>
-                <div className={`text-[12px] mx-[10px] text-center`}>{translations?.statsContainer?.referrals || 'Referrals'}</div>
+                <div className={`text-[12px] mx-[10px] text-center`}>{t('statsContainer.referrals')}</div>
                 <button className={`w-[45%] mt-[8px] hidden lg:flex justify-center text-white text-[12px] px-[18px] py-[6px] rounded-[4px] bg-primary hover:animate-tingle`} >
-                    {translations?.statsContainer?.details || 'Details'}
+                    {t('statsContainer.details')}
                 </button>
             </div>
         </div>

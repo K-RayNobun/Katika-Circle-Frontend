@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPaperPlane, faClock} from '@fortawesome/free-regular-svg-icons'
-import { faBan } from '@fortawesome/free-solid-svg-icons';
+import React, {useState, useEffect} from 'react';
+import { RiSendPlaneLine } from "react-icons/ri";
+import { MdOutlinePending } from "react-icons/md";
+import { VscError } from "react-icons/vsc";
 
 import axios from 'axios';
 
@@ -37,31 +37,31 @@ const handleStatus = (status:string) => {
   let style = {
     bgColor: '',
     textColor: '',
-    icon: <FontAwesomeIcon icon={faPaperPlane} />
+    icon: <RiSendPlaneLine size={20} />
   }
   return (
   status.toLowerCase() === 'success' ? style = {
     bgColor: 'bg-[#EDFFEC]',
     textColor: 'text-[#009646]',
-    icon: <FontAwesomeIcon icon={faPaperPlane} />
+    icon: <RiSendPlaneLine className='size-[20px]' />
   } :
   status.toLowerCase() === 'pending' ? 
   style = {
     bgColor: 'bg-[#FFE9DB]',
     textColor: 'text-[#FF5C00]',
-    icon: <FontAwesomeIcon icon={faClock} />
+    icon: <MdOutlinePending className='size-[20px]' />
   } :
   status.toLowerCase()  === 'failed' ?
   style = {
     bgColor: 'bg-[#FFECEC]',
     textColor: 'text-[#FF0004]',
-    icon: <FontAwesomeIcon className='size-[24px]' icon={faBan} />
+    icon: <VscError className='size-[20px]' />
   } : style
 );
 }
 
 const Notification = ({details}:{details: notificationDetails}) => {
-  const { translations } = useTranslation();
+  const { t } = useTranslation();
   const style = handleStatus(details.status);
   
   return (
@@ -73,12 +73,12 @@ const Notification = ({details}:{details: notificationDetails}) => {
                     {style.icon}
                 </div>
                 <h4 className={`text-[14px] font-bold ${style.textColor}`}>
-                    {String(translations?.notifications?.status[details.status.toLowerCase()])}
+                    {t(`notifications.status.${details.status.toLowerCase()}`)}
                 </h4>
             </div>
             <div className='flex flex-col items-end'>
                 <h5 className='text-[14px] text-primary_dark font-bold'>
-                    {translations?.notifications?.currency?.default} {details.amountReceived.toLocaleString('en-US')}
+                    {t('notifications.currency.euro')} {details.amountReceived.toLocaleString('en-US')}
                 </h5>
                 <h5 className='text-[10px] text-gray_dark/60 font-semibold'>
                     {details.amountSent} {details.currencySent}
@@ -92,7 +92,7 @@ const Notification = ({details}:{details: notificationDetails}) => {
 const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number}) => {
   const [transactionsList, setTransactionsList] = useState<Array<notificationDetails>>([]);
   const dispatch = useAppDispatch();
-  const { translations } = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fecthTransactionList = async () => {
@@ -145,16 +145,19 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
   return (
     <div className={`w-full grow`}>
       <h4 className='text-primary_dark font-bold mb-3'>
-        {String(translations?.notifications?.title)}
+        {t('notifications.title')}
       </h4>
       <div className='max-h-[450px] space-y-[16px] py-[6px] overflow-y-auto'>
         { transactionsList.length >= 1 ?
           transactionsList.map((transaction, i) => {
+            if(transaction.status.toLowerCase() === 'cancelled') {
+              return
+            }
             return <Notification key={i} details={transaction}/>
           }) :
           <div className='w-full bg-gray p-[32px] rounded-[12px]'>
             <h5 className='text-[16px] text-gray_dark font-semibold items-center justify-center flex'>
-              {String(translations?.notifications?.noTransactions)}
+              {t('notifications.noTransactions')}
             </h5>
           </div>
         }

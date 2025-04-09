@@ -3,21 +3,21 @@ import Image from 'next/image';
 import { useTranslation } from '@/lib/hooks/useTranslation';
 
 const AwardsInitiateTransaction = () => {
-    const { translations } = useTranslation();
+    const { t } = useTranslation();
 
     return (
         <div className='flex flex-col bg-primary w-full rounded-[12px] gap-[6px] p-[16px]'>
             <div className='flex'>
                 <div className='flex flex-col gap-[8px] text-white'>
-                    <h4 className='text-[16px] font-bold'>{translations?.awardsInitiateTransaction?.timeToTransfer || "It's time to make a transfer"}</h4>
+                    <h4 className='text-[16px] font-bold'>{t('awardsInitiateTransaction.timeToTransfer')}</h4>
                     <p className='text-[12px] font-light'>
-                        {translations?.awardsInitiateTransaction?.readyToTransfer || 'Ready to transfer money? Click here to start and enjoy a fast, secure, and hassle-free experience.'}
+                        {t('awardsInitiateTransaction.readyToTransfer')}
                     </p>
                 </div>
                 <Image src='/awards/spacerocket.svg' width={60} height={100} alt='spacerocket' className='h-[100px] mb-[6px]' />
             </div>
             <button className='bg-white rounded-[4px] py-[10px] px-[18px] w-full text-primary font-bold pulse-glow'>
-                {translations?.awardsInitiateTransaction?.sendMoney || 'Send Money'}
+                {t('awardsInitiateTransaction.sendMoney')}
             </button>
         </div>
     );

@@ -9,9 +9,9 @@ const HomePage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('Triggering redirection');
+    console.log('Triggering r');
     router.push('/user/home');
-  }, [])
+  }, []);
 
 return (
     <div className='bg-primary/15 h-screen w-screen flex items-center justify-center'>

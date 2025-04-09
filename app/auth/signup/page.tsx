@@ -9,12 +9,13 @@ import { FaCheck } from "react-icons/fa6";
 // import { GoogleLogin, googleLogout, useGoogleLogin } from '@react-oauth/google';
 import axios, { AxiosError } from 'axios';
 // import { Suspense } from 'react';
+import { useTranslation } from '@/lib/hooks/useTranslation';
+
 
 // Redux imports;
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { createUser, setFirstReferringCode, resetUser } from '@/lib/redux/features/user/userSlice';
 import { renewToken, resetToken } from '@/lib/redux/features/token/tokenSlice';
-import { resetTransaction } from '@/lib/redux/features/transaction/transactionSlice';
 import AsyncSpinner from '@/components/AsyncSpinner';
 
 interface CountryData {
@@ -37,7 +38,7 @@ interface ErrorType {
 // }
 
 const Signup = () => {
-    // const {data: session, status} = useSession();
+    const { t } = useTranslation();
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -142,7 +143,6 @@ const Signup = () => {
         });
         console.log('Finished sending OTP with the token', accessToken);
         console.log('Just sent the token successfully as ', response.data);
-        router.push('/auth/pincheck');
     };
 
     const registerUser = async (e: React.FormEvent<HTMLElement>) => {
@@ -188,11 +188,12 @@ const Signup = () => {
             console.log('User data: ', response.data.data);
             accessToken.current = (response.data.data['access-token'])
             isRegistratedRef.current = true;
-            console.log('Finished registering user');
+            console.log('Finished registering user ?', isRegistratedRef.current);
             dispatch(renewToken({
                 token: response.data.data['access-token'],
                 expiresIn: null
             }));
+            dispatch(resetUser());
             sendOTP();
         } catch (err) {
             const axiosError = err as AxiosError;
@@ -200,13 +201,13 @@ const Signup = () => {
             setIsSubmitting(false);
             // Handle error `Referral Does not exit Exist`
             if (axiosError.response?.status === 500 && error.response.data.message.includes('Referral Does not exit Exist')) {
-                setError('This referral code is invalid');
+                setError(t('signup.errors.invalidReferralCode'));
                 isSubmittingRef.current = false;
-            } else if (axiosError.response?.status === 500 && error.response.data.message.toLowerCase().includes('user already exists')) {
-                setError('User already exists');
+            } else if (axiosError.response?.status === 500 && error.response.data.message.toLowerCase().includes('user already exist')) {
+                setError(t('signup.errors.userAlreadyExists'));
                 isSubmittingRef.current = false;
             } else if (axiosError.response?.status !== 200) {
-                setError(axiosError.response?.statusText + '\n Registration failed. Please try again.');
+                setError(t('signup.errors.serverError'));
                 isSubmittingRef.current = false;
                 console.error('Registration error:', error);
             }
@@ -227,27 +228,27 @@ const Signup = () => {
         const confirmPassword = formData.get('confirm_password') as string;
 
         if ( name.length < 2 || !validateName(name)){
-            setError('Enter a valid name ');
+            setError(t('signup.errors.invalidName'));
             setErrorField('user_firstname');
             setIsSubmitting(false);
             return;
         }
         if ( surname.length < 2 || !validateName(surname)){
-            setError('Enter a valid surname');
+            setError(t('signup.errors.invalidSurname'));
             setErrorField('user_name');
             setIsSubmitting(false)
             return;
         }
 
         if (!validatePassword(password, confirmPassword)) {
-            setError('Password do not match.');
+            setError(t('signup.errors.passwordMismatch'));
             setErrorField('password_match');
             setIsSubmitting(false)
             return;
         }
 
         if (!validateEmail(email)) {
-            setError('Please enter a valid email address.');
+            setError(t('signup.errors.invalidEmail'));
             setErrorField('user_email');
             setIsSubmitting(false)
             return;
@@ -272,10 +273,9 @@ const Signup = () => {
         console.log('Processing submission');
         // sendEmail(formRef.current!)
 
-        if (isRegistratedRef.current) {
+        if (isRegistratedRef.current ===  isRegistratedRef.current) {
+            console.log('Processing Dispatchs now!');
             dispatch(resetToken());
-            dispatch(resetUser());
-            dispatch(resetTransaction());
             dispatch(createUser({
                 name: name,
                 surname: surname,
@@ -286,6 +286,7 @@ const Signup = () => {
                 verified: false,
                 language: 'fr',
             }));
+            router.push('/auth/pincheck');
         }
         console.log('Finished signup');
     }
@@ -322,7 +323,7 @@ const Signup = () => {
 
     const checkRefCode = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const refCode = e.target.value;
-        const regex = /^KTK\d{4,5}$/;
+        const regex = /^KTK\d{5}$/;
         if (regex.test(refCode)) {
             setError('');
             try {
@@ -409,7 +410,7 @@ const Signup = () => {
     const inputStyle = 'appearance-none flex-1 w-full h-[44px] border-2 gap-[8px] border-gray_dark/60 py-[10px] px-[14px] rounded-[8px] text-primary_text focus:border-primary focus:border-2 focus:outline-none'
 
   return (
-    <div className='flex flex-1 flex-col justify-start flex-1 px-[4%] sm:px-[10%] lg:px-[30px] py-[32px] '>
+    <div className='flex flex-col justify-start flex-1 px-[4%] sm:px-[10%] lg:px-[30px] py-[32px] '>
         <div className='relative mb-0'>
             <div className=' absolute top-0 left-0 w-full h-2 bg-gray rounded-full'></div>
             <div className=' absolute top-0 left-0 w-[2%] h-2 bg-primary rounded-full'></div>
@@ -419,29 +420,29 @@ const Signup = () => {
         </div>
         <div>
             <div className='flex flex-col items-center text-center'>
-                <h3 className='font-bold mt-2 text-[28px] text-purple-900 leading-12'>Créer un compte</h3>
-                <h5 className='text-[17px]'>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h5>
+                <h3 className='font-bold mt-2 text-[28px] text-purple-900 leading-12'>{t('signup.title')}</h3>
+                <h5 className='text-[17px]'>{t('signup.subtitle')}</h5>
             </div>
         </div>
         <form ref={formRef} onSubmit={handleSubmit} className='w-full mt-4 space-y-[16px]'>
             <div className='w-full flex flex-row-reverse gap-[14px]'>
                 <div className='necessary_input w-full'>
-                    <input type="text"name='user_firstname' onChange={handleNamesVerification}  className={`${inputStyle} ${errorField === 'user_firstname' ? 'border-2 border-red': ''}`} placeholder='Nom(s)' />
+                    <input type="text"name='user_firstname' onChange={handleNamesVerification}  className={`${inputStyle} ${errorField === 'user_firstname' ? 'border-2 border-red': ''}`} placeholder={t('signup.firstNamePlaceholder')} />
                 </div>
                 <div className='necessary_input w-full'>
-                    <input type="text" id='user_name' name='user_name' onChange={handleNamesVerification} className={`${inputStyle} ${errorField === 'user_name' ? 'border-2 border-red': ''}`} placeholder='Prénom(s)' />
+                    <input type="text" id='user_name' name='user_name' onChange={handleNamesVerification} className={`${inputStyle} ${errorField === 'user_name' ? 'border-2 border-red': ''}`} placeholder={t('signup.lastNamePlaceholder')} />
                 </div>
             </div>
             <div className='necessary_input'>
-                <input type="text" id='user_email' name='user_email' onChange={handleEmailChange} className={`${inputStyle} ${errorField === 'user_email' ? 'border-2 border-red': ''}`} placeholder='Email' />
+                <input type="text" id='user_email' name='user_email' onChange={handleEmailChange} className={`${inputStyle} ${errorField === 'user_email' ? 'border-2 border-red': ''}`} placeholder={t('signup.emailPlaceholder')} />
             </div>
             <div className='necessary_input'>
-                <input type={isPwdVisible ? 'text' : 'password'} onChange={handlePasswordChange} name='password' className={`${inputStyle} ${errorField === 'password_match' ? 'border-2 border-red': ''}`} placeholder='Mot de passe' />
+                <input type={isPwdVisible ? 'text' : 'password'} onChange={handlePasswordChange} name='password' className={`${inputStyle} ${errorField === 'password_match' ? 'border-2 border-red': ''}`} placeholder={t('signup.passwordPlaceholder')} />
                 {isPwdVisible ? <LuEyeClosed onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />
                 : <LuEye onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />}
             </div>
             <div className='necessary_input'>
-                <input type={isConfirmPwdVisible ? 'text' : 'password'} onChange={handlePasswordChange} name='confirm_password' className={`${inputStyle} ${errorField === 'password_match' ? 'border-2 border-red': ''}`} placeholder='Confirmer le mot de passe' />
+                <input type={isConfirmPwdVisible ? 'text' : 'password'} onChange={handlePasswordChange} name='confirm_password' className={`${inputStyle} ${errorField === 'password_match' ? 'border-2 border-red': ''}`} placeholder={t('signup.confirmPasswordPlaceholder')}/>
                 {isConfirmPwdVisible ? <LuEyeClosed onClick={toogleConfirmPwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />
                 : <LuEye onClick={toogleConfirmPwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />}            </div>
             <div className={`w-full flex gap-[14px]`}>
@@ -505,10 +506,10 @@ const Signup = () => {
                     {/* <h6 className='text-center font-bold'>Processing...</h6> */}
                 </>
             ) : (
-                <h6 className='text-center font-bold'>Créer un compte</h6>
+                <h6 className='text-center font-bold'>{t('signup.submitButton')}</h6>
             )}
             </button>
-            <h4 className='text-center text-[14px] sm:text-[16px] leading-[24px]'> Vous avez un compte ? <span className='text-primary font-bold'><Link href='/auth/signin' target="_blank">Connectez vous</Link></span></h4>
+            <h4 className='text-center text-[14px] sm:text-[16px] leading-[24px]'>{t('signup.alreadyHaveAccount')}<span className='text-primary font-bold'><Link href='/auth/signin' target="_blank">{t('signup.signinLink')}</Link></span></h4>
         </form>
     </div>
   )

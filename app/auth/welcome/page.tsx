@@ -6,6 +6,7 @@ import React, { useRef, useState } from 'react';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { useRouter } from 'next/navigation';
 import AsyncSpinner from '@/components/AsyncSpinner';
+import { useTranslation } from '@/lib/hooks/useTranslation';
 
 /*
     1. When an input is getting filled, convert its value into array
@@ -14,6 +15,7 @@ import AsyncSpinner from '@/components/AsyncSpinner';
 
 const Welcome = () => {
 
+    const { t } = useTranslation();
     const userData = useAppSelector((state) => state.user);
     const router = useRouter();
     const isSubmittingRef = useRef(false);
@@ -27,7 +29,7 @@ const Welcome = () => {
     }
 
   return (
-        <div className=' w-[100%] grow h-[762px] flex flex-1 h-[100%] rounded-lg sm:rounded-3xl mx-auto p-3'>
+        <div className=' w-[100%] grow flex flex-1 h-[100%] rounded-lg sm:rounded-3xl mx-auto p-3'>
             <div className='px-[5%] lg:px-[15px] w-full pt-[32px] '>
                 <div className='relative pt-3'>
                     <div className=' absolute top-0 left-0 w-full h-2 rounded-full'></div>
@@ -39,8 +41,8 @@ const Welcome = () => {
                 <div className='flex h-[90%] flex-1 flex-col justify-center space-y-[30px]'>
                     <div className='px-[20px] space-y-[24px]'>
                         <div className='flex flex-col items-center text-center space-y-[10px]'>
-                            <h3 className='font-bold text-[28px] text-purple-900 leading-12'>Welcome {userData.surname} {userData.name}</h3>
-                            <h5 className='text-[17px]'>We&apos;re excited to have you onboard. Let&apos;s get you started!</h5>
+                            <h3 className='font-bold text-[28px] text-purple-900 leading-12'>{t('welcomePage.title')} {userData.surname} {userData.name}</h3>
+                            <h5 className='text-[17px]'>{t('welcomePage.subtitle')}</h5>
                         </div>
                     </div>
                     <button onClick={handleOnclick} className={`${buttonStyle} ${isSubmitting ? "opacity-50" : 'opacity-100'}`}>
@@ -50,7 +52,7 @@ const Welcome = () => {
                             {/* <h6 className='text-center font-bold'>Processing...</h6> */}
                         </>
                     ) : (
-                        <h6 className='text-center font-bold'>Commencer</h6>
+                        <h6 className='text-center font-bold'>{t('welcomePage.button')}</h6>
                     )}
                     </button>
                 </div>

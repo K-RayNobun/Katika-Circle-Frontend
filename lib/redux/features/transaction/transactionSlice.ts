@@ -11,6 +11,7 @@ interface Transaction {
 
     // Transaction temporary data
     status?: string,
+    isCashbackPayment?: boolean,
     statusCode?: number, // 1 for failed, 2 for cancelled, 3 for pending and 4 for completed
     date?: string,
     receiverPhoneNumber?: string,
@@ -80,6 +81,11 @@ const transactionSlice = createSlice({
             state.transakOrderStatus = action.payload.transakOrderStatus;
             state.transakOrderFeesInFiat = action.payload.transakOrderFeesInFiat;
             console.log(`### Transak OrderId assigned:  ${state.transakOrderId} \n Order status: ${state.transakOrderStatus} \n Fees in Fiat: ${state.transakOrderFeesInFiat}`)
+        },
+        // Provide the cashback payment status
+        provideCashbackPaymentStatus: (state, action: PayloadAction<boolean>) => {
+            state.isCashbackPayment = action.payload;
+            console.log('Cashback payment status is', state.isCashbackPayment);
         },
         // Logout logic set all non-nullable fields to initial state and nullable fields to null
         resetTransaction: (state) => {

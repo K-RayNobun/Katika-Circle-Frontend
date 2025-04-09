@@ -5,7 +5,9 @@ export function generateStaticParams() {
     { slug: 'signup', path: '/auth/signup' },
     { slug: 'signin', path: '/auth/signin' },
     { slug: 'pincheck', path: '/auth/pincheck' },
-    { slug: 'welcome', path: '/auth/welcome' }
+    { slug: 'welcome', path: '/auth/welcome' },
+    { slug: 'password_reset', path: '/auth/password_reset' },
+    { slug: 'mail_check', path: '/auth/mail_check' }
   ]
 }
 

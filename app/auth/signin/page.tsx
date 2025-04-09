@@ -12,9 +12,10 @@ import axios, { AxiosError } from 'axios';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { createUser, setReferralCode, setWalletAdress, verifyUser } from '@/lib/redux/features/user/userSlice';
 import { renewToken } from '@/lib/redux/features/token/tokenSlice';
+import { useTranslation } from '@/lib/hooks/useTranslation';
 
 
- 
+                                                                                                                                                                                                                                                    
 const Signin = () => {
 
     // const [state, loginAction] = useActionState(login, undefined)
@@ -23,6 +24,7 @@ const Signin = () => {
     const [isPwdVisible, setIsPwdVisible] = useState(false);
     const [error, setError] = useState<string | null>(null)
     const [errorField, setErrorField] = useState('')
+    const { t } = useTranslation();
 
     //Redux related imports
     const dispatch = useAppDispatch();
@@ -170,14 +172,14 @@ const Signin = () => {
     <div className='flex flex-1 flex-col justify-center flex-1 px-[4%] sm:px-[10%] lg:px-[40px] pt-[32px] '>
         <div>
             <div className='flex flex-col items-center text-center'>
-                <h3 className='font-bold mt-2 text-[28px] text-purple-900 leading-12'>Content de vous revoir</h3>
-                <h5 className='text-[17px]'>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h5>
+                <h3 className='font-bold mt-2 text-[28px] text-purple-900 leading-12'>{t('signin.title')}</h3>
+                <h5 className='text-[17px]'>{t('signin.subtitle')}</h5>
             </div>
         </div>
         <form ref={formRef} onSubmit={handleSubmit} className='w-full mt-6 space-y-[16px]'>
-            <input type="text" name='email' onChange={handleInputChange} className={`${inputStyle} ${errorField.includes('email') ? 'border-2 border-red': ''}`} placeholder='Email' />
+            <input type="text" name='email' onChange={handleInputChange} className={`${inputStyle} ${errorField.includes('email') ? 'border-2 border-red': ''}`} placeholder={t('signin.emailPlaceholder')} />
             <div className='relative'>
-                <input name='password' type={isPwdVisible ? 'text' : 'password'} onChange={handleInputChange} className={`${inputStyle} ${errorField.includes('password') ? 'border-2 border-red': ''}`} placeholder='Mot de passe' />
+                <input name='password' type={isPwdVisible ? 'text' : 'password'} onChange={handleInputChange} className={`${inputStyle} ${errorField.includes('password') ? 'border-2 border-red': ''}`} placeholder={t('signin.passwordPlaceholder')} />
                 { isPwdVisible ?
                     <LuEye onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />
                     :
@@ -194,7 +196,7 @@ const Signin = () => {
                         {/* <h6 className='text-center font-bold'>Processing...</h6> */}
                     </>
                 ) : (
-                    <h6 className='text-center font-bold'>Connectez vous</h6>
+                    <h6 className='text-center font-bold'>{t('signin.submitButton')}</h6>
                 )}
             </button>
             {/* <h4 className="font-bold text-center leading-[12px]">
@@ -205,7 +207,7 @@ const Signin = () => {
                 <h6 className='text-center font-bold'>Continuer avec Google</h6>
             </div> */}
         </form>
-        <h4 className='text-center text-[14px] sm:text-[16px] leading-[24px] mt-4'> Vous n&apos;avez pas de compte ? <Link href='/auth/signup' className='text-primary font-bold'>Inscrivez vous</Link></h4>
+        <h4 className='text-center text-[14px] sm:text-[16px] leading-[24px] mt-4'> {t('signin.noAccount')}<Link href='/auth/signup' className='text-primary font-bold'>{t('signin.signupLink')}</Link></h4>
     </div>
   )
 }

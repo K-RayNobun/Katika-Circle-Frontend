@@ -1,16 +1,11 @@
------------------- TASKS TO DO TODAY ------------------
+
+---------------------------- JOURNEY REPORT ----------------------------
+
+- Is state updated when stateUpdate() is called ?
 
 
-- state not being displayed directly after signup
-- add animations
-- set up dynamically language // 40mins-HARD, 1h10mins-Medium, 2h-easy
-- Add pop up for stats containers
-- Information popup in Transaction screens // 10mins-hard, 17mins-mediumm, 25mins-easy
-- Disable input arrows and check input types
-- Add theme toggle and test it 30mins-HARD, 45mins-Medium, 1h10mins-easy
------------------ Access Token --------------------
+---------------------------- TODO TASKS ----------------------------
+ - Complete all UI pages / components translations
+    x SIGNUP x SIGNIN x WELCOME x PINCHECK x SETTINGS
 
-FITZGERALD:
-eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vdWxpb2ZpdHpnZXJhcmRAZ21haWwuY29tIiwic3ViIjoibW91bGlvZml0emdlcmFyZEBnbWFpbC5jb20iLCJleHAiOjE3NDM3ODcwNTh9.Jp4TP2psL6eZAuhnj2rKB5ty1LYV2oHSY8vm4eQBCgDbtZ-FhnXc3s7uFYxC_RxsCj2izr1coz_fTaPTjM1u6A
-
---------------- 
+- Icons

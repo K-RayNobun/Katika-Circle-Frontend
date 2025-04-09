@@ -25,6 +25,7 @@ const tokenSlice = createSlice({
         resetToken: (state) => {
             state.token = null;
             state.expiresIn = null;
+            console.log('Token has been reset')
         }
     }
 });

@@ -10,7 +10,7 @@ import ReferralSection from '@/components/pagesComponents/ReferralSection';
 import NotificationList from '@/components/NotificationList';
 import UserProfile from '@/components/pagesComponents/UserProfile';
 import FilleulList from '@/components/pagesComponents/FilleulList';
-import DialogBox from '@/components/DialogBox';
+import ReferralDialogBox from '@/components/ReferralDialogBox';
 import TransactionScreens from '@/components/pagesComponents/TransactionScreens';
 import { resetTransaction, provideTransakReturnedData } from '@/lib/redux/features/transaction/transactionSlice';
 
@@ -28,10 +28,11 @@ const Home = () => {
     const [screenIndex, setScreenIndex] = useState<number>(1);
     const [filleulList, setFilleulList] = useState<FilleulDetails[]>([]);
     const [referralBonus, setReferralBonus] = useState<number>(0);
-    const [state, stateUpdate] = useState();
+    const [state, stateUpdate] = useState('fr');
 
     // Redux and Router
     const userData = useAppSelector((state) => state.user);
+    const transactionDetails = useAppSelector((state) => state.transaction);
     const accessToken = useAppSelector((state) => state.token.token);
     const dispatch = useAppDispatch();
 
@@ -40,8 +41,51 @@ const Home = () => {
         const orderId = urlParams.get('orderId');
         const status = urlParams.get('status');
         const totalFeeInFiat = urlParams.get('totalFeeInFiat');
+
+        const postTransaction = async () => {
+            try {
+                console.log(`Posting transaction with access token: ${accessToken}`);
+                const response = await axios.post(
+                    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction`,
+                    {
+                        amount: transactionDetails.amountSent,
+                        currency: transactionDetails.currencySent === '€' ? 'EUR' : 'USD',
+                        transactionType: transactionDetails.transfertType,
+                        recipient:
+                            transactionDetails.transfertType === 'MobileMoney'
+                                ? {
+                                      name: transactionDetails.receiverName,
+                                      amountReceive: transactionDetails.amountReceived,
+                                      phone: transactionDetails.receiverPhoneNumber,
+                                      receiverCountry: transactionDetails.receiverCountry,
+                                  }
+                                : {
+                                      name: transactionDetails.receiverName,
+                                      amountReceive: transactionDetails.amountReceived,
+                                      iban: transactionDetails.iban,
+                                      bankCode: transactionDetails.bankCode,
+                                      bankName: transactionDetails.bankName,
+                                      receiverCountry: transactionDetails.receiverCountry,
+                                  },
+                    },
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + accessToken,
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*',
+                        },
+                    }
+                );
+                console.log('Transaction posted successfully:', response.data);
+                console.log('------------------ Finished Posting Transaction -----------------');
+            } catch (error) {
+                console.error('Error posting transaction:', error);
+            }
+        };
+
         if (orderId || status || totalFeeInFiat) {
-            console.log(`---> We identified parameters  as ${orderId} + status ${status}`);
+            console.log(`---> Identified parameters: orderId=${orderId}, status=${status}`);
+            postTransaction(); // Call postTransaction before dispatching
             dispatch(
                 provideTransakReturnedData({
                     transakOrderId: orderId || '',
@@ -49,6 +93,8 @@ const Home = () => {
                     transakOrderFeesInFiat: totalFeeInFiat || '',
                 })
             );
+            dispatch(resetTransaction());
+            setIsScreenVisible(false);
         }
         // State update
         console.log(state);
@@ -62,7 +108,7 @@ const Home = () => {
 
     // Handlers
     const moveToScreen = (index: number) => {
-        console.log('Just triggered Screen moving')
+        console.log('Just triggered Screen moving');
         if (index === 1) {
             if (screenIndex < 5) {
                 setScreenIndex((prev) => prev + 1);
@@ -80,7 +126,7 @@ const Home = () => {
         } else {
             console.log('The index passed instead is', index);
         }
-    };    
+    };
 
     const closeScreen = () => {
         setIsScreenVisible(false);
@@ -91,14 +137,8 @@ const Home = () => {
     // Fetch Referrals
     useEffect(() => {
         const fetchReferrals = async () => {
-            // console.log('----------------- Fetching referrals -----------------');
-            // console.log('User Referral Code', userData.referralCode);
-            // console.log('User statistics are', userData)
-            // console.log('Its Access Token is: ', accessToken);
-
             try {
-                console.log('---------------------- GETTING REFERRALS ------------------------');
-                console.log('Getting Referral Code with access token ', accessToken);
+                console.log('Fetching referrals with access token:', accessToken);
                 const response = await axios.get(
                     `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/referral?code=${userData.referralCode}`,
                     {
@@ -116,13 +156,13 @@ const Home = () => {
                 let referralGainTotal = 0;
                 const filleulArray: FilleulDetails[] = [];
 
-                response.data.data.forEach((referral: { fname: string; lname: string; referral: { bonusTotal: number; bonusStatus: string; } }, index: number) => {
+                response.data.data.forEach((referral: { fname: string; lname: string; referral: { bonusTotal: number; bonusStatus: string } }, index: number) => {
                     const filleul: FilleulDetails = {
                         order: index,
                         name: `${referral.fname} ${referral.lname}`,
                         commission: referral.referral.bonusTotal,
                         bonusClaimed: referral.referral.bonusStatus === 'UNCLAIMED' ? false : true,
-                    }
+                    };
 
                     if (filleulList.length !== 0) {
                         filleulList.forEach((filleulRegistered) => {
@@ -144,12 +184,10 @@ const Home = () => {
 
                 setFilleulList(filleulArray);
                 setReferralBonus(referralGainTotal);
-                console.log('------------- Finished fetching referrals -----------------');
+                console.log('Finished fetching referrals');
             } catch (error) {
                 const axiosError = error as AxiosError;
-                // console.log(error);
                 if (axiosError.response?.status === 500) {
-                    // console.log('--------------- Error of type 500 ---------------');
                     console.log('We suspect the user has no referrals');
                     dispatch(setReferralList([]));
                 }
@@ -164,7 +202,7 @@ const Home = () => {
             {/* Left Panel */}
             <div className={`flex flex-col w-full grow mt-[80px] lg:mt-[0px] lg:w-[50%] px-[6px]`}>
                 <WelcomeContainer userData={userData} setIsScreenVisible={setIsScreenVisible} />
-                <StatsContainer userData={{cashback: userData.cashback!}} referralBonus={referralBonus} filleulList={filleulList} />
+                <StatsContainer userData={{ cashback: userData.cashback! }} referralBonus={referralBonus} filleulList={filleulList} />
                 <div className={`animate-fading-3 bg-white rounded-[12px] flex flex-col grow py-[12px] px-[24px] space-y-[24px]`}>
                     {/* Mobile View: Referral Section */}
                     <div className={`block lg:hidden`}>
@@ -172,7 +210,7 @@ const Home = () => {
                             <h4 className={`text-primary_dark text-[16px]`}>Parrainage</h4>
                             <h4 className={`text-primary text-[12px]`}>Voir les filleuls</h4>
                         </div>
-                        <ReferralSection referralCode={userData.referralCode!}  isScreenVisible={isScreenVisible}/>
+                        <ReferralSection referralCode={userData.referralCode!} isScreenVisible={isScreenVisible} />
                     </div>
                     <NotificationList accessToken={accessToken!} rate={667} />
                 </div>
@@ -195,7 +233,7 @@ const Home = () => {
 
             {/* Dialog Box */}
             {isDialogVisible && !isScreenVisible && (
-                <DialogBox text={`${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup?${queryParams}`} onClose={() => setIsDialogVisible(false)} />
+                <ReferralDialogBox text={`${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup?${queryParams}`} onClose={() => setIsDialogVisible(false)} />
             )}
 
             {/* Transaction Screens */}

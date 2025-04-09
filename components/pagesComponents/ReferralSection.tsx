@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import AsyncSpinner from '../AsyncSpinner';
 import { IoQrCode } from "react-icons/io5";
 import { LuUserRoundPlus } from "react-icons/lu";
-import DialogBox from '../DialogBox';
+import ReferralDialogBox from '../ReferralDialogBox';
 import { useAppSelector } from '@/lib/redux/hooks';
 // import QrCodeDialog from '../QrCodeDialog';
 
@@ -69,16 +69,16 @@ const ReferralSection = ({ referralCode,  isScreenVisible }: { referralCode:stri
         }
     }
 
-    const {translations} = useTranslation();
+    const {t} = useTranslation();
     
     return (
         <div className={`w-full bg-primary/15 rounded-[12px] p-[16px] flex flex-col gap-[16px]`}>
-            <h5 className={`text-[14px] text-primary font-semibold`}>{String(translations?.referralSection?.yourReferralCode)}</h5>
+            <h5 className={`text-[14px] text-primary font-semibold`}>{String(t('referralSection.yourReferralCode'))}</h5>
             <div className={`relative flex bg-primary/30 justify-between h-[49px] rounded-[5px] p-[10px]`}>
                 <input type='text' value={referralCode} readOnly={true} className={`appearance-none bg-transparent text-[14px] text-primary font-bold`} style={{ MozAppearance: 'none' }} />
                 <button disabled={isCopied} onClick={copyReferral} className={`absolute right-[10px] bg-primary hover:bg-primary_dark active:bg-primary_dark text-[12px] px-[8px] py-[6px] rounded-[4px] text-white font-bold`}>{isCopied ? 
-                        String(translations?.referralSection?.copied) : 
-                        String(translations?.referralSection?.copy)
+                        t('referralSection.copied') : 
+                        t('referralSection.copy')
                     }</button>
             </div>
             <div className={`w-full gap-[18px] flex justify-between`}>
@@ -90,17 +90,17 @@ const ReferralSection = ({ referralCode,  isScreenVisible }: { referralCode:stri
                     ) : (
                         <div className={`w-full gap-[10px] flex justify-center items-center`}>
                             <LuUserRoundPlus size={20} className={`text-white`} />
-                            <h5 className={`font-bold text-[12px] lg:text-[16px] text-white`}>{String(translations?.referralSection?.inviteFriends)}</h5>
+                            <h5 className={`font-bold text-[12px] lg:text-[16px] text-white`}>{t('referralSection.inviteFriends')}</h5>
                         </div>
                     )}
                 </button>
-                <button className={`bg-primary grow rounded-[8px] px-[20px] py-[8px]`} title={String(translations?.referralSection?.shareQRCode)}>
+                <button className={`bg-primary grow rounded-[8px] px-[20px] py-[8px]`} title={t('referralSection.shareQRCode')}>
                     <IoQrCode className={`text-white text-center w-full h-[24px]`} />
                 </button>
             </div>
             {/* Dialog Box */}
             {isDialogVisible && !isScreenVisible && (
-                <DialogBox text={`${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup?${queryParams}`} onClose={closeRefLinkModal} />
+                <ReferralDialogBox text={`${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup?${queryParams}`} onClose={closeRefLinkModal} />
             )}
         </div>
     );

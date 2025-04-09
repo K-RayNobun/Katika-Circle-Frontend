@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation'
 import axios, { AxiosError } from 'axios';
+import { useTranslation } from '@/lib/hooks/useTranslation';
 
 // Redux related imports
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
@@ -41,6 +42,8 @@ const PinCheck = () => {
 
     const dispatch = useAppDispatch();
     const accessToken = useAppSelector((state) => state.token.token);
+    const userData = useAppSelector((state) => state.user);
+    const { t } = useTranslation();
 
     useEffect(() => {
         intervalRef.current = setInterval(() => {
@@ -72,6 +75,10 @@ const PinCheck = () => {
 
         return () => clearInterval(intervalRef.current);
     })
+
+    useEffect(() => {
+        console.log('The User Redux state data are : ', userData);
+    }, [])
 
     const handlePinInput = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const updatedPin = [...pinCodeArray];
@@ -217,29 +224,36 @@ const PinCheck = () => {
                 <div className=' absolute top-0 left-0 w-full h-2 bg-gray rounded-full'></div>
                 <div className=' absolute top-0 left-0 w-[50%] h-2 bg-primary rounded-full'></div>
                 <div className='hidden lg:blocktext-end h-[20px] text-primary_text text-[14px] mb-4'>
-                    50%
+                {t('pinCheck.progress')}
                 </div>
             </div>
             <div className='flex h-[90%] flex-1 flex-col justify-center'>
                 <div className='lg:px-[20px] space-y-[24px]'>
                     <div className='flex flex-col items-center text-center space-y-[10px]'>
-                        <h3 className='font-bold text-[28px] text-purple-900 leading-12'>Confirmez votre email</h3>
-                        <h5 className='text-[17px]'>We&apos;ve sent a verification code to your email. Enter it below to complete your login</h5>
+                        <h3 className='font-bold text-[28px] text-purple-900 leading-12'>{t('pinCheck.title')}</h3>
+                        <h5 className='text-[17px]'>{t('pinCheck.subtitle')}</h5>
                     </div>
                     <div className='flex justify-evenly'>
                         {
                         Array.from({length: 5}, (_, i) => {
                             return  <div key={i}>
-                                        <DigitCase key={i} identifier={`digit-${i + 1}`} isPinCorrect={isPinCorrect!} digitValue={pinCodeArray[i]} onClick={() => handlePinFocus(i+1)} handleChangeFunction={(e) => handlePinInput(e, i+1)} />
+                                        <DigitCase 
+                                            key={i} 
+                                            identifier={`digit-${i + 1}`} 
+                                            isPinCorrect={isPinCorrect!} 
+                                            digitValue={pinCodeArray[i]} 
+                                            onClick={() => handlePinFocus(i+1)} 
+                                            handleChangeFunction={(e) => handlePinInput(e, i+1)} 
+                                        />
                                     </div> 
                         })
                         }
                     </div>
                     <h4 className='text-center text-[14px] sm:text-[18px] leading-[24px]'>
-                        Vous n&apos;avez pas recu de code ? <button onClick={handleCodeRequest} className='inline-block text-primary font-bold'>Renvoyer le code</button>
+                        {t('pinCheck.noCode')} <button onClick={handleCodeRequest} className='inline-block text-primary font-bold'>{t('pinCheck.resendCode')}</button>
                         <br /> 
                         {
-                        !canAskCode && <span id='time-left' className='text-[12px] font-bold duration-100'> Demandez un nouveau code dans: {timeMinLeft + ':' + timeSecLeft}</span>
+                        !canAskCode && <span id='time-left' className='text-[12px] font-bold duration-100'> {t('pinCheck.timeLeft')} {timeMinLeft + ':' + (timeSecLeft < 10 ? `0${timeSecLeft}` : timeSecLeft)}</span>
                         }
                     </h4>
                 </div>
