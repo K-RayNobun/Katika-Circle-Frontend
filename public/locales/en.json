@@ -43,11 +43,31 @@
     },
     "pinCheck": {
         "title": "Confirm Your Email",
-        "subtitle": "We've sent a verification code to your email. Enter it below to complete your login.",
+        "subtitle": "We've sent a verification code to your email. Enter it below to complete your login. Check spam if you don't see it.",
         "noCode": "Didn't receive a code?",
         "resendCode": "Resend Code",
         "timeLeft": "Request a new code in: {minutes}:{seconds}",
         "progress": "50%"
+    },
+    "userLayout": {
+        "tabs": {
+            "home": "Home",
+            "transactions": "My Transactions",
+            "awards": "My Rewards",
+            "settings": "Settings"
+        },
+        "footer": {
+            "legalMentions": "Legal Mentions",
+            "privacyPolicy": "Privacy Policy",
+            "version": "Version 1.1",
+            "logout": "Logout"
+        },
+        "mobileTabs": {
+            "home": "Home",
+            "transactions": "Transactions",
+            "awards": "Rewards",
+            "settings": "Settings"
+        }
     },
     "transactionsPage": {
         "title": "My Transactions",
@@ -143,16 +163,6 @@
             }
         ]
     },
-    "settingsProfile": {
-        "profile": "Profile",
-        "personalInfo": "Personal Information",
-        "edit": "Edit",
-        "save": "Save",
-        "email": "Email",
-        "password": "Password",
-        "confirmPassword": "Confirm Password",
-        "newPassword": "New Password"
-    },
     "statsContainer": {
         "cashbackAvailable": "Cashback available",
         "referralBonus": "Referral Bonus",
@@ -179,7 +189,6 @@
             },
             "recipient": {
                 "phoneLabel": "Recipient Phone Number",
-                "phonePlaceholder": "2376XXXXXXXX",
                 "notFound": "User not found",
                 "tryAgain": "Please try again in 5 seconds"
             },
@@ -374,5 +383,28 @@
         "confirmPasswordPlaceholder": "Confirm new password",
         "resetButton": "Reset password",
         "resetting": "Resetting..."
+    },
+    "settingsProfile": {
+        "profile": "Profile",
+        "personalInfo": "Personal Information",
+        "edit": "Edit",
+        "save": "Save",
+        "email": "Email",
+        "password": "Password",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm Password",
+        "submit": "Submit",
+        "invalidEmail": "Invalid email format",
+        "invalidPassword": "Password must be at least 6 characters long and contain at least one number, one uppercase letter, and one lowercase letter",
+        "credentialsUpdated": "Credentials updated successfully",
+        "otpVerification": "OTP Verification",
+        "otpVerified": "OTP Verified",
+        "errorUpdating": "Error updating user data",
+        "errorTestingCredentials": "Invalid email or password",
+        "emailPassword": "Email and Password",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "invalidCredentials": "Invalid credentials provided"
     }
 }

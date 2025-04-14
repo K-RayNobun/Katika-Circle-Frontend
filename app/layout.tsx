@@ -15,6 +15,7 @@ const poppinsNormal = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://send.katika.io'),
   title: 'Katika Wallet',
   description: 'Envoyez de l’amour en Afrique, gratuitement. Jusqu’à 70 000 € par envoi, vers Mobile Money ou compte bancaire, à des taux imbattables. Recevez un cashback à chaque transaction avec Katika Wallet',
   openGraph: {
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
     siteName: 'Katika Wallet',
     images: [
       {
-        url: 'https://send.katika.io/logo_color.svg', // Replace with your image URL
+        url: '/logo_color.svg', // Replace with your image URL
         width: 1200,
         height: 630,
         alt: 'Katika Wallet ',
@@ -35,9 +36,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image', // Use 'summary_large_image' for a large image preview
-    title: 'My Website',
-    description: 'This is a description of my website.',
-    images: ['https://yourdomain.com/preview-image.jpg'], // Replace with your image URL
+    title: 'Katika Wallet',
+    site: '@katikawallet', // Replace with your Twitter handle
+    description: 'Envoyez de l’amour en Afrique, gratuitement. Jusqu’à 70 000 € par envoi, vers Mobile Money ou compte bancaire, à des taux imbattables. Recevez un cashback à chaque transaction avec Katika Wallet',
+    images: ['/logo_color.svg'], // Replace with your image URL
   },
 };
 

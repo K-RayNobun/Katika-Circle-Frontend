@@ -11,73 +11,45 @@ interface OTPModalProps {
 const OTPModal = ({ onClose, onVerify }: OTPModalProps) => {
     const { t } = useTranslation();
     const [otp, setOtp] = useState<string[]>(Array(5).fill(''));
-    const [isOtpCorrect, setIsOtpCorrect] = useState<boolean | null>(null);
 
     const handleOtpInput = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const updatedOtp = [...otp];
-        const inputValue = e.target.value;
-
-        if (inputValue.length === 1) {
-            updatedOtp[index] = inputValue;
-            if (index + 1 < 5) {
-                document.getElementById(`otp-${index + 1}`)?.focus();
-            }
-        } else if (inputValue.length === 0 && index >= 0) {
-            updatedOtp[index] = inputValue;
-            if (index - 1 >= 0) {
-                document.getElementById(`otp-${index - 1}`)?.focus();
-            }
-        }
-
+        const inputValue = e.target.value.slice(0, 1); // Ensure only one character
+        updatedOtp[index] = inputValue;
         setOtp(updatedOtp);
 
-        if (updatedOtp.join('').length === 5) {
-            verifyOtp(updatedOtp.join(''));
+        // Automatically move to the next input
+        if (inputValue && index + 1 < 5) {
+            document.getElementById(`otp-${index + 1}`)?.focus();
         }
-    };
 
-    const verifyOtp = (otpCode: string) => {
-        // Simulate OTP verification
-        if (otpCode === '12345') {
-            setIsOtpCorrect(true);
-            onVerify(otpCode);
-        } else {
-            setIsOtpCorrect(false);
+        // If all inputs are filled, verify the OTP
+        if (updatedOtp.join('').length === 5) {
+            onVerify(updatedOtp.join(''));
         }
     };
 
     return (
-        <div className='fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black/50 z-50'>
-            <div className='bg-white rounded-[12px] p-[24px] w-[90%] lg:w-[50%] max-h-[80vh] overflow-auto'>
-                <h3 className='text-[24px] font-bold mb-[16px]'>
-                    {t('translations.otpModal.title')}
-                </h3>
-                <p className='text-gray-600 mb-4'>
-                    {t('otpModal.subtitle')}
-                </p>
-                <div className='flex justify-evenly'>
-                    {Array.from({ length: 5 }, (_, i) => (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+            <div className="bg-white rounded-lg p-6 w-[90%] max-w-md">
+                <h3 className="text-xl font-bold mb-4 text-center">{t('otpModal.title')}</h3>
+                <p className="text-gray-600 mb-6 text-center">{t('otpModal.subtitle')}</p>
+                <div className="flex justify-center gap-2 mb-6">
+                    {otp.map((digit, index) => (
                         <input
-                            key={i}
-                            id={`otp-${i}`}
-                            type='text'
-                            value={otp[i]}
-                            onChange={(e) => handleOtpInput(e, i)}
+                            key={index}
+                            id={`otp-${index}`}
+                            type="text"
+                            value={digit}
+                            onChange={(e) => handleOtpInput(e, index)}
                             maxLength={1}
-                            placeholder={t('otpModal.placeholder')}
-                            className={`appearance-none size-[56px] text-center text-[28px] font-[400] text-primary_text rounded-[12px] border-2 focus:border-2 ${
-                                isOtpCorrect === true
-                                    ? 'border-green focus:border-green'
-                                    : isOtpCorrect === false
-                                    ? 'border-red focus:border-red'
-                                    : 'border-gray_dark/60 focus:border-primary'
-                            }`}
+                            className={`w-12 h-12 text-center text-lg border rounded-md focus:outline-none focus:ring-2 focus:ring-primary`}
                         />
                     ))}
                 </div>
                 <button
                     onClick={onClose}
-                    className='mt-[16px] bg-primary text-white px-[16px] py-[8px] rounded-[8px]'
+                    className="w-full bg-primary text-white py-2 rounded-md font-semibold"
                 >
                     {t('otpModal.close')}
                 </button>

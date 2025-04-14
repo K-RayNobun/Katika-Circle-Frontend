@@ -78,7 +78,7 @@ const Notification = ({details}:{details: notificationDetails}) => {
             </div>
             <div className='flex flex-col items-end'>
                 <h5 className='text-[14px] text-primary_dark font-bold'>
-                    {t('notifications.currency.euro')} {details.amountReceived.toLocaleString('en-US')}
+                    {t('notifications.currency.default')} {details.amountReceived.toLocaleString('en-US')}
                 </h5>
                 <h5 className='text-[10px] text-gray_dark/60 font-semibold'>
                     {details.amountSent} {details.currencySent}

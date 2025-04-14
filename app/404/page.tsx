@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import NotFound from '@/app/not-found'
 
-export default function Custom404() {
+export default function Custom() {
   const router = useRouter()
 
   useEffect(() => {

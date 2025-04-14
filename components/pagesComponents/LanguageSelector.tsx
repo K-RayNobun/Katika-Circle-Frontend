@@ -34,7 +34,7 @@ const LanguageSelector = () => {
       id="language"
       value={locale} // Use full locale code (e.g., "en")
       onChange={handleLanguageChange}
-      className="p-2 max-w-[50px] bg-white text-primary_dark rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-primary/50 focus:ring-opacity-50"
+      className="p-2 min-w-[30px] bg-white text-primary_dark rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-primary/50 focus:ring-opacity-50"
       dir={currentDir}
       aria-label="Select language"
     >

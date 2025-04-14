@@ -17,7 +17,7 @@ const MailCheck = () => {
                     {t('mailCheck.title')}
                 </h1>
                 <p className="text-gray-600 text-center mt-2">
-                    {t('translations.mailCheck.subtitle')}
+                    {t('mailCheck.subtitle')}
                 </p>
             </div>
 

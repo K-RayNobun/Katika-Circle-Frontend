@@ -5,8 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { LuEyeClosed, LuEye } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa6";
-// import { sendEmail } from '../../../utils/emailjs'
-// import { GoogleLogin, googleLogout, useGoogleLogin } from '@react-oauth/google';
+
 import axios, { AxiosError } from 'axios';
 // import { Suspense } from 'react';
 import { useTranslation } from '@/lib/hooks/useTranslation';
@@ -117,7 +116,7 @@ const Signup = () => {
     }
 
     const validateEmail = (email:string):boolean => {
-        const regex = /^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\.[a-zA-Z0-9_]+$/;
+        const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         return regex.test(email);
     }
 

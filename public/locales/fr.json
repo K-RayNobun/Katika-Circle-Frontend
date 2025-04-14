@@ -46,11 +46,31 @@
     },
     "pinCheck": {
         "title": "Confirmez votre email",
-        "subtitle": "Nous avons envoyé un code de vérification à votre email. Entrez-le ci-dessous pour terminer votre connexion.",
+        "subtitle": "Nous avons envoyé un code de vérification à votre email. Entrez-le ci-dessous pour terminer votre connexion. Vérifiez également votre dossier spam si vous ne trouvez pas directement.",
         "noCode": "Vous n'avez pas reçu de code ?",
         "resendCode": "Renvoyer le code",
-        "timeLeft": "Demandez un nouveau code dans: {minutes}:{seconds}",
+        "timeLeft": "Demandez un nouveau code dans:",
         "progress": "50%"
+    },
+    "userLayout": {
+        "tabs": {
+            "home": "Accueil",
+            "transactions": "Mes Transactions",
+            "awards": "Mes Récompenses",
+            "settings": "Paramètres"
+        },
+        "footer": {
+            "legalMentions": "Mentions légales",
+            "privacyPolicy": "Politique de confidentialité",
+            "version": "Version 1.1",
+            "logout": "Déconnexion"
+        },
+        "mobileTabs": {
+            "home": "Accueil",
+            "transactions": "Transactions",
+            "awards": "Récompenses",
+            "settings": "Paramètres"
+        }
     },
     "transactionsPage": {
         "title": "Mes Transactions",
@@ -166,16 +186,6 @@
             }
         ]
     },
-    "settingsProfile": {
-        "profile": "Profil",
-        "personalInfo": "Informations personnelles",
-        "edit": "Modifier",
-        "save": "Enregistrer",
-        "email": "Email",
-        "password": "Mot de passe",
-        "confirmPassword": "Confirmer le mot de passe",
-        "newPassword": "Nouveau mot de passe"
-    },
     "statsContainer": {
         "cashbackAvailable": "Cashback disponible",
         "referralBonus": "Bonus de parrainage",
@@ -239,7 +249,6 @@
             },
             "recipient": {
                 "phoneLabel": "Numéro de téléphone du destinataire",
-                "phonePlaceholder": "2376XXXXXXXX",
                 "notFound": "Utilisateur non trouvé",
                 "tryAgain": "Veuillez réessayer dans 5 secondes"
             },
@@ -315,6 +324,8 @@
         "logout": "Déconnexion"
     },
     "filleulList": {
+        "myReferrals": "Mes Parrainages",
+        "noReferrals": "Vous n'avez pas encore de parrainages",
         "referralDetails": {
             "order": "Ordre",
             "name": "Nom",
@@ -371,5 +382,28 @@
         "welcome": "Bienvenue",
         "getStarted": "Commençons. Pour effectuer une transaction, appuyez sur le bouton ci-dessous.",
         "sendMoney": "Envoyer de l'argent"
+    },
+    "settingsProfile": {
+        "profile": "Profil",
+        "personalInfo": "Informations personnelles",
+        "edit": "Modifier",
+        "save": "Enregistrer",
+        "email": "Email",
+        "password": "Mot de passe",
+        "currentPassword": "Mot de passe actuel",
+        "newPassword": "Nouveau mot de passe",
+        "confirmPassword": "Confirmer le mot de passe",
+        "submit": "Soumettre",
+        "invalidEmail": "Format d'email invalide",
+        "invalidPassword": "Le mot de passe doit contenir au moins 6 caractères, dont un chiffre, une lettre majuscule et une lettre minuscule",
+        "credentialsUpdated": "Identifiants mis à jour avec succès",
+        "otpVerification": "Vérification OTP",
+        "otpVerified": "OTP Vérifié",
+        "errorUpdating": "Erreur lors de la mise à jour des données utilisateur",
+        "errorTestingCredentials": "Email ou mot de passe invalide",
+        "emailPassword": "Email et Mot de Passe",
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "invalidCredentials": "Identifiants fournis invalides"
     }
 }

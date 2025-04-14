@@ -6,11 +6,6 @@ import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { provideStatus } from "@/lib/redux/features/transaction/transactionSlice";
 import axios from "axios";
 
-type WalletAddress = {
-  networks?: Record<string, { address: string; addressAdditionalData?: string }>;
-  coins?: Record<string, { address: string; addressAdditionalData?: string }>;
-};
-
 interface ScreenProps {
   onClose: () => void,
   moveToScreen: (index: number) => void,
@@ -23,15 +18,6 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
   const status = useAppSelector((state) => state.transaction.status)
   const accessToken = useAppSelector((state) => state.token.token); 
   const dispatch = useAppDispatch();
-
-  const wallet: WalletAddress = {
-    networks: {
-      mainnet: { address: userData.walletAddress! || '' },
-    },
-    coins: {
-      USDC: { address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" }
-    }
-  };
 
   const user = {
     firstName: userData.name,
@@ -121,7 +107,7 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
     fiatAmount: transactionDetails.transakAmount,
     productsAvailed: 'BUY',
     cryptoCurrencyCode: 'USDC',
-    walletAddressesData: wallet,
+    walletAddress: userData.walletAddress! || '', // User's wallet address (can be dynamically set)
     disableWalletAddressForm: true,
     // walletAddress: '', // User's wallet address (can be dynamically set)
     themeColor: '8C3DCA', // Widget theme color

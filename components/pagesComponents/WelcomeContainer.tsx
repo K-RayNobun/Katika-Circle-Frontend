@@ -15,7 +15,7 @@ const WelcomeContainer = ({
         <div className="relative animate-fading-1 bg-indigo flex justify-center lg:justify-between lg:h-[210px] rounded-[12px] overflow-hidden w-full">
             <div className="lg:block flex flex-col items-center justify-between px-[6px] text-center lg:text-start lg:px-[24px] py-[20px] xl:py-[32px] w-[70%]">
                 <h2 className="text-white text-[20px] lg:text-[24px] leading-[30px]">
-                    {t('welcomeContainer.welcome')}, 
+                    {t('welcomeContainer.welcome') + ", "}
                     <span className="font-bold">
                         {userData.surname.split(" ")[0]}
                     </span>

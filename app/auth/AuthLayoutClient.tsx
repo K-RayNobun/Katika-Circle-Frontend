@@ -18,6 +18,7 @@ const mapping: RouteMapping[] = [
   {endUrl: '/auth/pincheck/', imageUrl: '/auth/secondstep.svg', style: 'w-[80%]'},
   {endUrl: '/auth/welcome/', imageUrl: '/auth/welcomestep.svg', style: 'w-[100%] bottom-0'},
   {endUrl: '/auth/password_reset/', imageUrl: '/auth/resetpwd.svg', style: 'w-[80%]'},
+  {endUrl: '/auth/password_renew/', imageUrl: '/auth/resetpwd.svg', style: 'w-[80%]'},
   {endUrl: '/auth/mail_check/', imageUrl: '/auth/resetpwd.svg', style: 'w-[80%]'},
 ];
 

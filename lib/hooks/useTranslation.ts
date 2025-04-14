@@ -17,6 +17,7 @@ type AvailableLanguage = typeof availableLanguages[number]; // "en" | "fr"
 export function useTranslation() {
   const [locale, setLocale] = useState<AvailableLanguage>("en"); // Current language
   const [translations, setTranslations] = useState<NestedJSON>({}); // Loaded translation data
+  const [isLoading, setIsLoading] = useState(false); // Loading state for translations
   const dispatch = useDispatch(); // Redux dispatch for global state updates
 
   /**
@@ -25,6 +26,9 @@ export function useTranslation() {
    */
   const t = useCallback(
     (key: string): string => {
+      if (isLoading || !Object.keys(translations).length) {
+        return ""
+      }
       const keys = key.split("."); // Split key into parts (e.g., ["screenOne", "title"])
       let current: NestedJSON | string = translations; // Start at root of translations
 
@@ -44,6 +48,7 @@ export function useTranslation() {
    */
   const loadTranslations = useCallback(async (lang: AvailableLanguage) => {
     try {
+      setIsLoading(true); // Set loading state
       const response = await fetch(`/locales/${lang}.json`);
       if (!response.ok) {
         throw new Error(`Failed to load ${lang}.json`);
@@ -53,8 +58,10 @@ export function useTranslation() {
     } catch (error) {
       console.error("Error loading translations:", error);
       return { error: "Translation loading failed" }; // Return fallback object
+    } finally {
+      setIsLoading(false); // Reset loading state
     }
-  }, []);
+  }, []); 
 
   /**
    * Switch to a new language, updating state and storage.

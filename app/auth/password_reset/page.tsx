@@ -1,19 +1,32 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, {  useState } from 'react';
 import { useTranslation } from '@/lib/hooks/useTranslation';
 import { CgTimer } from "react-icons/cg";
 import AsyncSpinner from '@/components/AsyncSpinner';
+import { useRouter } from 'next/navigation';
+
+import axios, { AxiosError } from 'axios';
+
+
+interface ErrorType {
+    response: {
+        data: {
+            message: ''
+        }
+    }
+}
 
 const ResetPassword = () => {
     const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const router = useRouter();
 
     const [errorMessage, setErrorMessage] = useState('');
 
     const validateEmail = (email: string) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         return emailRegex.test(email);
     };
 
@@ -28,16 +41,56 @@ const ResetPassword = () => {
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    // Get the pathNAme value after /password_reset
+    
+
+    const postResetEmail = async (e: React.FormEvent<HTMLElement>) => {
+        e.preventDefault();
+        try {
+            
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/reset-mailer`, 
+                {"email": email},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                }
+            );
+            
+            if (response.data.error) {
+                setErrorMessage(response.data.error.message);
+                return;
+            }
+
+            console.log('Response data: ', response.data.data);
+            console.log('Finished reset email post request');
+            setErrorMessage('');
+            router.push('/auth/mail_check/');
+        } catch (err) {
+            const axiosError = err as AxiosError;
+            const error = err as ErrorType;
+            // Handle error `Referral Does not exit Exist`
+            
+            if (axiosError.response?.status !== 200) {
+                setErrorMessage(t('signup.errors.serverError'));
+                console.error('Registration error:', error);
+            }
+        } finally {
+            setIsSubmitting(false);
+        }
+    } 
+
+    const handleSubmit = (e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
         console.log('Submitted email:', email);
 
         // Simulate API call
-        setTimeout(() => {
+        postResetEmail(e).then(() => {
             setIsSubmitting(false);
-            alert('Password reset link sent to your email!');
-        }, 2000);
+            alert('Reset email sent!');
+        });
     };
 
     return (
@@ -57,7 +110,7 @@ const ResetPassword = () => {
                 <form onSubmit={handleSubmit} className="w-10/12 space-y-4">
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
-                            {t('translations.resetPassword.emailLabel')}
+                            {t('resetPassword.emailLabel')}
                         </label>
                         <input
                             type="email"

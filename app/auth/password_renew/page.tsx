@@ -1,3 +1,4 @@
+// app/auth/password_renew/page.tsx
 'use client';
 
 import React, { useState, useRef } from 'react';
@@ -5,16 +6,69 @@ import { useTranslation } from '@/lib/hooks/useTranslation';
 import { RiKeyFill } from "react-icons/ri";
 import AsyncSpinner from '@/components/AsyncSpinner';
 import { LuEyeClosed, LuEye } from "react-icons/lu";
+import { useRouter } from 'next/navigation'; // Use useSearchParams instead of useParams
+import { useAppSelector } from '@/lib/redux/hooks';
+import axios, { AxiosError } from 'axios';
+
+interface ErrorType {
+    response: {
+        data: {
+            message: string
+        }
+    }
+}
 
 const PasswordRenew = () => {
     const { t } = useTranslation();
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    // Use refs with a non-null innitial value instead of state for better performance
     const newPasswordRef = useRef<string>('');
     const confirmPasswordRef = useRef<string>('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+
+    const accessToken = useAppSelector((state) => state.token.token); // Get the access token from Redux store
+    const router = useRouter();
+     // Read the token from the query string
+
+
+    const postRenewPassword = async (e: React.FormEvent<HTMLElement>) => {
+        console.log('Renew password function called with password:', newPasswordRef.current);
+        console.log('Access token:', accessToken);
+        e.preventDefault();
+        try {
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/reset-password`,
+                { "pwd": newPasswordRef.current },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                        'X-Reset-Header': accessToken,
+                    }
+                }
+            );
+
+            if (response.data.error) {
+                setErrorMessage(response.data.error.message);
+                return;
+            }
+
+            console.log('Response data: ', response.data.data);
+            console.log('Finished reset email post request');
+            setErrorMessage('');
+            router.push('/auth/signin/'); // Redirect to sign-in after success
+        } catch (err) {
+            const axiosError = err as AxiosError;
+            const error = err as ErrorType;
+            if (axiosError.response?.status !== 200) {
+                setErrorMessage(t('signup.errors.serverError'));
+                console.error('Registration error:', error);
+            }
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     const validatePasswords = () => {
         if (newPasswordRef.current.length < 8) {
@@ -29,32 +83,21 @@ const PasswordRenew = () => {
         return true;
     };
 
-    // A function that is passes event, verify using validatePasswords the field value and set the state
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
-
         if (id === 'new-password') {
-            newPasswordRef.current = value; // Update ref value
+            newPasswordRef.current = value;
         } else if (id === 'confirm-password') {
-            confirmPasswordRef.current = value; // Update ref value
+            confirmPasswordRef.current = value;
         }
-
         validatePasswords();
     };
 
-
-
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        console.log('Submit function called');
         e.preventDefault();
-        if (!validatePasswords()) return;
-
         setIsSubmitting(true);
-
-        // Simulate API call
-        setTimeout(() => {
-            setIsSubmitting(false);
-            alert('Password successfully reset!');
-        }, 2000);
+        postRenewPassword(e); // Call the API to reset the password
     };
 
     return (

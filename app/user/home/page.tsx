@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
 import { setReferralList } from '@/lib/redux/features/user/userSlice';
 import axios, { AxiosError } from 'axios';
+import { useRouter } from 'next/navigation';
 import WelcomeContainer from '@/components/pagesComponents/WelcomeContainer';
 import StatsContainer from '@/components/pagesComponents/StatsContainer';
 import ReferralSection from '@/components/pagesComponents/ReferralSection';
@@ -29,27 +30,28 @@ const Home = () => {
     const [filleulList, setFilleulList] = useState<FilleulDetails[]>([]);
     const [referralBonus, setReferralBonus] = useState<number>(0);
     const [state, stateUpdate] = useState('fr');
+    const router = useRouter();
 
-    // Redux and Router
     const userData = useAppSelector((state) => state.user);
     const transactionDetails = useAppSelector((state) => state.transaction);
     const accessToken = useAppSelector((state) => state.token.token);
     const dispatch = useAppDispatch();
+    const urlParams = useMemo(() => new URLSearchParams(window.location.search), []);
 
     useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
+        console.log('Returned Home Page with Characteristics...');
         const orderId = urlParams.get('orderId');
         const status = urlParams.get('status');
         const totalFeeInFiat = urlParams.get('totalFeeInFiat');
 
         const postTransaction = async () => {
             try {
-                console.log(`Posting transaction with access token: ${accessToken}`);
+                console.log(`Posting transaction with of amount : ${transactionDetails.amountSent} ${transactionDetails.currencySent}`);
                 const response = await axios.post(
                     `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction`,
                     {
                         amount: transactionDetails.amountSent,
-                        currency: transactionDetails.currencySent === '€' ? 'EUR' : 'USD',
+                        currency: transactionDetails.currencySent === '€' ? 'EURO' : 'USD',
                         transactionType: transactionDetails.transfertType,
                         recipient:
                             transactionDetails.transfertType === 'MobileMoney'
@@ -95,10 +97,11 @@ const Home = () => {
             );
             dispatch(resetTransaction());
             setIsScreenVisible(false);
+            router.push('/user/home'); // Remove the additionnal status data
         }
         // State update
         console.log(state);
-    }, []);
+    }, [urlParams]);
 
     // Referral Code Query Params
     const referralCodeParam = {
@@ -164,17 +167,10 @@ const Home = () => {
                         bonusClaimed: referral.referral.bonusStatus === 'UNCLAIMED' ? false : true,
                     };
 
-                    if (filleulList.length !== 0) {
-                        filleulList.forEach((filleulRegistered) => {
-                            if (filleulRegistered.order === filleul.order) {
-                                console.log('Filleul already exists');
-                            } else {
-                                filleulArray.push(filleul);
-                                console.log('Added the filleul: ', filleul.name);
-                            }
-                        });
-                    } else if (filleulList.length === 0) {
+                    if (!filleulArray.some((f) => f.order === filleul.order)) {
                         filleulArray.push(filleul);
+                    } else {
+                        console.log('Duplicate entry found: ', filleul.name);
                     }
 
                     if (referral.referral.bonusStatus === 'UNCLAIMED') {

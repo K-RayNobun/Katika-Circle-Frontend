@@ -13,7 +13,7 @@ const FilleulInfo = ({ details }: { details: FilleulDetails }) => {
     
     return (
         <div className={`flex justify-between items-center w-full bg-gray rounded-[6px] px-[16px] py-[12px] text-[14px] text-primary_dark`}>
-            <h5 className={``}>{details.order + 1}</h5>
+            <h5 className={``}>{details.order}</h5>
             <div className={`grow px-[20px]`}>
                 <h5 className={`flex-4 grow-4`}>{details.name}</h5>
             </div>

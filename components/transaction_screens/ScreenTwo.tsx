@@ -115,13 +115,13 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
         console.log('Resetted the name');
         if (isTypeMobile) {
             if (!testFieldsRegex()) {
-                console.log('Phone number incorrect, please start with 237');
+                console.log('Phone number incorrect, please start with 6 not with 2376');
                 return;
-            } else if (phoneNumber?.slice(0, 3) === '237' && phoneNumber.slice(4).length === 8) {
-                console.log('This is a Cameroonian number: ', phoneNumber?.slice(3));
+            } else if (phoneNumber.slice(1).length === 8) {
+                console.log('This is a Cameroonian number: ', phoneNumber);
                 handleNameCheck();
             } else {
-                console.log('Phone number: ', phoneNumber?.slice(3));
+                console.log('Phone number: ', phoneNumber);
             }
         }
     };
@@ -132,7 +132,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
         try {
             const response = await axios.post(
                 'https://dsapi.tranzak.me/xp021/v1/name-verification/create',
-                { accountHolderId: formData.get('receiver-number') },
+                { accountHolderId: `237${formData.get('receiver-number')}` },
                 {
                     headers: {
                         Authorization: `Bearer ${tranzakToken}`,
@@ -156,7 +156,6 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                 });
                 console.log('Then we get this token:', response.data.data.token);
                 dispatch(provideToken(response.data.data.token as string));
-                alert(t('transactionScreens.screenTwo.recipient.tryAgain'));
             }
             console.error('Error fetching recipient name:', error);
             setReceiverName(t('transactionScreens.screenTwo.recipient.notFound'));
@@ -229,7 +228,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                         <select
                             id="type-select"
                             defaultValue={
-                                transactionDetails.transfertType === 'MobileMoney'
+                                isTypeMobile
                                     ? t('transactionScreens.screenTwo.transferType.options.mobileMoney')
                                     : t('transactionScreens.screenTwo.transferType.options.bankAccount')
                             }
@@ -256,8 +255,8 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                         <label className="mb-[4px] text-[14px] text-gray_dark/60">
                             {t('transactionScreens.screenTwo.recipient.phoneLabel')}
                         </label>
-                        <div className="flex items-center gap-[12px]">
-                            <div className="flex items-center gap-[8px] border-2 rounded-[8px] py-[8px] px-[12px]">
+                        <div className="flex items-center justify-center gap-[16px]">
+                            <div className="flex items-center min-w-[100px] lg:max-w-[30%] gap-[8px] border-2 rounded-[8px] py-[8px] px-[12px]">
                                 <img src={`${countriesData[0].imgUrl}`} alt="Img" className="w-[30px]" />
                                 <span className="text-[16px] text-gray_dark font-semibold">{countriesData[0].code}</span>
                             </div>
@@ -265,8 +264,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                                 <input
                                     type="number"
                                     name="receiver-number"
-                                    placeholder={t('transactionScreens.screenTwo.recipient.phonePlaceholder')}
-                                    defaultValue={transactionDetails.receiverPhoneNumber || 2376}
+                                    defaultValue={transactionDetails.receiverPhoneNumber}
                                     onChange={handlePhoneNumberChange}
                                     className={`appearance-none w-full float-left block text-right ${
                                         isFieldWrong ? 'border-red-500' : 'border-gray-400'
@@ -300,19 +298,6 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                                 placeholder={t('transactionScreens.screenTwo.bank.iban.placeholder')}
                                 name="iban"
                                 onChange={handleIbanChange}
-                                className={`w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 grow ${
-                                    isFieldWrong ? 'border-red-500' : 'border-gray-400'
-                                }`}
-                            />
-                        </div>
-                        <div>
-                            <label className="mb-[4px] text-[14px] text-gray_dark/60">
-                                {t('transactionScreens.screenTwo.bank.code.label')}
-                            </label>
-                            <input
-                                type="text"
-                                placeholder={t('transactionScreens.screenTwo.bank.code.placeholder')}
-                                name="code"
                                 className={`w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 grow ${
                                     isFieldWrong ? 'border-red-500' : 'border-gray-400'
                                 }`}

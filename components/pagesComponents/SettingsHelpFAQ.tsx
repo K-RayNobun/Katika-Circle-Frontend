@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PiPlusCircle, PiMinusCircle } from "react-icons/pi";
 import { useTranslation } from '@/lib/hooks/useTranslation';
+import data from '@/public/locales/en.json';
 
 
 const HelpFAQSection = () => {
@@ -25,7 +26,7 @@ const HelpFAQSection = () => {
         ))
     }
 
-    const FAQData = t('settingsHelpFAQ.faq') as unknown as Array<{ title: string; content: string }>;
+    const FAQData = data.settingsHelpFAQ.faq; // Adjust the path to your JSON file
 
     return (
         <div className='w-full p-[16px] lg:p-[32px] lg:space-y-[64px]'>

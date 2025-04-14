@@ -67,19 +67,9 @@ const createTransakUrl = (userData: UserData, transactionDetails: TransactionDet
   params.append('userData', JSON.stringify(userDataObj));
 
   // Add wallet addresses data as JSON string
-  const walletData = {
-    networks: {
-      mainnet: {
-        address: userData.walletAddress,
-      },
-    },
-    coins: {
-      USDC: {
-        address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-      },
-    },
-  };
-  params.append('walletAddressesData', JSON.stringify(walletData));
+  const walletAddress = userData.walletAddress;
+
+  params.append('walletAddress', walletAddress);
 
   return `${baseUrl}?${params.toString()}`;
 };

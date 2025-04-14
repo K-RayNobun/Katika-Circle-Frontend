@@ -1,11 +1,28 @@
 
 ---------------------------- JOURNEY REPORT ----------------------------
 
-- Is state updated when stateUpdate() is called ?
-
+- Add default transaltion values  0/1
+- Login redundhance  0/1
+- Ensure postTransaction() is called once.  1/1
 
 ---------------------------- TODO TASKS ----------------------------
  - Complete all UI pages / components translations
     x SIGNUP x SIGNIN x WELCOME x PINCHECK x SETTINGS
 
-- Icons
+- Icons on mobile view
+
+- First post request with email
+- Second Get token from the url parameters 
+- Pass the second post request with the precedent token
+
+- Add default traductions text
+- Handle signin redundance
+//
+- Email and password setting modifs
+    - Group email & password for one updated
+    - Call API once
+- SettingHelpFAQ error
+
+
+
+------------------------------------------------

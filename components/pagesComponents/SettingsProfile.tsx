@@ -1,108 +1,138 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { PiPencilSimpleLineDuotone } from "react-icons/pi";
 import { LiaTimesSolid, LiaCheckSolid } from "react-icons/lia";
-import OTPModal from '@/components/pagesComponents/OTPModal'; // Import the OTP modal component
+import OTPModal from '@/components/pagesComponents/OTPModal';
 
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
-import { provideId } from '@/lib/redux/features/user/userSlice';
-import axios from 'axios';
+import { renewToken } from '@/lib/redux/features/token/tokenSlice';
+import axios, { AxiosError } from 'axios';
+import { useTranslation } from '@/lib/hooks/useTranslation';
+import AsyncSpinner from '../AsyncSpinner';
 
 const ProfileSettings = () => {
     const [isEditingName, setIsEditingName] = useState(false);
-    const [isEditingEmail, setIsEditingEmail] = useState(false);
-    const [isEditingPassword, setIsEditingPassword] = useState(false);
-    const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
+    const [isEditingCredentials, setIsEditingCredentials] = useState(false);
     const [showOTPModal, setShowOTPModal] = useState(false);
-
-    const [name, setName] = useState('John');
-    const [surname, setSurname] = useState('Doe');
-    const [email, setEmail] = useState('johndoe@gmail.com');
-    const [password, setPassword] = useState('********');
-    const [currentPassword, setCurrentPassword] = useState('');
 
     const userData = useAppSelector((state) => state.user);
     const accessToken = useAppSelector((state) => state.token.token);
     const dispatch = useAppDispatch();
 
-    // Get the user profile and its id
-    const getUserData = async() => {
-        console.log('Getting the verified user data with token: ', accessToken);
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`,
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    "Content-Type": 'application/json'
+    const [name, setName] = useState(userData.name || '');
+    const [surname, setSurname] = useState(userData.surname || '');
+    const [email, setEmail] = useState(userData.email || '');
+    const [password, setPassword] = useState('');
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const isTestValid = useRef(false);
+    const [error, setError] = useState<string | null>(null);
+    const { t } = useTranslation();
+
+    const validateEmail = useMemo(() => {
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        return emailRegex.test(email);
+    }, [email]);
+
+    const validatePassword = useMemo(() => {
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+[\]{};':"\\|,.<>/?`~\-]{6,}$/;
+        return passwordRegex.test(password);
+    }, [password]);
+
+    const updateUserData = async () => {
+        try {
+            const response = await axios.put(
+                `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/user/${userData.id}`,
+                { email, pwd: password },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
                 }
-            }
-        );
-        console.log('The User Data Is: ', response.data.data);
-        dispatch(provideId(response.data.data.id));
-    }
+            );
+            console.log(t('settingsProfile.credentialsUpdated'), response.data);
+        } catch (error) {
+            console.error(t('settingsProfile.errorUpdating'), error);
+        }
+    };
 
-    const handleNameChange = () => {
+    const testCredentials = async () => {
+        try {
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/login`,
+                { email: userData.email, pwd: currentPassword },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+            dispatch(
+                renewToken({
+                    token: response.data.data['access-token'],
+                    expiresIn: 5 * 60 * 1000,
+                })
+            );
+            isTestValid.current = true;
+            console.log(t('settingsProfile.otpVerified'));
+        } catch (error) {
+            const axiosError = error as AxiosError;
+            if (axiosError.response?.status === 500) {
+                setError(t('settingsProfile.errorTestingCredentials'));
+            }
+        }
+    };
+
+    const handleNameSave = () => {
         setIsEditingName(false);
-        // Call API to update name and surname
-        console.log('Updated Name:', name, surname);
+        console.log(t('settingsProfile.personalInfo'), name, surname);
     };
 
-    const handleEmailChange = () => {
-        setIsEditingEmail(false);
-        setShowOTPModal(true); // Show OTP modal for email change
-    };
-
-    const handlePasswordChange = () => {
-        setIsEditingPassword(false);
-        updateMainCredentials();
-        setShowOTPModal(true); // Show OTP modal for password change
-    };
-
-    const handlePasswordConfirmation = () => {
-        // Simulate password confirmation
-        if (currentPassword === 'password123') {
-            setIsPasswordConfirmed(true);
-        } else {
-            alert('Incorrect password');
-        }
-    };
-
-    // Update email & pwd funtion
-    const updateMainCredentials = async() => {
-
-        if (!userData.id || userData.id === '') {
-            getUserData()
-        }
-
-        const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/user/${userData.id}`,
-          {
-              "email": email,
-              "pwd": password,
-          },
-          {
+    const sendOTP = async () => {
+        console.log('Sending OTP');
+        console.log('Access Token is: ', accessToken)
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`,
+            {},
+        {
             headers: {
-              'Authorization': 'Bearer ' + accessToken,
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*'
+                'Authorization': 'Bearer ' + accessToken,
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
             }
-          }
-        );
-        console.log('The response is:', response.data);
-      }
+        });
+        console.log('Finished sending OTP with the token', accessToken);
+        console.log('Just sent the token successfully as ', response.data);
+    };
 
+    const handleCredentialsSubmit = async () => {
+        setIsSubmitting(true);
+        setError(null);
+        if (validateEmail && validatePassword) {
+            setIsEditingCredentials(false);
+            await testCredentials();
+            await updateUserData();
+            sendOTP();
+            setShowOTPModal(true);
+        } else {
+            setError(t('settingsProfile.invalidCredentials'));
+        }
+        setIsSubmitting(false);
+    };
 
     return (
         <div className='w-full py-[12px] px-[18px] space-y-[16px] lg:space-y-[26px]'>
-            <h4 className='text-[24px] hidden lg:block font-bold text-primary'>Profil</h4>
+            <h4 className='text-[24px] hidden lg:block font-bold text-primary'>{t('settingsProfile.profile')}</h4>
 
             {/* Name and Surname Section */}
             <div className='rounded-[12px] border-2 border-gray p-[32px] space-y-[16px]'>
                 <div className='flex justify-between'>
-                    <h5 className='font-bold text-[18px]'>Informations personnelles</h5>
+                    <h5 className='font-bold text-[18px]'>{t('settingsProfile.personalInfo')}</h5>
                     {isEditingName ? (
                         <div className='flex gap-[8px]'>
                             <button
-                                onClick={handleNameChange}
+                                onClick={handleNameSave}
                                 className='flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
                             >
                                 <LiaCheckSolid size={20} className='text-primary' />
@@ -119,170 +149,109 @@ const ProfileSettings = () => {
                             onClick={() => setIsEditingName(true)}
                             className='hidden lg:flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
                         >
-                            <h5 className='font-bold text-primary'>Edit</h5>
+                            <h5 className='font-bold text-primary'>{t('settingsProfile.edit')}</h5>
                             <PiPencilSimpleLineDuotone size={20} className='text-primary' />
                         </button>
                     )}
                 </div>
                 <div className='lg:grid grid-cols-2 lg:gap-[32px] gap-[16px] flex flex-col text-[14px] font-bold pr-[30%]'>
                     <div className='space-y-[8px]'>
-                        <h5 className='text-gray_dark/50'>Nom</h5>
+                        <h5 className='text-gray_dark/50'>{t('settingsProfile.firstName')}</h5>
                         {isEditingName ? (
                             <input
                                 type='text'
-                                value={userData.name}
+                                value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 className='w-full p-[8px] border-2 border-gray rounded-[8px]'
                             />
                         ) : (
-                            <h5>{userData.name}</h5>
+                            <h5>{name}</h5>
                         )}
                     </div>
                     <div className='space-y-[8px]'>
-                        <h5 className='text-gray_dark/50'>Prenom</h5>
+                        <h5 className='text-gray_dark/50'>{t('settingsProfile.lastName')}</h5>
                         {isEditingName ? (
                             <input
                                 type='text'
-                                value={userData.surname}
+                                value={surname}
                                 onChange={(e) => setSurname(e.target.value)}
                                 className='w-full p-[8px] border-2 border-gray rounded-[8px]'
                             />
                         ) : (
-                            <h5>{userData.surname}</h5>
+                            <h5>{surname}</h5>
                         )}
                     </div>
                 </div>
-                {isEditingName && (
-                    <button
-                        onClick={handleNameChange}
-                        className='lg:hidden flex items-center justify-between w-full gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
-                    >
-                        <h5 className='font-bold text-primary'>Save</h5>
-                        <LiaCheckSolid size={20} className='text-primary' />
-                    </button>
-                )}
             </div>
 
-            {/* Email Section */}
+            {/* Email and Password Section */}
             <div className='rounded-[12px] border-2 border-gray p-[32px] space-y-[16px]'>
                 <div className='flex justify-between'>
-                    <h5 className='font-bold text-[18px]'>Email</h5>
-                    {isEditingEmail ? (
-                        <div className='flex gap-[8px]'>
-                            <button
-                                onClick={handleEmailChange}
-                                className='flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
-                            >
-                                <LiaCheckSolid size={20} className='text-primary' />
-                            </button>
-                            <button
-                                onClick={() => setIsEditingEmail(false)}
-                                className='flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-red'
-                            >
-                                <LiaTimesSolid size={20} className='text-red' />
-                            </button>
-                        </div>
-                    ) : (
+                    <h5 className='font-bold text-[18px]'>{t('settingsProfile.emailPassword')}</h5>
+                    {!isEditingCredentials && (
                         <button
-                            onClick={() => setIsEditingEmail(true)}
-                            className='hidden lg:flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
+                            onClick={() => setIsEditingCredentials(true)}
+                            className='flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
                         >
-                            <h5 className='font-bold text-primary'>Edit</h5>
+                            <h5 className='font-bold text-primary'>{t('settingsProfile.edit')}</h5>
                             <PiPencilSimpleLineDuotone size={20} className='text-primary' />
                         </button>
                     )}
                 </div>
-                <div className='space-y-[8px] text-[14px] font-bold'>
-                    <h5 className='text-gray_dark/50'>Email</h5>
-                    {isEditingEmail ? (
-                        <input
-                            type='email'
-                            value={userData.email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className='w-full p-[8px] border-2 border-gray rounded-[8px]'
-                        />
-                    ) : (
-                        <h5>{email}</h5>
-                    )}
-                </div>
-                {isEditingEmail && (
-                    <button
-                        onClick={handleEmailChange}
-                        className='lg:hidden flex items-center justify-between w-full gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
-                    >
-                        <h5 className='font-bold text-primary'>Save</h5>
-                        <LiaCheckSolid size={20} className='text-primary' />
-                    </button>
-                )}
-            </div>
-
-            {/* Password Section */}
-            <div className='rounded-[12px] border-2 border-gray p-[32px] space-y-[16px]'>
-                <div className='flex justify-between'>
-                    <h5 className='font-bold text-[18px]'>Mot de passe</h5>
-                    {isEditingPassword ? (
-                        <div className='flex gap-[8px]'>
-                            <button
-                                onClick={handlePasswordChange}
-                                className='flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
-                            >
-                                <LiaCheckSolid size={20} className='text-primary' />
-                            </button>
-                            <button
-                                onClick={() => setIsEditingPassword(false)}
-                                className='flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-red'
-                            >
-                                <LiaTimesSolid size={20} className='text-red' />
-                            </button>
-                        </div>
-                    ) : (
-                        <button
-                            onClick={() => setIsEditingPassword(true)}
-                            className='hidden lg:flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
-                        >
-                            <h5 className='font-bold text-primary'>Edit</h5>
-                            <PiPencilSimpleLineDuotone size={20} className='text-primary' />
-                        </button>
-                    )}
-                </div>
-                <div className='space-y-[8px] text-[14px] font-bold'>
-                    <h5 className='text-gray_dark/50'>Mot de passe</h5>
-                    {isEditingPassword ? (
-                        <>
+                <div className='space-y-[16px]'>
+                    <div className='space-y-[8px]'>
+                        <h5 className='text-gray_dark/50'>{t('settingsProfile.email')}</h5>
+                        {isEditingCredentials ? (
                             <input
-                                // type='password'
-                                placeholder='Current Password'
-                                value={currentPassword}
-                                onChange={(e) => setCurrentPassword(e.target.value)}
+                                type='email'
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 className='w-full p-[8px] border-2 border-gray rounded-[8px]'
                             />
-                            <button
-                                onClick={handlePasswordConfirmation}
-                                className='w-full bg-primary text-white px-[16px] py-[8px] rounded-[8px]'
-                            >
-                                Confirm Password
-                            </button>
-                            {isPasswordConfirmed && (
+                        ) : (
+                            <h5>{email}</h5>
+                        )}
+                    </div>
+                    <div className='space-y-[8px]'>
+                        <h5 className='text-gray_dark/50'>{t('settingsProfile.password')}</h5>
+                        {isEditingCredentials ? (
+                            <>
                                 <input
-                                    // type='password'
-                                    placeholder='New Password'
+                                    type='password'
+                                    placeholder={t('settingsProfile.currentPassword')}
+                                    value={currentPassword}
+                                    onChange={(e) => setCurrentPassword(e.target.value)}
+                                    className='w-full p-[8px] border-2 border-gray rounded-[8px]'
+                                />
+                                <input
+                                    type='password'
+                                    placeholder={t('settingsProfile.newPassword')}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     className='w-full p-[8px] border-2 border-gray rounded-[8px]'
                                 />
-                            )}
-                        </>
-                    ) : (
-                        <h5>********</h5>
-                    )}
+                            </>
+                        ) : (
+                            <h5>********</h5>
+                        )}
+                    </div>
                 </div>
-                {isEditingPassword && (
+                {error && (
+                    <div className='text-red text-center font-semibold text-sm mb-2'>
+                        {error}
+                    </div>
+                )}
+                {isEditingCredentials && (
                     <button
-                        onClick={handlePasswordChange}
-                        className='lg:hidden flex items-center justify-between w-full gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
+                        onClick={handleCredentialsSubmit}
+                        className={`w-full bg-primary text-white px-[16px] py-[8px] rounded-[8px] ${isSubmitting ? 'opacity-50' : ''}`}
+                        disabled={isSubmitting || !validateEmail || !validatePassword}
                     >
-                        <h5 className='font-bold text-primary'>Save</h5>
-                        <LiaCheckSolid size={20} className='text-primary' />
+                        {isSubmitting ? (
+                            <AsyncSpinner />
+                        ) : (
+                            <h6 className='text-center font-bold'>{t('settingsProfile.submit')}</h6>
+                        )}
                     </button>
                 )}
             </div>
@@ -292,7 +261,7 @@ const ProfileSettings = () => {
                 <OTPModal
                     onClose={() => setShowOTPModal(false)}
                     onVerify={(otp) => {
-                        console.log('OTP Verified:', otp);
+                        console.log(t('settingsProfile.otpVerified'), otp);
                         setShowOTPModal(false);
                     }}
                 />

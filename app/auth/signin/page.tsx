@@ -9,7 +9,7 @@ import Link from 'next/link';
 import axios, { AxiosError } from 'axios';
 
 // Redux related imports
-import { useAppDispatch } from '@/lib/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { createUser, setReferralCode, setWalletAdress, verifyUser } from '@/lib/redux/features/user/userSlice';
 import { renewToken } from '@/lib/redux/features/token/tokenSlice';
 import { useTranslation } from '@/lib/hooks/useTranslation';
@@ -20,14 +20,16 @@ const Signin = () => {
 
     // const [state, loginAction] = useActionState(login, undefined)
 
-    const inputStyle = 'appearance-none flex-1 w-full h-[44px] border-2 gap-[8px] border-gray_dark/60 py-[10px] px-[14px] rounded-[8px] text-primary_text focus:border-primary focus:border-2 focus:outline-none'
+    const inputStyle = 'appearance-none flex-1 w-full h-[44px] border-2 gap-[8px] border-gray_dark/60 py-[10px] px-[14px] rounded-[8px] text-primary_text focus:border-primary focus:border-2 focus:outline-none';
     const [isPwdVisible, setIsPwdVisible] = useState(false);
-    const [error, setError] = useState<string | null>(null)
-    const [errorField, setErrorField] = useState('')
+    const [error, setError] = useState<string | null>(null);
+    const [errorField, setErrorField] = useState('');
     const { t } = useTranslation();
 
     //Redux related imports
     const dispatch = useAppDispatch();
+    const userData = useAppSelector((state) => state.user);
+
     const accessTokenRef = useRef('');
     const isSubmittingRef = useRef(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -46,7 +48,7 @@ const Signin = () => {
     };
 
     const validateEmail = (email:string):boolean => {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         return regex.test(email);
     }
 
@@ -132,7 +134,7 @@ const Signin = () => {
                 token: response.data.data['access-token'],
                 expiresIn: 5 * 60 * 1000
             }));
-            getUserData();
+            await getUserData();
         } catch(error) {
             setIsSubmitting(false);
             const axiosError = error as AxiosError;
@@ -144,8 +146,12 @@ const Signin = () => {
             return
             }
         }
-        router.push('/user/home');
-    }
+        if (userData.email.length > 0) {
+            router.push('/user/home');
+        } else {
+            console.log('User email is not available yet')
+        }
+    };
 
     useEffect(() => {
         const email = searchParams.get('email');
@@ -169,7 +175,7 @@ const Signin = () => {
     }
 
   return (
-    <div className='flex flex-1 flex-col justify-center flex-1 px-[4%] sm:px-[10%] lg:px-[40px] pt-[32px] '>
+    <div className='flex flex-col justify-center flex-1 px-[4%] sm:px-[10%] lg:px-[40px] pt-[32px] '>
         <div>
             <div className='flex flex-col items-center text-center'>
                 <h3 className='font-bold mt-2 text-[28px] text-purple-900 leading-12'>{t('signin.title')}</h3>
