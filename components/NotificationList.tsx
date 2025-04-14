@@ -69,7 +69,7 @@ const Notification = ({details}:{details: notificationDetails}) => {
         <h5 className='text-[10px] text-gray_dark/60 font-semibold'>{details.date}</h5>
         <div className='flex w-full mt-[10px] justify-between'>
             <div className='flex items-center gap-[8px]'>
-                <div className={`size-[40px] rounded-full flex items-center justify-center ${style.bgColor} ${style.textColor}`}>
+                <div className={`size-[40px] rounded-full flex items-center justify-center pl-[-6px] ${style.bgColor} ${style.textColor}`}>
                     {style.icon}
                 </div>
                 <h4 className={`text-[14px] font-bold ${style.textColor}`}>

@@ -1,9 +1,8 @@
 
 ---------------------------- JOURNEY REPORT ----------------------------
 
-- Add default transaltion values  0/1
 - Login redundhance  0/1
-- Ensure postTransaction() is called once.  1/1
+- Turn project into a nextjs
 
 ---------------------------- TODO TASKS ----------------------------
  - Complete all UI pages / components translations
