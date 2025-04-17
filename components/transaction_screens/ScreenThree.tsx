@@ -3,8 +3,10 @@ import { LiaTimesSolid } from "react-icons/lia";
 import React from 'react';
 
 // Redux related imports
-import { useAppSelector } from '@/lib/redux/hooks';
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
+import { provideLatestTransactionId } from "@/lib/redux/features/transaction/transactionSlice";
 import { useTranslation } from '@/lib/hooks/useTranslation';
+import axios from "axios";
 
 interface screenProps {
     onClose: () => void,
@@ -14,9 +16,81 @@ interface screenProps {
 const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
     const { t } = useTranslation();
     const transactionDetails = useAppSelector((state) => state.transaction);
+    const accessToken = useAppSelector((state) => state.token.token);
+    const dispatch = useAppDispatch();
+    const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
+
+    const postTransaction = async () => {
+        try {
+            console.log(`Posting transaction with of amount : ${transactionDetails.amountSent} ${transactionDetails.currencySent}`);
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction`,
+                {
+                    amount: transactionDetails.amountSent,
+                    currency: transactionDetails.currencySent === '€' ? 'EURO' : 'USD',
+                    transactionType: transactionDetails.transfertType,
+                    recipient:
+                        transactionDetails.transfertType === 'MobileMoney'
+                            ? {
+                                  name: transactionDetails.receiverName,
+                                  amountReceive: transactionDetails.amountReceived,
+                                  phone: parseInt(transactionDetails.receiverPhoneNumber!),
+                                  receiverCountry: transactionDetails.receiverCountry,
+                              }
+                            : {
+                                  name: transactionDetails.receiverName,
+                                  amountReceive: transactionDetails.amountReceived,
+                                  iban: transactionDetails.iban,
+                                  bankCode: transactionDetails.bankCode,
+                                  bankName: transactionDetails.bankName,
+                                  receiverCountry: transactionDetails.receiverCountry,
+                              },
+                },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + accessToken,
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                    },
+                }
+            );
+            console.log('Transaction posted successfully whose id is:', response.data.data);
+            dispatch(provideLatestTransactionId(response.data.data));
+            console.log('------------------ Finished Posting Transaction -----------------');
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                switch (error.response?.status) {
+                    case 401:
+                        setErrorMsg(t('errors.axiosError.unauthorized'));
+                        break;
+                    case 403:
+                        setErrorMsg(t('errors.axiosError.forbidden'));
+                        break;
+                    case 404:
+                        setErrorMsg(t('errors.axiosError.notFound'));
+                        break;
+                    case 422:
+                        setErrorMsg(t('errors.axiosError.validationError'));
+                        break;
+                    case 429:
+                        setErrorMsg(t('errors.axiosError.tooManyRequests'));
+                        break;
+                    case 500:
+                        setErrorMsg(t('errors.axiosError.serverError'));
+                        break;
+                    default:
+                        setErrorMsg(t('errors.axiosError.default'));
+                }
+            } else {
+                setErrorMsg(t('errors.networkError'));
+            }
+            
+        }
+    };
     
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        postTransaction();
         moveToScreen(1);
     }
 
@@ -69,6 +143,11 @@ const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
                         <span className={`size-[8px] rounded-full bg-[#07E36E]`}></span>
                         <h5>{transactionDetails.transactionRate}</h5>
                     </div>
+                </div>
+                <div className="ml-[18px]">
+                    <p className="text-[14px] text-red">
+                        {errorMsg}
+                    </p>
                 </div>
                 <div className="flex gap-[12px] px-[8px]">
                     <button type='submit' onClick={handleSubmit} className={`hidden lg:block bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>

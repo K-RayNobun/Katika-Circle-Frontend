@@ -14,6 +14,8 @@ import { createUser, setReferralCode, setWalletAdress, verifyUser } from '@/lib/
 import { renewToken } from '@/lib/redux/features/token/tokenSlice';
 import { useTranslation } from '@/lib/hooks/useTranslation';
 
+import { withCookieProtection } from '@/app/CookieProvider';
+
 
                                                                                                                                                                                                                                                     
 const Signin = () => {
@@ -31,8 +33,8 @@ const Signin = () => {
     const userData = useAppSelector((state) => state.user);
 
     const accessTokenRef = useRef('');
-    const isSubmittingRef = useRef(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSigningIn, setIsSigningIn] = useState(false);
 
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -42,6 +44,13 @@ const Signin = () => {
       });
 
     const formRef = useRef<HTMLFormElement>(null);
+
+    useEffect(() => {
+        // console.log('Chaeck if we can send him to homePage');
+        if (userData.verified && userData.email && isSigningIn) {
+            router.push('/user/home');
+        }
+    }, [userData.email, userData.verified, isSigningIn]);
 
     const tooglePwdVisibility = () => {
         setIsPwdVisible(prev => !prev);
@@ -57,7 +66,7 @@ const Signin = () => {
     }
 
     const getUserData = async() => {
-        console.log('Getting the verified user data');
+        // console.log('Getting the verified user data');
         const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`,
             {
                 headers: {
@@ -66,7 +75,7 @@ const Signin = () => {
                 }
             }
         );
-        console.log('The User Data Is: ', response.data.data);
+        // console.log('The User Data Is: ', response.data.data);
         dispatch(setReferralCode(response.data.data.referral.referralCode))
         dispatch(setWalletAdress(response.data.data.wallet.address))
         dispatch(createUser({
@@ -78,15 +87,13 @@ const Signin = () => {
             referralCode: response.data.data.referral.referralCode,
             language: 'fr'
         }));
-        isSubmittingRef.current = false;
-        dispatch(verifyUser(true));
+        dispatch(verifyUser(response.data.data.verified));
     };
 
     const handleSubmit = async(e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
-        isSubmittingRef.current = true;
-        setIsSubmitting(true);
-        console.log('Submitting ...');
+        setIsSigningIn(true);
+        // console.log('Submitting ...');
 
         const formData = new FormData(formRef.current!);
         const email = formData.get('email') as string;
@@ -94,25 +101,24 @@ const Signin = () => {
 
         if (!validateEmail(email)) {
             setErrorField((prev) => prev + ' email');
-            console.log('Email => ', email);
+            // console.log('Email => ', email);
             setError('Please enter a valid email address.');
-            isSubmittingRef.current = false;
             return;
         }
 
         if (!validatePassword(password)) {
             setErrorField((prev) => prev + ' password');
-            console.log('Password is => ', password)
+            // console.log('Password is => ', password)
             setError('Password is invalid.');
-            isSubmittingRef.current = false;
             return;
         }
 
-        console.log('Processing sign in');
+        // // console.log('Processing sign in');
         // sendEmail(formRef.current);
 
         setError(null);
         setErrorField('');
+        setIsSubmitting(true);
 
         // Axios request
         try {
@@ -128,28 +134,24 @@ const Signin = () => {
                 }
             );
 
-            console.log('The token is ', response.data.data['access-token']);
+            // console.log('The token is ', response.data.data['access-token']);
             accessTokenRef.current = response.data.data['access-token'];
             dispatch(renewToken({
                 token: response.data.data['access-token'],
                 expiresIn: 5 * 60 * 1000
             }));
+
             await getUserData();
         } catch(error) {
-            setIsSubmitting(false);
             const axiosError = error as AxiosError;
             if (axiosError.response?.status === 500) {
-            console.error('Error on precessing login:', error);
-            setError('Invalid email or password');
-            setErrorField('email & password');
-            isSubmittingRef.current = false;
-            return
+                // console.error('Error on precessing login:', error);
+                setError('Invalid email or password');
+                setErrorField('email & password');
+
             }
-        }
-        if (userData.email.length > 0) {
-            router.push('/user/home');
-        } else {
-            console.log('User email is not available yet')
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -218,4 +220,4 @@ const Signin = () => {
   )
 }
 
-export default Signin
+export default withCookieProtection(Signin);

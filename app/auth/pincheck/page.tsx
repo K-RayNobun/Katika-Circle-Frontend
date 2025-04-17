@@ -54,7 +54,7 @@ const PinCheck = () => {
                                 clearInterval(intervalRef.current);
                                 return prevTime;
                             }
-                            console.log('Changed the minute to ', prevTime - 1)
+                            // console.log('Changed the minute to ', prevTime - 1)
                             return prevTime - 1;
                         });
                         if (timeMinLeft === 0) {
@@ -77,13 +77,16 @@ const PinCheck = () => {
     })
 
     useEffect(() => {
-        console.log('The User Redux state data are : ', userData);
-    }, [])
+        // console.log('The User Redux state data are : ', userData);
+        if (userData.verified) {
+            router.push('/auth/welcome');
+        }
+    }, [userData.verified])
 
     const handlePinInput = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const updatedPin = [...pinCodeArray];
         const inputValue = e.target.value;
-        console.log('Index value is: ', index);
+        // console.log('Index value is: ', index);
         if (inputValue.length === 1) {
             updatedPin[index  - 1] = inputValue;
             if (index + 1 <= 5) {
@@ -108,19 +111,20 @@ const PinCheck = () => {
         // PASTING logic
         // If the input lenght is > 1 break the input into the next digit values
         if (inputValue.length > 1 && index < 5) {
-            console.log('Activating Overflow logic');
+            // console.log('Activating Overflow logic');
             for (let i=1; i<=inputValue.length; i++) {
-                if((pinIndex - 2 + i) < 5){console.log('On the pin Element: ', pinIndex - 2 + i); updatedPin[pinIndex - 2 + i] = inputValue[i - 1];}
+                if((pinIndex - 2 + i) < 5){// console.log('On the pin Element: ', pinIndex - 2 + i); updatedPin[pinIndex - 2 + i] = inputValue[i - 1];
+                }
             }
             let updatedPinIndex = pinIndex;
             if (pinIndex + inputValue.length <= 5) {updatedPinIndex = pinIndex + inputValue.length;}
             else {updatedPinIndex = 5}
             document.getElementById(`digit-${updatedPinIndex}`)?.focus();
             setPinIndex(updatedPinIndex);
-            console.log('Pin index is now: ', updatedPinIndex)
+            // console.log('Pin index is now: ', updatedPinIndex)
         }
 
-        console.log('Updated Pin:', updatedPin);
+        // console.log('Updated Pin:', updatedPin);
         setPinCodeArray(updatedPin);
 
         if (updatedPin.join('').length == 5 ) {
@@ -129,7 +133,7 @@ const PinCheck = () => {
     };
 
     const handleCodeRequest = () => {
-        console.log('Requesting Code...');
+        // console.log('Requesting Code...');
         if (canAskCode) {
             sendOTP();
         } else {
@@ -140,7 +144,7 @@ const PinCheck = () => {
 
     const handlePinFocus = (index: number) => {
         setPinIndex(index);
-        console.log('# Pin index is : ', index)
+        // console.log('# Pin index is : ', index)
     };
 
     const checkPin = (pinCode:Array<string>) => {
@@ -150,9 +154,9 @@ const PinCheck = () => {
     };
 
     const sendOTP = async () => {
-        console.log('Access Token is: ', accessToken)
+        // console.log('Access Token is: ', accessToken)
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`,
+            await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`,
                 {},
             {
                 headers: {
@@ -162,21 +166,21 @@ const PinCheck = () => {
                 }
             });
 
-            console.log('Just sent the token successfully as ', response.data);
+            // console.log('Just sent the token successfully as ', response.data);
             setCanAskCode(false);
             setTimeMinLeft(1);
             setTimeSecLeft(59);
         } catch(error) {
             if (error instanceof AxiosError) {
-                console.log('Failed to send OTP code ', error.response?.data?.message || error.message);
+                // console.log('Failed to send OTP code ', error.response?.data?.message || error.message);
             } else {
-                console.log('An unexpected error occurred');
+                // console.log('An unexpected error occurred');
             }
         }
     };
 
     const getUserData = async() => {
-        console.log('Getting the verified user data');
+        // console.log('Getting the verified user data');
         const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`,
             {
                 headers: {
@@ -185,15 +189,15 @@ const PinCheck = () => {
                 }
             }
         );
-        console.log('The User Data Is: ', response.data.data);
+        // console.log('The User Data Is: ', response.data.data);
         dispatch(provideId(response.data.data.id))
         dispatch(setReferralCode(response.data.data.referral.referralCode))
         dispatch(setWalletAdress(response.data.data.wallet.address))
     };
 
     const verifyOTP = async (pinCode:string) => {
-        console.log('Access Token is:', accessToken);
-        console.log('The PIN Code is: ', pinCode);
+        // console.log('Access Token is:', accessToken);
+        // console.log('The PIN Code is: ', pinCode);
         const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp?code=${pinCode}`,
             {
                 headers: {
@@ -202,19 +206,18 @@ const PinCheck = () => {
                 }
             }
         );
-        console.log('Verification Result: ', response.data)
+        // console.log('Verification Result: ', response.data)
         const message = response.data.data
         if (message.toLowerCase() === 'otp valid with success') {
-            console.log('\t #### PIN Code is Right !');
+            // console.log('\t #### PIN Code is Right !');
             setIsPinCorrect(true);
             dispatch(verifyUser(true));
             getUserData();
-            router.push('/auth/welcome');
         } else if (message.toLowerCase() === 'invalid otp code provided') {
-            console.log('PIN Code is Incorrect');
+            // console.log('PIN Code is Incorrect');
             setIsPinCorrect(false);
         } else {
-            console.log('The PIN cannot be decided as neither right or wrong. Check your code');
+            // console.log('The PIN cannot be decided as neither right or wrong. Check your code');
         }
     }
 
@@ -263,4 +266,4 @@ const PinCheck = () => {
     )
 }
 
-export default PinCheck
+export default PinCheck;

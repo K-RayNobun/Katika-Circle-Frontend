@@ -2,7 +2,11 @@ import React from 'react';
 import Image from 'next/image';
 import { useTranslation } from '@/lib/hooks/useTranslation';
 
-const AwardsInitiateTransaction = () => {
+interface AwardsInitiateTransactionProps {
+    setIsScreenVisible: (isScreenVisible:boolean) => void;
+}
+
+const AwardsInitiateTransaction = ({setIsScreenVisible}: AwardsInitiateTransactionProps) => {
     const { t } = useTranslation();
 
     return (
@@ -16,7 +20,7 @@ const AwardsInitiateTransaction = () => {
                 </div>
                 <Image src='/awards/spacerocket.svg' width={60} height={100} alt='spacerocket' className='h-[100px] mb-[6px]' />
             </div>
-            <button className='bg-white rounded-[4px] py-[10px] px-[18px] w-full text-primary font-bold pulse-glow'>
+            <button onClick={() => setIsScreenVisible(true)} className='bg-white rounded-[4px] py-[10px] px-[18px] w-full text-primary font-bold pulse-glow'>
                 {t('awardsInitiateTransaction.sendMoney')}
             </button>
         </div>

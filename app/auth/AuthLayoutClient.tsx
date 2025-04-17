@@ -5,6 +5,8 @@ import Image from 'next/image';
 
 // Redux related import
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useAppSelector } from '@/lib/redux/hooks';
 
 interface RouteMapping {
   endUrl: string;
@@ -32,7 +34,30 @@ export default function AuthLayoutClient({
     const [addedStyle, setAddedStyle] = useState('w-[100%] bottom-0');
     // const [isImageLoaded, setIsImageLoaded] = useState(false);
 
+    const router = useRouter();
     const pathName = usePathname();
+
+    const userData =  useAppSelector((state) => state.user);
+
+    useEffect(() => {
+      // CHECK IF THE USER IS VERIFIED
+      // If the user isn't verified but has email, he hasn't got by pincheck we should redirect him there
+      if (!userData.verified && userData.email.length > 0) {
+        router.push('/auth/pincheck');
+      } 
+      // If the user is verified but hasn't email, he has certainly logged out and we should redirect him to signin
+      else if (userData.verified && userData.email.length === 0) {
+      console.log('USER VERIFIED BUT NO EMAIL, SUPPOSE HE HAS LOGGED OUT');
+      router.push('/auth/signin');
+      }
+      // If the user is verified and has email, he is registered and we just let him navigate to the page he wants
+      else if(userData.verified && userData.email.length > 0) {
+        // Forbid user to reach /auth/pincheck and /auth/welcome
+        if (pathName.includes('/auth/pincheck') || pathName.includes('/auth/welcome')) {
+          router.push('/auth/signin');
+        }
+      }
+    })
     
     useEffect(() => {
       const match = mapping.find(map => pathName.endsWith(map.endUrl));

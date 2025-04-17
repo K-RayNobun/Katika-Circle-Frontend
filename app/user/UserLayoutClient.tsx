@@ -44,7 +44,7 @@ export default function UserLayout({
         dispatch(resetUser());
         dispatch(resetToken());
         dispatch(resetTransaction());
-        console.log('-------- USER LOGOUT --------');
+        // console.log('-------- USER LOGOUT --------');
         router.push('/auth/signin');
     };
 
@@ -52,13 +52,13 @@ export default function UserLayout({
         if (!userData.verified || userData.email.length === 0) {
             // If the user is not verified or has logged out, redirect to the sign-in page
             if (userData.verified) {
-                console.log(` ---------- USER EMAIL IS EMPTY ----------`)
+                // console.log(` ---------- USER EMAIL IS EMPTY ----------`)
             } else {
-                console.log('------------ HE IS NOt verified ------------')
+                // console.log('------------ HE IS NOt verified ------------')
             }
             router.push('/auth/signin');
         } else {
-            console.log(`---> Is user ${userData.email} verified? ${userData.verified}`);
+            // console.log(`---> Is user ${userData.email} verified? ${userData.verified}`);
         }
     }, [userData.verified, userData.email]);
 

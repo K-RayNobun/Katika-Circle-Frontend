@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface Transaction {
     // Transaction semi-persistant data
-    issuerId?: string,
+    latestTransactionId?: string,
     transakAmount?: number,
     tranzaktoken?: string,
     transakOrderId?: string,
@@ -47,8 +47,11 @@ const transactionSlice = createSlice({
         provideStatus: (state, action: PayloadAction<string>) => {
             state.status = action.payload;
         },
+        provideLatestTransactionId: (state, action: PayloadAction<string>) => {
+            state.latestTransactionId = action.payload;
+            console.log('Latest transaction ID:', state.latestTransactionId);
+        },
         provideStepOneData: (state, action: PayloadAction<Transaction>) => {
-            state.issuerId = action.payload.issuerId;
             state.amountSent = action.payload.amountSent;
             state.currencySent = action.payload.currencySent;
             state.amountReceived = action.payload.amountReceived;
@@ -59,14 +62,14 @@ const transactionSlice = createSlice({
             state.transactionRate = action.payload.transactionRate;
             state.cashback = Math.trunc(action.payload.cashback! * 100)/100;
             state.transakAmount = action.payload.transakAmount;
-            console.log('Transactiond Details:', '\n' + '\Issuer Id: ' + state.issuerId + '\n Amount Sent: ' + state.amountSent + '\n in ' + state.currencySent + '\n Receiver Country: ' + state.receiverCountry + '\n Amount Received: ' + state.amountReceived + '\n Cashback: ' + state.cashback + '\n Referral gain: ' + state.referralGain + '\n Transak amount passed ' + state.transakAmount);
+            // console.log('Transactiond Details:', '\n' + '\Issuer Id: ' + '\n Amount Sent: ' + state.amountSent + '\n in ' + state.currencySent + '\n Receiver Country: ' + state.receiverCountry + '\n Amount Received: ' + state.amountReceived + '\n Cashback: ' + state.cashback + '\n Referral gain: ' + state.referralGain + '\n Transak amount passed ' + state.transakAmount);
         },
         provideStepMobileData: (state, action: PayloadAction<Transaction>) => {
             state.transfertType = action.payload.transfertType;
             state.receiverPhoneNumber = action.payload.receiverPhoneNumber;
             state.receiverName = action.payload.receiverName;
             state.latestScreen = action.payload.latestScreen;
-            console.log('Mobile Step details: \n Transfert type: ' + state.transfertType + '\n Receiver Phone Number: ' + state.receiverPhoneNumber + '\n Receiver Name: ' + state.receiverName);
+            // console.log('Mobile Step details: \n Transfert type: ' + state.transfertType + '\n Receiver Phone Number: ' + state.receiverPhoneNumber + '\n Receiver Name: ' + state.receiverName);
         },
         provideStepBankData: (state, action: PayloadAction<Transaction>) => {
             state.bankAccountOwner = action.payload.bankAccountOwner;
@@ -74,18 +77,18 @@ const transactionSlice = createSlice({
             state.bankCode = action.payload.bankCode;
             state.bankName = action.payload.bankName;
             state.latestScreen = action.payload.latestScreen;
-            console.log('Bank Step details: \n Bank Account Owner: ' + state.bankAccountOwner + '\n IBAN: ' + state.iban + '\n Bank Code: ' + state.bankCode + '\n Bank Name: ' + state.bankName);
+            // console.log('Bank Step details: \n Bank Account Owner: ' + state.bankAccountOwner + '\n IBAN: ' + state.iban + '\n Bank Code: ' + state.bankCode + '\n Bank Name: ' + state.bankName);
         },
         provideTransakReturnedData: (state, action: PayloadAction<Transaction>)  => {
             state.transakOrderId = action.payload.transakOrderId;
             state.transakOrderStatus = action.payload.transakOrderStatus;
             state.transakOrderFeesInFiat = action.payload.transakOrderFeesInFiat;
-            console.log(`### Transak OrderId assigned:  ${state.transakOrderId} \n Order status: ${state.transakOrderStatus} \n Fees in Fiat: ${state.transakOrderFeesInFiat}`)
+            // console.log(`### Transak OrderId assigned:  ${state.transakOrderId} \n Order status: ${state.transakOrderStatus} \n Fees in Fiat: ${state.transakOrderFeesInFiat}`)
         },
         // Provide the cashback payment status
         provideCashbackPaymentStatus: (state, action: PayloadAction<boolean>) => {
             state.isCashbackPayment = action.payload;
-            console.log('Cashback payment status is', state.isCashbackPayment);
+            // console.log('Cashback payment status is', state.isCashbackPayment);
         },
         // Logout logic set all non-nullable fields to initial state and nullable fields to null
         resetTransaction: (state) => {
@@ -111,6 +114,6 @@ const transactionSlice = createSlice({
     }
 });
 
-export const { provideStepOneData, provideStepMobileData, provideStepBankData, provideTransakReturnedData, provideToken, provideStatus, resetTransaction } = transactionSlice.actions;
+export const { provideStepOneData, provideStepMobileData, provideStepBankData, provideLatestTransactionId, provideTransakReturnedData, provideToken, provideStatus, resetTransaction } = transactionSlice.actions;
 
 export default transactionSlice.reducer;

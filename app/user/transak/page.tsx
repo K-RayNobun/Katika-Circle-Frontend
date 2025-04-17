@@ -27,7 +27,7 @@ const TransakOrderCreation = () => {
   const accessToken = '';
 /*
   const getQuote = async () => {
-    console.log('Aboarding step I');
+    // console.log('Aboarding step I');
     try {
       const response = await Axios.get(BASE_URL + '/api/v1/pricing/public/quotes', {
         params: {
@@ -40,7 +40,7 @@ const TransakOrderCreation = () => {
           isBuyOrSell: 'BUY'
         },
       });
-    //   console.log('Data registred is', response.data.response.quoteId)
+    //   // console.log('Data registred is', response.data.response.quoteId)
       setSteps({
         ...steps,
         step1: { status: 'success', data: response.data.response },
@@ -54,13 +54,13 @@ const TransakOrderCreation = () => {
   };
 
   const createOrder = async () => {
-    console.log('Aborting step II');
+    // console.log('Aborting step II');
     if (steps.step1.status !== 'success') {
       alert('Please complete Step 1 first.');
       return;
     }
     const quoteId = steps.step1.data.quoteId; // Adjust based on actual response
-    console.log('Quote id saved as ',  steps.step1.data.quoteId);
+    // console.log('Quote id saved as ',  steps.step1.data.quoteId);
     try {
       const response = await Axios.post(BASE_URL + '/api/v2/orders/wallet-reserve', {
         quoteId,
@@ -68,7 +68,7 @@ const TransakOrderCreation = () => {
       }, {
         params: { apiKey: API_KEY },
       });
-      console.log('Data saved is', response.data.response)
+      // console.log('Data saved is', response.data.response)
       setSteps({
         ...steps,
         step2: { status: 'success', data: response.data.response },
@@ -94,11 +94,11 @@ const TransakOrderCreation = () => {
                   }
             }
         ).then(response => {
-            console.log('Response:', response.data.data["accessToken"]);
+            // console.log('Response:', response.data.data["accessToken"]);
             setAccessToken(response.data.data["accessToken"])
           })
           .catch(error => {
-            console.error('Error:', error.response ? error.response.data : error.message);
+            // console.error('Error:', error.response ? error.response.data : error.message);
           });
   }
 
@@ -108,7 +108,7 @@ const TransakOrderCreation = () => {
       return;
     }
     const orderId = steps.step2.data.id; // Adjust based on actual response
-    console.log(`Order Id used for creation is ${orderId}`);
+    // console.log(`Order Id used for creation is ${orderId}`);
     try {
       const response = await Axios.post(BASE_URL + `/partners/api/v2/order`,
          {

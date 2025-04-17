@@ -5,6 +5,7 @@ import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
 import { setReferralList } from '@/lib/redux/features/user/userSlice';
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from '@/lib/hooks/useTranslation';
 import WelcomeContainer from '@/components/pagesComponents/WelcomeContainer';
 import StatsContainer from '@/components/pagesComponents/StatsContainer';
 import ReferralSection from '@/components/pagesComponents/ReferralSection';
@@ -18,6 +19,7 @@ import { resetTransaction, provideTransakReturnedData } from '@/lib/redux/featur
 interface FilleulDetails {
     order: number;
     name: string;
+    referralCode: string;
     commission: number;
     bonusClaimed: boolean;
 }
@@ -29,65 +31,74 @@ const Home = () => {
     const [screenIndex, setScreenIndex] = useState<number>(1);
     const [filleulList, setFilleulList] = useState<FilleulDetails[]>([]);
     const [referralBonus, setReferralBonus] = useState<number>(0);
-    const [state, stateUpdate] = useState('fr');
+    const [errorMsg, setErrorMsg] = useState<string>('');
+    const { t } = useTranslation();
     const router = useRouter();
 
     const userData = useAppSelector((state) => state.user);
-    const transactionDetails = useAppSelector((state) => state.transaction);
     const accessToken = useAppSelector((state) => state.token.token);
+    const latestTransactionId = useAppSelector((state) => state.transaction.latestTransactionId);
     const dispatch = useAppDispatch();
     const urlParams = useMemo(() => new URLSearchParams(window.location.search), []);
 
     useEffect(() => {
-        console.log('Returned Home Page with Characteristics...');
+        // console.log('Returned Home Page with Characteristics...');
         const orderId = urlParams.get('orderId');
         const status = urlParams.get('status');
         const totalFeeInFiat = urlParams.get('totalFeeInFiat');
 
-        const postTransaction = async () => {
+        // Replace it by updateTransaction from TransakSDK
+        const updateTransactionStatus = async () => {
             try {
-                console.log(`Posting transaction with of amount : ${transactionDetails.amountSent} ${transactionDetails.currencySent}`);
-                const response = await axios.post(
-                    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction`,
+                // console.log(`Posting transaction with of amount : ${transactionDetails.amountSent} ${transactionDetails.currencySent}`);
+                await axios.put(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction/${latestTransactionId}`,
                     {
-                        amount: transactionDetails.amountSent,
-                        currency: transactionDetails.currencySent === '€' ? 'EURO' : 'USD',
-                        transactionType: transactionDetails.transfertType,
-                        recipient:
-                            transactionDetails.transfertType === 'MobileMoney'
-                                ? {
-                                      name: transactionDetails.receiverName,
-                                      amountReceive: transactionDetails.amountReceived,
-                                      phone: transactionDetails.receiverPhoneNumber,
-                                      receiverCountry: transactionDetails.receiverCountry,
-                                  }
-                                : {
-                                      name: transactionDetails.receiverName,
-                                      amountReceive: transactionDetails.amountReceived,
-                                      iban: transactionDetails.iban,
-                                      bankCode: transactionDetails.bankCode,
-                                      bankName: transactionDetails.bankName,
-                                      receiverCountry: transactionDetails.receiverCountry,
-                                  },
+                        "status": 'Pending'
                     },
                     {
-                        headers: {
-                            Authorization: 'Bearer ' + accessToken,
-                            'Content-Type': 'application/json',
-                            'Access-Control-Allow-Origin': '*',
-                        },
+                      headers: {
+                        'Authorization': 'Bearer ' + accessToken,
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                      }
                     }
-                );
-                console.log('Transaction posted successfully:', response.data);
-                console.log('------------------ Finished Posting Transaction -----------------');
+                  );
+                // console.log('Transaction posted successfully:', response.data);
+                // console.log('------------------ Finished Posting Transaction -----------------');
             } catch (error) {
-                console.error('Error posting transaction:', error);
+                // console.error('Error posting transaction:', error);
+                if (axios.isAxiosError(error)) {
+                    switch (error.response?.status) {
+                        case 401:
+                            setErrorMsg(t('errors.axiosError.unauthorized'));
+                            break;
+                        case 403:
+                            setErrorMsg(t('errors.axiosError.forbidden'));
+                            break;
+                        case 404:
+                            setErrorMsg(t('errors.axiosError.notFound'));
+                            break;
+                        case 422:
+                            setErrorMsg(t('errors.axiosError.validationError'));
+                            break;
+                        case 429:
+                            setErrorMsg(t('errors.axiosError.tooManyRequests'));
+                            break;
+                        case 500:
+                            setErrorMsg(t('errors.axiosError.serverError'));
+                            break;
+                        default:
+                            setErrorMsg(t('errors.axiosError.default'));
+                    }
+                } else {
+                    setErrorMsg(t('errors.networkError'));
+                }
             }
         };
 
         if (orderId || status || totalFeeInFiat) {
-            console.log(`---> Identified parameters: orderId=${orderId}, status=${status}`);
-            postTransaction(); // Call postTransaction before dispatching
+            // console.log(`---> Identified parameters: orderId=${orderId}, status=${status}`);
+            updateTransactionStatus(); // Call postTransaction before dispatching
             dispatch(
                 provideTransakReturnedData({
                     transakOrderId: orderId || '',
@@ -100,7 +111,7 @@ const Home = () => {
             router.push('/user/home'); // Remove the additionnal status data
         }
         // State update
-        console.log(state);
+        // console.log(state);
     }, [urlParams]);
 
     // Referral Code Query Params
@@ -111,23 +122,23 @@ const Home = () => {
 
     // Handlers
     const moveToScreen = (index: number) => {
-        console.log('Just triggered Screen moving');
+        // console.log('Just triggered Screen moving');
         if (index === 1) {
             if (screenIndex < 5) {
                 setScreenIndex((prev) => prev + 1);
-                console.log('Moved to next screen :>', screenIndex + 1);
+                // console.log('Moved to next screen :>', screenIndex + 1);
             } else {
                 setScreenIndex(1);
             }
         } else if (index === -1) {
             if (screenIndex > 1) {
                 setScreenIndex((prev) => prev - 1);
-                console.log('Moved to previous screen :>', screenIndex - 1);
+                // console.log('Moved to previous screen :>', screenIndex - 1);
             } else {
                 setScreenIndex(1);
             }
         } else {
-            console.log('The index passed instead is', index);
+            // console.log('The index passed instead is', index);
         }
     };
 
@@ -141,7 +152,7 @@ const Home = () => {
     useEffect(() => {
         const fetchReferrals = async () => {
             try {
-                console.log('Fetching referrals with access token:', accessToken);
+                // console.log('Fetching referrals with access token:', accessToken);
                 const response = await axios.get(
                     `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/referral?code=${userData.referralCode}`,
                     {
@@ -153,16 +164,17 @@ const Home = () => {
                     }
                 );
 
-                console.log('Referral list is:', response.data.data);
+                // console.log('Referral list is:', response.data.data);
                 dispatch(setReferralList(response.data.data));
 
                 let referralGainTotal = 0;
                 const filleulArray: FilleulDetails[] = [];
 
-                response.data.data.forEach((referral: { fname: string; lname: string; referral: { bonusTotal: number; bonusStatus: string } }, index: number) => {
+                response.data.data.forEach((referral: { fname: string; lname: string; referral: { bonusTotal: number; bonusStatus: string, referralCode: string } }, index: number) => {
                     const filleul: FilleulDetails = {
                         order: index,
                         name: `${referral.fname} ${referral.lname}`,
+                        referralCode: referral.referral.referralCode,
                         commission: referral.referral.bonusTotal,
                         bonusClaimed: referral.referral.bonusStatus === 'UNCLAIMED' ? false : true,
                     };
@@ -170,7 +182,7 @@ const Home = () => {
                     if (!filleulArray.some((f) => f.order === filleul.order)) {
                         filleulArray.push(filleul);
                     } else {
-                        console.log('Duplicate entry found: ', filleul.name);
+                        // console.log('Duplicate entry found: ', filleul.name);
                     }
 
                     if (referral.referral.bonusStatus === 'UNCLAIMED') {
@@ -180,11 +192,11 @@ const Home = () => {
 
                 setFilleulList(filleulArray);
                 setReferralBonus(referralGainTotal);
-                console.log('Finished fetching referrals');
+                // console.log('Finished fetching referrals');
             } catch (error) {
                 const axiosError = error as AxiosError;
                 if (axiosError.response?.status === 500) {
-                    console.log('We suspect the user has no referrals');
+                    // console.log('We suspect the user has no referrals');
                     dispatch(setReferralList([]));
                 }
             }
@@ -218,7 +230,6 @@ const Home = () => {
                     userName={userData.name}
                     userSurname={userData.surname}
                     isMobileDisplayed={true}
-                    stateUpdate={stateUpdate}
                 />
                 {/* Desktop View: Referral Section and Filleul List */}
                 <div className={`mt-[100px] hidden grow lg:flex flex-col gap-[36px] justify-between h-[100%] rounded-[12px] bg-white px-[24px] py-[32px] transition-all duration-500`}>
@@ -226,6 +237,22 @@ const Home = () => {
                     <FilleulList filleulList={filleulList} />
                 </div>
             </div>
+
+            {/* Error Message Dialog Box */}
+            {!isScreenVisible && !isDialogVisible && errorMsg && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="bg-white rounded-lg p-6 shadow-lg max-w-sm w-full">
+                        <h2 className="text-lg font-bold text-red-600 mb-4">Error</h2>
+                        <p className="text-gray-700">{errorMsg}</p>
+                        <button
+                            onClick={() => setErrorMsg('')}
+                            className="mt-4 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary_dark transition"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {/* Dialog Box */}
             {isDialogVisible && !isScreenVisible && (

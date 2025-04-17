@@ -406,5 +406,113 @@
         "firstName": "First Name",
         "lastName": "Last Name",
         "invalidCredentials": "Invalid credentials provided"
+    },
+    "errors": {
+        "axiosError": {
+            "unauthorized": "Please login again to continue",
+            "forbidden": "You don't have permission to make this transaction",
+            "notFound": "Transaction service is temporarily unavailable",
+            "validation": "Please check your transaction details",
+            "tooManyRequests": "Too many attempts. Please try again later",
+            "server": "Server error. Please try again later",
+            "default": "Failed to process transaction"
+        },
+        "networkError": "Network error. Please check your connection"
+    },
+    "privacyPolicy": {
+        "title": "PRIVACY POLICY OF KATIKA WEB3, INC.",
+        "introduction": "The present document defines the privacy policy of Katika Web3, Inc. regarding the users' information that it collects through its website www.Katika.io and its other products such as LudoKin. It consists of exposing the way in which Katika collects, uses, keeps, and protects the confidential information which is transmitted to its above-mentioned website and products.",
+        "sections": {
+            "1": {
+                "title": "1. Collected Personal Data",
+                "content": "Within the framework of the subscription of our online services, Katika requires from its customers the supply of some of their personal information through a KYC form, which can be filled online or on physical support in the buildings of Katika. This form includes information such as:",
+                "items": [
+                    "First and last names;",
+                    "Email address and phone number;",
+                    "Photo;",
+                    "National identity card;",
+                    "Passport;",
+                    "Driver's license;",
+                    "Identifiers;",
+                    "Password;",
+                    "IP address;",
+                    "Connection logs."
+                ]
+            },
+            "2": {
+                "title": "2. Errors on Collected Data",
+                "content": "It is the responsibility of the clients and users of the site of KATIKA to verify that the information transmitted in the form is accurate and to rectify possible errors. The validity of the offers that KATIKA provides is subordinated to the accuracy of the answers that the clients provide."
+            },
+            "3": {
+                "title": "3. Purposes of the Collection of Personal Data",
+                "content": "Personal data of customers are collected in order to:",
+                "items": [
+                    "Verify the identity of the subscribers to the services provided by KATIKA;",
+                    "Manage clients' personal spaces and ensure their security;",
+                    "Monitor customer relations by carrying out operations such as satisfaction surveys, effective follow-up of customer complaints, or claims;",
+                    "Manage prospecting and advertising operations;",
+                    "Handle clients' requests for access, rectification, and opposition rights;",
+                    "Develop statistics intended to improve the functioning of the website and the quality of our services;",
+                    "Use the collected data for any other legal and regulatory purposes."
+                ]
+            },
+            "4": {
+                "title": "4. Recipients of the Data",
+                "content": "The personal data collected by KATIKA are processed and used within the limits of their attributions by the following services:",
+                "items": [
+                    "Our marketing service;",
+                    "Our commercial service;",
+                    "Our departments in charge of handling customer relations and complaints;",
+                    "Our administrative and legal services;",
+                    "Our logistics and IT services;",
+                    "Our services in charge of control (auditor, departments in charge of internal control procedures, etc.)."
+                ]
+            },
+            "5": {
+                "title": "5. Retention Period for Personal Information",
+                "content": "The personal information of the customers collected by KATIKA is preserved throughout the duration of the contractual relationship. At the end of this relationship, KATIKA reserves the right to keep them for a period of 10 years. This period can be extended if necessary."
+            },
+            "6": {
+                "title": "6. Provision of Collected Personal Data to Third Parties",
+                "content": "KATIKA commits not to provide third parties with the personal information of the customers that it collects, except when legally required. KATIKA may share personal information with business partners or companies for better service delivery, but only with the consent of the customer."
+            },
+            "7": {
+                "title": "7. Right of Access and Communication of Data",
+                "content": "Customers have the right to access their personal information. However, due to security and confidentiality obligations, requests will only be processed if proof of identity is provided (e.g., valid ID document). KATIKA reserves the right to reject excessive requests."
+            },
+            "8": {
+                "title": "8. Right to Rectify Collected Data",
+                "content": "Customers or users are entitled to request the rectification, updating, blocking, or deletion of inaccurate, erroneous, incomplete, or obsolete data. Requests can be made via the website or by registered letter with acknowledgment of receipt."
+            },
+            "9": {
+                "title": "9. Right to Oppose",
+                "content": "Customers may exercise their right to oppose data processing for legitimate reasons or to prevent its use for commercial prospecting."
+            },
+            "10": {
+                "title": "10. Response Time",
+                "content": "KATIKA undertakes to reply to requests for access, rectification, or opposition within a reasonable period not exceeding one month from receipt."
+            },
+            "11": {
+                "title": "11. Storage and Protection of User Data",
+                "content": "KATIKA protects customers' personal information using secure fault-tolerant storage with industry-standard encryption. Measures include:",
+                "items": [
+                    "Restricted access to authorized employees;",
+                    "Physical access controls;",
+                    "PCI scanning and encryption technologies;",
+                    "Firewall protection for web servers."
+                ],
+                "note": "Despite these measures, 100% security cannot be guaranteed. Customers must also take precautions to protect their own data. Katika Web3, Inc. is not responsible for data breaches due to factors beyond its control, such as hacker attacks, power outages, or unavoidable technical failures."
+            },
+            "12": {
+                "title": "12. Amendment of the Privacy Policy",
+                "content": "This privacy policy is subject to change. Updates will be posted on the KATIKA website."
+            }
+        },
+        "companyInformation": {
+            "name": "Company Information: Katika Web3, Inc.",
+            "address": "1228, 109 Green Street, Lynn, MA, Essex, US, 01902"
+        },
+        "downloadPDF": "Download Privacy Policy PDF"
     }
+
 }

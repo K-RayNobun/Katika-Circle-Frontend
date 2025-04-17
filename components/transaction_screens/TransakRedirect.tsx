@@ -95,12 +95,12 @@ const TransakRedirect = ({ onClose }: ScreenProps) => {
     if (!windowOpened) {
       setIsLoading(true)
       try {
-        const encodedUrl = encodeURI(transakUrl);
-        console.log(`TRANSAK URL IS >>> \n ${encodedUrl}`);
+        // const encodedUrl = encodeURI(transakUrl);
+        // console.log(`TRANSAK URL IS >>> \n ${encodedUrl}`);
         window.open(transakUrl, '_blank');
         setWindowOpened(true);
-      } catch (error) {
-        console.error('Failed to open Transak:', error)
+      } catch {
+        // console.error('Failed to open Transak:', error)
         setHasError(true)
       } finally {
         setIsLoading(false);

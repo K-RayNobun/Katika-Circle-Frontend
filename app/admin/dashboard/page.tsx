@@ -119,7 +119,7 @@ const AdminDashboard = () => {
                                     accessToken={accessToken!}
                                     searchKey={searchKey}
                                     field={selectedField}
-                                    onTransactionClick={(transaction) => console.log(transaction)}
+                                    onTransactionClick={() => {}}
                                 />
                             </div>
                             

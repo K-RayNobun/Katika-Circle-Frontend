@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
     key: 'data',
     storage: Storage,
-    whitelist: ['token', 'user', 'transaction', 'counter'],
+    whitelist: ['token', 'user', 'transaction', 'counter', 'metadata'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

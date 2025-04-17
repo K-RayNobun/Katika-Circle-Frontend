@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { createUser, setFirstReferringCode, resetUser } from '@/lib/redux/features/user/userSlice';
 import { renewToken, resetToken } from '@/lib/redux/features/token/tokenSlice';
 import AsyncSpinner from '@/components/AsyncSpinner';
+import { withCookieProtection } from '@/app/CookieProvider';
 
 interface CountryData {
     name: string;
@@ -129,9 +130,9 @@ const Signup = () => {
     }
 
     const sendOTP = async () => {
-        console.log('Sending OTP');
-        console.log('Access Token is: ', accessToken.current)
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`,
+        // console.log('Sending OTP');
+        // console.log('Access Token is: ', accessToken.current)
+        await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`,
             {},
         {
             headers: {
@@ -140,18 +141,18 @@ const Signup = () => {
                 'Access-Control-Allow-Origin': '*'
             }
         });
-        console.log('Finished sending OTP with the token', accessToken);
-        console.log('Just sent the token successfully as ', response.data);
+        // console.log('Finished sending OTP with the token', accessToken);
+        // console.log('Just sent the token successfully as ', response.data);
     };
 
     const registerUser = async (e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
         try {
-            console.log('Registering user');
+            // console.log('Registering user');
             const formData = new FormData(formRef.current!);
             let payload;
             if (formData.get('ref_code')?.toString().length === 0) {
-                console.log('NO REFERRAL CODE PRECISED');
+                // console.log('NO REFERRAL CODE PRECISED');
                 payload = {
                     "fname": formData.get('user_firstname') as string,
                     "lname": formData.get('user_name') as string,
@@ -184,16 +185,16 @@ const Signup = () => {
                 return;
             }
 
-            console.log('User data: ', response.data.data);
+            // console.log('User data: ', response.data.data);
             accessToken.current = (response.data.data['access-token'])
-            isRegistratedRef.current = true;
-            console.log('Finished registering user ?', isRegistratedRef.current);
+            // console.log('Finished registering user ?', isRegistratedRef.current);
             dispatch(renewToken({
                 token: response.data.data['access-token'],
                 expiresIn: null
             }));
             dispatch(resetUser());
             sendOTP();
+            isRegistratedRef.current = true;
         } catch (err) {
             const axiosError = err as AxiosError;
             const error = err as ErrorType;
@@ -208,7 +209,7 @@ const Signup = () => {
             } else if (axiosError.response?.status !== 200) {
                 setError(t('signup.errors.serverError'));
                 isSubmittingRef.current = false;
-                console.error('Registration error:', error);
+                // console.error('Registration error:', error);
             }
         }
     } 
@@ -216,7 +217,7 @@ const Signup = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         isSubmittingRef.current = true;
-        console.log('Is submitting ? ', isSubmittingRef.current);
+        // console.log('Is submitting ? ', isSubmittingRef.current);
 
         const formData = new FormData(formRef.current!);
         const name =  formData.get('user_firstname') as string;
@@ -269,11 +270,11 @@ const Signup = () => {
         setErrorField('');
         setIsSubmitting(true);
         registerUser(e);
-        console.log('Processing submission');
+        // console.log('Processing submission');
         // sendEmail(formRef.current!)
 
         if (isRegistratedRef.current ===  isRegistratedRef.current) {
-            console.log('Processing Dispatchs now!');
+            // console.log('Processing Dispatchs now!');
             dispatch(resetToken());
             dispatch(createUser({
                 name: name,
@@ -287,12 +288,12 @@ const Signup = () => {
             }));
             router.push('/auth/pincheck');
         }
-        console.log('Finished signup');
+        // console.log('Finished signup');
     }
 
     // const login = useGoogleLogin({
     //     onSuccess: (codeResponse) => setUser(codeResponse),
-    //     onError: (error) => console.log('Login Failed: ', error)
+    //     onError: (error) => // console.log('Login Failed: ', error)
     // })
 
     const handleBoxToggle = () => {
@@ -302,10 +303,10 @@ const Signup = () => {
     const handleCountryChange = async() => {
         const selected = document.getElementById('country-select') as HTMLSelectElement;
         const country_index = Number(selected.value)
-        console.log('Selected country index is: ', country_index);
+        // console.log('Selected country index is: ', country_index);
         // 
         setSelectedCountry(countriesList[country_index]);
-        console.log('Selected country index is: ', country_index);
+        // console.log('Selected country index is: ', country_index);
         const response = await axios.post('https://countriesnow.space/api/v0.1/countries/flag/images',
             {
                 "iso2": countriesList[country_index].alpha2,
@@ -326,8 +327,8 @@ const Signup = () => {
         if (regex.test(refCode)) {
             setError('');
             try {
-                console.log('Checking ', refCode);
-                const response = await axios.get(
+                // console.log('Checking ', refCode);
+                await axios.get(
                     `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/referral/parent?code=${refCode}`,
                     {
                         headers: {
@@ -335,15 +336,15 @@ const Signup = () => {
                             'Access-Control-Allow-Origin': '*'
                         }
                     });
-                console.log('The referral code verdict is ', response.data.data);
-            } catch (error) {
-                console.error('The error => ', error);
+                // console.log('The referral code verdict is ', response.data.data);
+            } catch {
+                // console.error('The error => ', error);
                 setError('Inexistant referral code');
             }
         } else if( refCode.length === 0 ) {
             setError('');
         } else {
-            console.log(`Ref code is => ${refCode}`)
+            // console.log(`Ref code is => ${refCode}`)
             setError('Enter a valid Referral Code');
         }
     }
@@ -359,7 +360,7 @@ const Signup = () => {
                 }
             );
             setCountriesList(response.data.response);
-            // console.log('An example country: ', response.data.response[0])
+            // // console.log('An example country: ', response.data.response[0])
             const responseSecond = await axios.post('https://countriesnow.space/api/v0.1/countries/flag/images',
                 {
                     "iso2": response.data.response[53].alpha2,
@@ -371,7 +372,7 @@ const Signup = () => {
                     }
                 }
             );
-            // console.log('Response Second is: ', responseSecond)
+            // // console.log('Response Second is: ', responseSecond)
             setCountryFlagURL(responseSecond.data.data.flag);
         };
         fetchCountries();
@@ -380,21 +381,21 @@ const Signup = () => {
     useEffect(() => {
         const ref_code = searchParams.get('ref_code');
         const firstReferringCode = userData.firstReferringCode;
-        console.log('The params got changed !!!');
+        // console.log('The params got changed !!!');
         if(ref_code) {
             setFormData({
                 ref_code: ref_code
             });
             setIsRefCodeProvided(true);
             dispatch(setFirstReferringCode(ref_code))
-            console.log('Now the Ref Code is Readonly');
+            // console.log('Now the Ref Code is Readonly');
         } else if (firstReferringCode) {
-            console.log('The user has a predefined referring code known as ', firstReferringCode);
+            // console.log('The user has a predefined referring code known as ', firstReferringCode);
             setFormData({
                 ref_code: firstReferringCode
             });
             setIsRefCodeProvided(false);
-            console.log('Referring code set');
+            // console.log('Referring code set');
         }
         
     }, [searchParams]);
@@ -473,7 +474,7 @@ const Signup = () => {
                         <input onClick={handleBoxToggle} type="checkbox" className='appearance-none rounded-sm size-4 md:size-5 mt-0 border-primary border-2 text-primary before:transform duration-500 ease-in-out' />
                     </div>
                 }
-                <h4 className='text-[12px] bg-gray leading-[16px] sm:leading-[24px] sm:text-[14px] text-gray_dark/60 leading-[24px]'>
+                <h4 className='text-[12px] bg-gray leading-[16px] sm:leading-[24px] sm:text-[14px] text-gray_dark/60'>
                     By clicking this button, you agree to the{' '}
                     <Link 
                         href="https://katika.io/userlicenseagreement" 
@@ -514,4 +515,4 @@ const Signup = () => {
   )
 }
 
-export default Signup
+export default withCookieProtection(Signup);

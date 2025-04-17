@@ -10,10 +10,10 @@ export const sendEmail = (formRefCurrent: HTMLFormElement) => {
     .sendForm(SERVICE_ID, TEMPLATE_ID, formRefCurrent, PUBLIC_KEY)
     .then(
       (res) => {
-        console.log('SUCCESS! \n', res);
+        // console.log('SUCCESS! \n', res);
       },
       (error) => {
-        console.log('FAILED AGAIN... \n', error);
+        // console.log('FAILED AGAIN... \n', error);
       },
     );
 };

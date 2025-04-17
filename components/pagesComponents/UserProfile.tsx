@@ -1,4 +1,4 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { useState } from 'react';
 import DarkModeToggle from './ThemeToggle';
 import LanguageSelector from './LanguageSelector';
 import { FaRegBell, FaChevronDown, FaChevronUp } from "react-icons/fa6";
@@ -14,7 +14,6 @@ interface userProfileProps {
     userName: string,
     userSurname: string,
     isMobileDisplayed?: boolean,
-    stateUpdate?: Dispatch<SetStateAction<string>>,
 }
 
 const UserProfile = ({ userName, userSurname, isMobileDisplayed=false }: userProfileProps) => {

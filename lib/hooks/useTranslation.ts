@@ -55,8 +55,8 @@ export function useTranslation() {
       }
       const data: NestedJSON = await response.json(); // Type the response
       return data;
-    } catch (error) {
-      console.error("Error loading translations:", error);
+    } catch {
+      // console.error("Error loading translations:", error);
       return { error: "Translation loading failed" }; // Return fallback object
     } finally {
       setIsLoading(false); // Reset loading state
@@ -73,7 +73,7 @@ export function useTranslation() {
       setLocale(lang); // Update locale state
       setTranslations(newTranslations); // Update translations state
       localStorage.setItem("language", lang); // Persist language choice
-      console.log("--------- Switching language to:", lang);
+      // console.log("--------- Switching language to:", lang);
       dispatch({ type: "SET_LANGUAGE", payload: lang }); // Notify Redux store
       window.location.reload();
     },

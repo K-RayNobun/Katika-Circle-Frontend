@@ -42,7 +42,7 @@ const ProfileSettings = () => {
 
     const updateUserData = async () => {
         try {
-            const response = await axios.put(
+            await axios.put(
                 `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/user/${userData.id}`,
                 { email, pwd: password },
                 {
@@ -52,9 +52,9 @@ const ProfileSettings = () => {
                     },
                 }
             );
-            console.log(t('settingsProfile.credentialsUpdated'), response.data);
-        } catch (error) {
-            console.error(t('settingsProfile.errorUpdating'), error);
+            // console.log(t('settingsProfile.credentialsUpdated'), response.data);
+        } catch {
+            // console.error(t('settingsProfile.errorUpdating'), error);
         }
     };
 
@@ -76,7 +76,7 @@ const ProfileSettings = () => {
                 })
             );
             isTestValid.current = true;
-            console.log(t('settingsProfile.otpVerified'));
+            // console.log(t('settingsProfile.otpVerified'));
         } catch (error) {
             const axiosError = error as AxiosError;
             if (axiosError.response?.status === 500) {
@@ -87,13 +87,13 @@ const ProfileSettings = () => {
 
     const handleNameSave = () => {
         setIsEditingName(false);
-        console.log(t('settingsProfile.personalInfo'), name, surname);
+        // console.log(t('settingsProfile.personalInfo'), name, surname);
     };
 
     const sendOTP = async () => {
-        console.log('Sending OTP');
-        console.log('Access Token is: ', accessToken)
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`,
+        // console.log('Sending OTP');
+        // console.log('Access Token is: ', accessToken)
+        await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`,
             {},
         {
             headers: {
@@ -102,8 +102,8 @@ const ProfileSettings = () => {
                 'Access-Control-Allow-Origin': '*'
             }
         });
-        console.log('Finished sending OTP with the token', accessToken);
-        console.log('Just sent the token successfully as ', response.data);
+        // console.log('Finished sending OTP with the token', accessToken);
+        // console.log('Just sent the token successfully as ', response.data);
     };
 
     const handleCredentialsSubmit = async () => {
@@ -260,8 +260,7 @@ const ProfileSettings = () => {
             {showOTPModal && (
                 <OTPModal
                     onClose={() => setShowOTPModal(false)}
-                    onVerify={(otp) => {
-                        console.log(t('settingsProfile.otpVerified'), otp);
+                    onVerify={() => {
                         setShowOTPModal(false);
                     }}
                 />

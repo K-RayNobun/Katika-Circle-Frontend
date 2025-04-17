@@ -5,8 +5,10 @@ import { ReduxProvider } from "@/lib/redux/Provider";
 import type { Metadata } from "next";
 import { Poppins } from 'next/font/google';
 import ClientWrapper from "@/components/ClientWrapper";
-import './globals.css';
 import ClientRouter from "./ClientRouter";
+import CookieConsent from "@/components/pagesComponents/CookiesConsent";
+import './globals.css';
+
 
 const poppinsNormal = Poppins({
   subsets: ['latin'],
@@ -55,7 +57,10 @@ export default function RootLayout({
         <Provider>
           <ReduxProvider>
             <ClientWrapper>
-              <ClientRouter>{children}</ClientRouter>
+              <ClientRouter>
+                {children}
+                <CookieConsent />
+              </ClientRouter>
             </ClientWrapper>
           </ReduxProvider>
         </Provider>

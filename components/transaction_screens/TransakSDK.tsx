@@ -36,8 +36,8 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
   };
 
   const postTransaction = async() => {
-      console.log(`We are transacting with the access token: + ${accessToken}`);
-      const response  = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction`,
+      // console.log(`We are transacting with the access token: + ${accessToken}`);
+      await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction`,
       { 
           "amount": transactionDetails.amountSent,
           "currency": transactionDetails.currencySent === '€' ? 'EUR' : 'USD',
@@ -64,19 +64,11 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
           }
       }
       );
-      const data = response;
-      console.log('The amount is: ', transactionDetails.amountSent);
-      console.log('The currency is: ', transactionDetails.currencySent === '€' ? 'EUR' : 'USD');
-      console.log('The transaction type is: ', transactionDetails.transfertType);
-      console.log('The receiver name is: ', transactionDetails.receiverName);
-      console.log('The receiver phone number is: ', transactionDetails.receiverPhoneNumber);
-      console.log('The receiver country is: ', transactionDetails.receiverCountry);
-      console.log('---------### The Response due to the Transaction is: ', data);
   }
 
   const updateTransactionStatus = async(status:string) => {
 
-    const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction/6`,
+    await axios.put(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction/6`,
       {
           "status": status
       },
@@ -88,11 +80,11 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
         }
       }
     );
-    console.log('We set the status to:', status);
-    console.log('The response is:', response);
+    // console.log('We set the status to:', status);
+    // console.log('The response is:', response);
   }
 
-  console.log(`The Transak API key is : ${process.env.NEXT_PUBLIC_TRANSAK_API_KEY} and the amount is ${transactionDetails.transakAmount} \n Finnaly the address is ${userData.walletAddress}`);
+  // console.log(`The Transak API key is : ${process.env.NEXT_PUBLIC_TRANSAK_API_KEY} and the amount is ${transactionDetails.transakAmount} \n Finnaly the address is ${userData.walletAddress}`);
 
   const transakConfig: TransakConfig = {
     hideExchangeScreen: true,
@@ -123,8 +115,8 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
 
   const transak: Transak = new Transak(transakConfig);
 
-  Transak.on(Transak.EVENTS.TRANSAK_WIDGET_CLOSE, (orderData) => {
-    console.log('Damn! TRANSAK_WIDGET_CLOSE', orderData);
+  Transak.on(Transak.EVENTS.TRANSAK_WIDGET_CLOSE, () => {
+    // console.log('Damn! TRANSAK_WIDGET_CLOSE', orderData);
     transak
       .close();
     dispatch(provideStatus('Cancelled'));
@@ -137,14 +129,14 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
     onClose();
   });
 
-  Transak.on(Transak.EVENTS.TRANSAK_ORDER_FAILED, (orderData) => {
-    console.log('TRANSAK ORDER FAILED', orderData);
+  Transak.on(Transak.EVENTS.TRANSAK_ORDER_FAILED, () => {
+    // console.log('TRANSAK ORDER FAILED', orderData);
     dispatch(provideStatus('Failed'));
     updateTransactionStatus('Failed');
   })
 
-  Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
-    console.log('TRANSAK_ORDER_SUCCESSFUL', orderData);
+  Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, () => {
+    // console.log('TRANSAK_ORDER_SUCCESSFUL', orderData);
     postTransaction();
     transak.close();
     moveToScreen(1);
@@ -153,7 +145,7 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
     useEffect(() => {
         if (!isSDKInit.current) {
           isSDKInit.current = true;
-          console.log('--------------------- Initiating Transak SDK -------------------');
+          // console.log('--------------------- Initiating Transak SDK -------------------');
           transak.init();
         }
       }, [transak]);

@@ -8,15 +8,6 @@ import { useRouter } from 'next/navigation';
 
 import axios, { AxiosError } from 'axios';
 
-
-interface ErrorType {
-    response: {
-        data: {
-            message: ''
-        }
-    }
-}
-
 const ResetPassword = () => {
     const { t } = useTranslation();
     const [email, setEmail] = useState('');
@@ -63,18 +54,17 @@ const ResetPassword = () => {
                 return;
             }
 
-            console.log('Response data: ', response.data.data);
-            console.log('Finished reset email post request');
+            // console.log('Response data: ', response.data.data);
+            // console.log('Finished reset email post request');
             setErrorMessage('');
             router.push('/auth/mail_check/');
         } catch (err) {
             const axiosError = err as AxiosError;
-            const error = err as ErrorType;
             // Handle error `Referral Does not exit Exist`
             
             if (axiosError.response?.status !== 200) {
                 setErrorMessage(t('signup.errors.serverError'));
-                console.error('Registration error:', error);
+                // console.error('Registration error:', error);
             }
         } finally {
             setIsSubmitting(false);
@@ -84,7 +74,7 @@ const ResetPassword = () => {
     const handleSubmit = (e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
-        console.log('Submitted email:', email);
+        // console.log('Submitted email:', email);
 
         // Simulate API call
         postResetEmail(e).then(() => {

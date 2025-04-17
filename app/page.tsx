@@ -9,7 +9,7 @@ const HomePage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('Triggering redirection to /user/home');
+    // console.log('Triggering redirection to /user/home');
     router.push('/user/home');
   }, []);
 

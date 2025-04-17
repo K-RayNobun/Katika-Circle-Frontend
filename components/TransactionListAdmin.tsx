@@ -138,7 +138,7 @@ const TransactionListAdmin = ({ accessToken, searchKey, field, onTransactionClic
     const [selectedTransaction, setSelectedTransaction] = useState<TransactionAdminDetails | null>(null);
 
     const updateTransactionStatus = async({status, id}: {status: string, id:number}) => {
-        const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction/${id}`,
+        await axios.put(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction/${id}`,
             {
                 "status": status
             },
@@ -150,8 +150,8 @@ const TransactionListAdmin = ({ accessToken, searchKey, field, onTransactionClic
             }
             }
         );
-        console.log('We set the status to:', status);
-        console.log('The response is:', response);
+        // console.log('We set the status to:', status);
+        // console.log('The response is:', response);
     }
 
     const validateTransaction = () => {
@@ -171,7 +171,7 @@ const TransactionListAdmin = ({ accessToken, searchKey, field, onTransactionClic
                 });
 
                 const fetchedList = response.data.data.slice().reverse();
-                console.log('Got the transactions list as', fetchedList.slice(0, 9));
+                // console.log('Got the transactions list as', fetchedList.slice(0, 9));
                 const transactionArray: Array<TransactionAdminDetails> = fetchedList.map((transaction: Transaction, index: number) => ({
                     id: transaction.id,
                     order: index,
@@ -192,8 +192,8 @@ const TransactionListAdmin = ({ accessToken, searchKey, field, onTransactionClic
                 }));
 
                 setTransactionsList(transactionArray);
-            } catch (error) {
-                console.error('Error while fetching transaction list:', error);
+            } catch {
+                // console.error('Error while fetching transaction list:', error);
             }
         };
 

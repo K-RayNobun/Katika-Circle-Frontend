@@ -37,7 +37,7 @@ const ReferralSection = ({ referralCode,  isScreenVisible }: { referralCode:stri
         try {
             // Check if the referral code exists
             if (!referralCode) {
-                console.error('No referral code to copy');
+                // console.error('No referral code to copy');
                 return;
             }
     
@@ -63,8 +63,8 @@ const ReferralSection = ({ referralCode,  isScreenVisible }: { referralCode:stri
     
             // Cleanup timer on component unmount or re-render
             return () => clearTimeout(timer);
-        } catch (error) {
-            console.error('Failed to copy referral code:', error);
+        } catch {
+            // console.error('Failed to copy referral code:', error);
             // You might want to show an error message to the user
         }
     }

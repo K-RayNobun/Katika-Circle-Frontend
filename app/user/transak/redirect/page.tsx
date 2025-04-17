@@ -19,12 +19,12 @@ const TransakRedirect = () => {
     if (!windowOpened) {
       setIsLoading(true)
       try {
-        console.log('*======= Redirecting =======*');
+        // console.log('*======= Redirecting =======*');
         window.open('https://hello.com', '_blank')
         setWindowOpened(true)
         setIsLoading(false)
-      } catch (error) {
-        console.error('Failed to open Transak:', error)
+      } catch {
+        // console.error('Failed to open Transak:', error)
         setHasError(true)
         setIsLoading(false)
       }

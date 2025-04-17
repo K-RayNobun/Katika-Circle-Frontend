@@ -105,14 +105,14 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
   const [transactionsList, setTransactionsList] = useState<Array<transactionDetails>>([]);
   const [searchResultList, setSearchResultList] = useState<Array<transactionDetails>>([]);
   const dispatch = useDispatch();
-  console.log('Search Key is', searchKey);
-  console.log('Field concerned is', field);
+  // console.log('Search Key is', searchKey);
+  // console.log('Field concerned is', field);
 
   useEffect(() => {
     const fecthTransactionList = async () => {
       try {
         let cashbackTotal = 0;
-        console.log('------------------ Getting Transactions --------------')
+        // console.log('------------------ Getting Transactions --------------')
         const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transactions/user`,
           {
             headers: {
@@ -123,12 +123,12 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
           }
         )
 
-        console.log('We got this list of transactions: ', response.data.data);
+        // console.log('We got this list of transactions: ', response.data.data);
         const fetchedList = response.data.data.slice().reverse();
         const transactionArray: Array<transactionDetails> = [];
         fetchedList.forEach((transaction: Transaction, index: number) => {
           const creationDate = new Date(transaction.creationDate);
-          console.log('Transaction status is ', transaction.transactionStatus + 'And it cashback is', transaction.cashBack)
+          // console.log('Transaction status is ', transaction.transactionStatus + 'And it cashback is', transaction.cashBack)
           const userTransaction: transactionDetails = {
             order: index,
             status: transaction.transactionStatus,
@@ -146,13 +146,13 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
           dispatch(provideCashback(cashbackTotal))
 
           transactionArray.push(userTransaction);
-          console.log('The transaction array is: ', transactionArray);
+          // console.log('The transaction array is: ', transactionArray);
         })
         setTransactionsList(transactionArray);
-        console.log(`Transactions list is ${transactionArray}`)
-        console.log('----------------- Finished Getting transactions --------------');
-      } catch (error) {
-        console.error('We met this error while getting the transaction list', error)
+        // console.log(`Transactions list is ${transactionArray}`)
+        // console.log('----------------- Finished Getting transactions --------------');
+      } catch {
+        // console.error('We met this error while getting the transaction list', error)
       }
     }
     fecthTransactionList();
@@ -163,7 +163,7 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
       const transactionArray: Array<transactionDetails> = [];
       transactionsList.forEach((transaction) => {
         if (transaction[field].toString().toLowerCase().includes(searchKey.toLowerCase())) {
-          console.log('Found it in the transaction sent to ', transaction.destinatoryName + ' on ' + transaction.date);
+          // console.log('Found it in the transaction sent to ', transaction.destinatoryName + ' on ' + transaction.date);
           transactionArray.push(transaction);
         }
         setSearchResultList(transactionArray);

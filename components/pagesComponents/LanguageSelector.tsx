@@ -22,8 +22,8 @@ const LanguageSelector = () => {
     try {
       await switchLanguage(selectedLanguage);
       // stateUpdate(selectedLanguage); // Update parent state
-    } catch (error) {
-      console.error("Error switching language:", error);
+    } catch {
+      // console.error("Error switching language:", error);
     }
   };
 

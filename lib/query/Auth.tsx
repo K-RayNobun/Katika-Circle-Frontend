@@ -13,7 +13,7 @@ const dispatch =  useAppDispatch();
 export const registerUser = async (e: React.FormEvent<HTMLElement>, formRef, selectedCountry, setError: (msg: string) => void, setIsSubmitting: (bool: boolean) => void, isRegistratedRef) => {
     e.preventDefault();
     try {
-        console.log('Registering user');
+        // console.log('Registering user');
         const formData = new FormData(formRef.current!);
         const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/signin`, 
             {
@@ -37,10 +37,10 @@ export const registerUser = async (e: React.FormEvent<HTMLElement>, formRef, sel
             return;
         }
 
-        console.log('User data: ', response.data.data);
+        // console.log('User data: ', response.data.data);
         let accessToken = (response.data.data['access-token'])
         isRegistratedRef.current = true;
-        console.log('Finished registering user');
+        // console.log('Finished registering user');
         dispatch(renewToken({
             token: response.data.data['access-token'],
             expiresIn: null
@@ -51,10 +51,10 @@ export const registerUser = async (e: React.FormEvent<HTMLElement>, formRef, sel
         setIsSubmitting(false);
         if (axiosError.response?.status === 500) {
             setError('User already exists');
-            console.error('Registration error:', error);
+            // console.error('Registration error:', error);
         } else if (axiosError.response?.status !== 200) {
             setError(axiosError.response?.statusText + '\n Registration failed. Please try again.');
-            console.error('Registration error:', error);
+            // console.error('Registration error:', error);
         }
     }
 }

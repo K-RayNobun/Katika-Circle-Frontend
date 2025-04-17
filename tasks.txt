@@ -2,13 +2,12 @@
 ---------------------------- JOURNEY REPORT ----------------------------
 
 - Login redundhance  0/1
-- Turn project into a nextjs
+- Turn project into a nextjs 1/1
+- Cookies permission"
+    -  Asks the user cookies permission on the first page he access
+    - If he refuses the popup goes on a shatterign animation and remains on screen
 
 ---------------------------- TODO TASKS ----------------------------
- - Complete all UI pages / components translations
-    x SIGNUP x SIGNIN x WELCOME x PINCHECK x SETTINGS
-
-- Icons on mobile view
 
 - First post request with email
 - Second Get token from the url parameters 
@@ -23,5 +22,11 @@
 - SettingHelpFAQ error
 
 
+------------------------- EXCLUSIVE EVENING WORK -----------------------
+- Check the post method to see transactions and the update method
+- Go for the build !
+- Get the latest order Id and pass it to the update function
+- When user hasn't been verified, conduct him to pincheck page instead
 
-------------------------------------------------
+
+PE: 

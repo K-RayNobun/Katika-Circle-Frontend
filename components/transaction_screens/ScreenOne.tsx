@@ -69,7 +69,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
         }
     }
     const updateRate = async() => {
-        console.log('The amount considered is ', amountSentRef.current);
+        // console.log('The amount considered is ', amountSentRef.current);
         if (amountSentRef.current >= 30 && amountSentRef.current < 50) {
             rateIndex.current = 0;
         } else if (amountSentRef.current >= 50 && amountSentRef.current < 100) {
@@ -83,13 +83,13 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
         } else if (amountSentRef.current >= 2000 && amountSentRef.current <= 70000) {
             rateIndex.current = 5;
         }
-        console.log('Rates index is', rateIndex.current);
-        console.log('Updated the rate to ', katikaRates[rateIndex.current]);
+        // console.log('Rates index is', rateIndex.current);
+        // console.log('Updated the rate to ', katikaRates[rateIndex.current]);
         katikaRateRef.current = katikaRates[rateIndex.current];
     }
     const fetchRate = async () => {
-        // console.log('Access Token is', accessToken);
-        console.log('Calculating the rate');
+        // // console.log('Access Token is', accessToken);
+        // console.log('Calculating the rate');
         try {
             // Rate from €/XAF
             const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/rate/xaf`,
@@ -102,18 +102,18 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                 }
             );
             const ratesData = response.data.data.toCurrency[0].rates;
-            console.log('Rates Data is', ratesData);
+            // console.log('Rates Data is', ratesData);
             const ratesArray = [ratesData.firstRate, ratesData.secondRate, ratesData.thirdRate, ratesData.fourthRate, ratesData.fifthRate, ratesData.sixthRate]            
             setKatikaRates(ratesArray);
-            console.log('Set the rates as ', ratesArray);
+            // console.log('Set the rates as ', ratesArray);
             setCashbackPercentage(response.data.data.toCurrency[0].cashbackRate);
-            console.log('Cashback Rate is', response.data.data.toCurrency[0].cashbackRate);
+            // console.log('Cashback Rate is', response.data.data.toCurrency[0].cashbackRate);
             setReferralGainPercentage(response.data.data.toCurrency[0].referralGainRate);
-            console.log('Referral Gain Rate Rate is', response.data.data.toCurrency[0].referralGainRate);
+            // console.log('Referral Gain Rate Rate is', response.data.data.toCurrency[0].referralGainRate);
             katikaRateRef.current = ratesArray[0];
         } catch(error) {
             const axiosError = error as AxiosError;
-            console.log('Sorry, we couldn;t get the rate due to the error ', axiosError)
+            // console.log('Sorry, we couldn;t get the rate due to the error ', axiosError)
             if(axiosError.message === 'Network Error') {
                 setErrorMsg('Network error');
             }
@@ -123,11 +123,11 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     const fetchActualPrice = async() => {
         try {
             const response = await axios.get("https://api.exchangerate-api.com/v4/latest/"+currenciesData[selectedCurrency].name.toUpperCase());
-            console.log(response);
+            // console.log(response);
             const currency = countriesData[selectedCountry].currency
             setOfficialRate(response.data.rates[currency]);
-          } catch (error) {
-            console.error("Error fetching exchange rate:", error);
+          } catch {
+            // console.error("Error fetching exchange rate:", error);
           }
     }
 
@@ -137,7 +137,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     }
 
     const handleSentAmountChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('Resetting the amount received');
+        // console.log('Resetting the amount received');
 
         const value = e.target.value.replace(/,/g, '');
         const numericRegex = /^\d*\.?\d*$/;  // Allow decimals and numbers
@@ -146,7 +146,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
             amountSentRef.current = parseFloat(value) || 0;
         } else {
             amountSentRef.current = 0;
-            console.log('Invalid sent amount');
+            // console.log('Invalid sent amount');
         }
         updateRate();
 
@@ -162,12 +162,12 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
 
         if (!numericRegex.test(value)) {
             amountSentRef.current = 0;
-            console.log('Valeur Recue invalide', )
+            // console.log('Valeur Recue invalide', )
         }
         amountSentRef.current = amountReceivedRef.current / katikaRateRef.current;
         updateRate();
-        // console.log('Amount sent:', amountSentRef.current)
-        // console.log(' Are we on EUR ?', modifyingSentAmount);
+        // // console.log('Amount sent:', amountSentRef.current)
+        // // console.log(' Are we on EUR ?', modifyingSentAmount);
         setGain((katikaRateRef.current - officialRate) * amountSentRef.current);
 
     }
@@ -189,10 +189,10 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
         for (let i = 0; i < fields.length; i++) {
             const field = fields[i];
             if (testFieldsRegex(field.name)) {
-                console.log(field.name + ' is fine');
+                // console.log(field.name + ' is fine');
                 isValid = true;
             } else {
-                console.log(`Field ${field.name} is not correct`);
+                // console.log(`Field ${field.name} is not correct`);
                 isValid = false;
                 break; // Now break works properly
             }
@@ -216,7 +216,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                 dispatch(provideStepOneData(data));
                 moveToScreen(1);
             } else {
-                console.log('The minimum amount is 20 Euros');
+                // console.log('The minimum amount is 20 Euros');
             }
         }
 
@@ -231,7 +231,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
         const value = formData.get(fieldName) as string;
         if (!numericDecimalRegex.test(value.replace(/,/g, ''))) {
             isValid = false;
-            console.log('Value is wrong:', value.replace(/,/g, ''));
+            // console.log('Value is wrong:', value.replace(/,/g, ''));
             document.getElementsByName(fieldName)[0].classList.add('border-red');
         } else {
             document.getElementsByName(fieldName)[0].classList.remove('border-red');

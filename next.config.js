@@ -13,11 +13,11 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: 'export',
-  // trailingSlash: true,
+  output: 'export', // Static export only
+  trailingSlash: true, // Static export only
   
   images: {
-    // unoptimized: true,
+    unoptimized: true, // Static export only
     remotePatterns: [
       {
         protocol: 'https',

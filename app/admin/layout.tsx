@@ -26,7 +26,7 @@ export default function UserLayout({
         if (actualTab !== newTab) {
             setActualTab(newTab);
             router.push(pagesRoutes[newTab-1]);
-            console.log('Moving to tab', newTab);
+            // console.log('Moving to tab', newTab);
         } else return;
     }
 

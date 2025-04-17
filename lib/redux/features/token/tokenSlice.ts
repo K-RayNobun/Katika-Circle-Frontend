@@ -16,7 +16,7 @@ const tokenSlice = createSlice({
         renewToken: (state, action: PayloadAction<Token>) => {
             state.token = action.payload.token;
             state.expiresIn = action.payload.expiresIn;
-            console.log('Token : ', state.token + ' is valid for ' + state.expiresIn + ' time')
+            // console.log('Token : ', state.token + ' is valid for ' + state.expiresIn + ' time')
         },
         clearToken: (state) => {
             state.token = null;
@@ -25,7 +25,7 @@ const tokenSlice = createSlice({
         resetToken: (state) => {
             state.token = null;
             state.expiresIn = null;
-            console.log('Token has been reset')
+            // console.log('Token has been reset')
         }
     }
 });

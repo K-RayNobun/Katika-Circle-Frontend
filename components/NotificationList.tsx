@@ -37,13 +37,13 @@ const handleStatus = (status:string) => {
   let style = {
     bgColor: '',
     textColor: '',
-    icon: <RiSendPlaneLine size={20} />
+    icon: <MdOutlinePending size={20} />
   }
   return (
   status.toLowerCase() === 'success' ? style = {
     bgColor: 'bg-[#EDFFEC]',
     textColor: 'text-[#009646]',
-    icon: <RiSendPlaneLine className='size-[20px]' />
+    icon: <RiSendPlaneLine className='size-[20px] ml-[-6px]' />
   } :
   status.toLowerCase() === 'pending' ? 
   style = {
@@ -93,12 +93,13 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
   const [transactionsList, setTransactionsList] = useState<Array<notificationDetails>>([]);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const displayedStatuses = ['Pending', 'Success', 'Failed'];
 
   useEffect(() => {
     const fecthTransactionList = async () => {
         try {
           let cashbackTotal = 0;
-            console.log('------------------ Getting Transactions --------------')
+            // console.log('------------------ Getting Transactions --------------')
             const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transactions/user`,
                 {
                     headers: {
@@ -109,7 +110,7 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
                 }
             )
   
-            console.log('We got this list of transactions: ', response.data.data);
+            // console.log('We got this list of transactions: ', response.data.data);
             const fetchedList: Transaction[] = response.data.data.slice().reverse();
             const transactionArray: notificationDetails[] = [];
 
@@ -132,10 +133,10 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
             });
             setTransactionsList(transactionArray);
             dispatch(provideCashback(cashbackTotal));
-            console.log('---- Total Cashback is ', cashbackTotal);
-            console.log('----------------- Finished Getting transactions --------------');
-        } catch(error) {
-            console.error('We met this error  while getting the transaction list: ', error)
+            // console.log('---- Total Cashback is ', cashbackTotal);
+            // console.log('----------------- Finished Getting transactions --------------');
+        } catch{
+            // console.error('We met this error  while getting the transaction list: ', error)
         }
     }
   
@@ -150,7 +151,7 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
       <div className='max-h-[450px] space-y-[16px] py-[6px] overflow-y-auto'>
         { transactionsList.length >= 1 ?
           transactionsList.map((transaction, i) => {
-            if(transaction.status.toLowerCase() === 'cancelled') {
+            if(!displayedStatuses.includes(transaction.status)) {
               return
             }
             return <Notification key={i} details={transaction}/>

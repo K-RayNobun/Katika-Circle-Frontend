@@ -28,7 +28,7 @@
 //   })
 
 //   const fetchToken = async() => {
-//     console.log('Fetching token...');
+//     // console.log('Fetching token...');
 //     try {
 //       const response  = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/login`,{
 //         email: 'heracles12th@gmail.com',
@@ -40,10 +40,10 @@
 //         }
 //       });
 //       const user_name = response.data.data
-//       console.log('Token is:', user_name);
+//       // console.log('Token is:', user_name);
 //       setUserName(user_name);
-//     } catch (error) {
-//       console.error('Token is unavailable with this config', error);
+//     } catch {
+//       // console.error('Token is unavailable with this config', error);
 //     }
 //   };
 
