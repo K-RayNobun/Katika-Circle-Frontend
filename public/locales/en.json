@@ -513,6 +513,113 @@
             "address": "1228, 109 Green Street, Lynn, MA, Essex, US, 01902"
         },
         "downloadPDF": "Download Privacy Policy PDF"
+    },
+    "userAgreement": {
+        "title": "User Agreement for Katika Wallet",
+        "sections": {
+            "1": {
+                "title": "1. THE APPLICATION",
+                "content": "Katika Wallet (hereinafter referred to as the \"Application\") is a digital wallet service provided by Katika Web3, Inc., licensed to You (End-User) by Katika Web3, Inc., a Delaware registered company with its address at 1228, 109 Green Street, Lynn, MA, Essex, US, 01902, for use only under the terms of this License Agreement. By downloading the Application from the Apple AppStore, or any other appstore, thereto (as permitted by this License Agreement), You indicate that You agree to be bound by all of the terms and conditions of this License Agreement, and that You accept this License Agreement. The parties of this License Agreement acknowledge that Apple, or any other appstore is not a Party to this License Agreement and is not bound by any provisions or obligations with regard to the Application, such as warranty, liability, maintenance and support thereof. Katika Web3, Inc., not Apple or Play Store is solely responsible for the licensed Application and the content thereof. This License Agreement may not provide for usage rules for the Application that are in conflict with the latest App Store Terms of Service, or Play Store Terms of Service. Katika Web3, Inc. acknowledges that it had the opportunity to review said terms and this license Agreement is not conflicting with them. All rights not expressly granted to You are reserved."
+            },
+            "2": {
+                "title": "2. SCOPE OF LICENSE",
+                "content": "You are given a non-transferable, non-exclusive, non-sublicensable license to install and use the Licensed Application on any Apple-branded Products that You (End-User) own or control and as permitted by the Usage Rules set forth in this section and the App Store Terms of Service, with the exception that such licensed Application may be accessed and used by other accounts associated with You (End-User, The Purchaser) via Family Sharing or volume purchasing.",
+                "items": [
+                    "This license will also govern any updates of the Application provided by Licensor that replace, repair, and/or supplement the first Application, unless a separate license is provided for such update in which case the terms of that new license will govern.",
+                    "You may not share or make the Application available to third parties (unless to the degree allowed by the Apple Terms and Conditions, and with Katika Web3, Inc. prior written consent), sell, rent, lend, lease or otherwise redistribute the Application.",
+                    "You may not reverse engineer, translate, disassemble, integrate, decompile, integrate, remove, modify, combine, create derivative works or updates of, adapt, or attempt to derive the source code of the Application, or any part thereof (except with Katika Web3, Inc. prior written consent).",
+                    "You may not copy (excluding when expressly authorized by this license and the Usage Rules) or alter the Application or portions thereof. You may create and store copies only on devices that You own or control for backup keeping under the terms of this license, the App Store Terms of Service, and any other terms and conditions that apply to the device or software used. You may not remove any intellectual property notices. You acknowledge that no unauthorized third parties may gain access to these copies at any time.",
+                    "Violations of the obligations mentioned above, as well as the attempt of such infringement, may be subject to prosecution and damages.",
+                    "Licensor reserves the right to modify the terms and conditions of licensing.",
+                    "Nothing in this license should be interpreted to restrict third-party terms. When using the Application, You must ensure that You comply with applicable third-party terms and conditions."
+                ]
+            },
+            "3": {
+                "title": "3. TECHNICAL REQUIREMENTS",
+                "content": "You acknowledge that in order to use the Application, you must ensure that your devices meet the minimum technical requirements. These requirements may be updated from time to time as new features are added or as technology evolves.",
+                "items": [
+                    "A compatible mobile device running iOS 13.0 or later, or Android 8.0 or later",
+                    "Active internet connection",
+                    "Valid email address",
+                    "Valid phone number"
+                ]
+            },
+            "4": {
+                "title": "4. USER ACCOUNT",
+                "content": "To use the Application, you must create a user account. You agree to:",
+                "items": [
+                    "Provide accurate, current, and complete information during registration",
+                    "Maintain and promptly update your account information",
+                    "Maintain the security of your account",
+                    "Accept responsibility for all activities that occur under your account",
+                    "Notify us immediately of any unauthorized use of your account"
+                ]
+            },
+            "5": {
+                "title": "5. PROHIBITED USES",
+                "content": "You agree not to use the Application for:",
+                "items": [
+                    "Any unlawful purpose or to conduct illegal activities",
+                    "Fraudulent or deceptive practices",
+                    "The collection of personal data of other users",
+                    "Interfering with or disrupting the integrity of the Application",
+                    "Attempting to gain unauthorized access to the Application or its related systems"
+                ]
+            },
+            "6": {
+                "title": "6. FEES AND PAYMENTS",
+                "content": "You acknowledge that certain services within the Application may incur fees. These fees will be clearly displayed before any transaction is processed. All fees are non-refundable unless required by law.",
+                "items": [
+                    "Transaction fees may vary based on the type and amount of transaction",
+                    "Currency conversion fees may apply for international transfers",
+                    "Additional service fees may apply for premium features",
+                    "All fees will be deducted from your account balance"
+                ]
+            },
+            "7": {
+                "title": "7. SECURITY",
+                "content": "The security of your account and transactions is our priority. However, you are responsible for:",
+                "items": [
+                    "Maintaining the confidentiality of your login credentials",
+                    "Ensuring all devices used to access the Application are secure",
+                    "Enabling additional security features when available",
+                    "Reporting any suspicious activity immediately"
+                ]
+            },
+            "8": {
+                "title": "8. PRIVACY",
+                "content": "Your privacy is important to us. Our collection and use of your information is governed by our Privacy Policy, which is incorporated into this Agreement by reference."
+            },
+            "9": {
+                "title": "9. INTELLECTUAL PROPERTY",
+                "content": "The Application, including all content, features, and functionality, is owned by Katika Web3, Inc. and is protected by international copyright, trademark, patent, trade secret, and other intellectual property laws."
+            },
+            "10": {
+                "title": "10. TERMINATION",
+                "content": "We reserve the right to terminate or suspend your account and access to the Application at any time, without notice, for any reason, including but not limited to violation of this Agreement."
+            },
+            "11": {
+                "title": "11. DISCLAIMERS",
+                "content": "The Application is provided 'as is' and 'as available' without any warranties of any kind, either express or implied."
+            },
+            "12": {
+                "title": "12. LIMITATION OF LIABILITY",
+                "content": "To the maximum extent permitted by law, Katika Web3, Inc. shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use the Application."
+            },
+            "13": {
+                "title": "13. INDEMNIFICATION",
+                "content": "You agree to indemnify and hold harmless Katika Web3, Inc. and its officers, directors, employees, and agents from any claims arising from your use of the Application or violation of this Agreement."
+            },
+            "14": {
+                "title": "14. GOVERNING LAW",
+                "content": "This Agreement shall be governed by and construed in accordance with the laws of the State of Delaware, without regard to its conflict of law provisions."
+            },
+            "15": {
+                "title": "15. CHANGES TO THIS AGREEMENT",
+                "content": "We reserve the right to modify this Agreement at any time. We will notify you of any changes by posting the new Agreement on the Application. Your continued use of the Application after such modifications will constitute your acknowledgment and agreement to the modified terms."
+            }
+        },
+        "downloadPDF": "Download User Agreement PDF"
     }
 
 }
