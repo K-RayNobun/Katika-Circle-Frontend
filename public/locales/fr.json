@@ -512,5 +512,112 @@
             "address": "1228, 109 Green Street, Lynn, MA, Essex, US, 01902"
         },
         "downloadPDF": "Télécharger la politique de confidentialité PDF"
+    },
+    "userAgreement": {
+        "title": "CONDITIONS D'UTILISATION DE KATIKA WEB3, INC.",
+        "sections": {
+            "1": {
+                "title": "1. L'APPLICATION",
+                "content": "Katika Wallet (ci-après dénommée \"l'Application\") est un service de portefeuille numérique fourni par Katika Web3, Inc., sous licence accordée à Vous (l'Utilisateur Final) par Katika Web3, Inc., une société enregistrée au Delaware avec son adresse au 1228, 109 Green Street, Lynn, MA, Essex, US, 01902, pour une utilisation uniquement selon les termes de cet Accord de Licence. En téléchargeant l'Application depuis l'Apple AppStore, ou tout autre magasin d'applications (tel que permis par cet Accord de Licence), Vous indiquez que Vous acceptez d'être lié par tous les termes et conditions de cet Accord de Licence, et que Vous acceptez cet Accord de Licence. Les parties de cet Accord de Licence reconnaissent qu'Apple, ou tout autre magasin d'applications, n'est pas une Partie à cet Accord de Licence et n'est lié par aucune disposition ou obligation concernant l'Application, telle que la garantie, la responsabilité, la maintenance et le support de celle-ci. Katika Web3, Inc., et non Apple ou Play Store, est seul responsable de l'Application sous licence et de son contenu. Cet Accord de Licence ne peut pas prévoir de règles d'utilisation de l'Application qui seraient en conflit avec les dernières Conditions de Service de l'App Store ou du Play Store. Katika Web3, Inc. reconnaît avoir eu l'opportunité d'examiner lesdites conditions et cet Accord de Licence n'est pas en conflit avec elles. Tous les droits qui ne vous sont pas expressément accordés sont réservés."
+            },
+            "2": {
+                "title": "2. ÉTENDUE DE LA LICENCE",
+                "content": "Vous recevez une licence non transférable, non exclusive et non sous-licenciable pour installer et utiliser l'Application sous Licence sur tout Produit de marque Apple que Vous (l'Utilisateur Final) possédez ou contrôlez et tel qu'autorisé par les Règles d'Utilisation énoncées dans cette section et les Conditions de Service de l'App Store, à l'exception que cette Application sous licence peut être accessible et utilisée par d'autres comptes associés à Vous (l'Utilisateur Final, l'Acheteur) via le Partage Familial ou l'achat en volume.",
+                "items": [
+                    "Cette licence régira également toutes les mises à jour de l'Application fournies par le Concédant qui remplacent, réparent et/ou complètent la première Application, sauf si une licence séparée est fournie pour cette mise à jour, auquel cas les termes de cette nouvelle licence prévaudront.",
+                    "Vous ne pouvez pas partager ou mettre l'Application à la disposition de tiers (sauf dans la mesure permise par les Conditions Générales d'Apple, et avec le consentement écrit préalable de Katika Web3, Inc.), vendre, louer, prêter, ou redistribuer l'Application.",
+                    "Vous ne pouvez pas effectuer d'ingénierie inverse, traduire, désassembler, intégrer, décompiler, supprimer, modifier, combiner, créer des œuvres dérivées ou des mises à jour de, adapter ou tenter de dériver le code source de l'Application, ou toute partie de celle-ci (sauf avec le consentement écrit préalable de Katika Web3, Inc.).",
+                    "Vous ne pouvez pas copier (sauf lorsque expressément autorisé par cette licence et les Règles d'Utilisation) ou modifier l'Application ou des parties de celle-ci. Vous pouvez créer et stocker des copies uniquement sur les appareils que vous possédez ou contrôlez à des fins de sauvegarde selon les termes de cette licence, les Conditions de Service de l'App Store, et toutes autres conditions générales applicables à l'appareil ou au logiciel utilisé. Vous ne pouvez pas supprimer les mentions de propriété intellectuelle. Vous reconnaissez qu'aucun tiers non autorisé ne peut avoir accès à ces copies à aucun moment.",
+                    "Les violations des obligations mentionnées ci-dessus, ainsi que la tentative de telles infractions, peuvent faire l'objet de poursuites et de dommages et intérêts.",
+                    "Le Concédant se réserve le droit de modifier les termes et conditions de la licence.",
+                    "Rien dans cette licence ne doit être interprété comme restreignant les conditions des tiers. Lors de l'utilisation de l'Application, Vous devez vous assurer que vous respectez les conditions générales des tiers applicables."
+                ]
+            },
+            "3": {
+                "title": "3. EXIGENCES TECHNIQUES",
+                "content": "Vous reconnaissez que pour utiliser l'Application, vous devez vous assurer que vos appareils répondent aux exigences techniques minimales. Ces exigences peuvent être mises à jour périodiquement à mesure que de nouvelles fonctionnalités sont ajoutées ou que la technologie évolue.",
+                "items": [
+                    "Un appareil mobile compatible fonctionnant sous iOS 13.0 ou ultérieur, ou Android 8.0 ou ultérieur",
+                    "Une connexion Internet active",
+                    "Une adresse email valide",
+                    "Un numéro de téléphone valide"
+                ]
+            },
+            "4": {
+                "title": "4. COMPTE UTILISATEUR",
+                "content": "Pour utiliser l'Application, vous devez créer un compte utilisateur. Vous acceptez de :",
+                "items": [
+                    "Fournir des informations exactes, actuelles et complètes lors de l'inscription",
+                    "Maintenir et mettre à jour rapidement vos informations de compte",
+                    "Maintenir la sécurité de votre compte",
+                    "Accepter la responsabilité de toutes les activités qui se produisent sous votre compte",
+                    "Nous informer immédiatement de toute utilisation non autorisée de votre compte"
+                ]
+            },
+            "5": {
+                "title": "5. UTILISATIONS INTERDITES",
+                "content": "Vous acceptez de ne pas utiliser l'Application pour :",
+                "items": [
+                    "Tout but illégal ou pour mener des activités illégales",
+                    "Des pratiques frauduleuses ou trompeuses",
+                    "La collecte de données personnelles d'autres utilisateurs",
+                    "Interférer avec ou perturber l'intégrité de l'Application",
+                    "Tenter d'obtenir un accès non autorisé à l'Application ou à ses systèmes connexes"
+                ]
+            },
+            "6": {
+                "title": "6. FRAIS ET PAIEMENTS",
+                "content": "Vous reconnaissez que certains services au sein de l'Application peuvent entraîner des frais. Ces frais seront clairement affichés avant le traitement de toute transaction. Tous les frais sont non remboursables sauf si la loi l'exige.",
+                "items": [
+                    "Les frais de transaction peuvent varier selon le type et le montant de la transaction",
+                    "Des frais de conversion de devise peuvent s'appliquer pour les transferts internationaux",
+                    "Des frais de service supplémentaires peuvent s'appliquer pour les fonctionnalités premium",
+                    "Tous les frais seront déduits de votre solde de compte"
+                ]
+            },
+            "7": {
+                "title": "7. SÉCURITÉ",
+                "content": "La sécurité de votre compte et de vos transactions est notre priorité. Cependant, vous êtes responsable de :",
+                "items": [
+                    "Maintenir la confidentialité de vos identifiants de connexion",
+                    "Vous assurer que tous les appareils utilisés pour accéder à l'Application sont sécurisés",
+                    "Activer les fonctionnalités de sécurité supplémentaires lorsqu'elles sont disponibles",
+                    "Signaler immédiatement toute activité suspecte"
+                ]
+            },
+            "8": {
+                "title": "8. CONFIDENTIALITÉ",
+                "content": "Votre confidentialité est importante pour nous. Notre collecte et utilisation de vos informations est régie par notre Politique de Confidentialité, qui est incorporée à cet Accord par référence."
+            },
+            "9": {
+                "title": "9. PROPRIÉTÉ INTELLECTUELLE",
+                "content": "L'Application, y compris tout son contenu, ses fonctionnalités et ses fonctions, est la propriété de Katika Web3, Inc. et est protégée par les lois internationales sur le droit d'auteur, les marques déposées, les brevets, les secrets commerciaux et autres lois sur la propriété intellectuelle."
+            },
+            "10": {
+                "title": "10. RÉSILIATION",
+                "content": "Nous nous réservons le droit de résilier ou de suspendre votre compte et l'accès à l'Application à tout moment, sans préavis, pour quelque raison que ce soit, y compris, mais sans s'y limiter, la violation de cet Accord."
+            },
+            "11": {
+                "title": "11. AVIS DE NON-RESPONSABILITÉ",
+                "content": "L'Application est fournie 'telle quelle' et 'selon disponibilité' sans aucune garantie d'aucune sorte, expresse ou implicite."
+            },
+            "12": {
+                "title": "12. LIMITATION DE RESPONSABILITÉ",
+                "content": "Dans toute la mesure permise par la loi, Katika Web3, Inc. ne sera pas responsable des dommages indirects, accessoires, spéciaux, consécutifs ou punitifs résultant de votre utilisation ou de votre incapacité à utiliser l'Application."
+            },
+            "13": {
+                "title": "13. INDEMNISATION",
+                "content": "Vous acceptez d'indemniser et de dégager de toute responsabilité Katika Web3, Inc. et ses dirigeants, administrateurs, employés et agents contre toute réclamation découlant de votre utilisation de l'Application ou de la violation de cet Accord."
+            },
+            "14": {
+                "title": "14. LOI APPLICABLE",
+                "content": "Cet Accord sera régi et interprété conformément aux lois de l'État du Delaware, sans égard à ses dispositions en matière de conflit de lois."
+            },
+            "15": {
+                "title": "15. MODIFICATIONS DE CET ACCORD",
+                "content": "Nous nous réservons le droit de modifier cet Accord à tout moment. Nous vous informerons de tout changement en publiant le nouvel Accord sur l'Application. Votre utilisation continue de l'Application après ces modifications constituera votre reconnaissance et votre accord avec les termes modifiés."
+            }
+        },
+        "downloadPDF": "Télécharger les Conditions d'Utilisation PDF"
     }
 }

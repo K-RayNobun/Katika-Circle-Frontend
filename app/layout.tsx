@@ -10,10 +10,10 @@ import CookieConsent from "@/components/pagesComponents/CookiesConsent";
 import './globals.css';
 
 
-const poppinsNormal = Poppins({
+const poppins = Poppins({
   subsets: ['latin'],
-  weight: '400',
-  variable: '--font-poppins-normal'
+  weight: ['400', '500', '600', '800'],
+  variable: '--font-poppins'
 });
 
 export const metadata: Metadata = {
@@ -53,7 +53,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${poppinsNormal.className}`}>
+      <body className={`${poppins.className}`}>
         <Provider>
           <ReduxProvider>
             <ClientWrapper>

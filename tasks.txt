@@ -1,32 +1,20 @@
 
 ---------------------------- JOURNEY REPORT ----------------------------
 
-- Login redundhance  0/1
+x Cashback formatting
 - Turn project into a nextjs 1/1
-- Cookies permission"
+x Cookies permission"
     -  Asks the user cookies permission on the first page he access
-    - If he refuses the popup goes on a shatterign animation and remains on screen
-
----------------------------- TODO TASKS ----------------------------
-
-- First post request with email
-- Second Get token from the url parameters 
-- Pass the second post request with the precedent token
-
-- Add default traductions text
-- Handle signin redundance
-//
+x Cancelled status
++ Destinatory name screenthree
+x Responsive layout on mobile
 - Email and password setting modifs
-    - Group email & password for one updated
-    - Call API once
-- SettingHelpFAQ error
+- Group email & password for one updated
 
 
-------------------------- EXCLUSIVE EVENING WORK -----------------------
-- Check the post method to see transactions and the update method
-- Go for the build !
-- Get the latest order Id and pass it to the update function
-- When user hasn't been verified, conduct him to pincheck page instead
-
-
-PE: 
+------------------------ LANDING PAGE CODE --------------------------
+- Set up the simulator functionnalities (15min) 12:09 - 12:35 (26min)
+- Add images as SVG (20min) 12:15 - 13:51
+- Update colors and gradient (15min) 13:52
+- Add animations (17min)
+- Add links (10min)

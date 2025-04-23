@@ -17,6 +17,11 @@ export default {
         '20': '20px',
         // Add more values as needed
       },
+      textShadow: {
+        red: '2px 2px 5px rgba(255, 0, 0, 0.7)',
+        blue: '2px 2px 5px rgba(0, 0, 255, 0.7)',
+        glow: '0 0 10px rgba(0, 255, 255, 0.8)',
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
@@ -29,15 +34,19 @@ export default {
         green: '#009646',
         orange: '#FF5C00',
         red: '#FF0004',
-        pink: '#E673D5'
+        pink: '#E673D5',
+        blue_fluo: '#09E1EF',
+        pink_fluo: '#D902D7',
+        blue_dark: '#400970',
+        green_fluo: '#1DEF09'
       },
       fontFamily: {
-        poppins_normal: ["var(--font-poppins-normal)"],
-        poppins_bold:[ "var(--font-poppins-bold)"],
+        poppins_normal: ["var(--font-poppins)"],
       }
     },
   },
   plugins: [
+    require('tailwindcss-textshadow'),
     plugin(function({addUtilities, theme}: { addUtilities: (utilities: Record<string, any>, options?: { variants?: string[], respectPrefix?: boolean, respectImportant?: boolean }) => void, theme: (path: string) => any }) {
       const newUtilities = {
         '.vibrate': {

@@ -19,6 +19,7 @@ const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
     const accessToken = useAppSelector((state) => state.token.token);
     const dispatch = useAppDispatch();
     const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
+    console.log(` Receiver name is ${transactionDetails.receiverName}`);
 
     const postTransaction = async () => {
         try {

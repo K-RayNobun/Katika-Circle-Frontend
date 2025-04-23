@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from '@/lib/hooks/useTranslation'
 import { IoLanguage, IoArrowUp } from 'react-icons/io5'
 import { FiDownload } from 'react-icons/fi';
-import data from '@/public/locales/en.json';
+import enData from '@/public/locales/en.json';
+import frData from '@/public/locales/fr.json';
 
 const PrivacyPolicy = () => {
     const { locale, switchLanguage } = useTranslation();
     const { t } = useTranslation();
     const [showScrollTop, setShowScrollTop] = useState(false);
+    const data = locale === 'en' ? enData : frData;
     const policyData = data.privacyPolicy; // Adjust the path to your JSON file
 
     useEffect(() => {
@@ -32,14 +34,18 @@ const PrivacyPolicy = () => {
     }
 
     const downloadPDF = () => {
-        const pdfUrl = locale === 'en' 
-            ? '/privacy-policy-en.pdf' 
-            : '/privacy-policy-fr.pdf'
-        window.open(pdfUrl, '_blank')
+        console.log('Download PDF clicked!')
+        const link = document.getElementById('download-link') as HTMLAnchorElement;
+        link.href = '/documents/privacy-policy.pdf'; // Adjust the path if needed
+        link.download = 'privacy-policy.pdf';
+        link.click();
+        console.log('Download link clicked!')
     }
 
     return (
         <div className="relative min-h-screen bg-gray-50">
+            {/* Hidden reusable download link */}
+            <a id="download-link" style={{ display: 'none' }}></a>
             {/* Language Selector */}
             <button
                 onClick={toggleLanguage}
@@ -79,9 +85,7 @@ const PrivacyPolicy = () => {
                     {/* Sections 2-12 */}
                     {Array.from({ length: 11 }, (_, i) => i + 2).map((sectionNum) => {
                         const sectionKey = `${sectionNum}`;
-                        console.log(` Section Key is: ${sectionKey}`);
                         // Check if items exist for the current section
-                        console.log(policyData.sections)
                         if ('items' in policyData.sections[sectionKey as keyof typeof policyData.sections]) {
                             const section = policyData.sections[sectionKey as keyof typeof policyData.sections];
                             const sectionItems = 'items' in section ? section.items as string[] : [];

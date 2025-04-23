@@ -141,6 +141,11 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                 }
             );
             const verifiedName = response.data.data.verifiedName;
+            if (verifiedName.length === 0) {
+                console.log('No name found for this number, please check the number again');
+                setIsNameChecked(false);
+                return
+            }
             console.log('Response is: ', response.data);
             setReceiverName(verifiedName);
             console.log('Verified Name is :', verifiedName);
@@ -202,6 +207,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
         }
 
         if (testFieldsRegex() && (isTypeMobile ? isNameChecked : true)) {
+            // console.log(' Is the name checked ?', isNameChecked);
             moveToScreen(1);
         }
     };

@@ -105,6 +105,7 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
   const [transactionsList, setTransactionsList] = useState<Array<transactionDetails>>([]);
   const [searchResultList, setSearchResultList] = useState<Array<transactionDetails>>([]);
   const dispatch = useDispatch();
+  const displayedStatuses = ['Pending', 'Success', 'Failed'];
   // console.log('Search Key is', searchKey);
   // console.log('Field concerned is', field);
 
@@ -139,6 +140,10 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
             cashbackGain: transaction.cashBack ? transaction.cashBack.amount : 0,
           }
 
+          if (!displayedStatuses.includes(userTransaction.status)) {
+            return
+          }
+
           const cashback =  transaction.cashBack ? transaction.cashBack.amount : 0;
           if (cashback) {
             cashbackTotal += cashback;
@@ -148,6 +153,7 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
           transactionArray.push(userTransaction);
           // console.log('The transaction array is: ', transactionArray);
         })
+        console.log(' The list of ransactions is: ', transactionArray);
         setTransactionsList(transactionArray);
         // console.log(`Transactions list is ${transactionArray}`)
         // console.log('----------------- Finished Getting transactions --------------');
@@ -187,14 +193,15 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
           transactionsList.length > 0 ?
             <tbody>
               <tr className='block h-full w-full space-y-[16px] lg:space-y-[0px] overflow-auto'>
-                {searchKey.length === 0 ?
-                  transactionsList.map((transaction, i) => {
-                    return <Transaction key={i} details={transaction} />
-                  })
-                  :
-                  searchResultList.map((transaction, i) => {
-                    return <Transaction key={i} details={transaction} />
-                  })
+                {
+                  searchKey.length === 0 ?
+                    transactionsList.map((transaction, i) => {
+                      return <Transaction key={i} details={transaction} />
+                    })
+                    :
+                    searchResultList.map((transaction, i) => {
+                      return <Transaction key={i} details={transaction} />
+                    })
                 }
               </tr>
               <button className={`${dataLength > 10 ? 'hidden lg:block' : 'hidden'} w-full bg-[#F9FAFB] py-[16px] hover:bg-gray rounded-b-[8px]'`}><h5 className='text-center'>Voir plus</h5></button>
@@ -202,7 +209,7 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
             :
             <tbody className='w-full bg-gray p-[32px] rounded-[12px]'>
               <tr>
-                <h5 className='text-[16px] text-gray_dark font-semibold items-center justify-center flex'>
+                <h5 className='text-[16px] text-center text-gray_dark font-semibold items-center justify-center flex'>
                   {t('transactionList.noTransactions')}
                 </h5>
               </tr>

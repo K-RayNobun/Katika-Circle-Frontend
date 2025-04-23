@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { setCookieConsent } from '@/lib/redux/features/metadata/metadataSlice';
+import Link from 'next/link';
 
 const CookieConsentModal = () => {
     const [showModal, setShowModal] = useState(false);
@@ -21,11 +22,6 @@ const CookieConsentModal = () => {
         setShowModal(false);
     }
 
-    const handleDecline = () => {
-        dispatch(setCookieConsent(false));
-        setShowModal(false);
-    }
-
     if (!showModal) return null
 
     return (
@@ -33,20 +29,14 @@ const CookieConsentModal = () => {
             <div className="bg-white rounded-[8px] p-6 max-w-md w-full mx-4">
                 <h3 className="font-bold text-[20px] text-purple-900 mb-4">Cookie Settings</h3>
                 <p className="text-gray-700 mb-6">
-                    We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.
+                    This website <span className='text-primary_dark'>uses cookies to improve your experience</span>. By continuing to visit this site you agree to its <Link href='/user_agreement' className='text-primary_dark'>Terms</Link> and <Link href='/privacy_policy' className='text-primary_dark'>Privacy Policy</Link>.
                 </p>
-                <div className="flex gap-4">
+                <div className="flex justify-center">
                     <button
                         onClick={handleAccept}
-                        className="flex-1 bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white font-bold"
+                        className="w-[30%] bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white font-bold"
                     >
-                        Accept
-                    </button>
-                    <button
-                        onClick={handleDecline}
-                        className="flex-1 border-2 border-primary text-primary hover:bg-gray-100 py-[10px] rounded-[8px] font-bold"
-                    >
-                        Decline
+                        Got it!
                     </button>
                 </div>
             </div>
