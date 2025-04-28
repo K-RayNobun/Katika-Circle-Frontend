@@ -54,7 +54,7 @@ const Signup = () => {
     const [isRefCodeProvided, setIsRefCodeProvided] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const isSubmittingRef = useRef(false)
-    const isRegistratedRef = useRef(false)
+    const isRegistratedRef = useRef(false);
 
     const [formData, setFormData] = useState<{ ref_code: string }>({
         ref_code: '',
@@ -270,8 +270,7 @@ const Signup = () => {
         setErrorField('');
         setIsSubmitting(true);
         registerUser(e);
-        // console.log('Processing submission');
-        // sendEmail(formRef.current!)
+        console.log('Processing submission');
 
         if (isRegistratedRef.current ===  isRegistratedRef.current) {
             // console.log('Processing Dispatchs now!');
@@ -288,7 +287,7 @@ const Signup = () => {
             }));
             router.push('/auth/pincheck');
         }
-        // console.log('Finished signup');
+        console.log('Finished signup');
     }
 
     // const login = useGoogleLogin({

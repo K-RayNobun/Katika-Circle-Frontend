@@ -2,6 +2,91 @@
     "welcome": "Bienvenue sur notre site",
     "getStarted": "Commençons. Pour effectuer une transaction, appuyez sur le bouton ci-dessous.",
     "sendMoney": "Envoyer de l'argent",
+    "landing": {
+        "navbar": {
+        "home": "Accueil",
+        "blog": "Blog",
+        "contact": "Contact",
+        "sendMoney": "Envoyer de l'argent"
+        },
+        "hero": {
+            "title": "Ils sont loin, mais leur",
+            "titleHighlight": "bonheur",
+            "titleEnd": "est proche",
+            "subtitle": {
+                "prefix": "Avec",
+                "brand": "Send",
+                "action": "envoyez de l'argent",
+                "destination": "en Afrique",
+                "highlight": "instantanément",
+                "suffix": "et en toute confiance"
+            },
+            "buttons": {
+                "sendMoney": "Envoyer de l'argent",
+                "howItWorks": "Comment ça fonctionne"
+            },
+            "cards": {
+                "cashback": {
+                "title": "Profitez du meilleur taux + cashback !",
+                "description": "Avec un taux imbattable de 680 F/€ et 0,5 % de cashback sur chaque envoi, vous gagnez à chaque transfert. Plus vous envoyez, plus vous êtes récompensé."
+                },
+                "referral": {
+                "title": "Parrainez et gagnez à vie",
+                "description": "Invitez vos proches à utiliser Send by Katika et recevez des commissions sur chacun de leurs transferts. Un geste pour eux, une récompense pour vous."
+                },
+                "support": {
+                "title": "Un support qui vous répond vraiment",
+                "description": "Disponible en Europe et en Afrique, notre équipe d'assistance vous accompagne à chaque étape. Whatsapp, email, appel direct : choisissez votre canal."
+                }
+            }
+        },
+        "simulator": {
+        "form": {
+            "send": {
+            "label": "Vous envoyez",
+            "placeholder": "0"
+            },
+            "receive": {
+            "label": "Ils reçoivent",
+            "placeholder": "0"
+            },
+            "details": {
+                "exchangeRate": "Taux de change",
+                "transferFees": "Frais de transfert",
+                "cashbackGenerated": "Cashback généré"
+            }
+        },
+        "title": "Preparez votre prochain",
+        "titleHighlight": "envoi",
+        "titleEnd": "",
+        "description": "Vous envoyez pour l'école, la santé, l'amour, les projets, nous on vous aide à le faire vite, bien et sans frais cachés."
+        },
+        "slider": {
+        "title": "Pourquoi",
+        "titleHighlight": "envoyer",
+        "titleEnd": "de l'argent ?",
+        "description": "Parce qu'au delà des billets, c'est du soutien, de l'amour et de l'avenir que vous partagez."
+        },
+        "features": {
+        "title": "Pourquoi",
+        "titleHighlight": "nous choisir",
+        "description": "Notre mission est de vous offrir la meilleure expérience de transfert d'argent",
+        "items": {
+            "security": "Sécurité",
+            "rates": "Taux de change avantageux",
+            "instant": "Réception instantanée",
+            "support": "Support humain et multilingue",
+            "assistance": "Assistance à la fois en Europe et en Afrique"
+        }
+        },
+        "destinations": {
+        "title": "Les destinations",
+        "titleHighlight": "disponibles",
+        "countries": {
+            "cameroon": "Cameroun"
+        }
+        }
+    },
     "signin": {
         "title": "Content de vous revoir",
         "subtitle": "Veuillez vous connecter à votre compte.",
@@ -281,6 +366,8 @@
                 "amountReceived": "Montant reçu",
                 "recipientPhone": "Téléphone du destinataire",
                 "recipientName": "Nom du destinataire",
+                "recipientIban": "IBAN du destinataire",
+                "bankOwnerName": "Titulaire du compte",
                 "cashback": "Cashback",
                 "referralBonus": "Bonus de parrainage",
                 "exchangeRate": "Taux de change"
@@ -417,6 +504,35 @@
             "default": "Échec du traitement de la transaction"
         },
         "networkError": "Erreur réseau. Veuillez vérifier votre connexion Internet"
+    },
+    "footer": {
+        "mission": "La mission de Katika est de faciliter la vie financière des gens grâce à la technologie blockchain",
+        "usefulLinks": "LIENS UTILES",
+        "services": "SERVICES",
+        "newsletter": "NEWSLETTER",
+        "newsletterText": "Inscrivez-vous à notre lettre d'information pour rester au courant de notre actualité",
+        "newsletterPlaceholder": "Saisissez votre adresse e-mail",
+        "copyright": "© 2025 Katika Tous droits réservés.",
+        "links": {
+        "caseStudy": "Case study Wallet",
+        "termsOfUse": "Conditions d'utilisation",
+        "privacyPolicy": "Politique de confidentialité",
+        "userAgreement": "Accord de licence utilisateur",
+        "contact": "Contact",
+        "careers": "Carrières"
+        },
+        "servicesList": {
+        "wallet": "Katika Wallet",
+        "ludokin": "Ludokin"
+        },
+        "disclaimerPart1": "\bKatika\b Wallet est un produit de \bKatika Web3, Inc.\b, société enregistrée aux États-Unis (1228, 109 Green street, Lynn, MA, Essex, USA, 01902) et exploitée au Cameroun par \bSaction Sarl\b, immatriculée sous le numéro RCCM : RC/DLA/2020/B/4248. Katika est une entreprise technologique spécialisée dans la facilitation des transferts d'argent et l'accès à des solutions financières inclusives. \bNous ne sommes pas une banque.\b Les services de transfert d'argent sont fournis en partenariat avec des établissements financiers agréés dans leurs juridictions respectives.",
+        "disclaimerPart2": "Pour toute question ou assistance, veuillez nous contacter via le chat intégré à l'application Katika Wallet ou via notre formulaire de contact disponible sur notre site officiel : \rwww.katika.io\r \nTous les e-mails officiels de Katika proviendront toujours d'une adresse se terminant par \b@katika.io. Nous ne vous demanderons jamais votre mot de passe, vos clés privées ou vos coordonnées bancaires.\b La confidentialité de vos données est pour nous une priorité, tout comme la \bsécurité de vos fonds.\b",
+        "disclaimerPart3": "En cliquant sur certains liens externes, vous pouvez être redirigé vers des sites web tiers. Les politiques de confidentialité de ces sites peuvent différer de celles de Katika. Nous vous encourageons à lire attentivement les politiques de ces sites, car Katika ne saurait être tenue responsable de leurs pratiques en matière de sécurité et de confidentialité.",
+        "disclaimerPart4": "Les opinions ou témoignages publiés par des utilisateurs sur nos plateformes n'engagent qu'eux. Katika décline toute responsabilité concernant l'exactitude ou la véracité de ces contenus.",
+        "disclaimerPart5": "\bAucun service client n'est assuré à l'adresse du siège.\b Tous les canaux d'assistance sont disponibles via notre site web ou notre application mobile.",
+        "disclaimerEnd": "Pour en savoir plus, consultez nos pages",
+        "and": "et",
+        "pages": "."
     },
     "privacyPolicy": {
         "title": "POLITIQUE DE CONFIDENTIALITÉ DE KATIKA WEB3, INC.",

@@ -37,8 +37,10 @@ export default {
         pink: '#E673D5',
         blue_fluo: '#09E1EF',
         pink_fluo: '#D902D7',
-        blue_dark: '#400970',
-        green_fluo: '#1DEF09'
+        blue_dark: '#320754',
+        green_fluo: '#1DEF09',
+        dark_night: '[#1A0F2E]',
+        
       },
       fontFamily: {
         poppins_normal: ["var(--font-poppins)"],

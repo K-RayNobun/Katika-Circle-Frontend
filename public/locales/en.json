@@ -1,4 +1,89 @@
 {
+    "landing": {
+        "navbar": {
+            "home": "Home",
+            "blog": "Blog",
+            "contact": "Contact",
+            "sendMoney": "Send Money"
+        },
+        "hero": {
+            "title": "They are far, but their",
+            "titleHighlight": "happiness",
+            "titleEnd": "is near",
+            "subtitle": {
+                "prefix": "With",
+                "brand": "Send",
+                "action": "send money",
+                "destination": "to Africa",
+                "highlight": "instantly",
+                "suffix": "and with confidence"
+            },
+            "buttons": {
+                "sendMoney": "Send Money",
+                "howItWorks": "How it Works"
+            },
+            "cards": {
+                "cashback": {
+                "title": "Enjoy the best rate + cashback!",
+                "description": "With an unbeatable rate of 680 F/€ and 0.5% cashback on each transfer, you win with every transaction. The more you send, the more you are rewarded."
+                },
+                "referral": {
+                "title": "Refer and earn for life",
+                "description": "Invite your friends to use Send by Katika and receive commissions on each of their transfers. A gesture for them, a reward for you."
+                },
+                "support": {
+                "title": "Support that really responds",
+                "description": "Available in Europe and Africa, our support team assists you at every step. WhatsApp, email, direct call: choose your channel."
+                }
+            }
+        },
+        "simulator": {
+        "form": {
+            "send": {
+            "label": "You send",
+            "placeholder": "0"
+            },
+            "receive": {
+            "label": "They receive",
+            "placeholder": "0"
+            },
+            "details": {
+            "exchangeRate": "Exchange rate",
+            "transferFees": "Transfer fees",
+            "cashbackGenerated": "Cashback generated"
+            }
+        },
+        "title": "Prepare your next",
+        "titleHighlight": "transfert",
+        "titleEnd": "",
+        "description": "You send for school, health, love, projects, we help you do it quickly, well and without hidden fees."
+        },
+        "slider": {
+        "title": "Why",
+        "titleHighlight": "send", 
+        "titleEnd": "money?",
+        "description": "Because beyond the tickets, it's support, love and the future that you share."
+        },
+        "features": {
+        "title": "Why",
+        "titleHighlight": "choose us",
+        "description": "Our mission is to provide you with the best money transfer experience",
+        "items": {
+            "security": "Security",
+            "rates": "Competitive exchange rates",
+            "instant": "Instant reception",
+            "support": "Human and multilingual support",
+            "assistance": "Assistance both in Europe and Africa"
+        }
+        },
+        "destinations": {
+        "title": "Available",
+        "titleHighlight": "destinations",
+        "countries": {
+            "cameroon": "Cameroon"
+        }
+        }
+    },
     "signin": {
         "title": "Welcome Back",
         "subtitle": "Please sign in to your account.",
@@ -258,6 +343,8 @@
                 "amountReceived": "Amount Received",
                 "recipientPhone": "Recipient Phone",
                 "recipientName": "Recipient Name",
+                "recipientIban": "Recipient IBAN",
+                "bankOwnerName": "Bank Account Holder Name",
                 "cashback": "Cashback",
                 "referralBonus": "Referral Bonus",
                 "exchangeRate": "Exchange Rate"
@@ -406,6 +493,35 @@
         "firstName": "First Name",
         "lastName": "Last Name",
         "invalidCredentials": "Invalid credentials provided"
+    },
+    "footer": {
+        "mission": "Katika's mission is to make people's financial lives easier through blockchain technology",
+        "usefulLinks": "USEFUL LINKS",
+        "services": "SERVICES",
+        "newsletter": "NEWSLETTER",
+        "newsletterText": "Sign up for our newsletter to stay up to date with our news",
+        "newsletterPlaceholder": "Enter your email address",
+        "copyright": "© 2025 Katika All rights reserved.",
+        "links": {
+            "caseStudy": "Case study Wallet",
+            "privacyPolicy": "Privacy Policy",
+            "termsOfUse": "Terms of Use",
+            "userAgreement": "User License Agreement",
+            "contact": "Contact",
+            "careers": "Careers"
+        },
+        "servicesList": {
+            "wallet": "Katika Wallet",
+            "ludokin": "Ludokin"
+        },
+        "disclaimerPart1": "Katika Wallet is a product of Katika Web3, Inc., a company registered in the United States (1228, 109 Green street, Lynn, MA, Essex, USA, 01902) and operated in Cameroon by Saction Sarl, registered under RCCM number: RC/DLA/2020/B/4248. Katika is a technology company specializing in facilitating money transfers and access to inclusive financial solutions. We are not a bank. Money transfer services are provided in partnership with licensed financial institutions in their respective jurisdictions.",
+        "disclaimerPart2": "For any questions or assistance, please contact us via the integrated chat in the Katika Wallet app or via our contact form available on our official website: \rwww.katika.io\r \nAll official emails from Katika will always come from an address ending with \b@katika.io. We will never ask for your password, private keys, or bank details.\\b The confidentiality of your data is a priority for us, as is the \bsecurity of your funds.\\b",
+        "disclaimerPart3": "By clicking on certain external links, you may be redirected to third-party websites. The privacy policies of these sites may differ from those of Katika. We encourage you to read these policies carefully, as Katika cannot be held responsible for their security and privacy practices.",
+        "disclaimerPart4": "Opinions or testimonials published by users on our platforms are their own. Katika declines all responsibility regarding the accuracy or truthfulness of this content.",
+        "disclaimerPart5": "\bNo customer service is provided at the head office address.\\b All support channels are available via our website or mobile app.",
+        "disclaimerEnd": "For more information, see our",
+        "and": "and",
+        "pages": "pages."
     },
     "errors": {
         "axiosError": {

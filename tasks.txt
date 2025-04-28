@@ -12,9 +12,6 @@ x Responsive layout on mobile
 - Group email & password for one updated
 
 
------------------------- LANDING PAGE CODE --------------------------
-- Set up the simulator functionnalities (15min) 12:09 - 12:35 (26min)
-- Add images as SVG (20min) 12:15 - 13:51
-- Update colors and gradient (15min) 13:52
-- Add animations (17min)
-- Add links (10min)
+------------------------ LANDING PAGE CODE -------------------------- 14:26
+    -  10:18 AM - ...
+    - Footer Section 11:35 AM -  ....

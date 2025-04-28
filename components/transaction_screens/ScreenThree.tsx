@@ -19,11 +19,11 @@ const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
     const accessToken = useAppSelector((state) => state.token.token);
     const dispatch = useAppDispatch();
     const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
-    console.log(` Receiver name is ${transactionDetails.receiverName}`);
+    // console.log(` Receiver name is ${transactionDetails.receiverName}`);
 
     const postTransaction = async () => {
         try {
-            console.log(`Posting transaction with of amount : ${transactionDetails.amountSent} ${transactionDetails.currencySent}`);
+            // console.log(`Posting transaction with of amount : ${transactionDetails.amountSent} ${transactionDetails.currencySent}`);
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction`,
                 {
@@ -55,9 +55,9 @@ const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
                     },
                 }
             );
-            console.log('Transaction posted successfully whose id is:', response.data.data);
+            // console.log('Transaction posted successfully whose id is:', response.data.data);
             dispatch(provideLatestTransactionId(response.data.data));
-            console.log('------------------ Finished Posting Transaction -----------------');
+            // console.log('------------------ Finished Posting Transaction -----------------');
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 switch (error.response?.status) {
@@ -119,14 +119,29 @@ const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
                     <h5>{t('transactionScreens.screenThree.details.amountReceived')}</h5>
                     <h5>{transactionDetails.amountReceived?.toLocaleString('en-US')} {transactionDetails.currencyReceived}</h5>
                 </div>
-                <div className={`flex justify-between font-bold`}>
-                    <h5>{t('transactionScreens.screenThree.details.recipientPhone')}</h5>
-                    <h5>{transactionDetails.receiverPhoneNumber}</h5>
-                </div>
-                <div className={`flex justify-between font-bold`}>
-                    <h5>{t('transactionScreens.screenThree.details.recipientName')}</h5>
-                    <h5 className="text-right text-[12px]">{transactionDetails.receiverName}</h5>
-                </div>
+                {transactionDetails.transfertType === 'MobileMoney' ? (
+                    <>
+                        <div className={`flex justify-between font-bold`}>
+                            <h5>{t('transactionScreens.screenThree.details.recipientPhone')}</h5>
+                            <h5>{transactionDetails.receiverPhoneNumber}</h5>
+                        </div>
+                        <div className={`flex justify-between font-bold`}>
+                            <h5>{t('transactionScreens.screenThree.details.recipientName')}</h5>
+                            <h5 className="text-right text-[12px]">{transactionDetails.receiverName}</h5>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div className={`flex justify-between font-bold`}>
+                            <h5>{t('transactionScreens.screenThree.details.recipientIban')}</h5>
+                            <h5 className="text-right text-[12px]">{transactionDetails.iban}</h5>
+                        </div>
+                        <div className={`flex justify-between font-bold`}>
+                            <h5>{t('transactionScreens.screenThree.details.bankOwnerName')}</h5>
+                            <h5 className="text-right text-[14px]">{transactionDetails.bankAccountOwner}</h5>
+                        </div>
+                    </>
+                )}
                 <div className={`flex justify-between font-bold`}>
                     <h5>{t('transactionScreens.screenThree.details.cashback')}</h5>
                     <h5>{transactionDetails.cashback} {transactionDetails.currencySent}</h5>

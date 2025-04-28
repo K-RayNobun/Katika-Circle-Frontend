@@ -302,10 +302,10 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                     <img src={`${currenciesData[selectedCurrency]?.image}`} alt="Img" className='w-[30px]' />
                     {
                     modifyingSentAmount ?
-
-                        <input type="text" defaultValue={transactionDetails.amountSent === 0 ? '' : transactionDetails.amountSent?.toLocaleString('en-US')} onChange={handleSentAmountChange} name='amount-sent' className='grow w-[75%] sm:w-full text-right' style={{ margin: 0, padding: 0}}/>
+// defaultValue={transactionDetails.amountSent === 0 ? '' : transactionDetails.amountSent?.toLocaleString('en-US')}
+                        <input type="text" onChange={handleSentAmountChange} name='amount-sent' className='grow w-[75%] sm:w-full text-right' style={{ margin: 0, padding: 0}}/>
                     :
-                        <input type="text" defaultValue={transactionDetails.amountSent === 0 ? '' : transactionDetails.amountSent?.toLocaleString('en-US')} onClick={() => {setModifyingSentAmount(true)}} readOnly={true} value={amountSentRef.current === 0 ? '': amountSentRef.current.toLocaleString('en-US')} name='amount-sent' className='grow w-[75%] sm:w-full text-right' />
+                        <input type="text" onClick={() => {setModifyingSentAmount(true)}} readOnly={true} value={amountSentRef.current === 0 ? '': amountSentRef.current.toLocaleString('en-US')} name='amount-sent' className='grow w-[75%] sm:w-full text-right' />
                     }
                     <h5 className=''>{currenciesData[selectedCurrency]?.symbol}</h5>
                 </div>

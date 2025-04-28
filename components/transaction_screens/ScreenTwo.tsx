@@ -19,6 +19,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
     const [receiverName, setReceiverName] = useState('');
     const [isTypeMobile, setIsTypeMobile] = useState(true);
     const [isNameChecked, setIsNameChecked] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
     const ibanRef = useRef('');
     const formRef = useRef<HTMLFormElement>(null);
 
@@ -41,7 +42,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                 appId: `${process.env.NEXT_PUBLIC_TRANZAK_APP_ID}`,
                 appKey: `${process.env.NEXT_PUBLIC_TRANZAK_APP_KEY}`,
             });
-            console.log('Created this token:', response.data.data.token);
+            // console.log('Created this token:', response.data.data.token);
             dispatch(provideToken(response.data.data.token as string));
         };
 
@@ -50,15 +51,14 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
 
     const testFieldsRegex = () => {
         const alphabeticalRegex = /^[A-Za-z\s]+$/;
-        const numericRegex = /^\d/;
+        const alphanumericRegex = /^[A-Za-z0-9\s]+$/;
         let isValid = true;
         let fields;
         if (!isTypeMobile) {
             fields = [
                 { name: 'owner-name', regex: alphabeticalRegex },
-                { name: 'iban', regex: numericRegex },
+                { name: 'iban', regex: alphanumericRegex },
                 { name: 'bank-name', regex: alphabeticalRegex },
-                { name: 'code', regex: numericRegex },
             ];
         } else {
             fields = [{ name: 'receiver-number', regex: /^\+\d+$/ }];
@@ -66,11 +66,13 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
         const formData = new FormData(formRef.current!);
 
         fields.forEach((field) => {
-            const value = '+' + formData.get(field.name) as string;
+            const value = ( isTypeMobile ? '+' : '') + formData.get(field.name) as string;
             if (!field.regex.test(value.trim())) {
-                document.getElementsByName(field.name)[0].classList.add('border-red');
-                console.log(`!!! Field ${field.name} value: ${value.trim()} doesn't respect regex !!!`);
+                console.log('Field Name is : ', field.name);
+                document.getElementsByClassName(field.name)[0].classList.add('border-red');
+                setErrorMsg(`!!! Field ${field.name} value: ${value.trim()} doesn't respect regex !!!`);
                 isValid = false;
+                return;
             } else if (field.name === 'iban' && field.regex.test(value.replace(/\s/g, '').trim())) {
                 document.getElementsByName(field.name)[0].classList.remove('border-red');
                 isValid = true;
@@ -87,13 +89,13 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
     const handleTransfertTypeChange = () => {
         const transfertType = document.getElementById('type-select') as HTMLSelectElement;
         setIsTypeMobile(transfertType.value === t('transactionScreens.screenTwo.transferType.options.mobileMoney'));
-        console.log('Transfer type changed to:', transfertType.value, 'isTypeMobile:', transfertType.value === t('transactionScreens.screenTwo.transferType.options.mobileMoney'));
+        // console.log('Transfer type changed to:', transfertType.value, 'isTypeMobile:', transfertType.value === t('transactionScreens.screenTwo.transferType.options.mobileMoney'));
     };
 
     const handleIbanChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let pureInput = e.target.value;
 
-        pureInput = pureInput.replace(/\D/g, '');
+        pureInput = pureInput.replace(/[^A-Za-z0-9]/g, '');
 
         let formattedValue = '';
         const spacing = [4, 9, 14, 25];
@@ -102,26 +104,28 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
             if (i > 0 && spacing.includes(i)) {
                 formattedValue += ' ';
             }
-            formattedValue += pureInput[i];
+            formattedValue += pureInput[i].toUpperCase();
         }
         ibanRef.current = formattedValue;
         e.target.value = formattedValue;
-        console.log('Iban value: ', ibanRef.current);
+        // console.log('Iban value: ', ibanRef.current);
     };
 
     const handlePhoneNumberChange = () => {
         const phoneNumber = new FormData(formRef.current!).get('receiver-number') as string;
         setReceiverName('');
-        console.log('Resetted the name');
+        // console.log('Resetted the name');
         if (isTypeMobile) {
             if (!testFieldsRegex()) {
-                console.log('Phone number incorrect, please start with 6 not with 2376');
+                // console.log('Phone number incorrect, please start with 6 not with 2376');
+                setErrorMsg(t('transactionScreens.screenTwo.errors.invalidFields'));
+                setIsFieldWrong(true);
                 return;
             } else if (phoneNumber.slice(1).length === 8) {
-                console.log('This is a Cameroonian number: ', phoneNumber);
+                // console.log('This is a Cameroonian number: ', phoneNumber);
                 handleNameCheck();
             } else {
-                console.log('Phone number: ', phoneNumber);
+                // console.log('Phone number: ', phoneNumber);
             }
         }
     };
@@ -142,27 +146,27 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
             );
             const verifiedName = response.data.data.verifiedName;
             if (verifiedName.length === 0) {
-                console.log('No name found for this number, please check the number again');
+                // console.log('No name found for this number, please check the number again');
                 setIsNameChecked(false);
                 return
             }
-            console.log('Response is: ', response.data);
+            // console.log('Response is: ', response.data);
             setReceiverName(verifiedName);
-            console.log('Verified Name is :', verifiedName);
+            // console.log('Verified Name is :', verifiedName);
             setIsNameChecked(true);
         } catch (error) {
             const axiosError = error as AxiosError;
             if (axiosError.response?.status === 401) {
-                console.log('Error of type 401');
-                console.log('The token is no more valid, we need to generate another one');
+                // console.log('Error of type 401');
+                // console.log('The token is no more valid, we need to generate another one');
                 const response = await axios.post('https://dsapi.tranzak.me/auth/token', {
                     appId: `${process.env.NEXT_PUBLIC_TRANZAK_APP_ID}`,
                     appKey: `${process.env.NEXT_PUBLIC_TRANZAK_APP_KEY}`,
                 });
-                console.log('Then we get this token:', response.data.data.token);
+                // console.log('Then we get this token:', response.data.data.token);
                 dispatch(provideToken(response.data.data.token as string));
             }
-            console.error('Error fetching recipient name:', error);
+            // console.error('Error fetching recipient name:', error);
             setReceiverName(t('transactionScreens.screenTwo.recipient.notFound'));
             setIsNameChecked(false);
         }
@@ -170,7 +174,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
 
     useEffect(() => {
         if (transactionDetails.receiverPhoneNumber) {
-            console.log('Checking the name with predefined data');
+            // console.log('Checking the name with predefined data');
             handleNameCheck();
         }
     }, []);
@@ -329,6 +333,11 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                         {t('transactionScreens.screenTwo.errors.invalidFields')}
                     </h5>
                 )}
+                {
+                    errorMsg && (
+                        <h5 className="text-red-500 text-center font-semibold text-[14px]">{errorMsg}</h5>
+                    )
+                }
                 <button
                     type="submit"
                     className={`hidden lg:block bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}
