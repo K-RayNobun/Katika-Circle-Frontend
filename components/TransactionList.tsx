@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { RiSendPlaneLine } from "react-icons/ri";
 import { MdOutlinePending, MdOutlineArrowDownward } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
-import axios from 'axios';
+import AsyncSpinner from './AsyncSpinner';
+import { ErrorMessage } from './ErrorComponent';
 
 // Redux related imports
 import { useDispatch } from 'react-redux';
 import { provideCashback } from '@/lib/redux/features/user/userSlice';
 import { useTranslation } from '@/lib/hooks/useTranslation';
+import { useApiGet } from '@/lib/hooks/useApiRequest';
 
 interface transactionDetails {
   order: number,
@@ -104,6 +106,7 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
   const dataLength = 12;
   const [transactionsList, setTransactionsList] = useState<Array<transactionDetails>>([]);
   const [searchResultList, setSearchResultList] = useState<Array<transactionDetails>>([]);
+  const { fetchData, isLoading, error } = useApiGet<Transaction[]>();
   const dispatch = useDispatch();
   const displayedStatuses = ['Pending', 'Success', 'Failed'];
   // console.log('Search Key is', searchKey);
@@ -111,21 +114,12 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
 
   useEffect(() => {
     const fecthTransactionList = async () => {
-      try {
         let cashbackTotal = 0;
         // console.log('------------------ Getting Transactions --------------')
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transactions/user`,
-          {
-            headers: {
-              'Authorization': 'Bearer ' + accessToken,
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*'
-            }
-          }
-        )
-
+        
         // console.log('We got this list of transactions: ', response.data.data);
-        const fetchedList = response.data.data.slice().reverse();
+        const result = await fetchData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transactions/user`);
+        const fetchedList = result!.slice().reverse();
         const transactionArray: Array<transactionDetails> = [];
         fetchedList.forEach((transaction: Transaction, index: number) => {
           const creationDate = new Date(transaction.creationDate);
@@ -157,10 +151,9 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
         setTransactionsList(transactionArray);
         // console.log(`Transactions list is ${transactionArray}`)
         // console.log('----------------- Finished Getting transactions --------------');
-      } catch {
-        // console.error('We met this error while getting the transaction list', error)
-      }
+      
     }
+
     fecthTransactionList();
   }, [accessToken]);
 
@@ -176,6 +169,22 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
       })
     }
   }, [searchKey, field, transactionsList])
+
+  if (isLoading) {
+    return <AsyncSpinner />;
+  }
+
+  if (error) {
+    return <ErrorMessage message={error} />;
+  }
+
+  if (!transactionsList || transactionsList.length === 0) {
+    return (
+      <div className="text-center py-8 text-gray-500">
+        {t('transactionList.noTransactions')}
+      </div>
+    )
+  }
 
   return (
     <div className={`grow w-full overflow-auto`}>
@@ -207,8 +216,8 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
               <button className={`${dataLength > 10 ? 'hidden lg:block' : 'hidden'} w-full bg-[#F9FAFB] py-[16px] hover:bg-gray rounded-b-[8px]'`}><h5 className='text-center'>Voir plus</h5></button>
             </tbody>
             :
-            <tbody className='w-full bg-gray p-[32px] rounded-[12px]'>
-              <tr>
+            <tbody className='w-full flex justify-center p-[32px] rounded-[12px]'>
+              <tr className=' w-full'>
                 <h5 className='text-[16px] text-center text-gray_dark font-semibold items-center justify-center flex'>
                   {t('transactionList.noTransactions')}
                 </h5>

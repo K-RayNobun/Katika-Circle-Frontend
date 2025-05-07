@@ -2,12 +2,13 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation'
-import axios, { AxiosError } from 'axios';
 import { useTranslation } from '@/lib/hooks/useTranslation';
 
 // Redux related imports
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { verifyUser, setWalletAdress, setReferralCode, provideId } from '@/lib/redux/features/user/userSlice';
+import { useApiGet, useApiPost } from '@/lib/hooks/useApiRequest';
+import { ErrorMessage } from '@/components/ErrorComponent';
 
 interface DigitCaseProps {
     identifier: string;
@@ -27,6 +28,21 @@ const DigitCase: React.FC<DigitCaseProps> = ({identifier, digitValue, isPinCorre
     1. When an input is getting filled, convert its value into array
     2. pass that array to the official pinCode array where cases takes their values
 */
+
+interface UserData {
+    id: string;
+    name: string;
+    sname: string;
+    email: string;
+    countryCode: string;
+    verified: boolean;
+    referral: {
+    referralCode: string;
+    };
+    wallet: {
+    address: string;
+    };
+}
  
 const PinCheck = () => {
 
@@ -41,9 +57,12 @@ const PinCheck = () => {
     const [canAskCode, setCanAskCode] = useState(true);
 
     const dispatch = useAppDispatch();
-    const accessToken = useAppSelector((state) => state.token.token);
     const userData = useAppSelector((state) => state.user);
     const { t } = useTranslation();
+
+    const { executePost, error: postError } = useApiPost<string, object>();
+    const {fetchData, error: error} = useApiGet<UserData>();
+    const {fetchData: fetchOtpData} = useApiGet<string>();
 
     useEffect(() => {
         intervalRef.current = setInterval(() => {
@@ -154,70 +173,55 @@ const PinCheck = () => {
     };
 
     const sendOTP = async () => {
-        // console.log('Access Token is: ', accessToken)
-        try {
-            await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`,
-                {},
-            {
-                headers: {
-                    'Authorization': 'Bearer ' + accessToken,
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                }
-            });
+        const result = await executePost(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`,
+            {});
 
-            // console.log('Just sent the token successfully as ', response.data);
-            setCanAskCode(false);
-            setTimeMinLeft(1);
-            setTimeSecLeft(59);
-        } catch(error) {
-            if (error instanceof AxiosError) {
-                // console.log('Failed to send OTP code ', error.response?.data?.message || error.message);
-            } else {
-                // console.log('An unexpected error occurred');
-            }
+        // console.log('Just sent the token successfully as ', response.data);
+        if (!result) {
+            return <ErrorMessage message={postError!} />;
         }
+        setCanAskCode(false);
+        setTimeMinLeft(1);
+        setTimeSecLeft(59);
+        
     };
 
     const getUserData = async() => {
         // console.log('Getting the verified user data');
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`,
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    "Content-Type": 'application/json'
-                }
-            }
-        );
+        const result = await fetchData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`);
         // console.log('The User Data Is: ', response.data.data);
-        dispatch(provideId(response.data.data.id))
-        dispatch(setReferralCode(response.data.data.referral.referralCode))
-        dispatch(setWalletAdress(response.data.data.wallet.address))
+        if(result) {
+            dispatch(provideId(result.id))
+            dispatch(setReferralCode(result.referral.referralCode))
+            dispatch(setWalletAdress(result.wallet.address))
+        } else if (error) {
+            return <ErrorMessage message={error} />
+        } else {
+            return <ErrorMessage message='An unexpected problem occured please contact support' />
+        }
     };
 
     const verifyOTP = async (pinCode:string) => {
         // console.log('Access Token is:', accessToken);
         // console.log('The PIN Code is: ', pinCode);
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp?code=${pinCode}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    "Content-Type": 'application/json'
-                }
-            }
-        );
+        const message = await fetchOtpData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp?code=${pinCode}`);
         // console.log('Verification Result: ', response.data)
-        const message = response.data.data
-        if (message.toLowerCase() === 'otp valid with success') {
-            // console.log('\t #### PIN Code is Right !');
-            setIsPinCorrect(true);
-            dispatch(verifyUser(true));
-            getUserData();
-        } else if (message.toLowerCase() === 'invalid otp code provided') {
-            // console.log('PIN Code is Incorrect');
-            setIsPinCorrect(false);
+        if (message) {
+            if (message.toLowerCase() === 'otp valid with success') {
+                console.log('\t #### PIN Code is Right !');
+                setIsPinCorrect(true);
+                dispatch(verifyUser(true));
+                getUserData();
+            } else if (message.toLowerCase() === 'invalid otp code provided') {
+                console.log('PIN Code is Incorrect');
+                setIsPinCorrect(false);
+            } else {
+                console.log('The PIN cannot be decided as neither right or wrong. Check your code');
+            }
+        } else if (error) {
+            return <ErrorMessage message={error} />
         } else {
-            // console.log('The PIN cannot be decided as neither right or wrong. Check your code');
+            return <ErrorMessage message='An unexpected problem occured please contact support' />
         }
     }
 

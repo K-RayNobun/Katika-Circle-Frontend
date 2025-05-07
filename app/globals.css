@@ -540,29 +540,73 @@ text-shadow:
   transition: transform 1.2s;
   transform-style: preserve-3d;
 }
-
+/* Card styles */
 .perspective {
   perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+
+.card {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .card-inner {
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  backface-visibility: hidden;
 }
 
-.card:hover .card-inner {
+.card0inner.fliped {
   transform: rotateY(180deg);
-  backface-visibility: hidden;
-  color: #320754;
+  -webkit-transform: rotateY(180deg);
 }
 
-.card-face {
-  position: absolute;
+.card-front,
+.card-back {
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
 }
 
 .card-back {
-  background-color: #fffe;
   transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
+
+/* Desktop hover */
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .card-inner {
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+  }
+}
+
+/* Mobile touch */
+@media (hover: none) and (pointer: coarse) {
+  .card-inner.flipped {
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+  }
+}
+
+/* Additional iOS Safari fixes */
+@supports (-webkit-touch-callout: none) {
+  .card-inner {
+    will-change: transform;
+  }
+}
+
+/* Handle iOS Safari specifically */
+@supports (-webkit-touch-callout: none) {
+  .card {
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
 /* 

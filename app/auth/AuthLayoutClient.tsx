@@ -42,11 +42,11 @@ export default function AuthLayoutClient({
     useEffect(() => {
       // CHECK IF THE USER IS VERIFIED
       // If the user isn't verified but has email, he hasn't got by pincheck we should redirect him there
-      if (!userData.verified && userData.email.length > 0) {
-        router.push('/auth/pincheck');
-      } 
+      // if (!userData.verified && userData.email.length > 0) {
+      //   router.push('/auth/pincheck');
+      // } 
       // If the user is verified but hasn't email, he has certainly logged out and we should redirect him to signin
-      else if (userData.verified && userData.email.length === 0) {
+       if (userData.verified && userData.email.length === 0) {
       console.log('USER VERIFIED BUT NO EMAIL, SUPPOSE HE HAS LOGGED OUT');
       router.push('/auth/signin');
       }

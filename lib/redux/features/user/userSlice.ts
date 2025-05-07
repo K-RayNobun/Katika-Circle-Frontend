@@ -46,7 +46,7 @@ const userSlice = createSlice({
         state.email = action.payload.email;
         state.pwdhash = action.payload.pwdhash;
         state.country = action.payload.country;
-        // console.log(`------------- USER INFO : ${state.name}  ${state.pwdhash} ${state.email}  -----------------`);
+        console.log(`------------- USER INFO : ${state.name}  ${state.pwdhash} ${state.email}  -----------------`);
        },
        provideId: (state, action: PayloadAction<string>) => {
         state.id = action.payload;

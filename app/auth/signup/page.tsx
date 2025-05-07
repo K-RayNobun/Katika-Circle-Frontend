@@ -6,7 +6,8 @@ import Link from 'next/link';
 import { LuEyeClosed, LuEye } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa6";
 
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
+import { useApiGet, useApiPost } from '@/lib/hooks/useApiRequest';
 // import { Suspense } from 'react';
 import { useTranslation } from '@/lib/hooks/useTranslation';
 
@@ -25,17 +26,30 @@ interface CountryData {
     alpha2: string;
 }
 
-interface ErrorType {
-    response: {
-        data: {
-            message: ''
-        }
-    }
-}
+// interface ErrorType {
+//     response: {
+//         data: {
+//             message: ''
+//         }
+//     }
+// }
 
 // interface CountriesList {
 //     [key: string]: CountryData;
 // }
+
+type SignUpResponse = {
+    "access-token": string
+}
+
+type signupPayload = {
+    'fname': string,
+    'lname': string,
+    'email': string,
+    'pwd': string,
+    'countryCode': string,
+    'pReferralCode'?: string,
+}
 
 const Signup = () => {
     const { t } = useTranslation();
@@ -61,6 +75,10 @@ const Signup = () => {
     });
 
     const formRef = useRef<HTMLFormElement>(null);
+
+    // Api request hooks
+    const {executePost, error: postError} = useApiPost<SignUpResponse | null, signupPayload | object >();
+    const {fetchData} = useApiGet<CountryData[]>();
 
     // Redux setup
 
@@ -130,18 +148,10 @@ const Signup = () => {
     }
 
     const sendOTP = async () => {
-        // console.log('Sending OTP');
+        console.log('Sending OTP');
         // console.log('Access Token is: ', accessToken.current)
-        await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`,
-            {},
-        {
-            headers: {
-                'Authorization': 'Bearer ' + accessToken.current,
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            }
-        });
-        // console.log('Finished sending OTP with the token', accessToken);
+        await executePost(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`, {});
+        console.log('Finished sending OTP with the token', accessToken);
         // console.log('Just sent the token successfully as ', response.data);
     };
 
@@ -170,46 +180,37 @@ const Signup = () => {
                     "pReferralCode": formData.get('ref_code') as string,
                 }
             }
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/signin`, 
-                payload,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*'
-                    }
-                }
-            );
+            const response = await executePost(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/signin`, payload, false);
+            console.log('Registration Response is ', response);
             
-            if (response.data.error) {
-                setError(response.data.error.message || 'Registration failed');
+            if (error) {
+                setError('');
                 return;
             }
 
             // console.log('User data: ', response.data.data);
-            accessToken.current = (response.data.data['access-token'])
+            accessToken.current = (response['access-token'])
             // console.log('Finished registering user ?', isRegistratedRef.current);
             dispatch(renewToken({
-                token: response.data.data['access-token'],
-                expiresIn: null
+                token: response['access-token'],
             }));
             dispatch(resetUser());
             sendOTP();
             isRegistratedRef.current = true;
         } catch (err) {
             const axiosError = err as AxiosError;
-            const error = err as ErrorType;
             setIsSubmitting(false);
             // Handle error `Referral Does not exit Exist`
-            if (axiosError.response?.status === 500 && error.response.data.message.includes('Referral Does not exit Exist')) {
+            if (axiosError.response?.status === 500 && postError!.includes('Referral Does not exit Exist')) {
                 setError(t('signup.errors.invalidReferralCode'));
                 isSubmittingRef.current = false;
-            } else if (axiosError.response?.status === 500 && error.response.data.message.toLowerCase().includes('user already exist')) {
+            } else if (axiosError.response?.status === 500 && postError!.toLowerCase().includes('user already exist')) {
                 setError(t('signup.errors.userAlreadyExists'));
                 isSubmittingRef.current = false;
             } else if (axiosError.response?.status !== 200) {
                 setError(t('signup.errors.serverError'));
                 isSubmittingRef.current = false;
-                // console.error('Registration error:', error);
+                console.error('Registration error:', axiosError.response?.status);
             }
         }
     } 
@@ -222,7 +223,7 @@ const Signup = () => {
         const formData = new FormData(formRef.current!);
         const name =  formData.get('user_firstname') as string;
         const surname =  formData.get('user_name') as string;
-        const email = formData.get('user_email') as string;
+        const email = (formData.get('user_email') as string).toLowerCase();
         const password = formData.get('password') as string;
         // const refcode = formData.get('ref_code') as string;
         const confirmPassword = formData.get('confirm_password') as string;
@@ -285,7 +286,7 @@ const Signup = () => {
                 verified: false,
                 language: 'fr',
             }));
-            router.push('/auth/pincheck');
+            // router.push('/auth/pincheck');
         }
         console.log('Finished signup');
     }
@@ -306,18 +307,12 @@ const Signup = () => {
         // 
         setSelectedCountry(countriesList[country_index]);
         // console.log('Selected country index is: ', country_index);
-        const response = await axios.post('https://countriesnow.space/api/v0.1/countries/flag/images',
+        const response = await executePost('https://countriesnow.space/api/v0.1/countries/flag/images',
             {
                 "iso2": countriesList[country_index].alpha2,
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                }
             }
         );
-        setCountryFlagURL(response.data.data.flag);
+        setCountryFlagURL(response.flag);
     }
 
     const checkRefCode = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -327,15 +322,10 @@ const Signup = () => {
             setError('');
             try {
                 // console.log('Checking ', refCode);
-                await axios.get(
-                    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/referral/parent?code=${refCode}`,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Access-Control-Allow-Origin': '*'
-                        }
-                    });
-                // console.log('The referral code verdict is ', response.data.data);
+                const response = await fetchData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/referral/parent?code=${refCode}`, false);
+                if (!response) {
+                    setError('Inexistant referral code');
+                }
             } catch {
                 // console.error('The error => ', error);
                 setError('Inexistant referral code');
@@ -350,29 +340,17 @@ const Signup = () => {
 
     useEffect(() => {
         const fetchCountries = async () => {
-            const response = await axios.get('https://api-stg.transak.com/api/v2/countries',
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*'
-                    }
-                }
-            );
-            setCountriesList(response.data.response);
+            const response = await fetchData('https://api-stg.transak.com/api/v2/countries') as CountryData[];
+            setCountriesList(response);
+            console.log('The Country List is: ', countriesList);
             // // console.log('An example country: ', response.data.response[0])
-            const responseSecond = await axios.post('https://countriesnow.space/api/v0.1/countries/flag/images',
+            const responseSecond = await executePost('https://countriesnow.space/api/v0.1/countries/flag/images',
                 {
-                    "iso2": response.data.response[53].alpha2,
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*'
-                    }
+                    "iso2": response[53].alpha2,
                 }
             );
             // // console.log('Response Second is: ', responseSecond)
-            setCountryFlagURL(responseSecond.data.data.flag);
+            setCountryFlagURL(responseSecond.flag);
         };
         fetchCountries();
     }, []);

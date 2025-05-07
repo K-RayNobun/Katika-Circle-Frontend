@@ -15,6 +15,7 @@ import { GiMoneyStack } from "react-icons/gi";
 import { HiUserGroup } from "react-icons/hi2";
 import { MdOutlineSupportAgent } from "react-icons/md";
 import { useRouter } from 'next/navigation';
+import { IconType } from 'react-icons/lib';
 
 import Footer from '@/components/pagesComponents/Footer';
 
@@ -75,6 +76,49 @@ const LandingNavbar = ({t, navigateTo}:{t: (path: string) => string, navigateTo:
 
 const HeroSection = ({t, navigateTo}:{t: (path: string) => string, navigateTo: (path: string) => void}) => {
 
+  const Card = ({ icon: Icon, title, description }: { icon: IconType, title: string, description: string }) => {
+    const [isFlipped, setIsFlipped] = useState(false);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+    const handleClick = () => {
+      setIsFlipped(prev => !prev);
+    };
+
+    useEffect(() => {
+        // Add a timeout that unflip the card after 5 seconds
+        if (isFlipped) {
+          timeoutRef.current = setTimeout(() => {
+            setIsFlipped(false);
+          }, 5000);
+        }
+        
+        return () => {
+          if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current)
+          }
+        };
+
+    }, [isFlipped])
+    
+  
+    return (
+      <div className='card bg-blue-800/30 rounded-[20px] w-full md:min-w-[180px] h-[160px] perspective'>
+        <div 
+          className={`card-inner relative w-full h-full transform transition-transform duration-500 ${isFlipped ? 'flipped' : ''}`}
+          onClick={handleClick}
+        >
+          <div className="card-front absolute w-full h-full bg-blue-800/30 rounded-[20px] flex flex-col justify-center items-center gap-2 text-white p-4">
+            <Icon className='text-white size-10' />
+            <h4 className="text-lg font-bold text-center">{title}</h4>
+          </div>
+          <div className="card-back absolute w-full h-full text-blue-900 bg-white rounded-[20px] flex flex-col justify-center items-center p-4">
+            <p className="text-[12px] text-center">{description}</p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const sectionRef = useOneTimeAnimation();
 
   return (
@@ -89,53 +133,30 @@ const HeroSection = ({t, navigateTo}:{t: (path: string) => string, navigateTo: (
             <span className='font-semibold text-blue_fluo'> {t('landing.hero.subtitle.action')}</span> {t('landing.hero.subtitle.destination')}, 
             <span className='font-semibold text-green_fluo'> {t('landing.hero.subtitle.highlight')}</span> {t('landing.hero.subtitle.suffix')}
           </p>
-          <div className='w-full flex justify-evenly px-[5%] lg:px-[8px] gap-2 lg:gap-4'>
-            <button onClick={() => navigateTo('/user/home')} className='bg-pink_fluo text-white font-semibold rounded-[12px] py-[8px] lg:py-[12px] w-full duration-300 hover:scale-105'>
+          <div className='w-full flex justify-evenly lg:px-[8px] gap-2 lg:gap-4'>
+            <button onClick={() => navigateTo('/user/home')} className='bg-pink_fluo text-white font-semibold rounded-[12px] py-[8px] lg:py-[12px] w-full duration-300 hover:scale-105 lg:hover:scale-110'>
               {t('landing.hero.buttons.sendMoney')}
             </button>
             <button onClick={() => navigateTo('/user/home')} className='bg-white text-[14px]  text-primary font-semibold rounded-[12px] py-[16px] w-full duration-300 hover:scale-105'>
               {t('landing.hero.buttons.howItWorks')}
             </button>
           </div>
-          <div className='card-container flex flex-col md:flex-row items-center justify-center gap-[20px]'>
-            {/* Card 1 - Cashback */}
-            <div className='card bg-blue-800/30 flex-1 rounded-[20px] h-[160px] perspective'>
-              <div className="card-inner relative w-full h-full transform transition-transform duration-500 cursor-pointer">
-                <div className="card-face card-front absolute w-full h-full bg-blue-800/30 rounded-[20px] flex flex-col justify-center items-center gap-2 text-white p-4">
-                  <GiMoneyStack className='text-white size-10' />
-                  <h4 className="text-lg font-bold text-center">{t('landing.hero.cards.cashback.title')}</h4>
-                </div>
-                <div className="card-face card-back absolute w-full h-full bg-blue-900/50 rounded-[20px] flex flex-col justify-center items-center text-dark_night p-4 transform rotate-y-180">
-                  <p className="text-[12px] text-center text-dark_night">{t('landing.hero.cards.cashback.description')}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 2 - Referral */}
-            <div className='card bg-blue-800/30 flex-1 rounded-[20px] h-[160px] perspective'>
-              <div className="card-inner relative w-full h-full transform transition-transform duration-500 cursor-pointer">
-                <div className="card-face card-front absolute w-full h-full bg-blue-800/30 rounded-[20px] flex flex-col justify-center items-center gap-2 text-white p-4">
-                  <HiUserGroup className='text-white size-9' />
-                  <h4 className="text-lg font-bold text-center">{t('landing.hero.cards.referral.title')}</h4>
-                </div>
-                <div className="card-face card-back absolute w-full h-full bg-blue-900/50 rounded-[20px] flex flex-col justify-center items-center text-dark_night p-4 transform rotate-y-180">
-                  <p className="text-[13px] text-center text-dark_night">{t('landing.hero.cards.referral.description')}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 3 - Support */}
-            <div className='card bg-blue-800/30 flex-1 rounded-[20px] h-[160px] perspective'>
-              <div className="card-inner relative w-full h-full transform transition-transform duration-500 cursor-pointer">
-                <div className="card-face card-front absolute w-full h-full bg-blue-800/30 rounded-[20px] flex flex-col justify-center items-center gap-2 text-white p-4">
-                  <MdOutlineSupportAgent className='text-white size-10' />
-                  <h4 className="text-lg font-bold text-center">{t('landing.hero.cards.support.title')}</h4>
-                </div>
-                <div className="card-face card-back absolute w-full h-full bg-blue-900/50 rounded-[20px] flex flex-col justify-center items-center text-dark_night p-4 transform rotate-y-180">
-                  <p className="text-[12px] text-center">{t('landing.hero.cards.support.description')}</p>
-                </div>
-              </div>
-            </div>
+          <div className='card-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center gap-[20px]'>
+            <Card 
+              icon={GiMoneyStack}
+              title={t('landing.hero.cards.cashback.title')}
+              description={t('landing.hero.cards.cashback.description')}
+            />
+            <Card 
+              icon={HiUserGroup}
+              title={t('landing.hero.cards.referral.title')}
+              description={t('landing.hero.cards.referral.description')}
+            />
+            <Card 
+              icon={MdOutlineSupportAgent}
+              title={t('landing.hero.cards.support.title')}
+              description={t('landing.hero.cards.support.description')}
+            />
           </div>
         </div>
         <div className='w-[380px] md:w-[50%] ml-[36px] slide-in-right relative pr-0 md:pr-[3%] h-full flex justify-center items-end md:mt-0'>
@@ -230,14 +251,14 @@ const SimulatorSection = ({t}: {t: (path: string) => string}) => {
 
 
   return (
-    <section ref={sectionRef} className='w-full min-h-[720px] bg-blue_dark px-4 md:px-[7.5%] py-[7%] flex justify-center items-center'>
-      <div className='flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-0'>
-        <div className='w-full lg:min-w-[600px] lg:w-[50%] w-[ slide-in-right flex flex-col gap-[20px] items-center justify-center rounded-[20px] p-[22px]'>
-          <div className='w-full border-2 border-gray_dark/30 bg-gray rounded-[20px] px-[16px] py-[12px] flex flex-col gap-[20px]'>
+    <section ref={sectionRef} className='w-full min-h-[660px] bg-[#551A82] md:px-[5%] py-[7%] flex justify-center items-center overflow-x-hidden'>
+      <div className='flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-0 w-full max-w-[1200px]'>
+        <div className='w-full md:w-[50%] lg:min-w-[600px] slide-in-right flex flex-col gap-[20px] items-center justify-center rounded-[20px] p-4 md:p-[22px]'>
+          <div className='w-[100%] border-2 border-gray_dark/30 bg-gray rounded-[20px] px-[16px] py-[12px] flex flex-col gap-[20px]'>
             <h4 className='font-semibold text-primary'>{t('landing.simulator.form.send.label')}</h4>
             <div className='flex items-center justify-between text-[32px] font-bold'>
               <input type="number" min="0" step="0.01" onChange={handleAmountSentChange}
-                     placeholder={'0'} className='w-[300px] bg-transparent px-1 rounded-md'
+                     placeholder={'0'} className='w-[100px] md:w-[300px] bg-transparent px-1 rounded-md'
                      onKeyDown={(e) => {
                       // Prevent input of unwanted characters
                       if (!/[\d.]/.test(e.key) && 
@@ -245,21 +266,22 @@ const SimulatorSection = ({t}: {t: (path: string) => string}) => {
                           e.preventDefault();
                       }
                   }} />
-              <div className='flex justify-center items-center gap-4'> 
+              <div className='flex justify-center items-center gap-2 md:gap-4'> 
                 <h1>€</h1>
-                <Image width={10} height={10} src={'/landing/France.svg'} alt='Image Not loaded' className='w-[50px] h-[39px]' />
-                <FaChevronDown size={24} className='text-[32px]' />
+                <Image width={10} height={10} src={'/landing/France.svg'} alt='Image Not loaded' className='w-[40px] md:w-[50px] h-[39px]' />
+                <FaChevronDown size={24} className='w-[18px] md:w-[24px]' />
               </div>
             </div>
           </div>
           <div className='w-full border-2 border-gray_dark/30 bg-gray rounded-[20px] px-[16px] py-[12px] flex flex-col gap-[20px]'>
             <h4 className='font-semibold text-primary'>{t('landing.simulator.form.receive.label')}</h4>
             <div className='flex items-center justify-between text-[32px] font-bold'>
-              <input type="number" readOnly={true} value={amountReceived} className='w-[300px] bg-transparent px-1 rounded-md' />
-              <div className='flex justify-center items-center gap-4'> 
-                <h1>XAF</h1>
-                <Image width={10} height={10} src={'/landing/Cameroon.svg'} alt='Image Not loaded' className='w-[50px] h-[39px]' />
-                <FaChevronDown size={24} className='' />
+              <input type="number" readOnly={true} value={amountReceived} 
+                    className='w-[100px] md:w-[300px] bg-transparent px-1 rounded-md' />
+              <div className='flex justify-center items-center gap-2 md:gap-4'> 
+                <h1 className='text-[26px] md:text-[56px]'>XAF</h1>
+                <Image width={10} height={10} src={'/landing/Cameroon.svg'} alt='Image Not loaded' className='w-[40px] md:w-[50px] h-[39px]' />
+                <FaChevronDown size={24} className='w-[18px] md:w-[24px]' />
               </div>
             </div>
           </div>
@@ -280,8 +302,8 @@ const SimulatorSection = ({t}: {t: (path: string) => string}) => {
           </div>
         </div>
         <div className='w-full md:w-[45%] px-4 md:pl-[6%] text-center md:text-left slide-in-left text-white'>
-          <h1 className='great text-3xl md:text-[56px] font-bold leading-tight md:leading-[74px] mb-4'>{t('landing.simulator.title')} <span className='text-gold_fluo'>{t('landing.simulator.titleHighlight')} </span>{t('landing.simulator.titleEnd')}</h1>
-          <p>{t('landing.simulator.description')}</p>
+          <h1 className='great text-[14px] md:text-[56px] font-bold leading-tight md:leading-[74px] mb-4'>{t('landing.simulator.title')} <span className='text-gold_fluo'>{t('landing.simulator.titleHighlight')} </span>{t('landing.simulator.titleEnd')}</h1>
+          <p className='text-[14px]'>{t('landing.simulator.description')}</p>
         </div>
       </div>
     </section>
@@ -293,7 +315,7 @@ const SliderSection = ({t}:{t: (path: string) => string}) => {
   const sectionRef = useOneTimeAnimation();
 
   return (
-    <section ref={sectionRef} className='w-full min-h-[660px] bg-[#551A82] px-4 md:px-[7.5%] py-[7%] flex justify-center items-center'>
+    <section ref={sectionRef} className='w-full min-h-[660px] bg-[#320754] md:bg-[#551A82] px-4 md:px-[7.5%] py-[7%] flex justify-center items-center'>
       <div className='flex flex-col md:flex-row items-center justify-between gap-8 md:gap-0'>
         <div className='w-full lg:w-[30%] slide-in-left text-white text-center md:text-left'>
           <h1 className='great text-[56px] font-bold leading-[74px] mb-4'>
@@ -315,8 +337,8 @@ const FeaturesSection = ({t}:{t: (path: string) => string}) => {
   const sectionRef = useOneTimeAnimation();
 
   return (
-    <section ref={sectionRef} className='w-full min-h-[660px] bg-blue_dark px-4 md:px-[7.5%] py-[7%] flex justify-center items-center'>
-      <div className='w-full rounded-[44px] bg-purple-900 px-4 md:px-[5%] py-[36px] flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-0'>
+    <section ref={sectionRef} className='w-full min-h-[660px] bg-purple-900 lg:bg-blue_dark px-4 md:px-[7.5%] py-[7%] flex justify-center items-center'>
+      <div className='w-full rounded-[44px] lg:bg-purple-900 px-4 md:px-[5%] py-[36px] flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-0'>
         <div className='w-full md:w-[50%] slide-in-left flex flex-col gap-[14px] items-center md:items-end'>
           <div className='flex feature-box flex-col gap-[12px] items-center lg:items-end'>
             <div className='feature-box'>

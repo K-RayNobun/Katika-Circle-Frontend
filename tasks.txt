@@ -1,4 +1,9 @@
 
+------------------------ LANDING PAGE CODE -------------------------- 
+    - Update the landing page mobile view and deploy ( 15mins ).
+    - Turn all axios requests into a use of ApiRequest hooks ( 40mins ).
+
+
 ---------------------------- JOURNEY REPORT ----------------------------
 
 x Cashback formatting
@@ -11,7 +16,3 @@ x Responsive layout on mobile
 - Email and password setting modifs
 - Group email & password for one updated
 
-
------------------------- LANDING PAGE CODE -------------------------- 14:26
-    -  10:18 AM - ...
-    - Footer Section 11:35 AM -  ....

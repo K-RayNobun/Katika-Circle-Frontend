@@ -2,11 +2,9 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 // import Image from 'next/image';
-import AsyncSpinner from '@/components/AsyncSpinner';
 import { LuEyeClosed, LuEye } from "react-icons/lu";
 import { useRouter, useSearchParams} from 'next/navigation';
 import Link from 'next/link';
-import axios, { AxiosError } from 'axios';
 
 // Redux related imports
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
@@ -16,7 +14,33 @@ import { useTranslation } from '@/lib/hooks/useTranslation';
 
 import { withCookieProtection } from '@/app/CookieProvider';
 
+import { useApiGet, useApiPost} from '@/lib/hooks/useApiRequest';
+import AsyncSpinner from '@/components/AsyncSpinner';
 
+// UseApiRequest hook calls return data in a type thta shoudld be pased onto him. I
+
+interface UserData {
+    id: string;
+    name: string;
+    sname: string;
+    email: string;
+    countryCode: string;
+    verified: boolean;
+    referral: {
+    referralCode: string;
+    };
+    wallet: {
+    address: string;
+    };
+}
+
+type signinResponse = {
+    'access-token': string
+}
+type signinPayload = {
+    'email': string,
+    'pwd': string
+}
                                                                                                                                                                                                                                                     
 const Signin = () => {
 
@@ -45,8 +69,11 @@ const Signin = () => {
 
     const formRef = useRef<HTMLFormElement>(null);
 
+    const { executePost, isLoading: isPosting } = useApiPost<signinResponse, signinPayload>();
+    const { fetchData, isLoading: isProfileFetching } = useApiGet<UserData>();
+
     useEffect(() => {
-        // console.log('Chaeck if we can send him to homePage');
+        // console.log('Check if we can send him to homePage');
         if (userData.verified && userData.email && isSigningIn) {
             router.push('/user/home');
         }
@@ -64,31 +91,6 @@ const Signin = () => {
     const validatePassword = (password: string): boolean => {
         return password.length >= 6
     }
-
-    const getUserData = async() => {
-        // console.log('Getting the verified user data');
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`,
-            {
-                headers: {
-                    Authorization: `Bearer ${accessTokenRef.current}`,
-                    "Content-Type": 'application/json'
-                }
-            }
-        );
-        // console.log('The User Data Is: ', response.data.data);
-        dispatch(setReferralCode(response.data.data.referral.referralCode))
-        dispatch(setWalletAdress(response.data.data.wallet.address))
-        dispatch(createUser({
-            id: response.data.data.id,
-            name: response.data.data.name,
-            surname: response.data.data.sname,
-            email: response.data.data.email,
-            country: response.data.data.countryCode,
-            referralCode: response.data.data.referral.referralCode,
-            language: 'fr'
-        }));
-        dispatch(verifyUser(response.data.data.verified));
-    };
 
     const handleSubmit = async(e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
@@ -120,39 +122,62 @@ const Signin = () => {
         setErrorField('');
         setIsSubmitting(true);
 
-        // Axios request
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/login`, 
+            // SIGNIN REQUEST
+            const result = await executePost(
+                `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/login`,
                 {
-                    email: email,
-                    pwd: password,
+                    email: formData.get('email') as string,
+                    pwd: formData.get('password') as string,
                 },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                }
+                false
+            );
+    
+            if (!result) {
+                throw new Error('Login Failed');
+            }
+            // Set token and dispatch to Redux
+            const token = result['access-token'];
+            accessTokenRef.current = token;
+            
+            await dispatch(
+                renewToken({
+                    token: token,
+                    expiresIn: 5 * 60 * 1000,
+                })
             );
 
-            // console.log('The token is ', response.data.data['access-token']);
-            accessTokenRef.current = response.data.data['access-token'];
-            dispatch(renewToken({
-                token: response.data.data['access-token'],
-                expiresIn: 5 * 60 * 1000
-            }));
+            await new Promise(resolve => setTimeout(resolve, 500));
 
-            await getUserData();
-        } catch(error) {
-            const axiosError = error as AxiosError;
-            if (axiosError.response?.status === 500) {
-                // console.error('Error on precessing login:', error);
-                setError('Invalid email or password');
-                setErrorField('email & password');
+            // Now that we have the token, fetch user profile
+            const userApiData = await fetchData(
+                `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`
+            );
 
+            if (userApiData) {
+                // Update user data in Redux
+                dispatch(setReferralCode(userApiData.referral.referralCode!));
+                dispatch(setWalletAdress(userApiData.wallet.address));
+                dispatch(createUser({
+                    id: userApiData.id,
+                    name: userApiData.name,
+                    surname: userApiData.sname,
+                    email: userApiData.email,
+                    country: userApiData.countryCode,
+                    referralCode: userApiData.referral.referralCode,
+                    language: 'fr'
+                }));
+                dispatch(verifyUser(userApiData.verified));
             }
+        } catch (error) {
+            setError('An error occurred while processing your request. Please try again.');
+            console.error('Error during sign-in request:', error);
+            setErrorField('email & password');
         } finally {
             setIsSubmitting(false);
         }
+
+        // console.log('Moving to the next point');
     };
 
     useEffect(() => {
@@ -198,7 +223,7 @@ const Signin = () => {
                 {error && <h4 className='text-red font-bold text-center text-sm h-min'>{error}</h4>}
             </div>
             <button type='submit' className={`mt-6 bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full ${isSubmitting ? 'opacity-50' : ''}`}>
-                {isSubmitting ? (
+                {isSubmitting || isProfileFetching || isPosting ? (
                     <>
                         <AsyncSpinner />
                         {/* <h6 className='text-center font-bold'>Processing...</h6> */}
