@@ -14,7 +14,7 @@ import { useTranslation } from '@/lib/hooks/useTranslation';
 
 // Redux imports;
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import { createUser, setFirstReferringCode, resetUser } from '@/lib/redux/features/user/userSlice';
+import { createUser, setDefaultReferringCode, resetUser } from '@/lib/redux/features/user/userSlice';
 import { renewToken, resetToken } from '@/lib/redux/features/token/tokenSlice';
 import AsyncSpinner from '@/components/AsyncSpinner';
 import { withCookieProtection } from '@/app/CookieProvider';
@@ -79,6 +79,7 @@ const Signup = () => {
     // Api request hooks
     const {executePost, error: postError} = useApiPost<SignUpResponse | null, signupPayload | object >();
     const {fetchData} = useApiGet<CountryData[]>();
+    const {fetchData: fetchReferralError, error: getError} = useApiGet<string>();
 
     // Redux setup
 
@@ -120,7 +121,7 @@ const Signup = () => {
         const password = formData.get('password') as string;
         const confirmPassword = formData.get('confirm_password') as string;
         
-        if (validatePassword(password, confirmPassword)) {
+        if (validatePassword(password) && validateConfirmPassword(password, confirmPassword)) {
             setError('');
             setErrorField('');
         }
@@ -139,8 +140,12 @@ const Signup = () => {
         return regex.test(email);
     }
 
-    const validatePassword = (password: string, confirmPassword: string): boolean => {
-        return password === confirmPassword && password.length >= 6
+    const validatePassword = (password: string): boolean => {
+        return password.length >= 6
+    }
+
+    const validateConfirmPassword = (password: string, confirmPassword: string): boolean => {
+        return  password === confirmPassword;
     }
 
     const validateCountry = (country: string): boolean => {
@@ -161,7 +166,6 @@ const Signup = () => {
             // console.log('Registering user');
             const formData = new FormData(formRef.current!);
             let payload;
-            if (formData.get('ref_code')?.toString().length === 0) {
                 // console.log('NO REFERRAL CODE PRECISED');
                 payload = {
                     "fname": formData.get('user_firstname') as string,
@@ -169,34 +173,32 @@ const Signup = () => {
                     "email": formData.get('user_email')! as string,
                     "pwd": formData.get('password') as string,
                     "countryCode": selectedCountry!.name,
+                    ...(formData.get('ref_code')?.toString().length === 0 && {"pReferralCode": formData.get('ref_code') as string}),
                 }
-            } else {
-                payload = {
-                    "fname": formData.get('user_firstname') as string,
-                    "lname": formData.get('user_name') as string,
-                    "email": formData.get('user_email')! as string,
-                    "pwd": formData.get('password') as string,
-                    "countryCode": selectedCountry!.name,
-                    "pReferralCode": formData.get('ref_code') as string,
-                }
-            }
-            const response = await executePost(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/signin`, payload, false);
-            console.log('Registration Response is ', response);
-            
-            if (error) {
-                setError('');
-                return;
-            }
+           
+            // 1. Get the registration response
+            const response = await executePost(
+                `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/signin`,
+                payload,
+                false
+            );
 
-            // console.log('User data: ', response.data.data);
-            accessToken.current = (response['access-token'])
-            // console.log('Finished registering user ?', isRegistratedRef.current);
-            dispatch(renewToken({
-                token: response['access-token'],
-            }));
-            dispatch(resetUser());
-            sendOTP();
-            isRegistratedRef.current = true;
+            if (response) {
+                const token = response['access-token'];
+
+                 // 2. Update Redux state and wait for it
+                await dispatch(renewToken({ token })).unwrap();
+                
+                // 3. Small delay to ensure Redux state is updated
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                // 4. Send OTP with updated token
+                await sendOTP();
+
+                // 5. Update other state
+                isRegistratedRef.current = true;
+                await dispatch(resetUser());
+            }
         } catch (err) {
             const axiosError = err as AxiosError;
             setIsSubmitting(false);
@@ -241,10 +243,17 @@ const Signup = () => {
             return;
         }
 
-        if (!validatePassword(password, confirmPassword)) {
+        if (!validatePassword(password)) {
+            setError(t('signup.errors.shortPassword'));
+            setErrorField('password');
+            setIsSubmitting(false)
+            return;
+        }
+
+        if(!validateConfirmPassword(password, confirmPassword)) {
             setError(t('signup.errors.passwordMismatch'));
             setErrorField('password_match');
-            setIsSubmitting(false)
+            setIsSubmitting(false);
             return;
         }
 
@@ -288,7 +297,7 @@ const Signup = () => {
             }));
             // router.push('/auth/pincheck');
         }
-        console.log('Finished signup');
+        console.log('Finished signup of user', userData.email);
     }
 
     // const login = useGoogleLogin({
@@ -318,23 +327,28 @@ const Signup = () => {
     const checkRefCode = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const refCode = e.target.value;
         const regex = /^KTK\d{5}$/;
-        if (regex.test(refCode)) {
-            setError('');
-            try {
-                // console.log('Checking ', refCode);
-                const response = await fetchData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/referral/parent?code=${refCode}`, false);
-                if (!response) {
-                    setError('Inexistant referral code');
-                }
-            } catch {
-                // console.error('The error => ', error);
-                setError('Inexistant referral code');
+
+        setError('');
+
+        if (refCode.length === 0) {
+            return;
+        }
+
+        if (!regex.test(refCode)) {
+        setError('Enter a valid Referral Code');
+        return;
+    }
+            
+        try {
+            const response = await fetchReferralError(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/referral/parent?code=${refCode}`, false);
+            console.log('Response', response);
+            if (response?.toLowerCase().trim() === 'inexistant referral code') {
+                console.log('No response, GET Error: ', response);
+                setError(response);
             }
-        } else if( refCode.length === 0 ) {
-            setError('');
-        } else {
-            // console.log(`Ref code is => ${refCode}`)
-            setError('Enter a valid Referral Code');
+        } catch {
+            // console.error('The error => ', error);
+            // setError('Inexistant referral code');
         }
     }
 
@@ -359,12 +373,12 @@ const Signup = () => {
         const ref_code = searchParams.get('ref_code');
         const firstReferringCode = userData.firstReferringCode;
         // console.log('The params got changed !!!');
-        if(ref_code) {
+        if(ref_code && !firstReferringCode) {
             setFormData({
                 ref_code: ref_code
             });
             setIsRefCodeProvided(true);
-            dispatch(setFirstReferringCode(ref_code))
+            dispatch(setDefaultReferringCode(ref_code))
             // console.log('Now the Ref Code is Readonly');
         } else if (firstReferringCode) {
             // console.log('The user has a predefined referring code known as ', firstReferringCode);
@@ -414,7 +428,7 @@ const Signup = () => {
                 <input type="text" id='user_email' name='user_email' onChange={handleEmailChange} className={`${inputStyle} ${errorField === 'user_email' ? 'border-2 border-red': ''}`} placeholder={t('signup.emailPlaceholder')} />
             </div>
             <div className='necessary_input'>
-                <input type={isPwdVisible ? 'text' : 'password'} onChange={handlePasswordChange} name='password' className={`${inputStyle} ${errorField === 'password_match' ? 'border-2 border-red': ''}`} placeholder={t('signup.passwordPlaceholder')} />
+                <input type={isPwdVisible ? 'text' : 'password'} onChange={handlePasswordChange} name='password' className={`${inputStyle} ${errorField === 'password_match' || errorField === 'password' ? 'border-2 border-red': ''}`} placeholder={t('signup.passwordPlaceholder')} />
                 {isPwdVisible ? <LuEyeClosed onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />
                 : <LuEye onClick={tooglePwdVisibility} className='absolute top-[12px] right-[12px] size-[20px] text-gray_dark/60' />}
             </div>
@@ -437,7 +451,12 @@ const Signup = () => {
                         )) }
                     </select>
                 </div>
-                <input type="text" id='refcode' name='ref_code' onChange={checkRefCode} className={`${inputStyle} ${errorField === 'ref_code' ? 'border-2 border-red': ''}`} defaultValue={formData.ref_code} maxLength={8} readOnly={isRefCodeProvided} placeholder='Referral Code' />
+                {
+                    userData.firstReferringCode ?
+                    <input type="text" id='refcode' name='ref_code' onChange={checkRefCode} className={`${inputStyle} ${errorField === 'ref_code' ? 'border-2 border-red': ''}`} value={formData.ref_code} maxLength={8} readOnly={isRefCodeProvided} placeholder='Referral Code' />
+                    :
+                    <input type="text" id='refcode' name='ref_code' onChange={checkRefCode} className={`${inputStyle} ${errorField === 'ref_code' ? 'border-2 border-red': ''}`} defaultValue={formData.ref_code} maxLength={8} placeholder='Referral Code' />
+                }
             </div>
             <div className="flex necessary_input items-start gap-[8px] mb-[8px]">
                 {

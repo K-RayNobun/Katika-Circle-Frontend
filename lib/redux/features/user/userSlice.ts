@@ -46,7 +46,7 @@ const userSlice = createSlice({
         state.email = action.payload.email;
         state.pwdhash = action.payload.pwdhash;
         state.country = action.payload.country;
-        console.log(`------------- USER INFO : ${state.name}  ${state.pwdhash} ${state.email}  -----------------`);
+        console.log(`------------- USER CREATED : \n Name: ${state.name}\n Password Hash: ${state.pwdhash} \n Email: ${state.email}  -----------------`);
        },
        provideId: (state, action: PayloadAction<string>) => {
         state.id = action.payload;
@@ -63,7 +63,7 @@ const userSlice = createSlice({
         state.referralCode = action.payload
         // console.log('\t ### The referral Code is ', state.referralCode);
        },
-       setFirstReferringCode: (state, action:PayloadAction<string>) => {
+       setDefaultReferringCode: (state, action:PayloadAction<string>) => {
         state.firstReferringCode = action.payload
         // console.log('\t ### The First Referring code has been set to ', state.firstReferringCode);
        },
@@ -109,6 +109,6 @@ const userSlice = createSlice({
     }
 });
 
-export const { createUser, verifyUser, setWalletAdress, setReferralCode, setFirstReferringCode, setProfileImageKey, setReferralList, setLanguage, provideCashback, provideId, provideFilleulsList, provideReferralGain, resetUser } = userSlice.actions;
+export const { createUser, verifyUser, setWalletAdress, setReferralCode, setDefaultReferringCode, setProfileImageKey, setReferralList, setLanguage, provideCashback, provideId, provideFilleulsList, provideReferralGain, resetUser } = userSlice.actions;
 
 export default userSlice.reducer;

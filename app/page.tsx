@@ -159,10 +159,10 @@ const HeroSection = ({t, navigateTo}:{t: (path: string) => string, navigateTo: (
             />
           </div>
         </div>
-        <div className='w-[380px] md:w-[50%] ml-[36px] slide-in-right relative pr-0 md:pr-[3%] h-full flex justify-center items-end md:mt-0'>
-          <Image width={10} height={10} src={'/landing/AnnaMsg.svg'} alt='Image Not loaded' className='absolute top-[40%] left-0 w-[300px] translate-x-[-25%]' />
-          <Image width={10} height={10} src={'/landing/CherieMsg.svg'} alt='Image Not loaded' className='absolute top-[70%] right-0 translate-x-[-25%] w-[300px]' />
-          <Image width={10} height={10} src={'/landing/ManInThought.svg'} alt='Image Not loaded' className='w-[464px] h-[580px]' />
+        <div className='max-w-[370px] md:max-w-[100%] md:w-[50%] ml-[36px] slide-in-right relative pr-0 md:pr-[3%] h-full flex justify-center items-end md:mt-0'>
+          <Image width={10} height={10} src={'/landing/AnnaMsg.svg'} alt='Image Not loaded' className='absolute top-[40%] left-0 w-[250px] md:w-[300px] translate-x-[-25%]' />
+          <Image width={10} height={10} src={'/landing/CherieMsg.svg'} alt='Image Not loaded' className='absolute top-[70%] right-0 translate-x-[20%] md:translate-x-[-25%] w-[250px] md:w-[300px]' />
+          <Image width={10} height={10} src={'/landing/ManInThought.svg'} alt='Image Not loaded' className='w-[464px] md:h-[580px]' />
         </div>
       </div>
       <div className='absolute top-0 left-0 w-full z-0 h-full bg-[url("/landing/GridOctogonal.svg")] bg-no-repeat bg-cover bg-center opacity-[3%] flex items-center justify-center'>
@@ -256,7 +256,7 @@ const SimulatorSection = ({t}: {t: (path: string) => string}) => {
         <div className='w-full md:w-[50%] lg:min-w-[600px] slide-in-right flex flex-col gap-[20px] items-center justify-center rounded-[20px] p-4 md:p-[22px]'>
           <div className='w-[100%] border-2 border-gray_dark/30 bg-gray rounded-[20px] px-[16px] py-[12px] flex flex-col gap-[20px]'>
             <h4 className='font-semibold text-primary'>{t('landing.simulator.form.send.label')}</h4>
-            <div className='flex items-center justify-between text-[32px] font-bold'>
+            <div className='flex items-center justify-between text-[32px] md:text-[44px] font-bold'>
               <input type="number" min="0" step="0.01" onChange={handleAmountSentChange}
                      placeholder={'0'} className='w-[100px] md:w-[300px] bg-transparent px-1 rounded-md'
                      onKeyDown={(e) => {
@@ -267,7 +267,7 @@ const SimulatorSection = ({t}: {t: (path: string) => string}) => {
                       }
                   }} />
               <div className='flex justify-center items-center gap-2 md:gap-4'> 
-                <h1>€</h1>
+                <h1 className='text-[26px] md:text-[44px]'>€</h1>
                 <Image width={10} height={10} src={'/landing/France.svg'} alt='Image Not loaded' className='w-[40px] md:w-[50px] h-[39px]' />
                 <FaChevronDown size={24} className='w-[18px] md:w-[24px]' />
               </div>
@@ -275,18 +275,17 @@ const SimulatorSection = ({t}: {t: (path: string) => string}) => {
           </div>
           <div className='w-full border-2 border-gray_dark/30 bg-gray rounded-[20px] px-[16px] py-[12px] flex flex-col gap-[20px]'>
             <h4 className='font-semibold text-primary'>{t('landing.simulator.form.receive.label')}</h4>
-            <div className='flex items-center justify-between text-[32px] font-bold'>
+            <div className='flex items-center justify-between text-[32px] md:text-[40px] font-bold'>
               <input type="number" readOnly={true} value={amountReceived} 
                     className='w-[100px] md:w-[300px] bg-transparent px-1 rounded-md' />
               <div className='flex justify-center items-center gap-2 md:gap-4'> 
-                <h1 className='text-[26px] md:text-[56px]'>XAF</h1>
+                <h1 className='text-[26px] md:text-[44px]'>XAF</h1>
                 <Image width={10} height={10} src={'/landing/Cameroon.svg'} alt='Image Not loaded' className='w-[40px] md:w-[50px] h-[39px]' />
                 <FaChevronDown size={24} className='w-[18px] md:w-[24px]' />
               </div>
             </div>
           </div>
           <div className='w-full bg-gray rounded-[20px] px-[16px] py-[12px] flex flex-col gap-[12px]'>
-            
             <div className='flex items-center justify-between text-[18px] text-gray_dark/60 font-bold'>
               <h4>{t('landing.simulator.form.details.exchangeRate')}</h4>
               <h4>1 € = {katikaRateRef.current} CFA</h4>
@@ -301,7 +300,7 @@ const SimulatorSection = ({t}: {t: (path: string) => string}) => {
             </div>
           </div>
         </div>
-        <div className='w-full md:w-[45%] px-4 md:pl-[6%] text-center md:text-left slide-in-left text-white'>
+        <div className='w-full md:w-[45%] px-4 md:pl-[4%] bg-white/20 text-center md:text-left slide-in-left text-white'>
           <h1 className='great text-[14px] md:text-[56px] font-bold leading-tight md:leading-[74px] mb-4'>{t('landing.simulator.title')} <span className='text-gold_fluo'>{t('landing.simulator.titleHighlight')} </span>{t('landing.simulator.titleEnd')}</h1>
           <p className='text-[14px]'>{t('landing.simulator.description')}</p>
         </div>
@@ -339,7 +338,7 @@ const FeaturesSection = ({t}:{t: (path: string) => string}) => {
   return (
     <section ref={sectionRef} className='w-full min-h-[660px] bg-purple-900 lg:bg-blue_dark px-4 md:px-[7.5%] py-[7%] flex justify-center items-center'>
       <div className='w-full rounded-[44px] lg:bg-purple-900 px-4 md:px-[5%] py-[36px] flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-0'>
-        <div className='w-full md:w-[50%] slide-in-left flex flex-col gap-[14px] items-center md:items-end'>
+        <div className='w-[70%] md:w-[50%] slide-in-left flex flex-col gap-[14px] items-center md:items-end text-center'>
           <div className='flex feature-box flex-col gap-[12px] items-center lg:items-end'>
             <div className='feature-box'>
               <div className=' rounded-[8px] purple-glowing p-[8px] flex justify-center items-center'>

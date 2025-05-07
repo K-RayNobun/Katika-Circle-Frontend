@@ -6,7 +6,7 @@ import { useTranslation } from '@/lib/hooks/useTranslation';
 
 // Redux related imports
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import { verifyUser, setWalletAdress, setReferralCode, provideId } from '@/lib/redux/features/user/userSlice';
+import { verifyUser, setWalletAdress, setReferralCode, createUser } from '@/lib/redux/features/user/userSlice';
 import { useApiGet, useApiPost } from '@/lib/hooks/useApiRequest';
 import { ErrorMessage } from '@/components/ErrorComponent';
 
@@ -100,7 +100,7 @@ const PinCheck = () => {
         if (userData.verified) {
             router.push('/auth/welcome');
         }
-    }, [userData.verified])
+    }, [userData.verified]);
 
     const handlePinInput = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const updatedPin = [...pinCodeArray];
@@ -188,10 +188,18 @@ const PinCheck = () => {
 
     const getUserData = async() => {
         // console.log('Getting the verified user data');
-        const result = await fetchData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`);
+        const result = await fetchData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`) as UserData;
         // console.log('The User Data Is: ', response.data.data);
         if(result) {
-            dispatch(provideId(result.id))
+            dispatch(createUser({
+                id: result.id,
+                name: result.name,
+                surname: result.sname,
+                email: result.email,
+                country: result.countryCode,
+                referralCode: result.referral.referralCode,
+                language: 'fr'
+            }));
             dispatch(setReferralCode(result.referral.referralCode))
             dispatch(setWalletAdress(result.wallet.address))
         } else if (error) {

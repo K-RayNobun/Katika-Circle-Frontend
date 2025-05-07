@@ -78,9 +78,9 @@ const Footer: React.FC = () => {
         <div className="col-span-1 lg:col-span-4">
           <Link href="/" className="block mb-6">
             <Image 
-              src="/logo_mono_white.svg" 
+              src="/landing/SendLogo.svg" 
               alt="Katika" 
-              width={200} 
+              width={160} 
               height={80} 
               className="mb-4 rounded-lg"
               priority
@@ -95,11 +95,11 @@ const Footer: React.FC = () => {
         <div className='col-span-1 lg:col-span-2'>
           <h6 className="text-white text-[18px] font-medium mb-6">{t('footer.usefulLinks')}</h6>
           <ul className="space-y-3 text-[15px]">
-            <li><Link href="/showcase-wallet" className="hover:text-white transition-colors duration-200">{t('footer.links.caseStudy')}</Link></li>
+            <li><Link href="/user/transactions" className="hover:text-white transition-colors duration-200">{t('footer.links.transactions')}</Link></li>
             <li><Link href="/privacypolicy" className="hover:text-white transition-colors duration-200">{t('footer.links.privacyPolicy')}</Link></li>
             <li><Link href="/userlicenseagreement" className="hover:text-white transition-colors duration-200">{t('footer.links.userAgreement')}</Link></li>
-            <li><Link href="/contact" className="hover:text-white transition-colors duration-200">{t('footer.links.contact')}</Link></li>
-            <li><Link href="/careers" className="hover:text-white transition-colors duration-200">{t('footer.links.careers')}</Link></li>
+            <li><Link href="/user/awards" className="hover:text-white transition-colors duration-200">{t('footer.links.awards')}</Link></li>
+            <li><Link href="/user/settings" className="hover:text-white transition-colors duration-200">{t('footer.links.settings')}</Link></li>
           </ul>
         </div>
 
@@ -108,7 +108,7 @@ const Footer: React.FC = () => {
           <h6 className="text-white text-[18px] font-medium mb-6">{t('footer.services')}</h6>
           <ul className="space-y-3 text-[15px]">
             <li><Link href="/katika-wallet" className="hover:text-white transition-colors duration-200">{t('footer.servicesList.wallet')}</Link></li>
-            <li><Link href="/ludokin" className="hover:text-white transition-colors duration-200">{t('footer.servicesList.ludokin')}</Link></li>
+            {/* <li><Link href="/ludokin" className="hover:text-white transition-colors duration-200">{t('footer.servicesList.ludokin')}</Link></li> */}
           </ul>
         </div>
 

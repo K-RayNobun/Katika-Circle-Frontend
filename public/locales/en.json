@@ -115,6 +115,7 @@
             "invalidEmail": "Please enter a valid email address.",
             "userAlreadyExists": "This email is already registered.",
             "passwordMismatch": "Passwords do not match.",
+            "shortPassword": "Password must be at least 6 characters",
             "serverError": "An error occurred. Please try again.",
             "invalidReferralCode": "Invalid referral code.",
             "tryAgain": "Please try again."
@@ -503,12 +504,12 @@
         "newsletterPlaceholder": "Enter your email address",
         "copyright": "© 2025 Katika All rights reserved.",
         "links": {
-            "caseStudy": "Case study Wallet",
+            "transactions": "My Transactions",
             "privacyPolicy": "Privacy Policy",
             "termsOfUse": "Terms of Use",
             "userAgreement": "User License Agreement",
-            "contact": "Contact",
-            "careers": "Careers"
+            "awards": "My Awards",
+            "settings": "User Settings"
         },
         "servicesList": {
             "wallet": "Katika Wallet",

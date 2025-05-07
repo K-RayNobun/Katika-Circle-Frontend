@@ -118,6 +118,7 @@
             "invalidEmail": "Veuillez entrer une adresse email valide.",
             "userAlreadyExists": "Un compte existe déjà avec cet email.",
             "passwordMismatch": "Les mots de passe ne correspondent pas.",
+            "shortPassword": "Le mot de passe doit contenir au moins 6 charactères",
             "serverError": "Une erreur s'est produite. Veuillez réessayer.",
             "invalidReferralCode": "Le code de parrainage est invalide.",
             "tryAgain": "Veuillez réessayer dans quelques instants."
@@ -514,12 +515,12 @@
         "newsletterPlaceholder": "Saisissez votre adresse e-mail",
         "copyright": "© 2025 Katika Tous droits réservés.",
         "links": {
-        "caseStudy": "Case study Wallet",
-        "termsOfUse": "Conditions d'utilisation",
-        "privacyPolicy": "Politique de confidentialité",
-        "userAgreement": "Accord de licence utilisateur",
-        "contact": "Contact",
-        "careers": "Carrières"
+            "transactions": "Mes transactions",
+            "termsOfUse": "Conditions d'utilisation",
+            "privacyPolicy": "Politique de confidentialité",
+            "userAgreement": "Accord de licence utilisateur",
+            "awards": "Mes récompenses",
+            "settings": "Paramètres utilisateurs"
         },
         "servicesList": {
         "wallet": "Katika Wallet",

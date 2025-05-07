@@ -91,6 +91,7 @@ const Notification = ({details}:{details: notificationDetails}) => {
 
 const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number}) => {
   const [transactionsList, setTransactionsList] = useState<Array<notificationDetails>>([]);
+  const [filteredTransactionsList, setFilteredTransactionsList] = useState<Array<notificationDetails>>([]);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const displayedStatuses = ['Pending', 'Success', 'Failed'];
@@ -141,29 +142,36 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
     }
   
     fecthTransactionList();
-  }, [accessToken, dispatch, rate])
+  }, [accessToken, rate]);
+
+  useEffect(() => {
+    if (transactionsList.length > 0) {
+      setFilteredTransactionsList(transactionsList.filter(transaction => 
+        displayedStatuses.includes(transaction.status)
+      ))
+    }
+  }, [transactionsList])
 
   return (
     <div className={`w-full grow`}>
-      <h4 className='text-primary_dark font-bold mb-3'>
-        {t('notifications.title')}
-      </h4>
-      <div className='max-h-[450px] space-y-[16px] py-[6px] overflow-y-auto'>
-        { transactionsList.length >= 1 ?
-          transactionsList.map((transaction, i) => {
-            if(!displayedStatuses.includes(transaction.status)) {
-              return
-            }
-            return <Notification key={i} details={transaction}/>
-          }) :
-          <div className='w-full bg-gray p-[32px] rounded-[12px]'>
-            <h5 className='text-[16px] text-gray_dark font-semibold items-center justify-center flex'>
-              {t('notifications.noTransactions')}
-            </h5>
-          </div>
-        }
-      </div>
-    </div>
+            <h4 className='text-primary_dark font-bold mb-3'>
+                {t('notifications.title')}
+            </h4>
+            <div className='max-h-[450px] space-y-[16px] py-[6px] overflow-y-auto'>
+                {filteredTransactionsList.length > 0 ? (
+                    filteredTransactionsList
+                        .map((transaction, i) => (
+                            <Notification key={i} details={transaction} />
+                        ))
+                ) : (
+                    <div className='w-full bg-gray p-[32px] rounded-[12px]'>
+                        <h5 className='text-[16px] text-gray_dark font-semibold items-center justify-center flex'>
+                            {t('notifications.noTransactions')}
+                        </h5>
+                    </div>
+                )}
+            </div>
+        </div>
   )
 }
 

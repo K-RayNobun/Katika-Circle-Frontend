@@ -105,6 +105,7 @@ export function useApiGet<T>() {
                             console.log('This is a GET request for the referral code', error.response!.data.data);
                             if (error.response!.data.data.includes("Can't find parent referral with code")) {
                                 errorMessage = 'Inexistant referral code';
+                                return errorMessage;
                             }
                         }
                         break;
@@ -126,7 +127,6 @@ export function useApiGet<T>() {
 }
 
 export function useApiPost<T, P>() {
-    const accessToken = useAppSelector((state) => state.token.token);
     const [state, setState] = useState<ApiRequestState<T>>({
         data: null,
         isLoading: false,
@@ -136,6 +136,9 @@ export function useApiPost<T, P>() {
     const { t } =  useTranslation();
 
     const executePost = async (url: string, payload: P, isTokenNecessary=true) => {
+
+        const accessToken = getAccessToken();
+
         setState(prev => ({ ...prev, isLoading: true, error: null}));
         try {
             console.log('Requesting with token: ', accessToken);

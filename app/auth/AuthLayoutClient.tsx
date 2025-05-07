@@ -47,8 +47,9 @@ export default function AuthLayoutClient({
       // } 
       // If the user is verified but hasn't email, he has certainly logged out and we should redirect him to signin
        if (userData.verified && userData.email.length === 0) {
-      console.log('USER VERIFIED BUT NO EMAIL, SUPPOSE HE HAS LOGGED OUT');
-      router.push('/auth/signin');
+        console.log('Email is ', userData.email);
+        console.log('USER VERIFIED BUT NO EMAIL, SUPPOSE HE HAS LOGGED OUT');
+        router.push('/auth/signin');
       }
       // If the user is verified and has email, he is registered and we just let him navigate to the page he wants
       else if(userData.verified && userData.email.length > 0) {
