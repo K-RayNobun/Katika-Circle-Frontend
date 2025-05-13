@@ -52,9 +52,10 @@ export default function AuthLayoutClient({
         router.push('/auth/signin');
       }
       // If the user is verified and has email, he is registered and we just let him navigate to the page he wants
-      else if(userData.verified && userData.email.length > 0) {
+      else if(userData.verified && userData.email.length > 0 && !userData.isLoggedOut) {
         // Forbid user to reach /auth/pincheck and /auth/welcome
         if (pathName.includes('/auth/pincheck') || pathName.includes('/auth/welcome')) {
+          console.log('The user is Verified and has an email, conducting him to signin page');
           router.push('/auth/signin');
         }
       }

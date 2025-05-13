@@ -22,7 +22,7 @@ import { withCookieProtection } from '@/app/CookieProvider';
 interface CountryData {
     name: string;
     image: string;
-    currency: string;
+    currencyCode: string;
     alpha2: string;
 }
 
@@ -45,6 +45,7 @@ type SignUpResponse = {
 type signupPayload = {
     'fname': string,
     'lname': string,
+    'phone': string,
     'email': string,
     'pwd': string,
     'countryCode': string,
@@ -61,7 +62,7 @@ const Signup = () => {
     const [isBoxChecked, setIsBoxChecked] = useState(false);
     const [error, setError] = useState<string | null>(null)
     const [errorField, setErrorField] = useState('')
-    const [selectedCountry, setSelectedCountry] = useState<CountryData>({name: 'Germany', image: '', currency: 'EUR', alpha2: 'DE'});
+    const [selectedCountry, setSelectedCountry] = useState<CountryData>({name: 'France', image: '', currencyCode: 'EUR', alpha2: 'FR'});
     const [countryFlagURL, setCountryFlagURL] = useState('');
     const [countriesList, setCountriesList] = useState<Array<CountryData>>([]);
     const accessToken = useRef('');
@@ -79,7 +80,7 @@ const Signup = () => {
     // Api request hooks
     const {executePost, error: postError} = useApiPost<SignUpResponse | null, signupPayload | object >();
     const {fetchData} = useApiGet<CountryData[]>();
-    const {fetchData: fetchReferralError, error: getError} = useApiGet<string>();
+    const {fetchData: fetchReferralError, errorPopup: getErrorPopup} = useApiGet<string>();
 
     // Redux setup
 
@@ -165,11 +166,10 @@ const Signup = () => {
         try {
             // console.log('Registering user');
             const formData = new FormData(formRef.current!);
-            let payload;
-                // console.log('NO REFERRAL CODE PRECISED');
-                payload = {
+            const payload = {
                     "fname": formData.get('user_firstname') as string,
                     "lname": formData.get('user_name') as string,
+                    "phone": formData.get('phone_number') as string,
                     "email": formData.get('user_email')! as string,
                     "pwd": formData.get('password') as string,
                     "countryCode": selectedCountry!.name,
@@ -217,7 +217,7 @@ const Signup = () => {
         }
     } 
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         isSubmittingRef.current = true;
         // console.log('Is submitting ? ', isSubmittingRef.current);
@@ -279,10 +279,10 @@ const Signup = () => {
         setError('');
         setErrorField('');
         setIsSubmitting(true);
-        registerUser(e);
+        await registerUser(e);
         console.log('Processing submission');
 
-        if (isRegistratedRef.current ===  isRegistratedRef.current) {
+        if (isRegistratedRef.current) {
             // console.log('Processing Dispatchs now!');
             dispatch(resetToken());
             dispatch(createUser({
@@ -295,7 +295,9 @@ const Signup = () => {
                 verified: false,
                 language: 'fr',
             }));
-            // router.push('/auth/pincheck');
+            router.push('/auth/pincheck');
+        } else {
+            console.log('The user is not registered on the server yet.');
         }
         console.log('Finished signup of user', userData.email);
     }
@@ -316,6 +318,7 @@ const Signup = () => {
         // 
         setSelectedCountry(countriesList[country_index]);
         // console.log('Selected country index is: ', country_index);
+        console.log('The currency of this country is: ', countriesList[country_index].currencyCode);
         const response = await executePost('https://countriesnow.space/api/v0.1/countries/flag/images',
             {
                 "iso2": countriesList[country_index].alpha2,
@@ -355,8 +358,8 @@ const Signup = () => {
     useEffect(() => {
         const fetchCountries = async () => {
             const response = await fetchData('https://api-stg.transak.com/api/v2/countries') as CountryData[];
-            setCountriesList(response);
-            console.log('The Country List is: ', countriesList);
+            const countriesArray: Array<CountryData> = response.filter((country) => country.currencyCode === 'EUR' || country.currencyCode === 'GBP');
+            setCountriesList(countriesArray);
             // // console.log('An example country: ', response.data.response[0])
             const responseSecond = await executePost('https://countriesnow.space/api/v0.1/countries/flag/images',
                 {
@@ -394,7 +397,8 @@ const Signup = () => {
     useEffect(() => {
         const selectElement = document.getElementById('country-select') as HTMLSelectElement;
         if (selectElement) {
-            selectElement.selectedIndex = 53;
+            selectElement.selectedIndex = 10;
+            console.log('Selected country index is: ', selectElement.selectedIndex);
         }
     }, [countriesList]);
 
@@ -424,8 +428,21 @@ const Signup = () => {
                     <input type="text" id='user_name' name='user_name' onChange={handleNamesVerification} className={`${inputStyle} ${errorField === 'user_name' ? 'border-2 border-red': ''}`} placeholder={t('signup.lastNamePlaceholder')} />
                 </div>
             </div>
-            <div className='necessary_input'>
-                <input type="text" id='user_email' name='user_email' onChange={handleEmailChange} className={`${inputStyle} ${errorField === 'user_email' ? 'border-2 border-red': ''}`} placeholder={t('signup.emailPlaceholder')} />
+            <div className='w-full flex flex-row gap-[14px] bg-gray'>
+                <div className='necessary_input grow'>
+                    <input type="text" id='user_email' name='user_email' onChange={handleEmailChange} className={`${inputStyle} ${errorField === 'user_email' ? 'border-2 border-red': ''}`} placeholder={t('signup.emailPlaceholder')} />
+                </div>
+                <div className='necessary_input w-[35%]'>
+                    <input type="number" id='phone_number' name='phone_number' 
+                    onKeyDown={(e) => {
+                        // Prevent input of unwanted characters
+                        if (!/[\d.]/.test(e.key) && 
+                            !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key)) {
+                            e.preventDefault();
+                        }
+                    }}
+                    className={`${inputStyle} ${errorField === 'phone_number' ? 'border-2 border-red': ''}`} placeholder={t('signup.phonePlaceholder')} />
+                </div>
             </div>
             <div className='necessary_input'>
                 <input type={isPwdVisible ? 'text' : 'password'} onChange={handlePasswordChange} name='password' className={`${inputStyle} ${errorField === 'password_match' || errorField === 'password' ? 'border-2 border-red': ''}`} placeholder={t('signup.passwordPlaceholder')} />
@@ -443,13 +460,13 @@ const Signup = () => {
                     ) : (
                         <div className="w-[30px] h-[20px] bg-gray-200 animate-pulse rounded" />
                     )}
-                    <select id='country-select' name='country' defaultValue={53} onChange={handleCountryChange} className={`bg-transparent w-[90%] font-bold text-primary_dark`}>
+                    {<select id='country-select' name='country' defaultValue={10} onChange={handleCountryChange} className={`bg-transparent w-[90%] font-bold text-primary_dark`}>
                         { Object.entries(countriesList).map(([key, countryData], index) => (
                             <option key={index} value={key} className='w-full text-black bg-white appearance-none' >
                                     {countryData.name}
                             </option>
                         )) }
-                    </select>
+                    </select>}
                 </div>
                 {
                     userData.firstReferringCode ?
@@ -507,6 +524,7 @@ const Signup = () => {
             </button>
             <h4 className='text-center text-[14px] sm:text-[16px] leading-[24px]'>{t('signup.alreadyHaveAccount')}<span className='text-primary font-bold'><Link href='/auth/signin' target="_blank">{t('signup.signinLink')}</Link></span></h4>
         </form>
+        {getErrorPopup}
     </div>
   )
 }

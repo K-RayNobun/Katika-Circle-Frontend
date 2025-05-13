@@ -5,10 +5,12 @@ interface User {
     name: string,
     surname: string,
     email: string,
+    phoneNumber?: string,
     pwdhash?: string,
     walletAddress?: string,
     country?: string,
     countryCodeISO2?: string,
+    currencySymbol?: string,
     verified?: boolean,
     referralCode?: string,
     referralGain?: number,
@@ -17,6 +19,7 @@ interface User {
     firstReferringCode?: string,
     profileImageKey?: string,
     language: string,
+    isLoggedOut?: boolean,
 }
 interface Referral {
     id: number,
@@ -46,6 +49,7 @@ const userSlice = createSlice({
         state.email = action.payload.email;
         state.pwdhash = action.payload.pwdhash;
         state.country = action.payload.country;
+        state.currencySymbol = action.payload.currencySymbol;
         console.log(`------------- USER CREATED : \n Name: ${state.name}\n Password Hash: ${state.pwdhash} \n Email: ${state.email}  -----------------`);
        },
        provideId: (state, action: PayloadAction<string>) => {
@@ -53,7 +57,7 @@ const userSlice = createSlice({
        },
        verifyUser: (state, action:PayloadAction<boolean>) => {
         state.verified = action.payload;
-        // console.log('\t ###Verifying the user as ', state.verified);
+        console.log('\t ###Verifying the user from email ', state.email, ' as ', state.verified);
        },
        setWalletAdress : (state, action:PayloadAction<string>) => {
         state.walletAddress = action.payload
@@ -104,7 +108,8 @@ const userSlice = createSlice({
         state.referralGain = 0;
         state.referralList = [];
         state.cashback = 0;
-        // console.log('USER DATA HAVE BEEN RESET');
+        state.isLoggedOut = true;
+        console.log('USER DATA HAVE BEEN RESET');
        }
     }
 });

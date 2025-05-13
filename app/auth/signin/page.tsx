@@ -70,7 +70,7 @@ const Signin = () => {
     const formRef = useRef<HTMLFormElement>(null);
 
     const { executePost, isLoading: isPosting } = useApiPost<signinResponse, signinPayload>();
-    const { fetchData, isLoading: isProfileFetching } = useApiGet<UserData>();
+    const { fetchData, isLoading: isProfileFetching, errorPopup: getErrorPopup } = useApiGet<UserData>();
 
     useEffect(() => {
         // console.log('Check if we can send him to homePage');
@@ -152,7 +152,7 @@ const Signin = () => {
             // Now that we have the token, fetch user profile
             const userApiData = await fetchData(
                 `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`
-            );
+            ) as UserData;
 
             if (userApiData) {
                 // Update user data in Redux
@@ -241,6 +241,7 @@ const Signin = () => {
             </div> */}
         </form>
         <h4 className='text-center text-[14px] sm:text-[16px] leading-[24px] mt-4'> {t('signin.noAccount')}<Link href='/auth/signup' className='text-primary font-bold'>{t('signin.signupLink')}</Link></h4>
+        {getErrorPopup}
     </div>
   )
 }

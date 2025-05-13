@@ -21,6 +21,24 @@ const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
     const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
     // console.log(` Receiver name is ${transactionDetails.receiverName}`);
 
+    let amountReceivedceivedFormatted = '0';
+    let amountSentFormatted = '0';
+
+    try {
+        amountReceivedceivedFormatted = transactionDetails.amountReceived!.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+        amountSentFormatted = transactionDetails.amountSent!.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+    }
+
+    catch (error) {
+        console.error('Error formatting amount:', error);
+        if (amountReceivedceivedFormatted !==  transactionDetails.amountReceived!.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })) {
+            amountReceivedceivedFormatted = '0';
+        } else if (amountSentFormatted !== transactionDetails.amountSent!.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })) {
+            amountSentFormatted = '0';
+        }
+    }
+
+
     const postTransaction = async () => {
         try {
             // console.log(`Posting transaction with of amount : ${transactionDetails.amountSent} ${transactionDetails.currencySent}`);
@@ -113,11 +131,11 @@ const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
             <div className={`grow flex flex-col mt-[32px] text-[14px] lg:text-[16px] space-y-[12px] lg:space-y-[16px]`}>
                 <div className={`flex justify-between font-bold`}>
                     <h5>{t('transactionScreens.screenThree.details.amountToSend')}</h5>
-                    <h5>{transactionDetails.amountSent?.toLocaleString('en-US')} {transactionDetails.currencySent}</h5>
+                    <h5>{amountSentFormatted} {transactionDetails.currencySent}</h5>
                 </div>
                 <div className={`flex justify-between font-bold`}>
                     <h5>{t('transactionScreens.screenThree.details.amountReceived')}</h5>
-                    <h5>{transactionDetails.amountReceived?.toLocaleString('en-US')} {transactionDetails.currencyReceived}</h5>
+                    <h5>{amountReceivedceivedFormatted} {transactionDetails.currencyReceived}</h5>
                 </div>
                 {transactionDetails.transfertType === 'MobileMoney' ? (
                     <>

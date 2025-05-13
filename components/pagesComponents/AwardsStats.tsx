@@ -10,6 +10,16 @@ interface AwardsStatsProps {
 const AwardsStats = ({ referralBonus, filleulCount }: AwardsStatsProps) => {
     const { t } = useTranslation();
 
+    let referralBonusFormatted = '0';
+
+    try {
+        referralBonusFormatted = referralBonus.toLocaleString('en-US');
+    }
+    catch (error) {
+        console.error('Error formatting referral bonus:', error);
+        referralBonusFormatted = '0';
+    }
+
     return (
         <div className='w-full flex gap-[32px] animate-fading-1'>
             {/* Referral Bonus */}
@@ -17,7 +27,7 @@ const AwardsStats = ({ referralBonus, filleulCount }: AwardsStatsProps) => {
                 <div className='font-bold flex flex-col'>
                     <div className='flex justify-center gap-[8px] text-pink'>
                         <span className='text-[16px] lg:text-[16px] mt-2'>{'€'}</span>
-                        <span className='text-[32px] lg:text-[36px] font-extrabold'>{referralBonus.toLocaleString('en-US')}</span>
+                        <span className='text-[32px] lg:text-[36px] font-extrabold'>{referralBonusFormatted}</span>
                     </div>
                     <div className='text-[14px] text-pink font-semibold mx-[10px] text-center'>
                         {t('referralBonus')}

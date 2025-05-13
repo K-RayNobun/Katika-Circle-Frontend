@@ -118,16 +118,24 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
         // console.log('------------------ Getting Transactions --------------')
         
         // console.log('We got this list of transactions: ', response.data.data);
-        const result = await fetchData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transactions/user`);
+        const result = await fetchData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transactions/user`) as Transaction[];
         const fetchedList = result!.slice().reverse();
         const transactionArray: Array<transactionDetails> = [];
         fetchedList.forEach((transaction: Transaction, index: number) => {
-          const creationDate = new Date(transaction.creationDate);
+          let creationDate = '';
+
+          try {
+            creationDate = new Date(transaction.creationDate).toLocaleString('en-US');
+          }
+          catch (error) {
+            console.error('Error parsing creation date: ', error);
+            creationDate = 'Invalid date';
+          }
           // console.log('Transaction status is ', transaction.transactionStatus + 'And it cashback is', transaction.cashBack)
           const userTransaction: transactionDetails = {
             order: index,
             status: transaction.transactionStatus,
-            date: creationDate.toLocaleString('en-US'),
+            date: creationDate,
             amountSent: transaction.amount,
             currencySent: transaction.currency.toLowerCase() === 'euro' ? '€' : transaction.currency.slice(0, 3).toUpperCase(),
             destinatoryName: transaction.recipient.name,

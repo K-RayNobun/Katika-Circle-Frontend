@@ -104,6 +104,8 @@
         "firstNamePlaceholder": "First Name",
         "lastNamePlaceholder": "Last Name",
         "emailPlaceholder": "Email",
+        "phonePlaceholder": "Whatsapp Phone Number",
+        "phoneInfo": "We may contact you, if you face any issue or difficulties when using our application.",
         "passwordPlaceholder": "Password",
         "confirmPasswordPlaceholder": "Confirm Password",
         "submitButton": "Sign Up",
@@ -129,7 +131,8 @@
     },
     "pinCheck": {
         "title": "Confirm Your Email",
-        "subtitle": "We've sent a verification code to your email. Enter it below to complete your login. Check spam if you don't see it.",
+        "subtitle": "We've sent a verification code to your email. Enter it below to complete your login.",
+        "subtitleTip": "Check spam if you don't see it.",
         "noCode": "Didn't receive a code?",
         "resendCode": "Resend Code",
         "timeLeft": "Request a new code in: {minutes}:{seconds}",

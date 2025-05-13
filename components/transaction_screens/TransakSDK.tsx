@@ -18,6 +18,7 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
   const status = useAppSelector((state) => state.transaction.status)
   const accessToken = useAppSelector((state) => state.token.token); 
   const dispatch = useAppDispatch();
+  const currency = transactionDetails.currencySent === '€' ? 'EUR' :  transactionDetails.currencySent === '£' ? 'GBP' : 'USD';
 
   const user = {
     firstName: userData.name,
@@ -40,7 +41,7 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
       await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction`,
       { 
           "amount": transactionDetails.amountSent,
-          "currency": transactionDetails.currencySent === '€' ? 'EUR' : 'USD',
+          "currency": currency,
           "transactionType": transactionDetails.transfertType,
           "recipient": transactionDetails.transfertType === 'MobileMoney' ? {
               "name": transactionDetails.receiverName,
@@ -95,7 +96,7 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
     hideMenu: true,
     defaultCryptoCurrency: 'USDC', // Default cryptocurrency
     network: 'solana',
-    fiatCurrency: transactionDetails.currencySent === '€' ? 'EUR' : 'EUR', // INR, USD, GBP, etc
+    fiatCurrency: currency, // INR, USD, GBP, etc
     fiatAmount: transactionDetails.transakAmount,
     productsAvailed: 'BUY',
     cryptoCurrencyCode: 'USDC',

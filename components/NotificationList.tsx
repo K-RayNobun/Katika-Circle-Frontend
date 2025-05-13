@@ -63,6 +63,15 @@ const handleStatus = (status:string) => {
 const Notification = ({details}:{details: notificationDetails}) => {
   const { t } = useTranslation();
   const style = handleStatus(details.status);
+  let amount = '0';
+
+  try {
+    amount = details.amountReceived.toLocaleString('en-US');
+  } 
+  catch (error) {
+    console.error('Error formatting amount: ', error);
+    amount = '0';
+  }
   
   return (
     <div className='w-full bg-gray p-[16px] rounded-[12px]'>
@@ -78,7 +87,7 @@ const Notification = ({details}:{details: notificationDetails}) => {
             </div>
             <div className='flex flex-col items-end'>
                 <h5 className='text-[14px] text-primary_dark font-bold'>
-                    {t('notifications.currency.default')} {details.amountReceived.toLocaleString('en-US')}
+                    {t('notifications.currency.default')} {amount}
                 </h5>
                 <h5 className='text-[10px] text-gray_dark/60 font-semibold'>
                     {details.amountSent} {details.currencySent}
@@ -116,10 +125,19 @@ const NotificationList = ({accessToken, rate}:{accessToken:string, rate:number})
             const transactionArray: notificationDetails[] = [];
 
             fetchedList.forEach((transaction: Transaction) => {
-              const creationDate = new Date(transaction.creationDate);
+              let creationDate = '';
+
+              try {
+                creationDate = new Date(transaction.creationDate).toLocaleString('en-US');
+              }
+              catch (error) {
+                console.error('Error parsing creation date: ', error);
+                creationDate = 'Invalid date';
+              }
+              
               const userTransaction: notificationDetails = {
                 status: transaction.transactionStatus,
-                date: creationDate.toLocaleString('en-US'),
+                date: creationDate,
                 amountSent: transaction.amount,
                 currencySent: transaction.currency.toLowerCase() === 'euro' ? '€' : transaction.currency.slice(0, 3).toUpperCase(),
                 amountReceived: transaction.recipient.amountReceive,

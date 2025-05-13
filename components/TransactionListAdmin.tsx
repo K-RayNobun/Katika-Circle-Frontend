@@ -172,24 +172,39 @@ const TransactionListAdmin = ({ accessToken, searchKey, field, onTransactionClic
 
                 const fetchedList = response.data.data.slice().reverse();
                 // console.log('Got the transactions list as', fetchedList.slice(0, 9));
-                const transactionArray: Array<TransactionAdminDetails> = fetchedList.map((transaction: Transaction, index: number) => ({
-                    id: transaction.id,
-                    order: index,
-                    status: transaction.transactionStatus,
-                    date: new Date(transaction.creationDate).toLocaleString('en-US'),
-                    amountSent: transaction.amount,
-                    currencySent: transaction.currency.toLowerCase() === 'euro' ? '€' : transaction.currency.slice(0, 3).toUpperCase(),
-                    destinatoryName: transaction.recipient.name,
-                    cashbackGain: transaction.transactionStatus === 'Success' ? transaction.cashBack.amount : 0,
-                    transferType: transaction.transactionType,
-                    amountReceived: transaction.recipient.amountReceive,
-                    currencyReceived: transaction.recipient.receiverCountry!.toLowerCase() === 'cameroon' ? 'XAF' : '???',
-                    receiverName: transaction.recipient.name,
-                    receiverPhone: transaction.recipient.phone,
-                    receiverBankName: transaction.recipient.bankName,
-                    receiverBankIban: transaction.recipient.iban,
-                    receiverCountry: transaction.recipient.receiverCountry,
-                }));
+
+                
+                const transactionArray: Array<TransactionAdminDetails> = fetchedList.map((transaction: Transaction, index: number) => {
+
+                    let creationDate = '';
+
+                    try {
+                        creationDate = new Date(transaction.creationDate).toLocaleString('en-US');
+                    }
+                    catch (error) {
+                        console.error('Error parsing creation date: ', error);
+                        creationDate = 'Invalid date';
+                    }
+
+                    return {
+                        id: transaction.id,
+                        order: index,
+                        status: transaction.transactionStatus,
+                        date: creationDate,
+                        amountSent: transaction.amount,
+                        currencySent: transaction.currency.toLowerCase() === 'euro' ? '€' : transaction.currency.slice(0, 3).toUpperCase(),
+                        destinatoryName: transaction.recipient.name,
+                        cashbackGain: transaction.transactionStatus === 'Success' ? transaction.cashBack.amount : 0,
+                        transferType: transaction.transactionType,
+                        amountReceived: transaction.recipient.amountReceive,
+                        currencyReceived: transaction.recipient.receiverCountry!.toLowerCase() === 'cameroon' ? 'XAF' : '???',
+                        receiverName: transaction.recipient.name,
+                        receiverPhone: transaction.recipient.phone,
+                        receiverBankName: transaction.recipient.bankName,
+                        receiverBankIban: transaction.recipient.iban,
+                        receiverCountry: transaction.recipient.receiverCountry,
+                    }
+            });
 
                 setTransactionsList(transactionArray);
             } catch {

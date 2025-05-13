@@ -16,17 +16,19 @@ interface screenProps {
 
 const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     const { t } = useTranslation();
+    const [selectedCurrency, setSelectedCurrency] = useState('EUR')
     const [selectedCountry, setSelectedCountry] =  useState('cameroon');
-    const selectedCurrency = 'EUR';
     const [officialRate, setOfficialRate] = useState(0);
     const katikaRateRef = useRef(0);
     const [katikaRates, setKatikaRates] = useState<Array<number>>([])
     const [cashbackPercentage, setCashbackPercentage] = useState(0);
     const [referralGainPercentage, setReferralGainPercentage] = useState(0);
-    const [gain, setGain] = useState(0);
+    const [gain, setGain] = useState<string>('');
     const rateIndex = useRef<number>(0);
     const amountSentRef = useRef<number>(0);
+    const amountSentFormattedRef = useRef<string>('');
     const amountReceivedRef = useRef<number>(0);
+    const amountReceivedFormattedRef = useRef<string>('');
     const [errorMsg, setErrorMsg] = useState('');
     const [modifyingSentAmount, setModifyingSentAmount] = useState(true);
     const formRef  = useRef<HTMLFormElement>(null);
@@ -42,6 +44,8 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
         }
     }
 
+    const userData = useAppSelector((state) => state.user);
+
     useEffect(() => {
         // Create the content string using translation
         const rawContent = t('translations.transactionScreens.screenOne.form.rate.tooltip');
@@ -56,6 +60,10 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
         document.documentElement.style.setProperty('--info-content', `'${content}'`);
     }, [katikaRates, t]);
 
+    useEffect(() => {
+        console.log('The user country is ', userData.country);
+    }, [])
+
     const currenciesData: Record<string, {image:string; name:string; symbol:string}> = {
         EUR: {
             name: 'EUR',
@@ -63,9 +71,9 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
             image: '/currencies/euro.png'
         },
         USD: {
-            name: 'USD',
-            symbol: '$',
-            image: '/currencies/dollar.png'
+            name: 'GBP',
+            symbol: '£',
+            image: '/currencies/sterling.svg'
         }
     }
     const updateRate = async() => {
@@ -101,15 +109,20 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                     }
                 }
             );
-            const ratesData = response.data.data.toCurrency[0].rates;
-            // console.log('Rates Data is', ratesData);
+            let responseData;
+            if (selectedCurrency === '£' || selectedCurrency === 'GBP') {
+                responseData = response.data.data.toCurrency[1]
+            } else if (selectedCurrency === '€' || selectedCurrency === 'EUR') {
+                responseData = response.data.data.toCurrency[0]
+            } else {
+                responseData = response.data.data.toCurrency[0];
+                console.log('The selected currency is ', selectedCurrency);
+            }
+            const ratesData = responseData.rates;
             const ratesArray = [ratesData.firstRate, ratesData.secondRate, ratesData.thirdRate, ratesData.fourthRate, ratesData.fifthRate, ratesData.sixthRate]            
             setKatikaRates(ratesArray);
-            // console.log('Set the rates as ', ratesArray);
-            setCashbackPercentage(response.data.data.toCurrency[0].cashbackRate);
-            // console.log('Cashback Rate is', response.data.data.toCurrency[0].cashbackRate);
-            setReferralGainPercentage(response.data.data.toCurrency[0].referralGainRate);
-            // console.log('Referral Gain Rate Rate is', response.data.data.toCurrency[0].referralGainRate);
+            setCashbackPercentage(responseData.cashbackRate);
+            setReferralGainPercentage(responseData.referralGainRate);
             katikaRateRef.current = ratesArray[0];
         } catch(error) {
             const axiosError = error as AxiosError;
@@ -136,6 +149,11 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
         setSelectedCountry(country!.value)
     }
 
+    const handleCurrencyChange = () => {
+        const currency = document.getElementById('currency-select') as HTMLSelectElement;
+        setSelectedCurrency(currency.value);
+    }
+
     const handleSentAmountChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
         // console.log('Resetting the amount received');
 
@@ -151,7 +169,25 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
         updateRate();
 
         amountReceivedRef.current = amountSentRef.current * katikaRateRef.current;
-        setGain((katikaRateRef.current - officialRate) * amountSentRef.current);
+        setGain(((katikaRateRef.current - officialRate) * amountSentRef.current).toLocaleString('en-US'));
+        console.log('The amount sent is', amountSentRef.current.toLocaleString('en-US'), ' and the rate difference is ', (katikaRateRef.current - officialRate).toLocaleString('en-US'));
+        console.log('The Gain is ', ((katikaRateRef.current - officialRate) * amountSentRef.current).toLocaleString('en-US'));
+
+        try {
+            amountSentFormattedRef.current = amountSentRef.current.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+            if (amountSentRef.current === 0) {
+                amountSentFormattedRef.current = '';
+            }
+            amountReceivedFormattedRef.current = amountReceivedRef.current.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+            if (amountReceivedRef.current === 0) {
+                amountReceivedFormattedRef.current = '';
+            }
+        }
+        catch (error) {
+            console.error('Error formatting amount sent:', error);
+            amountSentFormattedRef.current = '0';
+        }
+        console.log('The amount Received is', amountReceivedFormattedRef.current, ' and the amount sent is ', amountSentFormattedRef.current);
     }
     
     const handleReceivedAmountChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -168,7 +204,19 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
         updateRate();
         // // console.log('Amount sent:', amountSentRef.current)
         // // console.log(' Are we on EUR ?', modifyingSentAmount);
-        setGain((katikaRateRef.current - officialRate) * amountSentRef.current);
+        setGain(((katikaRateRef.current - officialRate) * amountSentRef.current).toLocaleString('en-US'));
+
+        try {
+            amountReceivedFormattedRef.current = amountReceivedRef.current.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+            if (amountReceivedRef.current === 0) {
+                amountReceivedFormattedRef.current = '';
+            }
+        }
+        catch (error) {
+            console.error('Error formatting amount received:', error);
+            amountReceivedFormattedRef.current = '0';
+        }
+        console.log('The amount sent is', amountSentFormattedRef.current);
 
     }
 
@@ -246,12 +294,22 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
 
         const amountSent = parseInt(formData.get('amount-sent') as string);
         const amountReceived = parseInt(formData.get('amount-received') as string);
+        let maximalAmountFormatted = '0';
+
+        try {
+            maximalAmountFormatted = maximalAmount.toLocaleString('en-US');
+        }
+        catch (error) {
+            console.error('Error formatting maximal amount:', error);
+            maximalAmountFormatted = '0';
+        }
+
         if (amountSent < 0 || amountReceived < 0) {
             setErrorMsg("Le montant ne peut etre negatif");
         } else if (amountSent < 30) {
             setErrorMsg(`Le montant minimal d'une transaction est de ${minimalAmount} Euros`);
         } else if (amountSent > 70000) {
-            setErrorMsg(`Le montant maximal d'une transaction est de ${maximalAmount.toLocaleString('en-US')} Euros`);
+            setErrorMsg(`Le montant maximal d'une transaction est de ${maximalAmountFormatted} Euros`);
         } else {
             isValid = true;
         }
@@ -266,7 +324,28 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
 
     const dispatch = useAppDispatch()
     const accessToken = useAppSelector((state) => state.token.token);
-    const transactionDetails = useAppSelector((state) => state.transaction)
+    const transactionDetails = useAppSelector((state) => state.transaction);
+    // DEFAULT AMOUNT VALUES
+    let amountSentDefault = '';
+    let amountReceivedDefault = '';
+
+    try {
+         amountSentDefault = transactionDetails.amountSent === 0 ? '' : transactionDetails.amountSent!.toLocaleString('en-US');
+    }
+    catch (error) {
+        console.error('Error formatting sent amount:', error);
+        amountSentDefault = '0';
+    }
+
+    useEffect(() => {
+        try {
+            amountReceivedDefault = (parseInt(amountSentDefault) * katikaRateRef.current).toLocaleString('en-US');
+        }
+        catch (error) {
+            amountReceivedDefault = '0';
+            console.error('Error formatting received amount:', error);
+        }
+    }, [katikaRateRef.current])
 
   return (
     <div className='w-full h-[90%] pb-[86px] lg:h-max lg:w-[502px] rounded-t-[12px] text-[14px] lg:text-[16px] lg:rounded-[12px] p-[32px] lg:p-[44px] gap-[18px] bg-white flex flex-col'>
@@ -299,13 +378,22 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                     {t('transactionScreens.screenOne.form.send.label')}
                 </label>
                 <div className='flex items-center font-bold w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 gap-[12px]'>
-                    <img src={`${currenciesData[selectedCurrency]?.image}`} alt="Img" className='w-[30px]' />
+                    <select name="currency" id="currency-select" defaultValue='EUR' onChange={handleCurrencyChange} className="bg-transparent max-w-[40px]">
+                        {
+                            Object.entries(currenciesData).map(([key, data], index) => (
+                                <option key={index} value={key}>
+                                    {data.symbol}
+                                </option>
+                            ))
+                        }
+                    </select>
+                    <img 
+                        src={`${currenciesData[selectedCurrency].image}`} alt={currenciesData[selectedCurrency].name} width={30} height={20} className='w-[30px]' />
                     {
                     modifyingSentAmount ?
-// defaultValue={transactionDetails.amountSent === 0 ? '' : transactionDetails.amountSent?.toLocaleString('en-US')}
-                        <input type="text" onChange={handleSentAmountChange} name='amount-sent' className='grow w-[75%] sm:w-full text-right' style={{ margin: 0, padding: 0}}/>
+                        <input type="text" onChange={handleSentAmountChange} defaultValue={amountSentDefault} name='amount-sent' className='grow w-[75%] sm:w-full text-right' style={{ margin: 0, padding: 0}}/>
                     :
-                        <input type="text" onClick={() => {setModifyingSentAmount(true)}} readOnly={true} value={amountSentRef.current === 0 ? '': amountSentRef.current.toLocaleString('en-US')} name='amount-sent' className='grow w-[75%] sm:w-full text-right' />
+                        <input type="text" onClick={() => {setModifyingSentAmount(true)}} readOnly={true} value={amountSentFormattedRef.current} name='amount-sent' className='grow w-[75%] sm:w-full text-right' />
                     }
                     <h5 className=''>{currenciesData[selectedCurrency]?.symbol}</h5>
                 </div>
@@ -318,9 +406,9 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                     <img src={`${countriesData[selectedCountry]?.image}`} alt="Img" className='w-[30px]' />
                     {
                         modifyingSentAmount ?
-                        <input onClick={() => {setModifyingSentAmount(false)}} type="text" readOnly={true} defaultValue={transactionDetails.amountReceived === 0 ? '' : transactionDetails.amountReceived?.toLocaleString('en-US')} value={amountReceivedRef.current === 0 ? '' : amountReceivedRef.current.toLocaleString('en-US')} name='amount-received' className='grow w-[75%] sm:w-full text-right' />
+                        <input onClick={() => {setModifyingSentAmount(false)}} type="text" readOnly={true} defaultValue={amountReceivedDefault} value={amountReceivedFormattedRef.current} name='amount-received' className='grow w-[75%] sm:w-full text-right' />
                         :
-                        <input type="text" name='amount-received' defaultValue={transactionDetails.amountReceived === 0 ? '' : transactionDetails.amountReceived?.toLocaleString('en-US')} onChange={handleReceivedAmountChange} className='grow w-[75%] sm:w-full text-right' />
+                        <input type="text" name='amount-received' defaultValue={amountReceivedDefault} onChange={handleReceivedAmountChange} className='grow w-[75%] sm:w-full text-right' />
 
                     }
                     <h5 className=''>{countriesData[selectedCountry]?.currency}</h5>
@@ -339,7 +427,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
             </div>
             <div className='flex justify-between'>
                 <h5>{t('transactionScreens.screenOne.form.gain.label')}</h5>
-                <h5>{ gain.toLocaleString('en-US') + ' ' + countriesData[selectedCountry]?.currency }</h5>
+                <h5>{ gain + ' ' + countriesData[selectedCountry]?.currency }</h5>
             </div>
             <button type='submit' onClick={handleSubmit} className={`hidden lg:block bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
                 <h6 className='text-center font-bold '>

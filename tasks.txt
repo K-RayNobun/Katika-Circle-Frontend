@@ -16,3 +16,12 @@ x Responsive layout on mobile
 - Email and password setting modifs
 - Group email & password for one updated
 
+
+
+- Test Transak SDK with GBP and get the Link
+- Adapt GBP option in redirect
+- Check and update the currency
+
+- Register the user default currency during getUserData().
+- Convert the Transak Api into CountryData[], find the countryData with the country and get its currency
+- 

@@ -107,6 +107,8 @@
         "firstNamePlaceholder": "Prénom",
         "lastNamePlaceholder": "Nom",
         "emailPlaceholder": "Email",
+        "phonePlaceholder": "Tel. Whatsapp",
+        "phoneInfo": "Nous pourrions vous contacter si vous avez des soucis ou des difficultés lors de l'utilisation de l'application.",
         "passwordPlaceholder": "Mot de passe",
         "confirmPasswordPlaceholder": "Confirmer le mot de passe",
         "submitButton": "S'inscrire",
@@ -132,7 +134,8 @@
     },
     "pinCheck": {
         "title": "Confirmez votre email",
-        "subtitle": "Nous avons envoyé un code de vérification à votre email. Entrez-le ci-dessous pour terminer votre connexion. Vérifiez également votre dossier spam si vous ne trouvez pas directement.",
+        "subtitle": "Nous avons envoyé un code de vérification à votre email. Entrez-le ci-dessous pour terminer votre connexion.",
+        "subtitleTip": "Vérifiez également votre dossier spam si vous ne trouvez pas directement.",
         "noCode": "Vous n'avez pas reçu de code ?",
         "resendCode": "Renvoyer le code",
         "timeLeft": "Demandez un nouveau code dans:",

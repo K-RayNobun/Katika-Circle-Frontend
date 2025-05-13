@@ -1,8 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useTranslation } from "./useTranslation";
-import { useAppSelector } from "../redux/hooks";
 import { store } from "../redux/store";
+import { ErrorMessage } from "@/components/ErrorComponent";
+import { createPortal } from "react-dom";
 
 interface ApiRequestState<T> {
     data: T | null;
@@ -13,6 +14,7 @@ interface ApiRequestState<T> {
 const getAccessToken = () => {
     return store.getState().token.token;
 }
+
 // SIGNIN SINGNUP RENEWPASSWORD RESETPASSWORD
 export function useApiGet<T>() {
     
@@ -23,15 +25,13 @@ export function useApiGet<T>() {
         error: null,
     });
     const [response, setResponse] = useState<T|null>();
+    const [showError, setShowError] =useState(true);
     const fetchData = async (url: string, isTokenNecessary = true) => {
         const accessToken = getAccessToken();
-        console.log('-------------- Fetching Data --------------');
         try {
             if (!url) return;
 
             if (isTokenNecessary) {
-                console.log('Requesting with token: ', accessToken);
-
                 const response = await axios.get(url, {
                     headers: {
                         ...(isTokenNecessary && accessToken && {Authorization: `Bearer ${accessToken}`}),
@@ -46,7 +46,6 @@ export function useApiGet<T>() {
                         isLoading: false,
                         error: null
                     });
-                    // console.log('Countreis Data List: ', response.data.response);
                     return response.data.response as T;
                 }
 
@@ -118,12 +117,28 @@ export function useApiGet<T>() {
                 error: errorMessage
             })
             setResponse(null);
+            setShowError(true);
+
+            setTimeout(() => setShowError(false), 5000);
         }
 
         return response;
     }
 
-    return {...state, fetchData};
+    const errorPopup = showError && state.error ?
+        createPortal(
+            <div className="fixed top-4 right-4 z-50">
+                <ErrorMessage
+                    message={state.error}
+                    onRetry={() => setShowError(false)}
+                />
+            </div>,
+            document.body
+        ) : null;
+
+       if (errorPopup) console.log('------------ An Error has been transaferred to errorMessage ------------\n Which is ', state.error);
+
+    return {...state, fetchData, errorPopup};
 }
 
 export function useApiPost<T, P>() {
@@ -131,7 +146,9 @@ export function useApiPost<T, P>() {
         data: null,
         isLoading: false,
         error: null,
-    })
+    });
+    // const [showError, setShowError] = useState(false);
+    // const [errorPopup, setErrorPopup] = useState<React.ReactPortal | null>(null);
 
     const { t } =  useTranslation();
 
@@ -141,7 +158,6 @@ export function useApiPost<T, P>() {
 
         setState(prev => ({ ...prev, isLoading: true, error: null}));
         try {
-            console.log('Requesting with token: ', accessToken);
             const response = await axios.post(url, payload, {
                 headers: {
                     ...( isTokenNecessary && {Authorization: `Bearer ${accessToken}`}),
@@ -158,7 +174,7 @@ export function useApiPost<T, P>() {
             return response.data.data;
         } catch (error) {
             const axiosError = error as AxiosError;
-            let errorMessage = t('error.axiosError.default');
+            let errorMessage = t('errors.axiosError.default');
 
             if (axios.isAxiosError(error)) {
                 switch (axiosError.response?.status) {
@@ -191,7 +207,7 @@ export function useApiPost<T, P>() {
 
             throw new Error(errorMessage);
         }
-    };
+    }
 
     return { ...state, executePost };
 }
