@@ -12,7 +12,6 @@ const initialState: Token = {
 export const renewToken = createAsyncThunk('accesstoken/renewToken',
     async (tokenData: { token: string; expiresIn?: number }) => {
         // Any async logic here
-        console.log('Renewing access token');
         return tokenData;
     }
 )
@@ -21,6 +20,10 @@ const tokenSlice = createSlice({
     name: 'accesstoken',
     initialState,
     reducers: {
+        // renewToken: (state, action) => {
+        //     state.token = action.payload.token;
+        //     state.expiresIn = action.payload.expiresIn;
+        // },
         clearToken: (state) => {
             state.token = null;
             state.expiresIn = null;
@@ -35,7 +38,9 @@ const tokenSlice = createSlice({
         builder.addCase(renewToken.fulfilled, (state, action) => {
             state.token = action.payload.token;
             state.expiresIn = action.payload.expiresIn;
-        })
+            //  Display the token in the console
+            console.log('------------ The access token is ------------', state.token);
+        });
     }
 });
 

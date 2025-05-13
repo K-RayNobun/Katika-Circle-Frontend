@@ -32,6 +32,7 @@ export function useApiGet<T>() {
             if (!url) return;
 
             if (isTokenNecessary) {
+                console.log('-------------- The access token is --------------\n', accessToken);
                 const response = await axios.get(url, {
                     headers: {
                         ...(isTokenNecessary && accessToken && {Authorization: `Bearer ${accessToken}`}),
@@ -164,12 +165,14 @@ export function useApiPost<T, P>() {
                     "Content-Type": 'application/json'
                 }
             });
+            console.log('POST Request Response', response);
 
             setState({
                 data: response.data.data,
                 isLoading: false,
                 error: null
             });
+        
 
             return response.data.data;
         } catch (error) {

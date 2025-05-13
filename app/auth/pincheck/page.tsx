@@ -44,12 +44,12 @@ interface UserData {
     };
 }
 
-// interface CountryData {
-//     name: string;
-//     image: string;
-//     currencyCode: string;
-//     alpha2: string;
-// }
+interface CountryData {
+    name: string;
+    image: string;
+    currencyCode: string;
+    alpha2: string;
+}
  
 const PinCheck = () => {
 
@@ -66,10 +66,12 @@ const PinCheck = () => {
 
     const dispatch = useAppDispatch();
     const userData = useAppSelector((state) => state.user);
+    const accessToken = useAppSelector((state) => state.token.token);
     const { t } = useTranslation();
 
     const { executePost, error: postError } = useApiPost<string, object>();
     const {fetchData, error: error, errorPopup: postErrorPopup} = useApiGet<UserData>();
+    const {fetchData: fetchCountriesData} = useApiGet<CountryData[]>();
     const {fetchData: fetchOtpData, errorPopup: getErrorPopup} = useApiGet<string>();
 
     useEffect(() => {
@@ -102,6 +104,10 @@ const PinCheck = () => {
 
         return () => clearInterval(intervalRef.current);
     })
+
+    useEffect(() => {
+        console.log('Access Token is:', accessToken);
+    }, [accessToken])
 
     useEffect(() => {
         // console.log('The User Redux state data are : ', userData);
@@ -169,10 +175,11 @@ const PinCheck = () => {
     };
 
     const handleCodeRequest = () => {
-        // console.log('Requesting Code...');
+        console.log('Requesting Code...');
         if (canAskCode) {
             sendOTP();
         } else {
+            console.log('CAN\'T REQUEST CODE');
             document.getElementById('time-left')?.classList.add('translate-x-[20px]');
             document.getElementById('time-left')?.classList.add('translate-x-[-20px]');
         }
@@ -190,10 +197,11 @@ const PinCheck = () => {
     };
 
     const sendOTP = async () => {
+        console.log('Sending OTP...');
         const result = await executePost(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`,
-            {});
+            {}) as string;
 
-        // console.log('Just sent the token successfully as ', response.data);
+        console.log('The OTP result is: ', result);
         if (!result) {
             return <ErrorMessage message={postError!} />;
         }
@@ -207,6 +215,23 @@ const PinCheck = () => {
         // console.log('Getting the verified user data');
         const result = await fetchData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`) as UserData;
         // console.log('The User Data Is: ', response.data.data);
+
+        const response = await fetchCountriesData('https://api-stg.transak.com/api/v2/countries') as CountryData[];
+            const countriesArray: Array<CountryData> = response.filter((country) => country.currencyCode === 'EUR' || country.currencyCode === 'GBP');
+            console.log('Countries Array => ', countriesArray);
+            let currencyCode;
+            for (let i=0; i <= countriesArray.length; i++) {
+                if (countriesArray[i].name.toUpperCase() === result.countryCode.toUpperCase()) {
+                    console.log(`This user country is ${countriesArray[i].name} and its currency is ${countriesArray[i].currencyCode}`);
+                    if (countriesArray[i].currencyCode === 'GBP') {
+                        currencyCode = '£'; 
+                    } else {
+                        currencyCode = '€'
+                    }
+                    break
+                }
+            }
+
         if(result) {
             dispatch(createUser({
                 id: result.id,
@@ -214,6 +239,7 @@ const PinCheck = () => {
                 surname: result.sname,
                 email: result.email,
                 country: result.countryCode,
+                currencySymbol: currencyCode,
                 referralCode: result.referral.referralCode,
                 language: 'fr'
             }));
@@ -231,12 +257,7 @@ const PinCheck = () => {
         // console.log('The PIN Code is: ', pinCode);
         const message = await fetchOtpData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp?code=${pinCode}`);
         // console.log('Verification Result: ', response.data)
-        if (pinCode === '90900') {
-            setIsPinCorrect(true);
-            dispatch(verifyUser(true));
-            getUserData();
-        }
-        else if (message) {
+       if (message) {
             if (message.toLowerCase() === 'otp valid with success' || pinCode === '90900') {
                 console.log('\t #### PIN Code is Right !');
                 setIsPinCorrect(true);

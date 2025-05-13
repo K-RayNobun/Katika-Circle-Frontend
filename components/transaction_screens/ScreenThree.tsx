@@ -46,7 +46,7 @@ const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
                 `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transaction`,
                 {
                     amount: transactionDetails.amountSent,
-                    currency: transactionDetails.currencySent === '€' ? 'EURO' : 'USD',
+                    currency: transactionDetails.currencySent === '£' ? 'GBP' : 'EURO',
                     transactionType: transactionDetails.transfertType,
                     recipient:
                         transactionDetails.transfertType === 'MobileMoney'

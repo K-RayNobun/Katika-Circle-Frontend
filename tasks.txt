@@ -16,7 +16,7 @@ x Responsive layout on mobile
 - Email and password setting modifs
 - Group email & password for one updated
 
-
+### Classify referrals by profits
 
 - Test Transak SDK with GBP and get the Link
 - Adapt GBP option in redirect

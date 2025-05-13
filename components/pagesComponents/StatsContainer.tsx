@@ -3,6 +3,7 @@ import { RiHandCoinLine } from "react-icons/ri";
 import { TbUserHeart } from "react-icons/tb";
 import { GrGroup } from "react-icons/gr";
 import { useTranslation } from '@/lib/hooks/useTranslation';
+import { useAppSelector } from '@/lib/redux/hooks';
 
 interface FilleulDetails {
     order: number;
@@ -13,6 +14,7 @@ interface FilleulDetails {
 
 const StatsContainer = ({ userData, referralBonus, filleulList }: {userData: { cashback: number }, referralBonus:number, filleulList: Array<FilleulDetails>}) => {
     const { t } = useTranslation();
+    const userCurrency = useAppSelector((state) => state.user.currencySymbol);
     let userCashback = '0';
 
     try {
@@ -38,7 +40,7 @@ const StatsContainer = ({ userData, referralBonus, filleulList }: {userData: { c
             <div className={`bg-indigo/10 border-2 border-indigo flex flex-col items-center py-[16px] justify-evenly lg:justify-center text-indigo h-full font-bold rounded-[12px] w-full max-w-[32%] flex-1`}>
                 <RiHandCoinLine className={` size-[24px] mb-[6px]`} />
                 <div className={`text-indigo font-bold flex items-start`}>
-                    <span className={`text-[14px] lg:text-[16px]`}>{'€'}</span> <span className={`text-[24px] lg:text-[36px] font-extrabold`}>{userCashback}</span>
+                    <span className={`text-[14px] lg:text-[16px]`}>{userCurrency}</span> <span className={`text-[24px] lg:text-[36px] font-extrabold`}>{userCashback}</span>
                 </div>
                 <div className={`text-[12px] mx-[10px] text-center`}>{t('statsContainer.cashbackAvailable')}</div>
                 <button className={`w-[45%] mt-[8px] hidden lg:flex justify-center text-white text-[12px] px-[18px] py-[6px] rounded-[4px] bg-indigo hover:vibrant-animation hover:animate-tingle`} >
@@ -48,7 +50,7 @@ const StatsContainer = ({ userData, referralBonus, filleulList }: {userData: { c
             <div className={`bg-[#E673D5]/10 border-2 border-[#E673D5] flex flex-col items-center py-[16px] justify-evenly lg:justify-center text-[#E673D5] font-bold w-full max-w-[32%] rounded-[12px] flex-1`}>
                 <TbUserHeart className={` size-[24px] mb-[6px]`} />
                 <div className={`flex items-start`}>
-                    <span className={`text-[14px] lg:text-[16px] mt-2`}>{'€'}</span> <span className={`text-[24px] lg:text-[36px] font-extrabold`}>{referralBonusFormatted}</span>
+                    <span className={`text-[14px] lg:text-[16px] mt-2`}>{userCurrency}</span> <span className={`text-[24px] lg:text-[36px] font-extrabold`}>{referralBonusFormatted}</span>
                 </div>
                 <div className={`text-[12px] mx-[10px] text-center`}>{t('statsContainer.referralBonus')}</div>
                 <button className={`w-[45%] mt-[8px] hidden lg:flex justify-center text-white text-[12px] px-[18px] py-[6px] rounded-[4px] bg-[#E673D5] focus:animate-tingle scale-110 duration-300`} >

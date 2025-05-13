@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from '@/lib/hooks/useTranslation';
+import { useAppSelector } from '@/lib/redux/hooks';
 
 interface FilleulDetails {
     order: number,
@@ -10,6 +11,7 @@ interface FilleulDetails {
 
 const FilleulInfo = ({ details }: { details: FilleulDetails }) => {
     const { t } = useTranslation();
+    const userCurrency = useAppSelector((state) => state.user.currencySymbol);
     
     return (
         <div className={`flex justify-between items-center w-full bg-gray rounded-[6px] px-[16px] py-[12px] text-[14px] text-primary_dark`}>
@@ -18,7 +20,7 @@ const FilleulInfo = ({ details }: { details: FilleulDetails }) => {
                 <h5 className={`flex-4 grow-4`}>{details.referralCode}</h5>
             </div>
             <h5 className={`font-bold `}>
-                {t('filleulList.referralDetails.currency')} {details.commission}
+                {userCurrency} {details.commission}
             </h5>
         </div>
     )

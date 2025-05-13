@@ -16,7 +16,7 @@ interface screenProps {
 
 const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     const { t } = useTranslation();
-    const [selectedCurrency, setSelectedCurrency] = useState('EUR')
+    const [selectedCurrency, setSelectedCurrency] = useState('€')
     const [selectedCountry, setSelectedCountry] =  useState('cameroon');
     const [officialRate, setOfficialRate] = useState(0);
     const katikaRateRef = useRef(0);
@@ -65,12 +65,12 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     }, [])
 
     const currenciesData: Record<string, {image:string; name:string; symbol:string}> = {
-        EUR: {
+        '€': {
             name: 'EUR',
             symbol: '€',
             image: '/currencies/euro.png'
         },
-        USD: {
+        '£': {
             name: 'GBP',
             symbol: '£',
             image: '/currencies/sterling.svg'
@@ -110,9 +110,10 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                 }
             );
             let responseData;
-            if (selectedCurrency === '£' || selectedCurrency === 'GBP') {
-                responseData = response.data.data.toCurrency[1]
-            } else if (selectedCurrency === '€' || selectedCurrency === 'EUR') {
+            if (userData.currencySymbol === '£') {
+                responseData = response.data.data.toCurrency[1];
+                console.log(`The rate of ${userData.currencySymbol} is `, responseData);
+            } else if (userData.currencySymbol === '€') {
                 responseData = response.data.data.toCurrency[0]
             } else {
                 responseData = response.data.data.toCurrency[0];
@@ -378,7 +379,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                     {t('transactionScreens.screenOne.form.send.label')}
                 </label>
                 <div className='flex items-center font-bold w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 gap-[12px]'>
-                    <select name="currency" id="currency-select" defaultValue='EUR' onChange={handleCurrencyChange} className="bg-transparent max-w-[40px]">
+                    {/* <select name="currency" id="currency-select" defaultValue='€' onChange={handleCurrencyChange} className="bg-transparent max-w-[40px]">
                         {
                             Object.entries(currenciesData).map(([key, data], index) => (
                                 <option key={index} value={key}>
@@ -386,7 +387,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                                 </option>
                             ))
                         }
-                    </select>
+                    </select> */}
                     <img 
                         src={`${currenciesData[selectedCurrency].image}`} alt={currenciesData[selectedCurrency].name} width={30} height={20} className='w-[30px]' />
                     {

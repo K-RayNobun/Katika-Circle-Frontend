@@ -15,7 +15,7 @@ import { useTranslation } from '@/lib/hooks/useTranslation';
 // Redux imports;
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { createUser, setDefaultReferringCode, resetUser } from '@/lib/redux/features/user/userSlice';
-import { renewToken, resetToken } from '@/lib/redux/features/token/tokenSlice';
+import { renewToken } from '@/lib/redux/features/token/tokenSlice';
 import AsyncSpinner from '@/components/AsyncSpinner';
 import { withCookieProtection } from '@/app/CookieProvider';
 
@@ -65,7 +65,6 @@ const Signup = () => {
     const [selectedCountry, setSelectedCountry] = useState<CountryData>({name: 'France', image: '', currencyCode: 'EUR', alpha2: 'FR'});
     const [countryFlagURL, setCountryFlagURL] = useState('');
     const [countriesList, setCountriesList] = useState<Array<CountryData>>([]);
-    const accessToken = useRef('');
     const [isRefCodeProvided, setIsRefCodeProvided] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const isSubmittingRef = useRef(false)
@@ -86,6 +85,7 @@ const Signup = () => {
 
     const dispatch = useAppDispatch();
     const userData = useAppSelector((state) => state.user);
+    const accessToken = useAppSelector((state) => state.token.token);
 
     const tooglePwdVisibility = () => {
         setIsPwdVisible(prev => !prev);
@@ -155,9 +155,9 @@ const Signup = () => {
 
     const sendOTP = async () => {
         console.log('Sending OTP');
-        // console.log('Access Token is: ', accessToken.current)
         await executePost(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`, {});
-        console.log('Finished sending OTP with the token', accessToken);
+        // Token isn't yet updated in the Redux state
+        console.log('Finished sending OTP with the token', accessToken );
         // console.log('Just sent the token successfully as ', response.data);
     };
 
@@ -186,18 +186,19 @@ const Signup = () => {
             if (response) {
                 const token = response['access-token'];
 
+                // await dispatch(resetUser());
+
                  // 2. Update Redux state and wait for it
-                await dispatch(renewToken({ token })).unwrap();
+                await dispatch(renewToken({ token }));
                 
                 // 3. Small delay to ensure Redux state is updated
-                await new Promise(resolve => setTimeout(resolve, 100));
+                await new Promise(resolve => setTimeout(resolve, 1000));
                 
                 // 4. Send OTP with updated token
                 await sendOTP();
 
                 // 5. Update other state
                 isRegistratedRef.current = true;
-                await dispatch(resetUser());
             }
         } catch (err) {
             const axiosError = err as AxiosError;
@@ -212,7 +213,7 @@ const Signup = () => {
             } else if (axiosError.response?.status !== 200) {
                 setError(t('signup.errors.serverError'));
                 isSubmittingRef.current = false;
-                console.error('Registration error:', axiosError.response?.status);
+                console.error('Registration error :', axiosError.response);
             }
         }
     } 
@@ -284,7 +285,7 @@ const Signup = () => {
 
         if (isRegistratedRef.current) {
             // console.log('Processing Dispatchs now!');
-            dispatch(resetToken());
+            await dispatch(resetUser());
             dispatch(createUser({
                 name: name,
                 surname: surname,

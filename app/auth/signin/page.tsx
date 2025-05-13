@@ -34,12 +34,23 @@ interface UserData {
     };
 }
 
+interface CountryData {
+    name: string;
+    image: string;
+    currencyCode: string;
+    alpha2: string;
+}
+
 type signinResponse = {
     'access-token': string
 }
 type signinPayload = {
     'email': string,
     'pwd': string
+}
+
+type countryFlagPayload = {
+    "iso2": string,
 }
                                                                                                                                                                                                                                                     
 const Signin = () => {
@@ -59,6 +70,7 @@ const Signin = () => {
     const accessTokenRef = useRef('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSigningIn, setIsSigningIn] = useState(false);
+    const [userCurrency, setUserCurrency] = useState<string>('')
 
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -71,6 +83,7 @@ const Signin = () => {
 
     const { executePost, isLoading: isPosting } = useApiPost<signinResponse, signinPayload>();
     const { fetchData, isLoading: isProfileFetching, errorPopup: getErrorPopup } = useApiGet<UserData>();
+    const {fetchData: fetchCountriesData, isLoading: isCountryFetchLoading} = useApiGet<CountryData[]>();
 
     useEffect(() => {
         // console.log('Check if we can send him to homePage');
@@ -153,6 +166,23 @@ const Signin = () => {
             const userApiData = await fetchData(
                 `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`
             ) as UserData;
+            console.log('User Country => ', userApiData.countryCode);
+
+            const response = await fetchCountriesData('https://api-stg.transak.com/api/v2/countries') as CountryData[];
+            const countriesArray: Array<CountryData> = response.filter((country) => country.currencyCode === 'EUR' || country.currencyCode === 'GBP');
+            console.log('Countries Array => ', countriesArray);
+            let currencyCode;
+            for (let i=0; i <= countriesArray.length; i++) {
+                if (countriesArray[i].name.toUpperCase() === userApiData.countryCode.toUpperCase()) {
+                    console.log(`This user country is ${countriesArray[i].name} and its currency is ${countriesArray[i].currencyCode}`);
+                    if (countriesArray[i].currencyCode === 'GBP') {
+                        currencyCode = '£'; 
+                    } else {
+                        currencyCode = '€'
+                    }
+                    break
+                }
+            }
 
             if (userApiData) {
                 // Update user data in Redux
@@ -164,6 +194,7 @@ const Signin = () => {
                     surname: userApiData.sname,
                     email: userApiData.email,
                     country: userApiData.countryCode,
+                    currencySymbol: currencyCode,
                     referralCode: userApiData.referral.referralCode,
                     language: 'fr'
                 }));
