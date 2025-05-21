@@ -12,6 +12,8 @@ import { resetUser } from '@/lib/redux/features/user/userSlice';
 import { resetToken } from '@/lib/redux/features/token/tokenSlice';
 import { resetTransaction } from '@/lib/redux/features/transaction/transactionSlice';
 
+import WhatsappButton from '@/components/pagesComponents/WhatsappButton';
+
 import Link from 'next/link';
 import { useTranslation } from '@/lib/hooks/useTranslation';
 
@@ -141,6 +143,7 @@ export default function UserLayout({
                 </section>
             )}
             {userData.verified && children}
+            <WhatsappButton />
         </section>
     );
 }

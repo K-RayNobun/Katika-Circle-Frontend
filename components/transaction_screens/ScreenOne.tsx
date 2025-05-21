@@ -16,7 +16,7 @@ interface screenProps {
 
 const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     const { t } = useTranslation();
-    const [selectedCurrency, setSelectedCurrency] = useState('€')
+    // const [selectedCurrency, setSelectedCurrency] = useState('€')
     const [selectedCountry, setSelectedCountry] =  useState('cameroon');
     const [officialRate, setOfficialRate] = useState(0);
     const katikaRateRef = useRef(0);
@@ -117,7 +117,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                 responseData = response.data.data.toCurrency[0]
             } else {
                 responseData = response.data.data.toCurrency[0];
-                console.log('The selected currency is ', selectedCurrency);
+                console.log('The selected currency is ', userData.currencySymbol);
             }
             const ratesData = responseData.rates;
             const ratesArray = [ratesData.firstRate, ratesData.secondRate, ratesData.thirdRate, ratesData.fourthRate, ratesData.fifthRate, ratesData.sixthRate]            
@@ -136,7 +136,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
 
     const fetchActualPrice = async() => {
         try {
-            const response = await axios.get("https://api.exchangerate-api.com/v4/latest/"+currenciesData[selectedCurrency].name.toUpperCase());
+            const response = await axios.get("https://api.exchangerate-api.com/v4/latest/"+currenciesData[userData.currencySymbol || '€'].name.toUpperCase());
             // console.log(response);
             const currency = countriesData[selectedCountry].currency
             setOfficialRate(response.data.rates[currency]);
@@ -148,11 +148,6 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     const handleCountryChange = () => {
         const country = document.getElementById('country-select') as HTMLSelectElement;
         setSelectedCountry(country!.value)
-    }
-
-    const handleCurrencyChange = () => {
-        const currency = document.getElementById('currency-select') as HTMLSelectElement;
-        setSelectedCurrency(currency.value);
     }
 
     const handleSentAmountChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -252,7 +247,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                 const referralGain = referralGainPercentage * amountSentRef.current
                 const data = {
                     amountSent: amountSentRef.current,
-                    currencySent: currenciesData[selectedCurrency]?.symbol,
+                    currencySent: currenciesData[userData.currencySymbol || '€']?.symbol,
                     amountReceived: amountReceivedRef.current,
                     currencyReceived: countriesData[selectedCountry].currency,
                     receiverCountry: selectedCountry,
@@ -389,14 +384,14 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                         }
                     </select> */}
                     <img 
-                        src={`${currenciesData[selectedCurrency].image}`} alt={currenciesData[selectedCurrency].name} width={30} height={20} className='w-[30px]' />
+                        src={`${currenciesData[userData.currencySymbol || '€'].image}`} alt={currenciesData[userData.currencySymbol || '€'].name} width={30} height={20} className='w-[30px]' />
                     {
                     modifyingSentAmount ?
                         <input type="text" onChange={handleSentAmountChange} defaultValue={amountSentDefault} name='amount-sent' className='grow w-[75%] sm:w-full text-right' style={{ margin: 0, padding: 0}}/>
                     :
                         <input type="text" onClick={() => {setModifyingSentAmount(true)}} readOnly={true} value={amountSentFormattedRef.current} name='amount-sent' className='grow w-[75%] sm:w-full text-right' />
                     }
-                    <h5 className=''>{currenciesData[selectedCurrency]?.symbol}</h5>
+                    <h5 className=''>{currenciesData[userData.currencySymbol || '€']?.symbol}</h5>
                 </div>
             </div>
             <div className='flex flex-col'>

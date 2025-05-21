@@ -19,9 +19,11 @@ import { renewToken } from '@/lib/redux/features/token/tokenSlice';
 import AsyncSpinner from '@/components/AsyncSpinner';
 import { withCookieProtection } from '@/app/CookieProvider';
 
+import JsonRes from '../../../public/countries/transakCountriesList.json';
+
 interface CountryData {
     name: string;
-    image: string;
+    image?: string;
     currencyCode: string;
     alpha2: string;
 }
@@ -70,7 +72,7 @@ const Signup = () => {
     const isSubmittingRef = useRef(false)
     const isRegistratedRef = useRef(false);
 
-    const [formData, setFormData] = useState<{ ref_code: string }>({
+    const [urlFormData, setUrlFormData] = useState<{ ref_code: string }>({
         ref_code: '',
     });
 
@@ -78,7 +80,6 @@ const Signup = () => {
 
     // Api request hooks
     const {executePost, error: postError} = useApiPost<SignUpResponse | null, signupPayload | object >();
-    const {fetchData} = useApiGet<CountryData[]>();
     const {fetchData: fetchReferralError, errorPopup: getErrorPopup} = useApiGet<string>();
 
     // Redux setup
@@ -166,6 +167,7 @@ const Signup = () => {
         try {
             // console.log('Registering user');
             const formData = new FormData(formRef.current!);
+            // console.log('Referral Code is:','---', formData.get('ref_code')?.toString().trim(),'---');
             const payload = {
                     "fname": formData.get('user_firstname') as string,
                     "lname": formData.get('user_name') as string,
@@ -173,8 +175,8 @@ const Signup = () => {
                     "email": formData.get('user_email')! as string,
                     "pwd": formData.get('password') as string,
                     "countryCode": selectedCountry!.name,
-                    ...(formData.get('ref_code')?.toString().length === 0 && {"pReferralCode": formData.get('ref_code') as string}),
-                }
+                    ...(formData.get('ref_code')?.toString().length !== 0 && {"pReferralCode": formData.get('ref_code')?.toString().trim() as string}),
+                };
            
             // 1. Get the registration response
             const response = await executePost(
@@ -182,6 +184,14 @@ const Signup = () => {
                 payload,
                 false
             );
+            console.log('The response is fine, this is it: ', response);
+
+            if (response.message && response.data.toLowerCase().includes('user already exist')) {
+                setError(t('signup.errors.userAlreadyExists'));
+                isSubmittingRef.current = false;
+                setIsSubmitting(false);
+                return;
+            }
 
             if (response) {
                 const token = response['access-token'];
@@ -203,17 +213,19 @@ const Signup = () => {
         } catch (err) {
             const axiosError = err as AxiosError;
             setIsSubmitting(false);
+            console.log('The response was unexpected. We fall into Catch block.');
             // Handle error `Referral Does not exit Exist`
             if (axiosError.response?.status === 500 && postError!.includes('Referral Does not exit Exist')) {
                 setError(t('signup.errors.invalidReferralCode'));
                 isSubmittingRef.current = false;
             } else if (axiosError.response?.status === 500 && postError!.toLowerCase().includes('user already exist')) {
+                console.log('Axios error: ', axiosError.response);
                 setError(t('signup.errors.userAlreadyExists'));
                 isSubmittingRef.current = false;
             } else if (axiosError.response?.status !== 200) {
                 setError(t('signup.errors.serverError'));
                 isSubmittingRef.current = false;
-                console.error('Registration error :', axiosError.response);
+                console.error('Registration :', axiosError.response);
             }
         }
     } 
@@ -227,6 +239,7 @@ const Signup = () => {
         const name =  formData.get('user_firstname') as string;
         const surname =  formData.get('user_name') as string;
         const email = (formData.get('user_email') as string).toLowerCase();
+        const phone = formData.get('phone_number') as string;
         const password = formData.get('password') as string;
         // const refcode = formData.get('ref_code') as string;
         const confirmPassword = formData.get('confirm_password') as string;
@@ -262,6 +275,13 @@ const Signup = () => {
             setError(t('signup.errors.invalidEmail'));
             setErrorField('user_email');
             setIsSubmitting(false)
+            return;
+        }
+
+        if (phone.length < 4) {
+            setError(t('signup.errors.invalidPhone'));
+            setErrorField('phone_number');
+            setIsSubmitting(false);
             return;
         }
 
@@ -325,6 +345,8 @@ const Signup = () => {
                 "iso2": countriesList[country_index].alpha2,
             }
         );
+        console.log('Parameters is: ', countriesList[country_index].alpha2);
+        console.log('Flag Response is: ', response);
         setCountryFlagURL(response.flag);
     }
 
@@ -358,10 +380,12 @@ const Signup = () => {
 
     useEffect(() => {
         const fetchCountries = async () => {
-            const response = await fetchData('https://api-stg.transak.com/api/v2/countries') as CountryData[];
+            let response = [] as CountryData[] | null;
+            response = JsonRes["response"] as CountryData[];
+            console.log('Countries fetched from API: ', response);
             const countriesArray: Array<CountryData> = response.filter((country) => country.currencyCode === 'EUR' || country.currencyCode === 'GBP');
             setCountriesList(countriesArray);
-            // // console.log('An example country: ', response.data.response[0])
+            // console.log('An example country: ', response.data.response[0])
             const responseSecond = await executePost('https://countriesnow.space/api/v0.1/countries/flag/images',
                 {
                     "iso2": response[53].alpha2,
@@ -373,12 +397,13 @@ const Signup = () => {
         fetchCountries();
     }, []);
 
+
     useEffect(() => {
         const ref_code = searchParams.get('ref_code');
         const firstReferringCode = userData.firstReferringCode;
         // console.log('The params got changed !!!');
         if(ref_code && !firstReferringCode) {
-            setFormData({
+            setUrlFormData({
                 ref_code: ref_code
             });
             setIsRefCodeProvided(true);
@@ -386,7 +411,7 @@ const Signup = () => {
             // console.log('Now the Ref Code is Readonly');
         } else if (firstReferringCode) {
             // console.log('The user has a predefined referring code known as ', firstReferringCode);
-            setFormData({
+            setUrlFormData({
                 ref_code: firstReferringCode
             });
             setIsRefCodeProvided(false);
@@ -471,9 +496,9 @@ const Signup = () => {
                 </div>
                 {
                     userData.firstReferringCode ?
-                    <input type="text" id='refcode' name='ref_code' onChange={checkRefCode} className={`${inputStyle} ${errorField === 'ref_code' ? 'border-2 border-red': ''}`} value={formData.ref_code} maxLength={8} readOnly={isRefCodeProvided} placeholder='Referral Code' />
+                    <input type="text" id='refcode' name='ref_code' onChange={checkRefCode} className={`${inputStyle} ${errorField === 'ref_code' ? 'border-2 border-red': ''}`} value={urlFormData.ref_code} maxLength={8} readOnly={isRefCodeProvided} placeholder='Referral Code' />
                     :
-                    <input type="text" id='refcode' name='ref_code' onChange={checkRefCode} className={`${inputStyle} ${errorField === 'ref_code' ? 'border-2 border-red': ''}`} defaultValue={formData.ref_code} maxLength={8} placeholder='Referral Code' />
+                    <input type="text" id='refcode' name='ref_code' onChange={checkRefCode} className={`${inputStyle} ${errorField === 'ref_code' ? 'border-2 border-red': ''}`} defaultValue={urlFormData.ref_code} maxLength={8} placeholder='Referral Code' />
                 }
             </div>
             <div className="flex necessary_input items-start gap-[8px] mb-[8px]">

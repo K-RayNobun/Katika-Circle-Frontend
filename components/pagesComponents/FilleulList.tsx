@@ -10,7 +10,7 @@ interface FilleulDetails {
 }
 
 const FilleulInfo = ({ details }: { details: FilleulDetails }) => {
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
     const userCurrency = useAppSelector((state) => state.user.currencySymbol);
     
     return (

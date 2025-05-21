@@ -216,10 +216,17 @@ const PinCheck = () => {
         const result = await fetchData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`) as UserData;
         // console.log('The User Data Is: ', response.data.data);
 
-        const response = await fetchCountriesData('https://api-stg.transak.com/api/v2/countries') as CountryData[];
+        let response;
+        response = await fetchCountriesData('https://api-stg.transak.com/api/v2/countries', false) as CountryData[];
+        if (!response) {
+            // Get countries from public/countries/transakCountriesList.json
+            response = await fetch('/countries/transakCountriesList.json');
+            response = await response.json()  as CountryData[];
+        }
+        let currencyCode;
+        if (response) {
             const countriesArray: Array<CountryData> = response.filter((country) => country.currencyCode === 'EUR' || country.currencyCode === 'GBP');
             console.log('Countries Array => ', countriesArray);
-            let currencyCode;
             for (let i=0; i <= countriesArray.length; i++) {
                 if (countriesArray[i].name.toUpperCase() === result.countryCode.toUpperCase()) {
                     console.log(`This user country is ${countriesArray[i].name} and its currency is ${countriesArray[i].currencyCode}`);
@@ -231,6 +238,10 @@ const PinCheck = () => {
                     break
                 }
             }
+        } else {
+            currencyCode = '€';
+            console.log('The user country is not in the list, defaulting to Euro');
+        }
 
         if(result) {
             dispatch(createUser({

@@ -3,7 +3,10 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { PiPencilSimpleLineDuotone } from "react-icons/pi";
 import { LiaTimesSolid, LiaCheckSolid } from "react-icons/lia";
+import { LuEyeClosed, LuEye } from "react-icons/lu";
 import OTPModal from '@/components/pagesComponents/OTPModal';
+import NewPasswordModal from '@/components/pagesComponents/NewPasswordModal';
+
 
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
 import { renewToken } from '@/lib/redux/features/token/tokenSlice';
@@ -17,16 +20,16 @@ const ProfileSettings = () => {
     const [showOTPModal, setShowOTPModal] = useState(false);
 
     const userData = useAppSelector((state) => state.user);
-    const accessToken = useAppSelector((state) => state.token.token);
     const dispatch = useAppDispatch();
 
     const [name, setName] = useState(userData.name || '');
     const [surname, setSurname] = useState(userData.surname || '');
     const [email, setEmail] = useState(userData.email || '');
-    const [password, setPassword] = useState('');
     const [currentPassword, setCurrentPassword] = useState('');
+    const [showNewPasswordModal, setShowNewPasswordModal] = useState(false);
+    const [isCurrentPasswordHidden, setIsCurrentPasswordHidden] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const isTestValid = useRef(false);
+    const validatedCredentials = useRef(false);
     const [error, setError] = useState<string | null>(null);
     const { t } = useTranslation();
 
@@ -37,29 +40,15 @@ const ProfileSettings = () => {
 
     const validatePassword = useMemo(() => {
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+[\]{};':"\\|,.<>/?`~\-]{6,}$/;
-        return passwordRegex.test(password);
-    }, [password]);
-
-    const updateUserData = async () => {
-        try {
-            await axios.put(
-                `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/user/${userData.id}`,
-                { email, pwd: password },
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
-            // console.log(t('settingsProfile.credentialsUpdated'), response.data);
-        } catch {
-            // console.error(t('settingsProfile.errorUpdating'), error);
-        }
-    };
+        return passwordRegex.test(currentPassword);
+    }, [currentPassword]);
 
     const testCredentials = async () => {
         try {
+            // ENSURE THE EMAIL THE USER WANTS TO MODIFY IS THE ONE REGISTERED
+            if (email !== userData.email) {
+                return;
+            }
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/login`,
                 { email: userData.email, pwd: currentPassword },
@@ -75,7 +64,7 @@ const ProfileSettings = () => {
                     expiresIn: 5 * 60 * 1000,
                 })
             );
-            isTestValid.current = true;
+            validatedCredentials.current = true;
             // console.log(t('settingsProfile.otpVerified'));
         } catch (error) {
             const axiosError = error as AxiosError;
@@ -90,31 +79,20 @@ const ProfileSettings = () => {
         // console.log(t('settingsProfile.personalInfo'), name, surname);
     };
 
-    const sendOTP = async () => {
-        // console.log('Sending OTP');
-        // console.log('Access Token is: ', accessToken)
-        await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`,
-            {},
-        {
-            headers: {
-                'Authorization': 'Bearer ' + accessToken,
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            }
-        });
-        // console.log('Finished sending OTP with the token', accessToken);
-        // console.log('Just sent the token successfully as ', response.data);
-    };
-
     const handleCredentialsSubmit = async () => {
         setIsSubmitting(true);
         setError(null);
         if (validateEmail && validatePassword) {
-            setIsEditingCredentials(false);
-            await testCredentials();
-            await updateUserData();
-            sendOTP();
-            setShowOTPModal(true);
+            try {
+                await testCredentials();
+                if (validatedCredentials) {
+                    setShowNewPasswordModal(true);
+                }
+            } catch {
+                setError(t('settingsProfile.invalidCredentials'));
+            } finally {
+                setIsSubmitting(false)
+            }
         } else {
             setError(t('settingsProfile.invalidCredentials'));
         }
@@ -202,12 +180,16 @@ const ProfileSettings = () => {
                     <div className='space-y-[8px]'>
                         <h5 className='text-gray_dark/50'>{t('settingsProfile.email')}</h5>
                         {isEditingCredentials ? (
-                            <input
-                                type='email'
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className='w-full p-[8px] border-2 border-gray rounded-[8px]'
-                            />
+                            <div className="relative w-full bg-gray">
+                                <input
+                                    type='email'
+                                    readOnly={userData.email ? true : false}
+                                    value={userData.email ? email : ''}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className='w-full p-[8px] bg-white border-2 border-gray rounded-[8px]'
+                                />
+                                
+                            </div>
                         ) : (
                             <h5>{email}</h5>
                         )}
@@ -215,22 +197,30 @@ const ProfileSettings = () => {
                     <div className='space-y-[8px]'>
                         <h5 className='text-gray_dark/50'>{t('settingsProfile.password')}</h5>
                         {isEditingCredentials ? (
-                            <>
+                            <div className="relative w-full">
                                 <input
-                                    type='password'
+                                    type={ isCurrentPasswordHidden ? 'password' : 'text'}
                                     placeholder={t('settingsProfile.currentPassword')}
                                     value={currentPassword}
                                     onChange={(e) => setCurrentPassword(e.target.value)}
                                     className='w-full p-[8px] border-2 border-gray rounded-[8px]'
                                 />
-                                <input
-                                    type='password'
-                                    placeholder={t('settingsProfile.newPassword')}
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className='w-full p-[8px] border-2 border-gray rounded-[8px]'
-                                />
-                            </>
+                                {/* Eye logo */}
+                                {   
+                                    isCurrentPasswordHidden ?
+                                    <LuEyeClosed
+                                        size={20}
+                                        className='absolute top-[50%] right-[10px] translate-y-[-50%] cursor-pointer'
+                                        onClick={() => setIsCurrentPasswordHidden(!isCurrentPasswordHidden)}
+                                    />
+                                    :
+                                    <LuEye
+                                        size={20}
+                                        className='absolute top-[50%] right-[10px] translate-y-[-50%] cursor-pointer'
+                                        onClick={() => setIsCurrentPasswordHidden(!isCurrentPasswordHidden)}
+                                    />
+                                }
+                            </div>
                         ) : (
                             <h5>********</h5>
                         )}
@@ -255,6 +245,18 @@ const ProfileSettings = () => {
                     </button>
                 )}
             </div>
+            
+            {/* New PAssword & New Password Confirm Modal */}
+            {showNewPasswordModal && (
+                <NewPasswordModal
+                    onClose={() => {
+                        setShowNewPasswordModal(false);
+                        setError(null);
+                    }}
+                    setShowOTPModal={setShowOTPModal}
+                    setShowNewPasswordModal={setShowNewPasswordModal}
+                />
+            )}
 
             {/* OTP Modal */}
             {showOTPModal && (

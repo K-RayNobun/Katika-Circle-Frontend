@@ -16,6 +16,7 @@ const getAccessToken = () => {
 }
 
 // SIGNIN SINGNUP RENEWPASSWORD RESETPASSWORD
+
 export function useApiGet<T>() {
     
     const { t } = useTranslation();
@@ -27,57 +28,36 @@ export function useApiGet<T>() {
     const [response, setResponse] = useState<T|null>();
     const [showError, setShowError] =useState(true);
     const fetchData = async (url: string, isTokenNecessary = true) => {
-        const accessToken = getAccessToken();
+        setState(prev => ({ ...prev, isLoading: true, error: null}));
         try {
             if (!url) return;
 
-            if (isTokenNecessary) {
-                console.log('-------------- The access token is --------------\n', accessToken);
-                const response = await axios.get(url, {
-                    headers: {
-                        ...(isTokenNecessary && accessToken && {Authorization: `Bearer ${accessToken}`}),
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*'
-                    }
-                });
-
-                if (url === 'https://api-stg.transak.com/api/v2/countries') {
-                    setState({
-                        data: response.data.response,
-                        isLoading: false,
-                        error: null
-                    });
-                    return response.data.response as T;
+                const headers = {
+                    ...(isTokenNecessary && getAccessToken() && 
+                        {Authorization: `Bearer ${getAccessToken()}`}),
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
                 }
 
-                setState({
-                    data: response.data.data,
-                    isLoading: false,
-                    error: null
-                });
-                return response.data.data as T;
-            } else {
+                const response = await axios.get(url, { headers });
+                let responseData;
 
-                if (url.includes('/auth/account/referral/parent?code=')) {
-                    console.log('This is a GET request for the referral code');
+                // Handle different response structures
+                if (url === 'https://api-stg.transak.com/api/v2/countries' || url === 'https://api.transak.com/api/v2/countries') {
+                    responseData = response.data.response;
                 } else {
-                    console.log('This is rather the url', url);
+                    responseData = response.data.data;
                 }
 
-                const response = await axios.get(url, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*'
-                    }
-                });
-
+                // Update state and return data atomically
                 setState({
-                    data: response.data.data,
+                    data: responseData,
                     isLoading: false,
                     error: null
                 });
-                setResponse(response.data.data);
-            }
+
+                return responseData as T;
+
         } catch (error) {
             const axiosError = error as AxiosError;
             let errorMessage = t('errors.axiosError.default');
@@ -123,6 +103,7 @@ export function useApiGet<T>() {
             setTimeout(() => setShowError(false), 5000);
         }
 
+
         return response;
     }
 
@@ -152,13 +133,15 @@ export function useApiPost<T, P>() {
     // const [errorPopup, setErrorPopup] = useState<React.ReactPortal | null>(null);
 
     const { t } =  useTranslation();
-
+    // This function returns a promise of the data if it succeeds
+    // or an error message if it fails
     const executePost = async (url: string, payload: P, isTokenNecessary=true) => {
 
         const accessToken = getAccessToken();
 
         setState(prev => ({ ...prev, isLoading: true, error: null}));
         try {
+            console.log('Going for the POST request with accessToken', accessToken);
             const response = await axios.post(url, payload, {
                 headers: {
                     ...( isTokenNecessary && {Authorization: `Bearer ${accessToken}`}),
@@ -175,9 +158,20 @@ export function useApiPost<T, P>() {
         
 
             return response.data.data;
+            
         } catch (error) {
             const axiosError = error as AxiosError;
             let errorMessage = t('errors.axiosError.default');
+            let errorResponse: string | undefined = undefined;
+            if (
+                axiosError.response &&
+                axiosError.response.data &&
+                typeof axiosError.response.data === 'object' &&
+                'message' in axiosError.response.data
+            ) {
+                errorResponse = (axiosError.response.data as { message?: string }).message;
+            }
+            console.log('Error in POST request', axiosError.message);
 
             if (axios.isAxiosError(error)) {
                 switch (axiosError.response?.status) {
@@ -197,9 +191,11 @@ export function useApiPost<T, P>() {
                         errorMessage = t('errors.axiosError.tooManyRequests');
                         break;
                     case 500:
-                        errorMessage = t('errors.axiosError.serverError');
+                        errorMessage = t('errors.axiosError.server');
                         break;
                 }
+                
+                return {"message": errorMessage, "data": errorResponse};
             }
 
             setState({

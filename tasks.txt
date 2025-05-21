@@ -1,4 +1,46 @@
 
+# How can I get the error 500 from 'User already exists'.
+    - Option: Return the error message when meets n error in useApiRequest.tsx
+
+# Email Updating feature.
+    - Demand and test Email & password
+    - (Modal): New Password & Confirm new Password
+    - (Modal): Pincheck entering
+
+# Today 21/05/2025:
+    Main Tasks:
+        - Rewrite the executePost() functions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ------------------------ LANDING PAGE CODE -------------------------- 
     - Update the landing page mobile view and deploy ( 15mins ).
     - Turn all axios requests into a use of ApiRequest hooks ( 40mins ).
@@ -17,6 +59,7 @@ x Responsive layout on mobile
 - Group email & password for one updated
 
 ### Classify referrals by profits
+### 
 
 - Test Transak SDK with GBP and get the Link
 - Adapt GBP option in redirect

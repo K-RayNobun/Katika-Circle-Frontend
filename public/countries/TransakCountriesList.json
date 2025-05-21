@@ -1,0 +1,2789 @@
+{
+    "response": [
+        {
+            "alpha2": "AS",
+            "alpha3": "ASM",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "American Samoa",
+            "currencyCode": "EUR",
+            "supportedDocuments": [
+                "passport"
+            ]
+        },
+        {
+            "alpha2": "AD",
+            "alpha3": "AND",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Andorra",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "EUR"
+        },
+        {
+            "alpha2": "AO",
+            "alpha3": "AGO",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Angola",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "AOA"
+        },
+        {
+            "alpha2": "AI",
+            "alpha3": "AIA",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Anguilla",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "XCD"
+        },
+        {
+            "alpha2": "AG",
+            "alpha3": "ATG",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Antigua and Barbuda",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "XCD"
+        },
+        {
+            "alpha2": "AR",
+            "alpha3": "ARG",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Argentina",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "ARS",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "AW",
+            "alpha3": "ABW",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Aruba",
+            "currencyCode": "ANG",
+            "supportedDocuments": [
+                "passport"
+            ]
+        },
+        {
+            "alpha2": "AU",
+            "alpha3": "AUS",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Australia",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "AUD",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": false,
+                    "currencyCode": "AUD"
+                }
+            ]
+        },
+        {
+            "alpha2": "AT",
+            "alpha3": "AUT",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Austria",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "BS",
+            "alpha3": "BHS",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Bahamas",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "BSD"
+        },
+        {
+            "alpha2": "BH",
+            "alpha3": "BHR",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Bahrain",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "BHD"
+        },
+        {
+            "alpha2": "BE",
+            "alpha3": "BEL",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Belgium",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "BZ",
+            "alpha3": "BLZ",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Belize",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "BZD"
+        },
+        {
+            "alpha2": "BJ",
+            "alpha3": "BEN",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Benin",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "XOF"
+        },
+        {
+            "alpha2": "BM",
+            "alpha3": "BMU",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Bermuda",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "BMD"
+        },
+        {
+            "alpha2": "BT",
+            "alpha3": "BTN",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Bhutan",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "INR"
+        },
+        {
+            "alpha2": "BQ",
+            "alpha3": "BES",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Bonaire, Sint Eustatius And Saba",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "USD"
+        },
+        {
+            "alpha2": "BR",
+            "alpha3": "BRA",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Brazil",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "BRL",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "BN",
+            "alpha3": "BRN",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Brunei Darussalam",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "BND"
+        },
+        {
+            "alpha2": "CV",
+            "alpha3": "CPV",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Cabo Verde",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "CVE"
+        },
+        {
+            "alpha2": "KH",
+            "alpha3": "KHM",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Cambodia",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "KHR"
+        },
+        {
+            "alpha2": "CA",
+            "alpha3": "CAN",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Canada",
+            "states": [
+                {
+                    "code": "AB",
+                    "name": "Alberta",
+                    "isAllowed": true
+                },
+                {
+                    "code": "BC",
+                    "name": "British Columbia",
+                    "isAllowed": true
+                },
+                {
+                    "code": "MB",
+                    "name": "Manitoba",
+                    "isAllowed": true
+                },
+                {
+                    "code": "NB",
+                    "name": "New Brunswick",
+                    "isAllowed": true
+                },
+                {
+                    "code": "NL",
+                    "name": "Newfoundland and Labrador",
+                    "isAllowed": true
+                },
+                {
+                    "code": "NS",
+                    "name": "Nova Scotia",
+                    "isAllowed": true
+                },
+                {
+                    "code": "NT",
+                    "name": "Northwest Territories",
+                    "isAllowed": true
+                },
+                {
+                    "code": "NU",
+                    "name": "Nunavut",
+                    "isAllowed": false
+                },
+                {
+                    "code": "ON",
+                    "name": "Ontario",
+                    "isAllowed": true
+                },
+                {
+                    "code": "PE",
+                    "name": "Prince Edward Island",
+                    "isAllowed": true
+                },
+                {
+                    "code": "QC",
+                    "name": "Quebec",
+                    "isAllowed": true
+                },
+                {
+                    "code": "SK",
+                    "name": "Saskatchewan",
+                    "isAllowed": true
+                },
+                {
+                    "code": "YT",
+                    "name": "Yukon",
+                    "isAllowed": true
+                }
+            ],
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "CAD",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "CAD"
+                }
+            ]
+        },
+        {
+            "alpha2": "KY",
+            "alpha3": "CYM",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Cayman Islands",
+            "currencyCode": "KYD",
+            "supportedDocuments": [
+                "passport"
+            ]
+        },
+        {
+            "alpha2": "TD",
+            "alpha3": "TCD",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Chad",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "XAF"
+        },
+        {
+            "alpha2": "CL",
+            "alpha3": "CHL",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Chile",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "CLP",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "CX",
+            "alpha3": "CXR",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Christmas Island",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "AUD"
+        },
+        {
+            "alpha2": "CC",
+            "alpha3": "CCK",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Cocos (Keeling) Islands",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "AUD"
+        },
+        {
+            "alpha2": "CO",
+            "alpha3": "COL",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Colombia",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "COP",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "KM",
+            "alpha3": "COM",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Comoros (the)",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "KMF"
+        },
+        {
+            "alpha2": "CK",
+            "alpha3": "COK",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Cook Islands",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "NZD"
+        },
+        {
+            "alpha2": "CR",
+            "alpha3": "CRI",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Costa Rica",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "CRC",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "CW",
+            "alpha3": "CUW",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Curacao",
+            "currencyCode": "ANG",
+            "supportedDocuments": [
+                "passport"
+            ]
+        },
+        {
+            "alpha2": "CY",
+            "alpha3": "CYP",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Cyprus",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "CZ",
+            "alpha3": "CZE",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Czech Republic",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "CZK"
+        },
+        {
+            "alpha2": "CI",
+            "alpha3": "CIV",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Côte d'Ivoire",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "XOF"
+        },
+        {
+            "alpha2": "DK",
+            "alpha3": "DNK",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Denmark",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "DJ",
+            "alpha3": "DJI",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Djibouti",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "DJF"
+        },
+        {
+            "alpha2": "DM",
+            "alpha3": "DMA",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Dominica",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "XCD"
+        },
+        {
+            "alpha2": "DO",
+            "alpha3": "DOM",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Dominican Republic",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "DOP",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "EC",
+            "alpha3": "ECU",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Ecuador",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "ECS"
+        },
+        {
+            "alpha2": "SV",
+            "alpha3": "SLV",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "El Salvador",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "SVC"
+        },
+        {
+            "alpha2": "GQ",
+            "alpha3": "GNQ",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Equatorial Guinea",
+            "supportedDocuments": [
+                "passport",
+                "national_identity_card"
+            ],
+            "currencyCode": "XAF"
+        },
+        {
+            "alpha2": "EE",
+            "alpha3": "EST",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Estonia",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "SZ",
+            "alpha3": "SWZ",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Eswatini",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "SZL"
+        },
+        {
+            "alpha2": "FK",
+            "alpha3": "FLK",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Falkland Islands (the) [Malvinas]",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "FKP"
+        },
+        {
+            "alpha2": "FO",
+            "alpha3": "FRO",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Faroe Islands",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "DKK"
+        },
+        {
+            "alpha2": "FJ",
+            "alpha3": "FJI",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Fiji",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "FJD"
+        },
+        {
+            "alpha2": "FI",
+            "alpha3": "FIN",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Finland",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "FR",
+            "alpha3": "FRA",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "France",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "GF",
+            "alpha3": "GUF",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "French Guiana",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "EUR"
+        },
+        {
+            "alpha2": "PF",
+            "alpha3": "PYF",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "French Polynesia",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "XPF"
+        },
+        {
+            "alpha2": "GA",
+            "alpha3": "GAB",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Gabon",
+            "supportedDocuments": [
+                "passport"
+            ],
+            "currencyCode": "XAF"
+        },
+        {
+            "alpha2": "GE",
+            "alpha3": "GEO",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Georgia",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "GEL"
+        },
+        {
+            "alpha2": "DE",
+            "alpha3": "DEU",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Germany",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "GH",
+            "alpha3": "GHA",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Ghana",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "GHS"
+        },
+        {
+            "alpha2": "GR",
+            "alpha3": "GRC",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Greece",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "GL",
+            "alpha3": "GRL",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Greenland",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "DKK"
+        },
+        {
+            "alpha2": "GD",
+            "alpha3": "GRD",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Grenada",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "XCD"
+        },
+        {
+            "alpha2": "GP",
+            "alpha3": "GLP",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Guadeloupe",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "EUR"
+        },
+        {
+            "alpha2": "GU",
+            "alpha3": "GUM",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Guam",
+            "currencyCode": "USD",
+            "supportedDocuments": [
+                "passport"
+            ]
+        },
+        {
+            "alpha2": "GT",
+            "alpha3": "GTM",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Guatemala",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "GTQ"
+        },
+        {
+            "alpha2": "HM",
+            "alpha3": "HMD",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Heard Island And Mcdonald Islands",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "AUD"
+        },
+        {
+            "alpha2": "HN",
+            "alpha3": "HND",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Honduras",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "HNL"
+        },
+        {
+            "alpha2": "HK",
+            "alpha3": "HKG",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Hong Kong",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "HKD"
+        },
+        {
+            "alpha2": "HU",
+            "alpha3": "HUN",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Hungary",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "HUF",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "IS",
+            "alpha3": "ISL",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Iceland",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "ISK"
+        },
+        {
+            "alpha2": "IN",
+            "alpha3": "IND",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "India",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "INR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isBankTransfer": true,
+                    "currencyCode": "INR"
+                }
+            ]
+        },
+        {
+            "alpha2": "ID",
+            "alpha3": "IDN",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Indonesia",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "IDR",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "IE",
+            "alpha3": "IRL",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Ireland",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "IL",
+            "alpha3": "ISR",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Israel",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "ILS",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "IT",
+            "alpha3": "ITA",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Italy",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "JP",
+            "alpha3": "JPN",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Japan",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "JPY",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "KZ",
+            "alpha3": "KAZ",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Kazakhstan",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "KZT"
+        },
+        {
+            "alpha2": "KI",
+            "alpha3": "KIR",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Kiribati",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "AUD"
+        },
+        {
+            "alpha2": "KW",
+            "alpha3": "KWT",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Kuwait",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "KWD"
+        },
+        {
+            "alpha2": "KG",
+            "alpha3": "KGZ",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Kyrgyzstan",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "KGS"
+        },
+        {
+            "alpha2": "LA",
+            "alpha3": "LAO",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Lao People's Democratic Republic",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "LAK",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "LV",
+            "alpha3": "LVA",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Latvia",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "LS",
+            "alpha3": "LSO",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Lesotho",
+            "supportedDocuments": [
+                "passport"
+            ],
+            "currencyCode": "ZAR"
+        },
+        {
+            "alpha2": "LI",
+            "alpha3": "LIE",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Liechtenstein",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "CHF",
+            "partners": []
+        },
+        {
+            "alpha2": "LT",
+            "alpha3": "LTU",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Lithuania",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "LTL",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "LU",
+            "alpha3": "LUX",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Luxembourg",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "MG",
+            "alpha3": "MDG",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Madagascar",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "MGA"
+        },
+        {
+            "alpha2": "MW",
+            "alpha3": "MWI",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Malawi",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "MWK"
+        },
+        {
+            "alpha2": "MY",
+            "alpha3": "MYS",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Malaysia",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "MYR",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "MT",
+            "alpha3": "MLT",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Malta",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "MH",
+            "alpha3": "MHL",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Marshall Islands",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "USD"
+        },
+        {
+            "alpha2": "MQ",
+            "alpha3": "MTQ",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Martinique",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "EUR"
+        },
+        {
+            "alpha2": "MR",
+            "alpha3": "MRT",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Mauritania",
+            "supportedDocuments": [
+                "passport",
+                "national_identity_card"
+            ],
+            "currencyCode": "MRU"
+        },
+        {
+            "alpha2": "MU",
+            "alpha3": "MUS",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Mauritius",
+            "supportedDocuments": [
+                "passport",
+                "national_identity_card"
+            ],
+            "currencyCode": "MUR"
+        },
+        {
+            "alpha2": "YT",
+            "alpha3": "MYT",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Mayotte",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "EUR"
+        },
+        {
+            "alpha2": "MX",
+            "alpha3": "MEX",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Mexico",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "MXN",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "FM",
+            "alpha3": "FSM",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Micronesia (Federated States of)",
+            "supportedDocuments": [
+                "passport"
+            ],
+            "currencyCode": "USD"
+        },
+        {
+            "alpha2": "MD",
+            "alpha3": "MDA",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Moldova, Republic of",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "MDL"
+        },
+        {
+            "alpha2": "MC",
+            "alpha3": "MCO",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Monaco",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "EUR"
+        },
+        {
+            "alpha2": "MN",
+            "alpha3": "MNG",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Mongolia",
+            "supportedDocuments": [
+                "passport",
+                "national_identity_card"
+            ],
+            "currencyCode": "MNT"
+        },
+        {
+            "alpha2": "ME",
+            "alpha3": "MNE",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Montenegro",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "EUR"
+        },
+        {
+            "alpha2": "MS",
+            "alpha3": "MSR",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Montserrat",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "XCD"
+        },
+        {
+            "alpha2": "NR",
+            "alpha3": "NRU",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Nauru",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "AUD"
+        },
+        {
+            "alpha2": "NL",
+            "alpha3": "NLD",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Netherlands",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "NC",
+            "alpha3": "NCL",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "New Caledonia",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "XPF"
+        },
+        {
+            "alpha2": "NZ",
+            "alpha3": "NZL",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "New Zealand",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "NZD",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "NU",
+            "alpha3": "NIU",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Niue",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "NZD"
+        },
+        {
+            "alpha2": "NF",
+            "alpha3": "NFK",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Norfolk Island",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "AUD"
+        },
+        {
+            "alpha2": "MP",
+            "alpha3": "MNP",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Northern Mariana Islands",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "USD"
+        },
+        {
+            "alpha2": "NO",
+            "alpha3": "NOR",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Norway",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "OM",
+            "alpha3": "OMN",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Oman",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "OMR"
+        },
+        {
+            "alpha2": "PW",
+            "alpha3": "PLW",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Palau",
+            "supportedDocuments": [
+                "passport"
+            ],
+            "currencyCode": "USD"
+        },
+        {
+            "alpha2": "PS",
+            "alpha3": "PSE",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Palestine, State of",
+            "supportedDocuments": [
+                "passport"
+            ],
+            "currencyCode": "JOD"
+        },
+        {
+            "alpha2": "PA",
+            "alpha3": "PAN",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Panama",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "PAB"
+        },
+        {
+            "alpha2": "PG",
+            "alpha3": "PNG",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Papua New Guinea",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "PGK"
+        },
+        {
+            "alpha2": "PY",
+            "alpha3": "PRY",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Paraguay",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "PYG",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "PE",
+            "alpha3": "PER",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Peru",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "PEN",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "PH",
+            "alpha3": "PHL",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Philippines",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "PHP",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "PN",
+            "alpha3": "PCN",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Pitcairn",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "NZD"
+        },
+        {
+            "alpha2": "PL",
+            "alpha3": "POL",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Poland",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "PT",
+            "alpha3": "PRT",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Portugal",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "PR",
+            "alpha3": "PRI",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Puerto Rico",
+            "currencyCode": "USD",
+            "supportedDocuments": [
+                "passport"
+            ]
+        },
+        {
+            "alpha2": "RO",
+            "alpha3": "ROU",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Romania",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "RON"
+        },
+        {
+            "alpha2": "RW",
+            "alpha3": "RWA",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Rwanda",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "RWF"
+        },
+        {
+            "alpha2": "RE",
+            "alpha3": "REU",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Réunion",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "EUR"
+        },
+        {
+            "alpha2": "BL",
+            "alpha3": "BLM",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Saint Barthélemy",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "EUR"
+        },
+        {
+            "alpha2": "KN",
+            "alpha3": "KNA",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Saint Kitts and Nevis",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "XCD"
+        },
+        {
+            "alpha2": "LC",
+            "alpha3": "LCA",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Saint Lucia",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "XCD"
+        },
+        {
+            "alpha2": "MF",
+            "alpha3": "MAF",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Saint Martin",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "EUR"
+        },
+        {
+            "alpha2": "PM",
+            "alpha3": "SPM",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Saint Pierre And Miquelon",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "EUR"
+        },
+        {
+            "alpha2": "VC",
+            "alpha3": "VCT",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Saint Vincent And The Grenadines",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "XCD"
+        },
+        {
+            "alpha2": "WS",
+            "alpha3": "WSM",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Samoa",
+            "supportedDocuments": [
+                "passport"
+            ],
+            "currencyCode": "EUR"
+        },
+        {
+            "alpha2": "SM",
+            "alpha3": "SMR",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "San Marino",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR"
+        },
+        {
+            "alpha2": "ST",
+            "alpha3": "STP",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Sao Tome and Principe",
+            "supportedDocuments": [
+                "passport"
+            ],
+            "currencyCode": "STN"
+        },
+        {
+            "alpha2": "RS",
+            "alpha3": "SRB",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Serbia",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "RSD"
+        },
+        {
+            "alpha2": "SC",
+            "alpha3": "SYC",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Seychelles",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "SCR"
+        },
+        {
+            "alpha2": "SG",
+            "alpha3": "SGP",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Singapore",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "SGD",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "SK",
+            "alpha3": "SVK",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Slovakia",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "SI",
+            "alpha3": "SVN",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Slovenia",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "SB",
+            "alpha3": "SLB",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Solomon Islands",
+            "supportedDocuments": [
+                "passport"
+            ],
+            "currencyCode": "SBD"
+        },
+        {
+            "alpha2": "KR",
+            "alpha3": "KOR",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "South Korea",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "KRW",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "ES",
+            "alpha3": "ESP",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Spain",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "SR",
+            "alpha3": "SUR",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Suriname",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "SRD"
+        },
+        {
+            "alpha2": "SJ",
+            "alpha3": "SJM",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Svalbard And Jan Mayen",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "NOK"
+        },
+        {
+            "alpha2": "SE",
+            "alpha3": "SWE",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "Sweden",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "EUR",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "CH",
+            "alpha3": "CHE",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Switzerland",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "CHF",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "EUR"
+                },
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "EUR"
+                }
+            ]
+        },
+        {
+            "alpha2": "TW",
+            "alpha3": "TWN",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Taiwan",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "TWD"
+        },
+        {
+            "alpha2": "TJ",
+            "alpha3": "TJK",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Tajikistan",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "TJS"
+        },
+        {
+            "alpha2": "TL",
+            "alpha3": "TLS",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Timor-Leste",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "USD"
+        },
+        {
+            "alpha2": "TK",
+            "alpha3": "TKL",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Tokelau",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "NZD"
+        },
+        {
+            "alpha2": "TO",
+            "alpha3": "TON",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Tonga",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "TOP"
+        },
+        {
+            "alpha2": "TT",
+            "alpha3": "TTO",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Trinidad and Tobago",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "TTD"
+        },
+        {
+            "alpha2": "TR",
+            "alpha3": "TUR",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Turkey",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "TRY",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "TM",
+            "alpha3": "TKM",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Turkmenistan",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "TMT"
+        },
+        {
+            "alpha2": "TC",
+            "alpha3": "TCA",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Turks And Caicos Islands",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "USD"
+        },
+        {
+            "alpha2": "TV",
+            "alpha3": "TUV",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Tuvalu",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "AUD"
+        },
+        {
+            "alpha2": "VI",
+            "alpha3": "VIR",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "U.S. Virgin Islands",
+            "currencyCode": "USD",
+            "supportedDocuments": [
+                "passport"
+            ]
+        },
+        {
+            "alpha2": "GB",
+            "alpha3": "GBR",
+            "isAllowed": true,
+            "isLightKycAllowed": true,
+            "name": "United Kingdom",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "GBP",
+            "partners": [
+                {
+                    "name": "transak",
+                    "isCardPayment": false,
+                    "currencyCode": "GBP"
+                },
+                {
+                    "name": "checkout",
+                    "isCardPayment": true,
+                    "currencyCode": "GBP"
+                }
+            ]
+        },
+        {
+            "alpha2": "US",
+            "alpha3": "USA",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "United States of America",
+            "states": [
+                {
+                    "code": "AL",
+                    "name": "Alabama",
+                    "isAllowed": true
+                },
+                {
+                    "code": "AK",
+                    "name": "Alaska",
+                    "isAllowed": false
+                },
+                {
+                    "code": "AZ",
+                    "name": "Arizona",
+                    "isAllowed": true
+                },
+                {
+                    "code": "AR",
+                    "name": "Arkansas",
+                    "isAllowed": true
+                },
+                {
+                    "code": "CA",
+                    "name": "California",
+                    "isAllowed": true
+                },
+                {
+                    "code": "CO",
+                    "name": "Colorado",
+                    "isAllowed": true
+                },
+                {
+                    "code": "CT",
+                    "name": "Connecticut",
+                    "isAllowed": true
+                },
+                {
+                    "code": "DE",
+                    "name": "Delaware",
+                    "isAllowed": true
+                },
+                {
+                    "code": "DC",
+                    "name": "District of Columbia",
+                    "isAllowed": true
+                },
+                {
+                    "code": "FL",
+                    "name": "Florida",
+                    "isAllowed": true
+                },
+                {
+                    "code": "GA",
+                    "name": "Georgia",
+                    "isAllowed": true
+                },
+                {
+                    "code": "HI",
+                    "name": "Hawaii",
+                    "isAllowed": true
+                },
+                {
+                    "code": "ID",
+                    "name": "Idaho",
+                    "isAllowed": true
+                },
+                {
+                    "code": "IL",
+                    "name": "Illinois",
+                    "isAllowed": true
+                },
+                {
+                    "code": "IN",
+                    "name": "Indiana",
+                    "isAllowed": true
+                },
+                {
+                    "code": "IA",
+                    "name": "Iowa",
+                    "isAllowed": true
+                },
+                {
+                    "code": "KS",
+                    "name": "Kansas",
+                    "isAllowed": true
+                },
+                {
+                    "code": "KY",
+                    "name": "Kentucky",
+                    "isAllowed": true
+                },
+                {
+                    "code": "LA",
+                    "name": "Louisiana",
+                    "isAllowed": false
+                },
+                {
+                    "code": "ME",
+                    "name": "Maine",
+                    "isAllowed": true
+                },
+                {
+                    "code": "MD",
+                    "name": "Maryland",
+                    "isAllowed": true
+                },
+                {
+                    "code": "MA",
+                    "name": "Massachusetts",
+                    "isAllowed": true
+                },
+                {
+                    "code": "MI",
+                    "name": "Michigan",
+                    "isAllowed": true
+                },
+                {
+                    "code": "MN",
+                    "name": "Minnesota",
+                    "isAllowed": false
+                },
+                {
+                    "code": "MS",
+                    "name": "Mississippi",
+                    "isAllowed": true
+                },
+                {
+                    "code": "MO",
+                    "name": "Missouri",
+                    "isAllowed": true
+                },
+                {
+                    "code": "MT",
+                    "name": "Montana",
+                    "isAllowed": true
+                },
+                {
+                    "code": "NE",
+                    "name": "Nebraska",
+                    "isAllowed": true
+                },
+                {
+                    "code": "NV",
+                    "name": "Nevada",
+                    "isAllowed": true
+                },
+                {
+                    "code": "NH",
+                    "name": "New Hampshire",
+                    "isAllowed": true
+                },
+                {
+                    "code": "NJ",
+                    "name": "New Jersey",
+                    "isAllowed": true
+                },
+                {
+                    "code": "NM",
+                    "name": "New Mexico",
+                    "isAllowed": true
+                },
+                {
+                    "code": "NY",
+                    "name": "New York",
+                    "isAllowed": false
+                },
+                {
+                    "code": "NC",
+                    "name": "North Carolina",
+                    "isAllowed": true
+                },
+                {
+                    "code": "ND",
+                    "name": "North Dakota",
+                    "isAllowed": false
+                },
+                {
+                    "code": "OH",
+                    "name": "Ohio",
+                    "isAllowed": true
+                },
+                {
+                    "code": "OK",
+                    "name": "Oklahoma",
+                    "isAllowed": true
+                },
+                {
+                    "code": "OR",
+                    "name": "Oregon",
+                    "isAllowed": true
+                },
+                {
+                    "code": "PA",
+                    "name": "Pennsylvania",
+                    "isAllowed": true
+                },
+                {
+                    "code": "PR",
+                    "name": "Puerto Rico",
+                    "isAllowed": true
+                },
+                {
+                    "code": "RI",
+                    "name": "Rhode Island",
+                    "isAllowed": true
+                },
+                {
+                    "code": "SC",
+                    "name": "South Carolina",
+                    "isAllowed": true
+                },
+                {
+                    "code": "SD",
+                    "name": "South Dakota",
+                    "isAllowed": true
+                },
+                {
+                    "code": "TN",
+                    "name": "Tennessee",
+                    "isAllowed": true
+                },
+                {
+                    "code": "TX",
+                    "name": "Texas",
+                    "isAllowed": true
+                },
+                {
+                    "code": "UT",
+                    "name": "Utah",
+                    "isAllowed": true
+                },
+                {
+                    "code": "VT",
+                    "name": "Vermont",
+                    "isAllowed": true
+                },
+                {
+                    "code": "VA",
+                    "name": "Virginia",
+                    "isAllowed": true
+                },
+                {
+                    "code": "VI",
+                    "name": "Virgin Islands (U.S.)",
+                    "isAllowed": false
+                },
+                {
+                    "code": "WA",
+                    "name": "Washington",
+                    "isAllowed": true
+                },
+                {
+                    "code": "WV",
+                    "name": "West Virginia",
+                    "isAllowed": true
+                },
+                {
+                    "code": "WI",
+                    "name": "Wisconsin",
+                    "isAllowed": true
+                },
+                {
+                    "code": "WY",
+                    "name": "Wyoming",
+                    "isAllowed": true
+                }
+            ],
+            "supportedDocuments": [
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "USD",
+            "partners": [
+                {
+                    "name": "wyre",
+                    "isCardPayment": true,
+                    "currencyCode": "USD"
+                }
+            ]
+        },
+        {
+            "alpha2": "UY",
+            "alpha3": "URY",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Uruguay",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence",
+                "national_identity_card"
+            ],
+            "currencyCode": "UYU"
+        },
+        {
+            "alpha2": "UZ",
+            "alpha3": "UZB",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Uzbekistan",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "UZS"
+        },
+        {
+            "alpha2": "VA",
+            "alpha3": "VAT",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Vatican City State (Holy See)",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "EUR"
+        },
+        {
+            "alpha2": "WF",
+            "alpha3": "WLF",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Wallis And Futuna",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "XPF"
+        },
+        {
+            "alpha2": "EH",
+            "alpha3": "ESH",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Western Sahara",
+            "supportedDocuments": [
+                "passport"
+            ],
+            "currencyCode": "MAD"
+        },
+        {
+            "alpha2": "AX",
+            "alpha3": "ALA",
+            "isAllowed": true,
+            "isLightKycAllowed": false,
+            "name": "Åland Islands",
+            "supportedDocuments": [
+                "passport",
+                "driving_licence"
+            ],
+            "currencyCode": "EUR"
+        }
+    ]
+}

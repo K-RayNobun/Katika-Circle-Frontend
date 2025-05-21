@@ -26,7 +26,9 @@ const OTPModal = ({ onClose, onVerify }: OTPModalProps) => {
         // If all inputs are filled, verify the OTP
         if (updatedOtp.join('').length === 5) {
             onVerify(updatedOtp.join(''));
+            console.log('VERIFYING THE OTP:', updatedOtp.join(''))
         }
+
     };
 
     return (

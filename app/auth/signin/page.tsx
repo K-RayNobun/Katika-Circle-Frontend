@@ -49,9 +49,9 @@ type signinPayload = {
     'pwd': string
 }
 
-type countryFlagPayload = {
-    "iso2": string,
-}
+// type countryFlagPayload = {
+//     "iso2": string,
+// }
                                                                                                                                                                                                                                                     
 const Signin = () => {
 
@@ -70,7 +70,7 @@ const Signin = () => {
     const accessTokenRef = useRef('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSigningIn, setIsSigningIn] = useState(false);
-    const [userCurrency, setUserCurrency] = useState<string>('')
+    // const [userCurrency, setUserCurrency] = useState<string>('')
 
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -88,6 +88,7 @@ const Signin = () => {
     useEffect(() => {
         // console.log('Check if we can send him to homePage');
         if (userData.verified && userData.email && isSigningIn) {
+            setIsSubmitting(false);
             router.push('/user/home');
         }
     }, [userData.email, userData.verified, isSigningIn]);
@@ -167,12 +168,19 @@ const Signin = () => {
                 `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`
             ) as UserData;
             console.log('User Country => ', userApiData.countryCode);
-
-            const response = await fetchCountriesData('https://api-stg.transak.com/api/v2/countries') as CountryData[];
+            
+            let response;
+            response = await fetchCountriesData('https://api.transak.com/api/v2/countries', false) as CountryData[];
+            if (!response) {
+                // Get countries from public/countries/transakCountriesList.json
+                response = await fetch('/countries/transakCountriesList.json');
+                response = await response.json()  as CountryData[];
+            }
+            console.log('Countries => ', response.slice(0, 5));
             const countriesArray: Array<CountryData> = response.filter((country) => country.currencyCode === 'EUR' || country.currencyCode === 'GBP');
             console.log('Countries Array => ', countriesArray);
             let currencyCode;
-            for (let i=0; i <= countriesArray.length; i++) {
+            for (let i=0; i <= countriesArray.length-1; i++) {
                 if (countriesArray[i].name.toUpperCase() === userApiData.countryCode.toUpperCase()) {
                     console.log(`This user country is ${countriesArray[i].name} and its currency is ${countriesArray[i].currencyCode}`);
                     if (countriesArray[i].currencyCode === 'GBP') {
@@ -181,6 +189,9 @@ const Signin = () => {
                         currencyCode = '€'
                     }
                     break
+                } else {
+                    console.log('This user country is not in the list of countries');
+                    currencyCode = '€';
                 }
             }
 
@@ -204,7 +215,6 @@ const Signin = () => {
             setError('An error occurred while processing your request. Please try again.');
             console.error('Error during sign-in request:', error);
             setErrorField('email & password');
-        } finally {
             setIsSubmitting(false);
         }
 
@@ -254,7 +264,7 @@ const Signin = () => {
                 {error && <h4 className='text-red font-bold text-center text-sm h-min'>{error}</h4>}
             </div>
             <button type='submit' className={`mt-6 bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full ${isSubmitting ? 'opacity-50' : ''}`}>
-                {isSubmitting || isProfileFetching || isPosting ? (
+                {isSubmitting || isProfileFetching || isPosting || isCountryFetchLoading ? (
                     <>
                         <AsyncSpinner />
                         {/* <h6 className='text-center font-bold'>Processing...</h6> */}

@@ -300,7 +300,7 @@ const SimulatorSection = ({t}: {t: (path: string) => string}) => {
             </div>
           </div>
         </div>
-        <div className='w-full md:w-[45%] px-4 md:pl-[4%] bg-white/20 text-center md:text-left slide-in-left text-white'>
+        <div className='w-full md:w-[45%] px-4 md:pl-[4%] text-center md:text-left slide-in-left text-white'>
           <h1 className='great text-[14px] md:text-[56px] font-bold leading-tight md:leading-[74px] mb-4'>{t('landing.simulator.title')} <span className='text-gold_fluo'>{t('landing.simulator.titleHighlight')} </span>{t('landing.simulator.titleEnd')}</h1>
           <p className='text-[14px]'>{t('landing.simulator.description')}</p>
         </div>
