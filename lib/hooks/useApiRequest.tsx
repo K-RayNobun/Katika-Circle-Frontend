@@ -15,9 +15,90 @@ const getAccessToken = () => {
     return store.getState().token.token;
 }
 
-// SIGNIN SINGNUP RENEWPASSWORD RESETPASSWORD
+// LOGIN SINGNUP RENEWPASSWORD RESETPASSWORD
 
-export function useApiGet<T>() {
+
+export function useApiGet() {
+    const { t } = useTranslation();
+
+    async function fetchData(url: string, isTokenNecessary=true) {
+        try {
+            const response = await axios.get(url,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...(isTokenNecessary && getAccessToken() && {Authorization: `Bearer ${getAccessToken()}`})
+                    }
+                }
+            );
+
+            return {response: response.data.data, error: null}
+        } catch(error) {
+            const axiosError = error as AxiosError;
+            let errorMessage = '' as string;
+
+            if (axiosError) {
+                if (axiosError.message === 'Network Error') {
+                    errorMessage = 'Network Error';
+                } else {
+                    switch (axiosError.response?.status) {
+                        case 401:
+                            errorMessage = t('errors.axiosError.unauthorized');
+                            break;
+                        case 403:
+                            errorMessage = t('errors.axiosError.forbidden');
+                            break;
+                        case 404:
+                            errorMessage = t('errors.axiosError.notFound');
+                            break;
+                        case 422:
+                            errorMessage = t('errors.axiosError.validationError');
+                            break;
+                        case 429:
+                            errorMessage = t('errors.axiosError.tooManyRequests');
+                            break;
+                        case 500:
+                            console.log('This is a 500 error', axiosError);
+                            if (typeof axiosError.response.data === 'object' && axiosError.response.data && "message" in axiosError.response.data) {
+                                errorMessage = axiosError.response.data.message!.toString();
+                            } else {
+                                errorMessage = t('errors.axiosError.server');
+                            }
+                            break;
+                        default:
+                            errorMessage = t('errors.axiosError.default');
+                    }
+                }
+                
+            } else {
+                console.log("This error is not an axiosError");
+            }
+
+            return {response: null, error: errorMessage}
+        }
+    }
+
+    return {fetchData}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export function useApiGetHook<T>() {
     
     const { t } = useTranslation();
     const [state, setState] = useState<ApiRequestState<T>>({
@@ -103,7 +184,6 @@ export function useApiGet<T>() {
             setTimeout(() => setShowError(false), 5000);
         }
 
-
         return response;
     }
 
@@ -123,7 +203,112 @@ export function useApiGet<T>() {
     return {...state, fetchData, errorPopup};
 }
 
-export function useApiPost<T, P>() {
+
+export function useApiPost() {
+    const { t } = useTranslation();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    
+    async function executePost<P>(url: string, payload: P, isTokenNecessary = true) {
+        setIsLoading(true);
+        try {
+            const response = await axios.post(
+                url,
+                payload,
+                {
+                    headers: {
+                        ...(isTokenNecessary && getAccessToken() && {"Authorization": `Bearer ${getAccessToken()}`}),
+                        "Content-Type": 'application/json',
+                    }
+                },
+            )
+
+            console.log('Error Processed correctly')
+
+            return {response: response.data.data, error: null};
+        }
+        catch (error) {
+            console.log('---------------- An error occured ----------------')
+            const axiosError = error as AxiosError;
+            let errorMessage  = '' as string;
+            // Display the Network Error, 40.. error status messages and the 500 type error from axios.message 
+
+            if (axiosError) {
+                if (axiosError.message === 'Network Error') {
+                    errorMessage = 'Network Error';
+                } else {
+                    switch (axiosError.response?.status) {
+                        case 401:
+                            errorMessage = t('errors.axiosError.unauthorized');
+                            break;
+                        case 403:
+                            errorMessage = t('errors.axiosError.forbidden');
+                            break;
+                        case 404:
+                            errorMessage = t('errors.axiosError.notFound');
+                            break;
+                        case 422:
+                            errorMessage = t('errors.axiosError.validationError');
+                            break;
+                        case 429:
+                            errorMessage = t('errors.axiosError.tooManyRequests');
+                            break;
+                        case 500:
+                            console.log('This is a 500 error', axiosError);
+                            if (typeof axiosError.response.data === 'object' && axiosError.response.data && "message" in axiosError.response.data) {
+                                errorMessage = axiosError.response.data.message!.toString();
+                            } else {
+                                errorMessage = t('errors.axiosError.server');
+                            }
+                            break;
+                        default:
+                            errorMessage = t('errors.axiosError.default');
+                    }
+                }
+                
+            } else {
+                console.log("This error is not an axiosError");
+            }
+            return { response: null, error: errorMessage};
+        }
+    }
+
+    return {executePost, isLoading}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export function useApiPostHook<T, P>() {
     const [state, setState] = useState<ApiRequestState<T>>({
         data: null,
         isLoading: false,
@@ -155,7 +340,6 @@ export function useApiPost<T, P>() {
                 isLoading: false,
                 error: null
             });
-        
 
             return response.data.data;
             

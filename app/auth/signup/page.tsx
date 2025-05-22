@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { LuEyeClosed, LuEye } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa6";
 
-import { AxiosError } from 'axios';
 import { useApiGet, useApiPost } from '@/lib/hooks/useApiRequest';
 // import { Suspense } from 'react';
 import { useTranslation } from '@/lib/hooks/useTranslation';
@@ -40,9 +39,9 @@ interface CountryData {
 //     [key: string]: CountryData;
 // }
 
-type SignUpResponse = {
-    "access-token": string
-}
+// type SignUpResponse = {
+//     "access-token": string
+// }
 
 type signupPayload = {
     'fname': string,
@@ -79,8 +78,8 @@ const Signup = () => {
     const formRef = useRef<HTMLFormElement>(null);
 
     // Api request hooks
-    const {executePost, error: postError} = useApiPost<SignUpResponse | null, signupPayload | object >();
-    const {fetchData: fetchReferralError, errorPopup: getErrorPopup} = useApiGet<string>();
+    const {executePost} = useApiPost();
+    const {fetchData} = useApiGet();
 
     // Redux setup
 
@@ -138,7 +137,7 @@ const Signup = () => {
     }
 
     const validateEmail = (email:string):boolean => {
-        const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        const regex = /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(?<!\.)@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
         return regex.test(email);
     }
 
@@ -156,7 +155,7 @@ const Signup = () => {
 
     const sendOTP = async () => {
         console.log('Sending OTP');
-        await executePost(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`, {});
+        await executePost<signupPayload | object >(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`, {});
         // Token isn't yet updated in the Redux state
         console.log('Finished sending OTP with the token', accessToken );
         // console.log('Just sent the token successfully as ', response.data);
@@ -164,70 +163,69 @@ const Signup = () => {
 
     const registerUser = async (e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
-        try {
-            // console.log('Registering user');
-            const formData = new FormData(formRef.current!);
-            // console.log('Referral Code is:','---', formData.get('ref_code')?.toString().trim(),'---');
-            const payload = {
-                    "fname": formData.get('user_firstname') as string,
-                    "lname": formData.get('user_name') as string,
-                    "phone": formData.get('phone_number') as string,
-                    "email": formData.get('user_email')! as string,
-                    "pwd": formData.get('password') as string,
-                    "countryCode": selectedCountry!.name,
-                    ...(formData.get('ref_code')?.toString().length !== 0 && {"pReferralCode": formData.get('ref_code')?.toString().trim() as string}),
-                };
-           
-            // 1. Get the registration response
-            const response = await executePost(
-                `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/signin`,
-                payload,
-                false
-            );
-            console.log('The response is fine, this is it: ', response);
-
-            if (response.message && response.data.toLowerCase().includes('user already exist')) {
-                setError(t('signup.errors.userAlreadyExists'));
-                isSubmittingRef.current = false;
-                setIsSubmitting(false);
-                return;
-            }
-
-            if (response) {
-                const token = response['access-token'];
-
-                // await dispatch(resetUser());
-
-                 // 2. Update Redux state and wait for it
-                await dispatch(renewToken({ token }));
-                
-                // 3. Small delay to ensure Redux state is updated
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                // 4. Send OTP with updated token
-                await sendOTP();
-
-                // 5. Update other state
-                isRegistratedRef.current = true;
-            }
-        } catch (err) {
-            const axiosError = err as AxiosError;
+        // console.log('Registering user');
+        const formData = new FormData(formRef.current!);
+        // console.log('Referral Code is:','---', formData.get('ref_code')?.toString().trim(),'---');
+        const payload = {
+                "fname": formData.get('user_firstname') as string,
+                "lname": formData.get('user_name') as string,
+                "phone": formData.get('phone_number') as string,
+                "email": formData.get('user_email')! as string,
+                "pwd": formData.get('password') as string,
+                "countryCode": selectedCountry!.name,
+                ...(formData.get('ref_code')?.toString().length !== 0 && {"pReferralCode": formData.get('ref_code')?.toString().trim() as string}),
+            };
+        
+        // 1. Get the registration response
+        const {response: response, error: errorMessage} = await executePost(
+            `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/signin`,
+            payload,
+            false
+        );
+        // Error Case
+        if (!response && errorMessage) {
+            setError(errorMessage);
             setIsSubmitting(false);
-            console.log('The response was unexpected. We fall into Catch block.');
-            // Handle error `Referral Does not exit Exist`
-            if (axiosError.response?.status === 500 && postError!.includes('Referral Does not exit Exist')) {
+            if (errorMessage.includes('Referral Does not exit Exist')) {
                 setError(t('signup.errors.invalidReferralCode'));
                 isSubmittingRef.current = false;
-            } else if (axiosError.response?.status === 500 && postError!.toLowerCase().includes('user already exist')) {
-                console.log('Axios error: ', axiosError.response);
+            } else if (errorMessage.toLowerCase().includes('user already exist')) {
+                console.log('Axios error: ', errorMessage);
                 setError(t('signup.errors.userAlreadyExists'));
                 isSubmittingRef.current = false;
-            } else if (axiosError.response?.status !== 200) {
-                setError(t('signup.errors.serverError'));
-                isSubmittingRef.current = false;
-                console.error('Registration :', axiosError.response);
+            } else {
+                console.log('This error message is ', errorMessage);
             }
+            return;
         }
+        console.log('The response is fine, this is it: ', response);
+
+        if (response.message && response.data.toLowerCase().includes('user already exist')) {
+            console.log('Fallen into an undesired case');
+            setError(t('signup.errors.userAlreadyExists'));
+            isSubmittingRef.current = false;
+            setIsSubmitting(false);
+            return;
+        }
+
+        if (response) {
+            const token = response['access-token'];
+
+            // await dispatch(resetUser());
+
+                // 2. Update Redux state and wait for it
+            await dispatch(renewToken({ token }));
+            
+            // 3. Small delay to ensure Redux state is updated
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // 4. Send OTP with updated token
+            await sendOTP();
+
+            // 5. Update other state
+            isRegistratedRef.current = true;
+        }
+        
     } 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -306,7 +304,7 @@ const Signup = () => {
         if (isRegistratedRef.current) {
             // console.log('Processing Dispatchs now!');
             await dispatch(resetUser());
-            dispatch(createUser({
+            await dispatch(createUser({
                 name: name,
                 surname: surname,
                 email: email,
@@ -318,7 +316,8 @@ const Signup = () => {
             }));
             router.push('/auth/pincheck');
         } else {
-            console.log('The user is not registered on the server yet.');
+            console.log('The user is not registered on the server.');
+            return;
         }
         console.log('Finished signup of user', userData.email);
     }
@@ -340,7 +339,7 @@ const Signup = () => {
         setSelectedCountry(countriesList[country_index]);
         // console.log('Selected country index is: ', country_index);
         console.log('The currency of this country is: ', countriesList[country_index].currencyCode);
-        const response = await executePost('https://countriesnow.space/api/v0.1/countries/flag/images',
+        const {response} = await executePost('https://countriesnow.space/api/v0.1/countries/flag/images',
             {
                 "iso2": countriesList[country_index].alpha2,
             }
@@ -366,7 +365,7 @@ const Signup = () => {
     }
             
         try {
-            const response = await fetchReferralError(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/referral/parent?code=${refCode}`, false);
+            const {response: response} = await fetchData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/referral/parent?code=${refCode}`, false);
             console.log('Response', response);
             if (response?.toLowerCase().trim() === 'inexistant referral code') {
                 console.log('No response, GET Error: ', response);
@@ -386,7 +385,7 @@ const Signup = () => {
             const countriesArray: Array<CountryData> = response.filter((country) => country.currencyCode === 'EUR' || country.currencyCode === 'GBP');
             setCountriesList(countriesArray);
             // console.log('An example country: ', response.data.response[0])
-            const responseSecond = await executePost('https://countriesnow.space/api/v0.1/countries/flag/images',
+            const {response: responseSecond} = await executePost('https://countriesnow.space/api/v0.1/countries/flag/images',
                 {
                     "iso2": response[53].alpha2,
                 }
@@ -550,7 +549,6 @@ const Signup = () => {
             </button>
             <h4 className='text-center text-[14px] sm:text-[16px] leading-[24px]'>{t('signup.alreadyHaveAccount')}<span className='text-primary font-bold'><Link href='/auth/signin' target="_blank">{t('signup.signinLink')}</Link></span></h4>
         </form>
-        {getErrorPopup}
     </div>
   )
 }

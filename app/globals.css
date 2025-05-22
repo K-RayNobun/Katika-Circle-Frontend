@@ -110,11 +110,11 @@
 }
 
 @keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+  0%{
+    box-shadow: 0 0 rgba(255, 255, 255, 0.5);
   }
-  50% {
-    box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.2);
+  100% {
+    box-shadow: 0 0 0px 10px rgba(255, 255, 255, 0);
   }
 }
 
@@ -262,7 +262,7 @@
 }
 
 .pulse-glow {
-  animation: pulseGlow 2s infinite;
+  animation: pulseGlow 1.5s infinite;
 }
 
 .scale-in {

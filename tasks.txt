@@ -9,7 +9,11 @@
 
 # Today 21/05/2025:
     Main Tasks:
-        - Rewrite the executePost() functions
+        x Rewrite the executePost() functions
+        x Set up password modification feature in settings
+        - Rewrite the fetchData() function from and update it in signup, signin, pincheck...
+        - Convert resetPassword and renewPassword Code into useApiRequest hooks user
+        - Modify the referral link into a descriptive message
 
 
 

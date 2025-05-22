@@ -29,20 +29,20 @@ const DigitCase: React.FC<DigitCaseProps> = ({identifier, digitValue, isPinCorre
     2. pass that array to the official pinCode array where cases takes their values
 */
 
-interface UserData {
-    id: string;
-    name: string;
-    sname: string;
-    email: string;
-    countryCode: string;
-    verified: boolean;
-    referral: {
-    referralCode: string;
-    };
-    wallet: {
-    address: string;
-    };
-}
+// interface UserData {
+//     id: string;
+//     name: string;
+//     sname: string;
+//     email: string;
+//     countryCode: string;
+//     verified: boolean;
+//     referral: {
+//     referralCode: string;
+//     };
+//     wallet: {
+//     address: string;
+//     };
+// }
 
 interface CountryData {
     name: string;
@@ -61,6 +61,7 @@ const PinCheck = () => {
      
     const [timeMinLeft,setTimeMinLeft] = useState(1);
     const [timeSecLeft,setTimeSecLeft] = useState(59);
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
     const intervalRef = useRef<NodeJS.Timeout>(undefined);
     const [canAskCode, setCanAskCode] = useState(true);
 
@@ -69,10 +70,8 @@ const PinCheck = () => {
     const accessToken = useAppSelector((state) => state.token.token);
     const { t } = useTranslation();
 
-    const { executePost, error: postError } = useApiPost<string, object>();
-    const {fetchData, error: error, errorPopup: postErrorPopup} = useApiGet<UserData>();
-    const {fetchData: fetchCountriesData} = useApiGet<CountryData[]>();
-    const {fetchData: fetchOtpData, errorPopup: getErrorPopup} = useApiGet<string>();
+    const { executePost } = useApiPost();
+    const {fetchData} = useApiGet();
 
     useEffect(() => {
         intervalRef.current = setInterval(() => {
@@ -198,13 +197,16 @@ const PinCheck = () => {
 
     const sendOTP = async () => {
         console.log('Sending OTP...');
-        const result = await executePost(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`,
-            {}) as string;
+        const {response: result, error: errorMessage} = await executePost<object>(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`,
+            {});
+
+        if(!result && errorMessage) {
+            console.log('Error sending OTP: ', errorMessage);
+            setErrorMsg(errorMessage);
+            return <ErrorMessage message={errorMessage} />
+        }
 
         console.log('The OTP result is: ', result);
-        if (!result) {
-            return <ErrorMessage message={postError!} />;
-        }
         setCanAskCode(false);
         setTimeMinLeft(1);
         setTimeSecLeft(59);
@@ -213,15 +215,18 @@ const PinCheck = () => {
 
     const getUserData = async() => {
         // console.log('Getting the verified user data');
-        const result = await fetchData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`) as UserData;
+        const {response: result} = await fetchData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`);
         // console.log('The User Data Is: ', response.data.data);
 
-        let response;
-        response = await fetchCountriesData('https://api-stg.transak.com/api/v2/countries', false) as CountryData[];
-        if (!response) {
+        let response = [] as CountryData[];
+        const {response: apiResponse} = await fetchData('https://api-stg.transak.com/api/v2/countries', false);
+        if (!apiResponse) {
             // Get countries from public/countries/transakCountriesList.json
-            response = await fetch('/countries/transakCountriesList.json');
-            response = await response.json()  as CountryData[];
+            const res = await fetch('/countries/transakCountriesList.json');
+            const JsonRes = await res.json();
+            response = JsonRes['response'] as CountryData[];
+        } else {
+            response = apiResponse as CountryData[];
         }
         let currencyCode;
         if (response) {
@@ -256,20 +261,20 @@ const PinCheck = () => {
             }));
             dispatch(setReferralCode(result.referral.referralCode))
             dispatch(setWalletAdress(result.wallet.address))
-        } else if (error) {
-            return <ErrorMessage message={error} />
-        } else {
-            return <ErrorMessage message='An unexpected problem occured please contact support' />
         }
     };
 
     const verifyOTP = async (pinCode:string) => {
         // console.log('Access Token is:', accessToken);
         // console.log('The PIN Code is: ', pinCode);
-        const message = await fetchOtpData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp?code=${pinCode}`);
+        const {response: message, error: otpErrorMessage} = await fetchData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp?code=${pinCode}`);
         // console.log('Verification Result: ', response.data)
+        if(!message && otpErrorMessage) {
+            setErrorMsg(otpErrorMessage);
+            return;
+        }
        if (message) {
-            if (message.toLowerCase() === 'otp valid with success' || pinCode === '90900') {
+            if (message.toLowerCase() === 'otp valid with success') {
                 console.log('\t #### PIN Code is Right !');
                 setIsPinCorrect(true);
                 dispatch(verifyUser(true));
@@ -280,10 +285,6 @@ const PinCheck = () => {
             } else {
                 console.log('The PIN cannot be decided as neither right or wrong. Check your code');
             }
-        } else if (error) {
-            return <ErrorMessage message={error} />
-        } else {
-            return <ErrorMessage message='An unexpected problem occured please contact support' />
         }
     }
 
@@ -319,6 +320,7 @@ const PinCheck = () => {
                         })
                         }
                     </div>
+                    {errorMsg && <h4 className='text-red text-center text-[14px] sm:text-[18px] leading-[24px]'>{errorMsg}</h4>}
                     <h4 className='text-center text-[14px] sm:text-[18px] leading-[24px]'>
                         {t('pinCheck.noCode')} <button onClick={handleCodeRequest} className='inline-block text-primary font-bold'>{t('pinCheck.resendCode')}</button>
                         <br /> 
@@ -327,9 +329,7 @@ const PinCheck = () => {
                         }
                     </h4>
                 </div>
-            </div>
-            
-            {getErrorPopup || postErrorPopup}
+            </div>            
         </div>
     )
 }

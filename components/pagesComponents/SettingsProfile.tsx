@@ -58,6 +58,7 @@ const ProfileSettings = () => {
                     },
                 }
             );
+            console.log('Login successful: ', response);
             dispatch(
                 renewToken({
                     token: response.data.data['access-token'],
@@ -67,10 +68,12 @@ const ProfileSettings = () => {
             validatedCredentials.current = true;
             // console.log(t('settingsProfile.otpVerified'));
         } catch (error) {
+            console.log(`----------- Catched error: ${error} -----------`);
             const axiosError = error as AxiosError;
             if (axiosError.response?.status === 500) {
                 setError(t('settingsProfile.errorTestingCredentials'));
             }
+            validatedCredentials.current = false;
         }
     };
 
@@ -82,11 +85,11 @@ const ProfileSettings = () => {
     const handleCredentialsSubmit = async () => {
         setIsSubmitting(true);
         setError(null);
-        if (validateEmail && validatePassword) {
+        if (validateEmail || validatePassword) {
             try {
                 await testCredentials();
-                if (validatedCredentials) {
-                    setShowNewPasswordModal(true);
+                if (validatedCredentials.current) {
+                    setShowOTPModal(true);
                 }
             } catch {
                 setError(t('settingsProfile.invalidCredentials'));
@@ -94,6 +97,7 @@ const ProfileSettings = () => {
                 setIsSubmitting(false)
             }
         } else {
+            console.log(' Email or password are not corrects')
             setError(t('settingsProfile.invalidCredentials'));
         }
         setIsSubmitting(false);
@@ -235,7 +239,7 @@ const ProfileSettings = () => {
                     <button
                         onClick={handleCredentialsSubmit}
                         className={`w-full bg-primary text-white px-[16px] py-[8px] rounded-[8px] ${isSubmitting ? 'opacity-50' : ''}`}
-                        disabled={isSubmitting || !validateEmail || !validatePassword}
+                        disabled={isSubmitting}
                     >
                         {isSubmitting ? (
                             <AsyncSpinner />
@@ -253,7 +257,6 @@ const ProfileSettings = () => {
                         setShowNewPasswordModal(false);
                         setError(null);
                     }}
-                    setShowOTPModal={setShowOTPModal}
                     setShowNewPasswordModal={setShowNewPasswordModal}
                 />
             )}
@@ -261,9 +264,9 @@ const ProfileSettings = () => {
             {/* OTP Modal */}
             {showOTPModal && (
                 <OTPModal
-                    onClose={() => setShowOTPModal(false)}
-                    onVerify={() => {
+                    onClose={() => {
                         setShowOTPModal(false);
+                        setShowNewPasswordModal(true);
                     }}
                 />
             )}

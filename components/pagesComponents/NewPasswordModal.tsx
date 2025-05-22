@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "@/lib/hooks/useTranslation";
 import axios from "axios";
+import { LuEyeClosed, LuEye } from "react-icons/lu";
 
 // Redux related imports
 import { useAppSelector } from "@/lib/redux/hooks";
@@ -12,7 +13,7 @@ type UserData = {
 };
 
 // New component to add in SettingsProfile.tsx
-const NewPasswordModal = ({ onClose, setShowOTPModal, setShowNewPasswordModal }: { onClose: () => void, setShowOTPModal: (arg: boolean) => void, setShowNewPasswordModal: (arg: boolean) => void }) => {
+const NewPasswordModal = ({ onClose, setShowNewPasswordModal }: { onClose: () => void, setShowNewPasswordModal: (arg: boolean) => void }) => {
     const { t } = useTranslation();
     const accessToken = useAppSelector((state) => state.token.token);
     const userData = useAppSelector((state) => state.user) as UserData;
@@ -20,28 +21,29 @@ const NewPasswordModal = ({ onClose, setShowOTPModal, setShowNewPasswordModal }:
     const [errorMessage, setErrorMessage] = useState<string>();
     const [newPassword, setNewPassword] = useState<string>('');
     const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
 
 
     const handleNewPasswordSubmit = async () => {
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+]{6,}$/;
         
         if (!passwordRegex.test(newPassword)) {
-            setErrorMessage(t('settingsProfile.passwordRequirements'));
+            setErrorMessage(t('settingsProfile.newPasswordModal.passwordRequirements'));
             return;
         }
         
         if (newPassword !== confirmNewPassword) {
-            setErrorMessage(t('settingsProfile.passwordsMustMatch'));
+            setErrorMessage(t('settingsProfile.newPasswordModal.passwordsMustMatch'));
             return;
         }
 
         try {
-            await updateUserData();
             setShowNewPasswordModal(false);
-            sendOTP();
-            setShowOTPModal(true);
+            console.log('Password Updated. Sending OTP next...')
+            await updateUserData();
         } catch (error) {
-            setErrorMessage(t('settingsProfile.updateFailed'));
+            setErrorMessage(t('settingsProfile.newPasswordModal.updateFailed'));
             console.log(error);
         }
     };
@@ -64,42 +66,46 @@ const NewPasswordModal = ({ onClose, setShowOTPModal, setShowNewPasswordModal }:
         }
     };
 
-    const sendOTP = async () => {
-        // console.log('Sending OTP');
-        // console.log('Access Token is: ', accessToken)
-        await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp`,
-            {},
-        {
-            headers: {
-                'Authorization': 'Bearer ' + accessToken,
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            }
-        });
-        // console.log('Finished sending OTP with the token', accessToken);
-        // console.log('Just sent the token successfully as ', response.data);
-    };
-
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
             <div className="bg-white p-6 rounded-lg w-[90%] max-w-md">
-                <h2 className="text-xl font-bold mb-4">{t('settingsProfile.newPassword')}</h2>
+                <h2 className="text-xl font-bold mb-4">{t('settingsProfile.newPasswordModal.newPassword')}</h2>
                 <div className="space-y-4">
-                    <input
-                        type="password"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        placeholder={t('settingsProfile.enterNewPassword')}
-                        className="w-full p-2 border rounded"
-                    />
-                    <input
-                        type="password"
-                        value={confirmNewPassword}
-                        onChange={(e) => setConfirmNewPassword(e.target.value)}
-                        placeholder={t('settingsProfile.confirmNewPassword')}
-                        className="w-full p-2 border rounded"
-                    />
-                    {errorMessage && <p className="text-red text-sm">{errorMessage}</p>}
+                    <div className="relative w-full">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            placeholder={t('settingsProfile.newPasswordModal.enterNewPassword')}
+                            className="w-full p-2 border rounded"
+                        />
+                        {
+                            showPassword ? (
+                                <LuEye size={20} className="absolute right-2 top-[50%] -translate-y-1/2 cursor-pointer text-gray_dark/50" onClick={() => setShowPassword(!showPassword)} />
+                            ) : (
+                                <LuEyeClosed size={20} className="absolute right-2 top-[50%] -translate-y-1/2 cursor-pointer text-gray_dark/50" onClick={() => setShowPassword(!showPassword)} />
+                            )
+                        }
+                    </div>
+                    
+                    <div className="relative w-full ">
+                        <input
+                            type={showConfirmPassword ? "text" : "password"}
+                            value={confirmNewPassword}
+                            onChange={(e) => setConfirmNewPassword(e.target.value)}
+                            placeholder={t('settingsProfile.newPasswordModal.confirmNewPassword')}
+                            className="w-full p-2 border rounded"
+                        />
+                        {
+                            showConfirmPassword ? (
+                                <LuEye size={20} className="absolute right-2 top-[50%] -translate-y-1/2 cursor-pointer text-gray_dark/60" onClick={() => setShowConfirmPassword(!showConfirmPassword)} />
+                            ) : (
+                                <LuEyeClosed size={20} className="absolute right-2 top-[50%] -translate-y-1/2 cursor-pointer text-gray_dark/60" onClick={() => setShowConfirmPassword(!showConfirmPassword)} />
+                            )
+                        }
+                        
+                    </div>
+                    {errorMessage && <p className="text-red text-center font-semibold text-sm">{errorMessage}</p>}
                     <div className="flex justify-end gap-2">
                         <button 
                             onClick={onClose}
@@ -119,5 +125,7 @@ const NewPasswordModal = ({ onClose, setShowOTPModal, setShowNewPasswordModal }:
         </div>
     );
 }
+
+
 
 export default NewPasswordModal;

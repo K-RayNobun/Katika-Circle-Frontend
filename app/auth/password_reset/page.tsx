@@ -1,23 +1,34 @@
 'use client';
 
-import React, {  useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useTranslation } from '@/lib/hooks/useTranslation';
 import { CgTimer } from "react-icons/cg";
 import AsyncSpinner from '@/components/AsyncSpinner';
 import { useRouter } from 'next/navigation';
 
-import axios, { AxiosError } from 'axios';
+import { useApiPost } from '@/lib/hooks/useApiRequest';
 
 const ResetPassword = () => {
     const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const isSubmittingRef = useRef(false);
+    const hasSubmittedOnceRef = useRef(false);
     const router = useRouter();
 
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    const { executePost } = useApiPost();
 
     const validateEmail = (email: string) => {
-        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        if(!hasSubmittedOnceRef.current && !isSubmittingRef.current) {
+            console.log('Has never submitted once and is not submitting');
+            return true;
+        } else {
+            console.log('Validation is ongoing');
+        }
+        const emailRegex = /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(?<!\.)@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
+        console.log('Is Email Valid ', emailRegex.test(email));
         return emailRegex.test(email);
     };
 
@@ -28,7 +39,7 @@ const ResetPassword = () => {
         if (!validateEmail(value)) {
             setErrorMessage('Please enter a valid email address.');
         } else {
-            setErrorMessage('');
+            setErrorMessage(null);
         }
     };
 
@@ -37,43 +48,32 @@ const ResetPassword = () => {
 
     const postResetEmail = async (e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
-        try {
-            
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/reset-mailer`, 
-                {"email": email},
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*'
-                    }
-                }
-            );
-            
-            if (response.data.error) {
-                setErrorMessage(response.data.error.message);
-                return;
-            }
 
-            // console.log('Response data: ', response.data.data);
-            // console.log('Finished reset email post request');
-            setErrorMessage('');
-            router.push('/auth/mail_check/');
-        } catch (err) {
-            const axiosError = err as AxiosError;
-            // Handle error `Referral Does not exit Exist`
-            
-            if (axiosError.response?.status !== 200) {
-                setErrorMessage(t('signup.errors.serverError'));
-                // console.error('Registration error:', error);
-            }
-        } finally {
-            setIsSubmitting(false);
+        const {response: response, error: errorMessage} = await executePost(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/reset-mailer`, 
+            {"email": email},
+            false
+        );
+        
+        if (!response && errorMessage) {
+            setErrorMessage(errorMessage);
+            return;
         }
+
+        setErrorMessage('');
+        setIsSubmitting(false);
+        router.push('/auth/mail_check/');
     } 
 
     const handleSubmit = (e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
+        isSubmittingRef.current = true;
+        if(!validateEmail(email)) {
+            console.log('Email submitted is not valid');
+            setErrorMessage('Please enter a valid email address.');
+            return;
+        }
         setIsSubmitting(true);
+        hasSubmittedOnceRef.current = true;
         // console.log('Submitted email:', email);
 
         // Simulate API call
@@ -81,6 +81,7 @@ const ResetPassword = () => {
             setIsSubmitting(false);
             alert('Reset email sent!');
         });
+        isSubmittingRef.current = false;
     };
 
     return (
@@ -121,7 +122,7 @@ const ResetPassword = () => {
                     <button
                         type="submit"
                         className={`w-full py-2 px-4 bg-primary text-white font-bold rounded-lg hover:bg-primary_dark transition ${
-                            isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                            isSubmitting || !validateEmail(email) ? 'opacity-50 cursor-not-allowed' : ''
                         }`}
                         disabled={isSubmitting || !validateEmail(email)}
                     >

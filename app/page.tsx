@@ -253,12 +253,12 @@ const SimulatorSection = ({t}: {t: (path: string) => string}) => {
   return (
     <section ref={sectionRef} className='w-full min-h-[660px] bg-[#551A82] md:px-[5%] py-[7%] flex justify-center items-center overflow-x-hidden'>
       <div className='flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-0 w-full max-w-[1200px]'>
-        <div className='w-full md:w-[50%] lg:min-w-[600px] slide-in-right flex flex-col gap-[20px] items-center justify-center rounded-[20px] p-4 md:p-[22px]'>
+        <div className='w-full md:grow lg:w-[50%] lg:min-w-[600px] slide-in-right flex flex-col gap-[20px] items-center justify-center rounded-[20px] p-4 md:p-[22px]'>
           <div className='w-[100%] border-2 border-gray_dark/30 bg-gray rounded-[20px] px-[16px] py-[12px] flex flex-col gap-[20px]'>
             <h4 className='font-semibold text-primary'>{t('landing.simulator.form.send.label')}</h4>
             <div className='flex items-center justify-between text-[32px] md:text-[44px] font-bold'>
               <input type="number" min="0" step="0.01" onChange={handleAmountSentChange}
-                     placeholder={'0'} className='w-[100px] md:w-[300px] bg-transparent px-1 rounded-md'
+                     placeholder={'0'} className='w-[240px] lg:w-[300px] bg-transparent px-1 rounded-md'
                      onKeyDown={(e) => {
                       // Prevent input of unwanted characters
                       if (!/[\d.]/.test(e.key) && 
@@ -267,8 +267,8 @@ const SimulatorSection = ({t}: {t: (path: string) => string}) => {
                       }
                   }} />
               <div className='flex justify-center items-center gap-2 md:gap-4'> 
-                <h1 className='text-[26px] md:text-[44px]'>€</h1>
-                <Image width={10} height={10} src={'/landing/France.svg'} alt='Image Not loaded' className='w-[40px] md:w-[50px] h-[39px]' />
+                <h1 className='text-[28px] lg:text-[44px]'>€</h1>
+                <Image width={10} height={10} src={'/landing/euro.png'} alt='Image Not loaded' className='w-[40px] md:w-[50px] h-[39px]' />
                 <FaChevronDown size={24} className='w-[18px] md:w-[24px]' />
               </div>
             </div>
@@ -277,9 +277,9 @@ const SimulatorSection = ({t}: {t: (path: string) => string}) => {
             <h4 className='font-semibold text-primary'>{t('landing.simulator.form.receive.label')}</h4>
             <div className='flex items-center justify-between text-[32px] md:text-[40px] font-bold'>
               <input type="number" readOnly={true} value={amountReceived} 
-                    className='w-[100px] md:w-[300px] bg-transparent px-1 rounded-md' />
-              <div className='flex justify-center items-center gap-2 md:gap-4'> 
-                <h1 className='text-[26px] md:text-[44px]'>XAF</h1>
+                    className='w-[220px] lg:w-[300px] bg-transparent px-1 rounded-md' />
+              <div className='flex justify-center items-center gap-1 md:gap-4'> 
+                <h1 className='text-[28px] lg:text-[44px]'>XAF</h1>
                 <Image width={10} height={10} src={'/landing/Cameroon.svg'} alt='Image Not loaded' className='w-[40px] md:w-[50px] h-[39px]' />
                 <FaChevronDown size={24} className='w-[18px] md:w-[24px]' />
               </div>
@@ -322,7 +322,7 @@ const SliderSection = ({t}:{t: (path: string) => string}) => {
           </h1>
           <p>{t('landing.slider.description')}</p>
         </div>
-        <div className='bg-purple-800 w-full md:min-w-[600px] lg:w-[50%] slide-in-right h-[300px] flex items-center justify-between rounded-[20px] p-[20px] md:p-[40px]'>
+        <div className='bg-purple-800 w-full max-w-[450px] md:max-w-[800px] lg:min-w-[600px] lg:w-[50%] slide-in-right h-[300px] flex items-center justify-between rounded-[20px] p-[20px] md:p-[40px]'>
           <FaRegArrowAltCircleLeft className='text-white text-[56px] cursor-pointer' />
           <FaRegArrowAltCircleRight className='text-white text-[56px] cursor-pointer' />
         </div>
@@ -338,7 +338,7 @@ const FeaturesSection = ({t}:{t: (path: string) => string}) => {
   return (
     <section ref={sectionRef} className='w-full min-h-[660px] bg-purple-900 lg:bg-blue_dark px-4 md:px-[7.5%] py-[7%] flex justify-center items-center'>
       <div className='w-full rounded-[44px] lg:bg-purple-900 px-4 md:px-[5%] py-[36px] flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-0'>
-        <div className='w-[70%] md:w-[50%] slide-in-left flex flex-col gap-[14px] items-center md:items-end text-center'>
+        <div className='w-[70%] md:w-[50%] slide-in-left flex flex-col gap-[14px] items-center lg:items-end text-center'>
           <div className='flex feature-box flex-col gap-[12px] items-center lg:items-end'>
             <div className='feature-box'>
               <div className=' rounded-[8px] purple-glowing p-[8px] flex justify-center items-center'>

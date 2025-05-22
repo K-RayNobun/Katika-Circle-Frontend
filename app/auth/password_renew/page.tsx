@@ -1,7 +1,7 @@
 // app/auth/password_renew/page.tsx
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useTranslation } from '@/lib/hooks/useTranslation';
 import { RiKeyFill } from "react-icons/ri";
 import AsyncSpinner from '@/components/AsyncSpinner';
@@ -17,16 +17,34 @@ const PasswordRenew = () => {
     const newPasswordRef = useRef<string>('');
     const confirmPasswordRef = useRef<string>('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [isPasswordValid, setIsPasswordValid] = useState(false);
+    const [token, setToken] = useState<string | null>(null);
+    // const hasSubmittedOnceRef = useRef(false);
+    // const isSubmittingRef = useRef(false);
 
     const accessToken = useAppSelector((state) => state.token.token); // Get the access token from Redux store
     const router = useRouter();
      // Read the token from the query string
 
+     useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        if (token) {
+            // Assuming you want to set the token in the Redux store
+            // dispatch(setToken(token));
+            console.log('Token from URL:', token);
+            setToken(token);
+        } else {
+            console.error('No token found in the URL');
+        }
+    }
+    , []);
+
 
     const postRenewPassword = async (e: React.FormEvent<HTMLElement>) => {
-        // console.log('Renew password function called with password:', newPasswordRef.current);
-        // console.log('Access token:', accessToken);
+        console.log('Renew password function called with password:', newPasswordRef.current);
+        console.log('Access token:', accessToken);
         e.preventDefault();
         try {
             const response = await axios.post(
@@ -36,7 +54,7 @@ const PasswordRenew = () => {
                     headers: {
                         'Content-Type': 'application/json',
                         'Access-Control-Allow-Origin': '*',
-                        'X-Reset-Header': accessToken,
+                        'X-Reset-Header': token,
                     }
                 }
             );
@@ -48,7 +66,7 @@ const PasswordRenew = () => {
 
             // console.log('Response data: ', response.data.data);
             // console.log('Finished reset email post request');
-            setErrorMessage('');
+            setErrorMessage(null);
             router.push('/auth/signin/'); // Redirect to sign-in after success
         } catch (err) {
             const axiosError = err as AxiosError;
@@ -61,18 +79,23 @@ const PasswordRenew = () => {
         }
     };
 
-    const validatePasswords = () => {
+    const validatePasswords = useCallback(() => {
+
         if (newPasswordRef.current.length < 8) {
             setErrorMessage('Password must be at least 8 characters long.');
+            setIsPasswordValid(false);
             return false;
         }
         if (newPasswordRef.current !== confirmPasswordRef.current) {
             setErrorMessage('Passwords do not match.');
+            setIsPasswordValid(false);
             return false;
         }
-        setErrorMessage('');
+        setErrorMessage(null);
+        setIsPasswordValid(true);
+        console.log('Passwords are valid');
         return true;
-    };
+    }, []);
 
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
@@ -87,6 +110,7 @@ const PasswordRenew = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         // console.log('Submit function called');
         e.preventDefault();
+        // if(!hasSubmittedOnceRef.current) hasSubmittedOnceRef.current = true;
         setIsSubmitting(true);
         postRenewPassword(e); // Call the API to reset the password
     };
@@ -150,9 +174,9 @@ const PasswordRenew = () => {
                 <button
                     type="submit"
                     className={`w-full py-2 px-4 bg-primary text-white font-bold rounded-lg hover:bg-primary_dark transition ${
-                        isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                        isSubmitting || !isPasswordValid ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !isPasswordValid}
                 >
                     {isSubmitting
                         ? <AsyncSpinner />

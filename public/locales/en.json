@@ -89,6 +89,7 @@
         "subtitle": "Please sign in to your account.",
         "emailPlaceholder": "Email",
         "passwordPlaceholder": "Password",
+        "forgottenPassword": "Forgot Password?",
         "submitButton": "Sign In",
         "noAccount": "Don't have an account?",
         "signupLink": "Sign Up",
@@ -476,6 +477,20 @@
         "resetting": "Resetting..."
     },
     "settingsProfile": {
+        "newPasswordModal": {
+            "newPassword": "New Password",
+            "enterNewPassword": "Enter new password",
+            "confirmNewPassword": "Confirm new password",
+            "passwordRequirements": "Password must be at least 6 characters long and contain at least one number, one uppercase letter, and one lowercase letter",
+            "passwordsMustMatch": "Passwords must match",
+            "updateFailed": "Error updating user data"
+        },
+        "otpModal": {
+            "title": "Security Verification",
+            "subtitle": "Enter the verification code",
+            "close": "Close",
+            "incorrectPin": "Invalid verification code"
+        },
         "profile": "Profile",
         "personalInfo": "Personal Information",
         "edit": "Edit",
@@ -518,7 +533,7 @@
             "wallet": "Katika Wallet",
             "ludokin": "Ludokin"
         },
-        "disclaimerPart1": "Katika Wallet is a product of Katika Web3, Inc., a company registered in the United States (1228, 109 Green street, Lynn, MA, Essex, USA, 01902) and operated in Cameroon by Saction Sarl, registered under RCCM number: RC/DLA/2020/B/4248. Katika is a technology company specializing in facilitating money transfers and access to inclusive financial solutions. We are not a bank. Money transfer services are provided in partnership with licensed financial institutions in their respective jurisdictions.",
+        "disclaimerPart1": "Katika Wallet is a product of Katika Web3, Inc., a company registered in the United States (1228, 109 Green street, Lynn, MA, Essex, USA, 01902) and operated in Cameroon by Saction Sarl, registered under RCCM number: RC/DLA/2020/B/4248. Katika is a technology company specializing in facilitating money transfers and access to inclusive financial solutions. We are not a bank. Money transfer services are provided in partnership with licensed financial institutions in their respective juridictions.",
         "disclaimerPart2": "For any questions or assistance, please contact us via the integrated chat in the Katika Wallet app or via our contact form available on our official website: \rwww.katika.io\r \nAll official emails from Katika will always come from an address ending with \b@katika.io. We will never ask for your password, private keys, or bank details.\\b The confidentiality of your data is a priority for us, as is the \bsecurity of your funds.\\b",
         "disclaimerPart3": "By clicking on certain external links, you may be redirected to third-party websites. The privacy policies of these sites may differ from those of Katika. We encourage you to read these policies carefully, as Katika cannot be held responsible for their security and privacy practices.",
         "disclaimerPart4": "Opinions or testimonials published by users on our platforms are their own. Katika declines all responsibility regarding the accuracy or truthfulness of this content.",
@@ -529,15 +544,19 @@
     },
     "errors": {
         "axiosError": {
-            "unauthorized": "Please login again to continue",
-            "forbidden": "You don't have permission to make this transaction",
-            "notFound": "Transaction service is temporarily unavailable",
-            "validation": "Please check your transaction details",
+            "unauthorized": "You are unauthorized. Please try to login again.",
+            "forbidden": "You don't have permission to do this action.",
+            "notFound": "This service is temporarily unavailable",
+            "validation": "Please check your informations details",
             "tooManyRequests": "Too many attempts. Please try again later",
-            "server": "Server error. Please try again later",
+            "server": "Server error. Please contact support.",
             "default": "Failed to process transaction"
         },
         "networkError": "Network error. Please check your connection"
+    },
+    "common": {
+        "cancel": "Cancel", 
+        "confirm": "Confirm"
     },
     "privacyPolicy": {
         "title": "PRIVACY POLICY OF KATIKA WEB3, INC.",

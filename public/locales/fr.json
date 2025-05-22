@@ -92,6 +92,7 @@
         "subtitle": "Veuillez vous connecter à votre compte.",
         "emailPlaceholder": "Email",
         "passwordPlaceholder": "Mot de passe",
+        "forgotPassword": "Mot de passe oublié ?",
         "submitButton": "Connectez-vous",
         "noAccount": "Vous n'avez pas de compte ?",
         "signupLink": "Inscrivez-vous",
@@ -475,6 +476,20 @@
         "sendMoney": "Envoyer de l'argent"
     },
     "settingsProfile": {
+        "newPasswordModal": {
+            "newPassword": "Nouveau mot de passe",
+            "enterNewPassword": "Entrez un nouveau mot de passe",
+            "confirmNewPassword": "Confirmez le nouveau mot de passe",
+            "passwordRequirements": "Le mot de passe doit contenir au moins 6 caractères, dont un chiffre, une lettre majuscule et une lettre minuscule",
+            "passwordsMustMatch": "Les mots de passe ne correspondent pas",
+            "updateFailed": "Erreur lors de la mise à jour des données utilisateur"
+        },
+        "otpModal": {
+            "title": "Vérification de sécurité",
+            "subtitle": "Entrez le code de vérification",
+            "close": "Fermer",
+            "incorrectPin": "Code de vérification invalide"
+        },
         "profile": "Profil",
         "personalInfo": "Informations personnelles",
         "edit": "Modifier",
@@ -508,6 +523,10 @@
             "default": "Échec du traitement de la transaction"
         },
         "networkError": "Erreur réseau. Veuillez vérifier votre connexion Internet"
+    },
+    "common": {
+        "cancel": "Annuler",
+        "confirm": "Confirmer"
     },
     "footer": {
         "mission": "La mission de Katika est de faciliter la vie financière des gens grâce à la technologie blockchain",

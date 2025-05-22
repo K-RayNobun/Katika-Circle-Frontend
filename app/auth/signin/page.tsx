@@ -19,20 +19,20 @@ import AsyncSpinner from '@/components/AsyncSpinner';
 
 // UseApiRequest hook calls return data in a type thta shoudld be pased onto him. I
 
-interface UserData {
-    id: string;
-    name: string;
-    sname: string;
-    email: string;
-    countryCode: string;
-    verified: boolean;
-    referral: {
-    referralCode: string;
-    };
-    wallet: {
-    address: string;
-    };
-}
+// interface UserData {
+//     id: string;
+//     name: string;
+//     sname: string;
+//     email: string;
+//     countryCode: string;
+//     verified: boolean;
+//     referral: {
+//     referralCode: string;
+//     };
+//     wallet: {
+//     address: string;
+//     };
+// }
 
 interface CountryData {
     name: string;
@@ -41,9 +41,9 @@ interface CountryData {
     alpha2: string;
 }
 
-type signinResponse = {
-    'access-token': string
-}
+// type signinResponse = {
+//     'access-token': string
+// }
 type signinPayload = {
     'email': string,
     'pwd': string
@@ -81,9 +81,8 @@ const Signin = () => {
 
     const formRef = useRef<HTMLFormElement>(null);
 
-    const { executePost, isLoading: isPosting } = useApiPost<signinResponse, signinPayload>();
-    const { fetchData, isLoading: isProfileFetching, errorPopup: getErrorPopup } = useApiGet<UserData>();
-    const {fetchData: fetchCountriesData, isLoading: isCountryFetchLoading} = useApiGet<CountryData[]>();
+    const { executePost} = useApiPost();
+    const { fetchData } = useApiGet();
 
     useEffect(() => {
         // console.log('Check if we can send him to homePage');
@@ -98,7 +97,9 @@ const Signin = () => {
     };
 
     const validateEmail = (email:string):boolean => {
-        const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        // Email may contain letters, numbers, and special characters
+        // such as !#$%&'*+/=?^_`{|}~- and must have a domain
+        const regex = /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(?<!\.)@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
         return regex.test(email);
     }
 
@@ -136,86 +137,94 @@ const Signin = () => {
         setErrorField('');
         setIsSubmitting(true);
 
-        try {
-            // SIGNIN REQUEST
-            const result = await executePost(
-                `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/login`,
-                {
-                    email: formData.get('email') as string,
-                    pwd: formData.get('password') as string,
-                },
-                false
-            );
-    
-            if (!result) {
-                throw new Error('Login Failed');
-            }
-            // Set token and dispatch to Redux
-            const token = result['access-token'];
-            accessTokenRef.current = token;
-            
-            await dispatch(
-                renewToken({
-                    token: token,
-                    expiresIn: 5 * 60 * 1000,
-                })
-            );
+        // SIGNIN REQUEST
+        const {response: result, error: errorMessage} = await executePost<signinPayload>(
+            `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/login`,
+            {
+                email: formData.get('email') as string,
+                pwd: formData.get('password') as string,
+            },
+            false
+        );
 
-            await new Promise(resolve => setTimeout(resolve, 500));
-
-            // Now that we have the token, fetch user profile
-            const userApiData = await fetchData(
-                `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`
-            ) as UserData;
-            console.log('User Country => ', userApiData.countryCode);
-            
-            let response;
-            response = await fetchCountriesData('https://api.transak.com/api/v2/countries', false) as CountryData[];
-            if (!response) {
-                // Get countries from public/countries/transakCountriesList.json
-                response = await fetch('/countries/transakCountriesList.json');
-                response = await response.json()  as CountryData[];
-            }
-            console.log('Countries => ', response.slice(0, 5));
-            const countriesArray: Array<CountryData> = response.filter((country) => country.currencyCode === 'EUR' || country.currencyCode === 'GBP');
-            console.log('Countries Array => ', countriesArray);
-            let currencyCode;
-            for (let i=0; i <= countriesArray.length-1; i++) {
-                if (countriesArray[i].name.toUpperCase() === userApiData.countryCode.toUpperCase()) {
-                    console.log(`This user country is ${countriesArray[i].name} and its currency is ${countriesArray[i].currencyCode}`);
-                    if (countriesArray[i].currencyCode === 'GBP') {
-                        currencyCode = '£'; 
-                    } else {
-                        currencyCode = '€'
-                    }
-                    break
-                } else {
-                    console.log('This user country is not in the list of countries');
-                    currencyCode = '€';
-                }
-            }
-
-            if (userApiData) {
-                // Update user data in Redux
-                dispatch(setReferralCode(userApiData.referral.referralCode!));
-                dispatch(setWalletAdress(userApiData.wallet.address));
-                dispatch(createUser({
-                    id: userApiData.id,
-                    name: userApiData.name,
-                    surname: userApiData.sname,
-                    email: userApiData.email,
-                    country: userApiData.countryCode,
-                    currencySymbol: currencyCode,
-                    referralCode: userApiData.referral.referralCode,
-                    language: 'fr'
-                }));
-                dispatch(verifyUser(userApiData.verified));
-            }
-        } catch (error) {
-            setError('An error occurred while processing your request. Please try again.');
-            console.error('Error during sign-in request:', error);
+        if (!result && errorMessage) {
             setErrorField('email & password');
+            setError(errorMessage)
             setIsSubmitting(false);
+            console.log('We caught an error message: ', errorMessage);
+            return;
+        }
+        // Set token and dispatch to Redux
+        const token = result['access-token'];
+        accessTokenRef.current = token;
+        
+        await dispatch(
+            renewToken({
+                token: token,
+                expiresIn: 5 * 60 * 1000,
+            })
+        );
+
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        // Now that we have the token, fetch user profile
+        const {response: profileApiData, error: profileErrorMessage} = await fetchData(
+            `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/profile`
+        );
+        if (!profileApiData && profileErrorMessage) {
+            setError(errorMessage);
+            setIsSubmitting(false);
+            console.log('We caught an error message: ', profileErrorMessage);
+            return;
+        }
+        console.log('User Country => ', profileApiData.countryCode);
+        
+        let response = [] as CountryData[];
+        const {response: apiResponse} = await fetchData('https://api.transak.com/api/v2/countries', false);
+        if (!apiResponse) {
+            // Get countries from public/countries/transakCountriesList.json
+            console.log('Processing countries from JSON file');
+            const res = await fetch('/countries/transakCountriesList.json');
+            const JsonRes = await res.json();
+            response = JsonRes.response as CountryData[];
+        } else {
+            response = apiResponse
+        }
+        console.log('Countries => ', response);
+        console.log('5 first Countries => ', response.slice(0, 5));
+        const countriesArray: Array<CountryData> = response.filter((country) => country.currencyCode === 'EUR' || country.currencyCode === 'GBP');
+        console.log('Countries Array => ', countriesArray);
+        let currencyCode;
+        for (let i=0; i <= countriesArray.length-1; i++) {
+            if (countriesArray[i].name.toUpperCase() === profileApiData.countryCode.toUpperCase()) {
+                console.log(`This user country is ${countriesArray[i].name} and its currency is ${countriesArray[i].currencyCode}`);
+                if (countriesArray[i].currencyCode === 'GBP') {
+                    currencyCode = '£'; 
+                } else {
+                    currencyCode = '€'
+                }
+                break
+            } else {
+                console.log('This user country is not in the list of countries');
+                currencyCode = '€';
+            }
+        }
+
+        if (profileApiData) {
+            // Update user data in Redux
+            dispatch(setReferralCode(profileApiData.referral.referralCode!));
+            dispatch(setWalletAdress(profileApiData.wallet.address));
+            dispatch(createUser({
+                id: profileApiData.id,
+                name: profileApiData.name,
+                surname: profileApiData.sname,
+                email: profileApiData.email,
+                country: profileApiData.countryCode,
+                currencySymbol: currencyCode,
+                referralCode: profileApiData.referral.referralCode,
+                language: 'fr'
+            }));
+            dispatch(verifyUser(profileApiData.verified));
         }
 
         // console.log('Moving to the next point');
@@ -263,8 +272,11 @@ const Signin = () => {
             <div>
                 {error && <h4 className='text-red font-bold text-center text-sm h-min'>{error}</h4>}
             </div>
+            <div className='flex justify-center mt-2'>
+                <Link href='/auth/password_reset' className='mx-auto text-primary text-center font-bold'>{t('signin.forgotPassword')}</Link>
+            </div>
             <button type='submit' className={`mt-6 bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full ${isSubmitting ? 'opacity-50' : ''}`}>
-                {isSubmitting || isProfileFetching || isPosting || isCountryFetchLoading ? (
+                {isSubmitting ? (
                     <>
                         <AsyncSpinner />
                         {/* <h6 className='text-center font-bold'>Processing...</h6> */}
@@ -281,8 +293,7 @@ const Signin = () => {
                 <h6 className='text-center font-bold'>Continuer avec Google</h6>
             </div> */}
         </form>
-        <h4 className='text-center text-[14px] sm:text-[16px] leading-[24px] mt-4'> {t('signin.noAccount')}<Link href='/auth/signup' className='text-primary font-bold'>{t('signin.signupLink')}</Link></h4>
-        {getErrorPopup}
+        <h4 className='text-center text-[14px] sm:text-[16px] leading-[24px] mt-4'> {t('signin.noAccount')}<Link href='/auth/signup' className='text-primary font-bold'> {t('signin.signupLink')}</Link></h4>
     </div>
   )
 }
