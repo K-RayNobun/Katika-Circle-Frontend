@@ -6,22 +6,17 @@ import { CgTimer } from "react-icons/cg";
 import AsyncSpinner from '@/components/AsyncSpinner';
 import { useRouter } from 'next/navigation';
 
-import { useApiPost } from '@/lib/hooks/useApiRequest';
-
 const ResetPassword = () => {
     const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const isSubmittingRef = useRef(false);
     const hasSubmittedOnceRef = useRef(false);
     const router = useRouter();
 
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const { executePost } = useApiPost();
-
     const validateEmail = (email: string) => {
-        if(!hasSubmittedOnceRef.current && !isSubmittingRef.current) {
+        if(!hasSubmittedOnceRef.current) {
             console.log('Has never submitted once and is not submitting');
             return true;
         } else {
@@ -46,42 +41,27 @@ const ResetPassword = () => {
     // Get the pathNAme value after /password_reset
     
 
-    const postResetEmail = async (e: React.FormEvent<HTMLElement>) => {
-        e.preventDefault();
-
-        const {response: response, error: errorMessage} = await executePost(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/reset-mailer`, 
-            {"email": email},
-            false
-        );
-        
-        if (!response && errorMessage) {
-            setErrorMessage(errorMessage);
-            return;
-        }
-
-        setErrorMessage('');
-        setIsSubmitting(false);
-        router.push('/auth/mail_check/');
-    } 
-
     const handleSubmit = (e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
-        isSubmittingRef.current = true;
+        setIsSubmitting(true);
         if(!validateEmail(email)) {
             console.log('Email submitted is not valid');
             setErrorMessage('Please enter a valid email address.');
             return;
         }
-        setIsSubmitting(true);
         hasSubmittedOnceRef.current = true;
         // console.log('Submitted email:', email);
 
-        // Simulate API call
-        postResetEmail(e).then(() => {
+        // Add a 2 seconds timeout to simulate an API call
+        setTimeout(() => {
             setIsSubmitting(false);
-            alert('Reset email sent!');
-        });
-        isSubmittingRef.current = false;
+        }, 2000);
+        
+        setIsSubmitting(false);
+        setErrorMessage(null);
+        // Push to the mail_check page with URL parameters
+        router.push(`/auth/mail_check?email=${encodeURIComponent(email)}`);
+        
     };
 
     return (
@@ -122,9 +102,9 @@ const ResetPassword = () => {
                     <button
                         type="submit"
                         className={`w-full py-2 px-4 bg-primary text-white font-bold rounded-lg hover:bg-primary_dark transition ${
-                            isSubmitting || !validateEmail(email) ? 'opacity-50 cursor-not-allowed' : ''
+                            !validateEmail(email) ? 'opacity-50 cursor-not-allowed' : ''
                         }`}
-                        disabled={isSubmitting || !validateEmail(email)}
+                        disabled={!validateEmail(email)}
                     >
                         {isSubmitting
                             ? <AsyncSpinner />
