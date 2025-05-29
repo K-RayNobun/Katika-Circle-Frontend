@@ -1,17 +1,28 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+
 interface Metadata {
     theme: 'light' | 'dark';
     isCookieConsent: boolean;
+    pushSubscription: PushSubscriptionData | null,
+}
+
+interface PushSubscriptionData {
+    endpoint: string;
+    keys: {
+        p256dh: string;
+        auth: string;
+    };
 }
 
 const initialState: Metadata = {
     theme: 'light',
     isCookieConsent: false,
+    pushSubscription: null,
 }
 
-const themeSlice = createSlice({
-    name: 'theme',
+const metadataSlice = createSlice({
+    name: 'metadata',
     initialState,
     reducers: {
         // THEME RELATED
@@ -36,9 +47,28 @@ const themeSlice = createSlice({
             state.isCookieConsent = action.payload;
             console.log('### Cookie consent set to', action.payload);
         },
+        setPushSubscription: (state, action: PayloadAction<PushSubscriptionData | null>) => {
+            state.pushSubscription = action.payload;
+            // Optionally persist to localStorage
+            if (action.payload) {
+                localStorage.setItem('pushSubscription', JSON.stringify(action.payload));
+            } else {
+                localStorage.removeItem('pushSubscription');
+            }
+        },
+        
+        // Load stored subscription on app initialization
+        loadStoredSubscription: (state) => {
+        if (typeof window !== 'undefined') {
+            const storedSub = localStorage.getItem('pushSubscription');
+            if (storedSub) {
+            state.pushSubscription = JSON.parse(storedSub);
+            }
+        }
+        },
     }
 });
 
-export const { changeTheme, detectSystemTheme, setCookieConsent } = themeSlice.actions;
+export const { changeTheme, detectSystemTheme, setCookieConsent, setPushSubscription, loadStoredSubscription } = metadataSlice.actions;
 
-export default themeSlice.reducer;
+export default metadataSlice.reducer;

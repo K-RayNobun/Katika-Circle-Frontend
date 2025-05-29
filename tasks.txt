@@ -14,10 +14,22 @@
         x Rewrite the fetchData() function from and update it in signup, signin, pincheck...
         x Convert resetPassword and renewPassword Code into useApiRequest hooks user
         - Modify the referral link into a descriptive message
-        - Set up a timer of 1 minute for the mailCheck page to avoid DDos
+        x Set up a timer of 1 minute for the mailCheck page to avoid DDos
         - ajouter le logo de Katika sur le signet
         - Allow a simple web icon on homescreen
         - Set up the Selenium test.
+
+
+
+
+
+
+
+# How to set up the carousel
+    - Add images
+
+
+
 
 
 

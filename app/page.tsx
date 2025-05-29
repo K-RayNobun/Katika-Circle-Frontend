@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight } from "react-icons/fa";
 import { PiLockKey, PiSmiley } from "react-icons/pi";
 import { RiExchangeLine, RiHandCoinLine, RiHeadphoneLine } from "react-icons/ri";
-import { FaChevronDown } from "react-icons/fa6";
+import { FaChevronDown, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { useTranslation } from '@/lib/hooks/useTranslation';
 import { useOneTimeAnimation } from '@/lib/hooks/useOneTimeAnimation';
 import { GiMoneyStack } from "react-icons/gi";
@@ -410,6 +410,84 @@ const DestinationSection = ({t}:{t: (path: string) => string}) => {
   );
 }
 
+const SponsorSection = ({t}:{t: (path: string) => string}) => {
+  const sponsorsImgUrlList = 
+  [
+    '/landing/sponsors/founderInstitute.png',
+    '/landing/sponsors/circle-logo-ondark.png',
+    '/landing/sponsors/Logo_AUF.png',
+    '/landing/sponsors/googleForStartups.png',
+    '/landing/sponsors/embassadeDeFrance.png',
+    '/landing/sponsors/activSpaces.png'
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [imgError, setImgError] = useState(false);
+
+  const handlePrevious = () => {
+    setCurrentIndex((prev) => 
+      prev === 0 ? sponsorsImgUrlList.length - 1 : prev - 1
+    );
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => 
+      prev === sponsorsImgUrlList.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  return (
+    <section className="carousel relative min-h-[300px] min-w-full px-[20px] bg-blue_dark pb-12">
+      <h1 className='great text-3xl md:text-[56px] slide-in-up text-white leading-tight md:leading-[74px] mb-4 text-center'>Ils nous <span className='text-gold_fluo'>soutiennent</span></h1>
+      <div className='flex items-center justify-center space-x-8'>
+        <button 
+          onClick={handlePrevious}
+          className="p-2 text-white hover:text-pink_fluo transition-colors"
+        >
+          <FaChevronLeft size={30} className={`${sponsorsImgUrlList.length < 6 || currentIndex === 0 ? 'hidden' : 'block'}`} />
+        </button>
+
+        <div className="relative min-w-[1300px] h-[240px] overflow-hidden">
+          <div 
+            className="flex items-center justify-center absolute gap-[10px] transition-transform duration-500 ease-out h-full"
+            style={{ transform: `translateX(-${currentIndex * 360}px)` }}
+          >
+            {sponsorsImgUrlList.map((url, index) => (
+              <div key={index} className="h-[75px] w-[210px] flex justify-center flex-shrink-0 bg-purple-900/60 rounded-lg">
+                <Image 
+                  src={url}
+                  alt={`Sponsor ${index + 1}`}
+                  width={10}
+                  height={10}
+                  className="object-contain w-[85%] p-2"
+                  onError={() => {
+                    console.error(`Failed to load image: ${url}`);
+                    setImgError(true);
+                  }}
+                  priority={index === currentIndex}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <button 
+          onClick={handleNext}
+          className="p-2 text-white hover:text-pink_fluo transition-colors"
+        >
+          <FaChevronRight size={30} className={`${sponsorsImgUrlList.length <= 6 || currentIndex === sponsorsImgUrlList.length - 6 ? 'hidden' : 'block'}`}/>
+        </button>
+      </div>
+
+      {imgError && (
+        <div className="absolute top-0 left-0 right-0 bg-red-100 p-2 text-red-600 text-center">
+          Failed to load some images. Please check image paths.
+        </div>
+      )}
+    </section>
+  );
+}
+
 const HomePage: React.FC = () => {
 
   const { t } = useTranslation();
@@ -426,6 +504,7 @@ return (
       <SimulatorSection t={t} />
       <SliderSection t={t} />
       <FeaturesSection t={t} />
+      <SponsorSection t={t} />
       <DestinationSection t={t} />
       <Footer />
     </main>

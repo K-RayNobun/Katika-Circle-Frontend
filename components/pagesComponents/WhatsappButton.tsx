@@ -18,7 +18,7 @@ const WhatsappButton = () => {
                 {showOptions && (
                     <div className="absolute w-[180px] top-[-158px] -right-5 bg-white shadow-lg rounded-lg p-1 mt-2">
                         <a
-                            href="https://api.whatsapp.com/send?phone=679143281&text=Salut%2C%20M.%20Ricardo%21%20Pouvez-vous%20m%27aider%20%C3%A0%20..."
+                            href="https://api.whatsapp.com/send?phone=237679143281&text=Hello%20Service%20Client%20de%20SendbyKatika%2C%20j%E2%80%99ai%20rencontr%C3%A9%20un%20probl%C3%A8me%20sur%20Katika%20Wallet%20et%20j%E2%80%99aimerais%20avoir%20de%20l%E2%80%99aide.%0AVoici%20quelques%20d%C3%A9tails%20pour%20mieux%20comprendre%20%3A%0A%0ANom%20%3A%0A%0AAdresse%20email%20utilis%C3%A9e%20sur%20Katika%20%3A%0A%0ADescription%20du%20probl%C3%A8me%20%3A%0A%0AMerci%20de%20votre%20aide%20%21"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="block text-sm text-green hover:text-white hover:bg-green/40 p-2 mb-1 rounded-lg"
