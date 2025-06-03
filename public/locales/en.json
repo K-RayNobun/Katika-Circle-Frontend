@@ -89,7 +89,7 @@
         "subtitle": "Please sign in to your account.",
         "emailPlaceholder": "Email",
         "passwordPlaceholder": "Password",
-        "forgottenPassword": "Forgot Password?",
+        "forgotPassword": "Forgot Password?",
         "submitButton": "Sign In",
         "noAccount": "Don't have an account?",
         "signupLink": "Sign Up",
@@ -408,10 +408,12 @@
         }
     },
     "ReferralDialogBox": {
-        "title": "Share Your Referral Link",
-        "copyButton": "Copy",
+        "shareTitle": "Share Referral Link",
+        "shareText": "Join me on SendbyKatika using my referral link:",
+        "shareButton": "Share",
         "copied": "Copied!",
-        "cancelButton": "Cancel"
+        "copyButton": "Copy",
+        "cancelButton": "Close"
     },
     "transactionList": {
         "table": {

@@ -18,7 +18,7 @@ import { renewToken } from '@/lib/redux/features/token/tokenSlice';
 import AsyncSpinner from '@/components/AsyncSpinner';
 import { withCookieProtection } from '@/app/CookieProvider';
 
-import JsonRes from '../../../public/countries/transakCountriesList.json';
+import JsonRes from '../../../public/countries/TransakCountriesList.json';
 
 interface CountryData {
     name: string;

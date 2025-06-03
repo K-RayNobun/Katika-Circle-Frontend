@@ -46,18 +46,18 @@ const nextConfig = {
   //   ]
   // },
   
-  output: 'export', // Static export only
-  trailingSlash: true, // Static export only
+  // output: 'export', // Static export only
+  // trailingSlash: true, // Static export only
   
-  images: {
-    unoptimized: true, // Static export only
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
-  },
+  // images: {
+  //   unoptimized: true, // Static export only
+  //   remotePatterns: [
+  //     {
+  //       protocol: 'https',
+  //       hostname: '**',
+  //     },
+  //   ],
+  // },
 };
 
 module.exports = nextConfig;

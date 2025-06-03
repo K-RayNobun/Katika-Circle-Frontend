@@ -5,7 +5,7 @@ const WhatsappButton = () => {
     const [showOptions, setShowOptions] = React.useState(false);
 
     return (
-        <div className="bg-white border-4 border-green/60 p-2 rounded-full fixed bottom-20 lg:bottom-6 right-6 z-50">
+        <div className="bg-white border-4 border-green/60 p-2 rounded-full fixed bottom-20 lg:bottom-6 right-6 z-20">
             {/* WhatsApp Button */}
             <button
                 className={`bg-green-500 text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300 ${ showOptions ? "scale-110" : ""}`}

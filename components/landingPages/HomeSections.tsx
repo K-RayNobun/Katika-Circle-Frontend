@@ -14,7 +14,6 @@ import { MdOutlineSupportAgent } from "react-icons/md";
 import { IconType } from 'react-icons/lib';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from '@/lib/hooks/useTranslation';
-import { transform } from 'next/dist/build/swc/generated-native';
 
 
 const HeroSection = ({t, navigateTo}:{t: (path: string) => string, navigateTo: (path: string) => void}) => {

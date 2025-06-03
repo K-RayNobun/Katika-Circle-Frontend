@@ -8,7 +8,7 @@ import TransakRedirect from '@/components/transaction_screens/TransakRedirect';
 
 const TransactionScreens = ({screenIndex, closeScreen, moveToScreen}: { screenIndex: number, closeScreen: () => void, moveToScreen: (index: number) => void }) => {
     return (
-        <div className={`fixed top-0 left-0 right-0 z-20 flex bottom-0 items-end lg:items-center justify-center w-screen h-full bg-black/40`}>
+        <div className={`fixed top-0 left-0 right-0 z-30 flex bottom-0 items-end lg:items-center justify-center w-screen h-full bg-black/40`}>
             { screenIndex==1 && <ScreenOne onClose={closeScreen} moveToScreen={moveToScreen}/>}
             { screenIndex==2 && <ScreenTwo onClose={closeScreen} moveToScreen={moveToScreen} />}
             { screenIndex==3 && <ScreenThree onClose={closeScreen} moveToScreen={moveToScreen} />}
