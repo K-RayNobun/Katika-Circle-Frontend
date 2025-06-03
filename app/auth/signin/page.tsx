@@ -17,6 +17,8 @@ import { withCookieProtection } from '@/app/CookieProvider';
 import { useApiGet, useApiPost} from '@/lib/hooks/useApiRequest';
 import AsyncSpinner from '@/components/AsyncSpinner';
 
+import transakCountries from '@/public/countries/TransakCountriesList.json';
+
 // UseApiRequest hook calls return data in a type thta shoudld be pased onto him. I
 
 // interface UserData {
@@ -36,7 +38,7 @@ import AsyncSpinner from '@/components/AsyncSpinner';
 
 interface CountryData {
     name: string;
-    image: string;
+    image?: string;
     currencyCode: string;
     alpha2: string;
 }
@@ -87,6 +89,7 @@ const Signin = () => {
     useEffect(() => {
         // console.log('Check if we can send him to homePage');
         if (userData.verified && userData.email && isSigningIn) {
+            console.log('Pushing to /Home');
             setIsSubmitting(false);
             router.push('/user/home');
         }
@@ -183,10 +186,13 @@ const Signin = () => {
         const {response: apiResponse} = await fetchData('https://api.transak.com/api/v2/countries', false);
         if (!apiResponse) {
             // Get countries from public/countries/transakCountriesList.json
+            const res = transakCountries.response;
             console.log('Processing countries from JSON file');
-            const res = await fetch('/countries/transakCountriesList.json');
-            const JsonRes = await res.json();
-            response = JsonRes.response as CountryData[];
+            // const res = await fetch('/countries/TransakCountriesList.json');
+            // const JsonRes = await res.json();
+            // console.log('Response is ', JsonRes);
+            // console.log('')
+            response = res as CountryData[];
         } else {
             response = apiResponse
         }

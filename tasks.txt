@@ -14,6 +14,8 @@
         x Rewrite the fetchData() function from and update it in signup, signin, pincheck...
         x Convert resetPassword and renewPassword Code into useApiRequest hooks user
         - Modify the referral link into a descriptive message
+        - Add QR Code 
+        - Place Whatsapp Icon aside user name
         x Set up a timer of 1 minute for the mailCheck page to avoid DDos
         - ajouter le logo de Katika sur le signet
         - Allow a simple web icon on homescreen.

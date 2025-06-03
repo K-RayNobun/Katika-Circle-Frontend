@@ -1,16 +1,16 @@
-import React, { useState, useRef } from 'react';
-import AsyncSpinner from '../AsyncSpinner';
+import React, { useState } from 'react';
 import { IoQrCode } from "react-icons/io5";
 import { LuUserRoundPlus } from "react-icons/lu";
 import ReferralDialogBox from '../ReferralDialogBox';
+import QrCodeDialog from '../QrCodeDialog';
 import { useAppSelector } from '@/lib/redux/hooks';
 // import QrCodeDialog from '../QrCodeDialog';
 
 import { useTranslation } from '@/lib/hooks/useTranslation';
 
 const ReferralSection = ({ referralCode,  isScreenVisible }: { referralCode:string, isScreenVisible?:boolean | null }) => {
-    const isSubmittingRef = useRef(false);
-    const [isDialogVisible, setIsDialogVisible] = useState(false)
+    const [isReferralDialogVisible, setIsReferralDialogVisible] = useState(false);
+    const [showQRCodeDialog, setShowQRCodeDialog] = useState(false);
     const userData = useAppSelector((state) => state.user);
     const [isCopied, setIsCopied] = useState(false);
 
@@ -22,14 +22,19 @@ const ReferralSection = ({ referralCode,  isScreenVisible }: { referralCode:stri
 
 
     const showReferralLink = () => {
-        setIsDialogVisible(true);
-        isSubmittingRef.current = true;
+        setIsReferralDialogVisible(true);
     }
 
     const closeRefLinkModal = () => {
-        setIsDialogVisible(false);
-        isSubmittingRef.current = false;
-        
+        setIsReferralDialogVisible(false);
+    }
+
+    const showQRCodeModal = () => {
+        setShowQRCodeDialog(true);
+    }
+
+    const closeQRCodeModal = () => {
+        setShowQRCodeDialog(false);
     }
 
     // Function made to display Copied for x seconds
@@ -82,25 +87,22 @@ const ReferralSection = ({ referralCode,  isScreenVisible }: { referralCode:stri
                     }</button>
             </div>
             <div className={`w-full gap-[18px] flex justify-between`}>
-                <button onClick={showReferralLink} className={`gap-[8px] grow bg-primary flex justify-center rounded-[8px] px-[8px] lg:px-[36px] gap-[12px] py-[10px] ${isSubmittingRef.current ? 'opacity-50' : ''}`}>
-                    {isSubmittingRef.current ? (
-                        <>
-                            <AsyncSpinner />
-                        </>
-                    ) : (
-                        <div className={`w-full gap-[10px] flex justify-center items-center`}>
-                            <LuUserRoundPlus size={20} className={`text-white`} />
-                            <h5 className={`font-bold text-[12px] lg:text-[16px] text-white`}>{t('referralSection.inviteFriends')}</h5>
-                        </div>
-                    )}
+                <button onClick={showReferralLink} className={`grow bg-primary flex justify-center rounded-[8px] px-[8px] lg:px-[36px] gap-[12px] py-[10px]`}>
+                    <div className={`w-full gap-[10px] flex justify-center items-center`}>
+                        <LuUserRoundPlus size={20} className={`text-white`} />
+                        <h5 className={`font-bold text-[12px] lg:text-[16px] text-white`}>{t('referralSection.inviteFriends')}</h5>
+                    </div>
                 </button>
-                <button className={`bg-primary grow rounded-[8px] px-[20px] py-[8px]`} title={t('referralSection.shareQRCode')}>
+                <button onClick={showQRCodeModal} className={`bg-primary grow rounded-[8px] px-[20px] py-[8px]`} title={t('referralSection.shareQRCode')}>
                     <IoQrCode className={`text-white text-center w-full h-[24px]`} />
                 </button>
             </div>
             {/* Dialog Box */}
-            {isDialogVisible && !isScreenVisible && (
+            {isReferralDialogVisible && !isScreenVisible && (
                 <ReferralDialogBox text={`${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup?${queryParams}`} onClose={closeRefLinkModal} />
+            )}
+            {showQRCodeDialog && !isScreenVisible && (
+                <QrCodeDialog link={`${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup?${queryParams}`} onClose={closeQRCodeModal} />
             )}
         </div>
     );

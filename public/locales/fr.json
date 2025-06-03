@@ -426,7 +426,9 @@
         }
     },
     "ReferralDialogBox": {
-        "title": "Partager votre lien de parrainage",
+        "shareTitle": "Partager votre lien de parrainage",
+        "shareText": "Rejoignez-moi sur SendbyKatika en utilisant mon code referral:",
+        "shareButton": "Partager",
         "copyButton": "Copier",
         "copied": "Copié !",
         "cancelButton": "Annuler"
