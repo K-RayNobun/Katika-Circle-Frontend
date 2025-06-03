@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { RiSendPlaneLine } from "react-icons/ri";
 import { MdOutlinePending, MdOutlineArrowDownward } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
-import AsyncSpinner from './AsyncSpinner';
-import { ErrorMessage } from './ErrorComponent';
 
 // Redux related imports
 import { useDispatch } from 'react-redux';
@@ -106,7 +104,7 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
   const dataLength = 12;
   const [transactionsList, setTransactionsList] = useState<Array<transactionDetails>>([]);
   const [searchResultList, setSearchResultList] = useState<Array<transactionDetails>>([]);
-  const { fetchData, isLoading, error } = useApiGet<Transaction[]>();
+  const { fetchData } = useApiGet();
   const dispatch = useDispatch();
   const displayedStatuses = ['Pending', 'Success', 'Failed'];
   // console.log('Search Key is', searchKey);
@@ -118,7 +116,7 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
         // console.log('------------------ Getting Transactions --------------')
         
         // console.log('We got this list of transactions: ', response.data.data);
-        const result = await fetchData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transactions/user`) as Transaction[];
+      const {response: result} = await fetchData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/v1/transactions/user`);
         const fetchedList = result!.slice().reverse();
         const transactionArray: Array<transactionDetails> = [];
         fetchedList.forEach((transaction: Transaction, index: number) => {
@@ -176,15 +174,7 @@ const TransactionList = ({ accessToken, searchKey, field }: { accessToken: strin
         setSearchResultList(transactionArray);
       })
     }
-  }, [searchKey, field, transactionsList])
-
-  if (isLoading) {
-    return <AsyncSpinner />;
-  }
-
-  if (error) {
-    return <ErrorMessage message={error} />;
-  }
+  }, [searchKey, field, transactionsList]);
 
   if (!transactionsList || transactionsList.length === 0) {
     return (

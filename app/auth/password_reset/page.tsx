@@ -17,7 +17,7 @@ const ResetPassword = () => {
 
     const validateEmail = (email: string) => {
         if(!hasSubmittedOnceRef.current) {
-            console.log('Has never submitted once and is not submitting');
+            console.log('Has never submitted.');
             return true;
         } else {
             console.log('Validation is ongoing');
@@ -29,7 +29,7 @@ const ResetPassword = () => {
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        setEmail(value);
+        setEmail(value.toLowerCase().trim());
 
         if (!validateEmail(value)) {
             setErrorMessage('Please enter a valid email address.');
@@ -44,12 +44,16 @@ const ResetPassword = () => {
     const handleSubmit = (e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
+        hasSubmittedOnceRef.current = true;
         if(!validateEmail(email)) {
             console.log('Email submitted is not valid');
             setErrorMessage('Please enter a valid email address.');
+            setIsSubmitting(false);
             return;
+        } else {
+            console.log('The email is valid: ', validateEmail(email));
         }
-        hasSubmittedOnceRef.current = true;
+        
         // console.log('Submitted email:', email);
 
         // Add a 2 seconds timeout to simulate an API call
@@ -60,6 +64,7 @@ const ResetPassword = () => {
         setIsSubmitting(false);
         setErrorMessage(null);
         // Push to the mail_check page with URL parameters
+        console.log('Router Push')
         router.push(`/auth/mail_check?email=${encodeURIComponent(email)}`);
         
     };

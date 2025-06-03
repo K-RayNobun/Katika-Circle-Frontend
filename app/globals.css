@@ -579,6 +579,16 @@ text-shadow:
   -webkit-transform: rotateY(180deg);
 }
 
+#landing .sponsor-slider {
+  transform: translateX(-308px);
+}
+
+@media (min-width: 1024px) {
+ #landing .sponsor-slider {
+    transform: translateX(-360px);
+  }
+}
+
 /* Desktop hover */
 @media (hover: hover) and (pointer: fine) {
   .card:hover .card-inner {

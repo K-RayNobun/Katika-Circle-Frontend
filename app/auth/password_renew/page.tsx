@@ -43,10 +43,12 @@ const PasswordRenew = () => {
 
 
     const postRenewPassword = async (e: React.FormEvent<HTMLElement>) => {
-        console.log('Renew password function called with password:', newPasswordRef.current);
-        console.log('Access token:', accessToken);
+        
         e.preventDefault();
         try {
+            console.log('Renew password function called with password:', newPasswordRef.current);
+            console.log('Access token:', accessToken);
+            console.log('Token Passed:', token);
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/reset-password`,
                 { "pwd": newPasswordRef.current },

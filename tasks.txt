@@ -16,7 +16,8 @@
         - Modify the referral link into a descriptive message
         x Set up a timer of 1 minute for the mailCheck page to avoid DDos
         - ajouter le logo de Katika sur le signet
-        - Allow a simple web icon on homescreen
+        - Allow a simple web icon on homescreen.
+        - Regulate translations in : SponsorSection (landingPage, signet Notifications, mailCheck & renewPassword)
         - Set up the Selenium test.
 
 

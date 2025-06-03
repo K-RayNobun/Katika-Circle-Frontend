@@ -35,9 +35,10 @@ const MailCheck:React.FC= () => {
     }, [searchParams]);
 
     useEffect(() => {
-        console.log('Email to reset:', email);
-        postResetEmail();
-
+        if (email) {
+            console.log('Email to reset:', email);
+            postResetEmail();
+        }
     }, [email]);
 
     useEffect(() => {
@@ -69,10 +70,11 @@ const MailCheck:React.FC= () => {
             console.log(` Can ask code already ? ${canAskCode} \n `);
         }
 
-    }, [canAskCode]);
+    }, [canAskCode, requestSentRef.current]);
 
     const postResetEmail = async () => {
 
+        console.log('Email used in Post request: ', email);
         const {response: response, error: errorMessage} = await executePost(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/reset-mailer`, 
             {"email": email},
             false
@@ -80,6 +82,7 @@ const MailCheck:React.FC= () => {
         
         if (!response && errorMessage) {
             setCanAskCode(true);
+            console.log()
             setErrorMsg(errorMessage);
             return;
         }

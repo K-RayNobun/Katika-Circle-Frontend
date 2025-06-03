@@ -13,7 +13,7 @@ interface OTPModalProps {
 
 const OTPModal = ({ onClose }: OTPModalProps) => {
     const { t } = useTranslation();
-    const {fetchData: fetchOtpData} = useApiGet<string>();
+    const {fetchData: fetchOtpData} = useApiGet();
     const accessToken = useAppSelector((state) => state.token.token);
 
     const [otp, setOtp] = useState<string[]>(Array(5).fill(''));
@@ -70,7 +70,7 @@ const OTPModal = ({ onClose }: OTPModalProps) => {
     const verifyOTP = async (pinCode:string) => {
         // console.log('Access Token is:', accessToken);
         // console.log('The PIN Code is: ', pinCode);
-        const message = await fetchOtpData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp?code=${pinCode}`);
+        const {response: message} = await fetchOtpData(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/auth/account/otp?code=${pinCode}`);
         // console.log('Verification Result: ', response.data)
         if (message) {
             if (message.toLowerCase() === 'otp valid with success') {
