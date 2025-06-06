@@ -248,33 +248,89 @@
         "inviteFriends": "Inviter des amis"
     },
     "settingsHelpFAQ": {
-        "helpAndFAQ": "Aide & FAQ",
+        "helpAndFAQ": "Aide & FAQ",      
         "faq": [
-            {
-                "title": "Combien de temps prend un transfert d'argent avec un wallet décentralisé ?",
-                "content": "Les transactions avec un wallet décentralisé sont généralement quasi-instantanées. Cependant, la vitesse peut varier en fonction du réseau blockchain utilisé et du niveau de congestion. Dans la plupart des cas, les fonds sont transférés en quelques secondes à quelques minutes."
-            },
-            {
-                "title": "Quels sont les moyens de confirmer ma transaction ?",
-                "content": "Vous pouvez confirmer votre transaction en consultant : \n- L'historique de transactions de votre Katika Wallet. \n- Une notification de confirmation dans l'application après validation."
-            },
-            {
-                "title": "Quels moyens de paiement acceptez-vous ?",
-                "content": "Katika Wallet prend en charge plusieurs moyens de paiement, notamment : \n- Les cryptomonnaies compatibles avec le wallet. \n- L’achat de crypto via des partenaires intégrés (cartes bancaires, mobile money, orange money…)."
-            },
-            {
-                "title": "Puis-je payer en plusieurs fois ?",
-                "content": "Les transactions en cryptomonnaie nécessitent un paiement unique pour être validées sur la blockchain. Il n'est donc pas possible d’effectuer un paiement en plusieurs fois directement via le wallet."
-            },
-            {
-                "title": "Comment obtenir une facture pour ma transaction ?",
-                "content": "Une fois votre transaction effectuée, vous pouvez générer un justificatif depuis l’historique des transactions de votre Katika Wallet. Selon le service utilisé, une facture peut également être envoyée par email."
-            },
-            {
-                "title": "Puis-je modifier ou annuler ma transaction ?",
-                "content": "Non. Les transactions en blockchain sont irréversibles une fois confirmées. Avant de valider un envoi, assurez-vous d’avoir saisi la bonne adresse et le bon montant. En cas d’erreur, il est recommandé de contacter directement le destinataire si possible."
-            }
-        ]
+                    {
+                    "title": "Qu’est-ce que SendbyKatika ?",
+                    "content": "SendbyKatika est une application web qui permet aux membres de la **diaspora** d’envoyer de l’argent rapidement, sans frais, vers le **Cameroun**, avec un **taux de change avantageux** et un système de **récompenses via parrainage**."
+                    },
+                    {
+                    "title": "Quels sont les avantages de SendbyKatika ?",
+                    "content": "✅ **Zéro frais de transfert**\n💱 **Taux de change jusqu’à 680 FCFA/€**\n💰 **Cashback (0,5%) pour les utilisateurs parrainés uniquement**\n🤝 **1% de bonus pour chaque transaction de vos filleuls**\n📲 **Réception sur Mobile Money ou compte bancaire**\n📦 **Envoi possible jusqu’à 70 000 € par transaction**"
+                    },
+                    {
+                    "title": "Est-ce que SendbyKatika prélève dans mon compte bancaire ?",
+                    "content": "Non. **SendbyKatika ne prélève jamais automatiquement** d’argent dans votre compte.\nÀ la fin du processus, nous vous fournissons un **compte bancaire temporaire à votre nom** (via notre partenaire **Transak**), et vous effectuez **vous-même le virement depuis votre banque**."
+                    },
+                    {
+                    "title": "Quel type de virement dois-je effectuer ?",
+                    "content": "⚡ **Virement instantané** → traitement en **moins de 10 minutes**\n🕒 **Virement standard SEPA** → traitement **après réception** des fonds"
+                    },
+                    {
+                    "title": "Pourquoi un compte bancaire à mon nom ?",
+                    "content": "Il est généré automatiquement pour sécuriser le processus et **faciliter la traçabilité** de vos paiements."
+                    },
+                    {
+                    "title": "Comment fonctionne une transaction ?",
+                    "content": "1. Cliquez sur **\"Envoyer de l'argent\"**\n2. Entrez le **montant** (min. 30 €, max. 70 000 €)\n3. Entrez le **numéro du destinataire** (le nom s'affiche automatiquement)\n4. Vérifiez les détails : taux, nom, bonus parrainage, cashback (si applicable)\n5. Cliquez sur **\"Payer\"**, vous êtes redirigé vers **Transak**\n6. Renseignez vos informations, recevez un **IBAN à votre nom**\n7. Faites un virement depuis votre banque\n8. Une fois reçu, l’argent est transféré au destinataire"
+                    },
+                    {
+                    "title": "Le cashback est-il pour tous les utilisateurs ?",
+                    "content": "❌ Non. Seuls les **utilisateurs parrainés** reçoivent **0,5% de cashback** à chaque transaction.\nIls peuvent ensuite utiliser ce montant pour de futures transactions."
+                    },
+                    {
+                    "title": "Comment fonctionne le parrainage ?",
+                    "content": "Si quelqu’un s’inscrit avec **votre lien ou code**, vous recevez **1% du montant de chacune de ses transactions**, automatiquement et à vie."
+                    },
+                    {
+                    "title": "Quels sont les montants minimum et maximum ?",
+                    "content": "💶 **Minimum** : 30 €\n💶 **Maximum** : 70 000 € par transaction"
+                    },
+                    {
+                    "title": "Qu’est-ce que l’USDC ?",
+                    "content": "L’**USDC** est une **monnaie numérique stable** (stablecoin) indexée au **dollar américain**.\nNous l’utilisons en arrière-plan pour assurer la **vitesse, transparence et sécurité** des transferts.\n➡️ Vous, en tant qu’utilisateur, **ne manipulez pas de crypto-monnaie** directement."
+                    },
+                    {
+                    "title": "Dois-je vérifier mon identité ?",
+                    "content": "✅ Oui, si vous envoyez plus de **100 €**, vous devrez fournir un document d’identité (passeport, carte de séjour ou permis de conduire – recommandé)."
+                    },
+                    {
+                    "title": "Vers où puis-je envoyer ?",
+                    "content": "📲 **Mobile Money** : Orange Money, MTN Money\n🏦 **Compte bancaire** au Cameroun"
+                    },
+                    {
+                    "title": "Est-ce instantané ?",
+                    "content": "✅ Virement instantané → Transaction **en moins de 10 min**\n⏳ Virement classique → Dès réception des fonds"
+                    },
+                    {
+                    "title": "Puis-je annuler une transaction ?",
+                    "content": "❌ Non. Une fois le virement effectué, il n’est **pas possible d’annuler**.\nMerci de **vérifier soigneusement les informations**."
+                    },
+                    {
+                    "title": "Mon destinataire doit-il créer un compte ?",
+                    "content": "Non. Il reçoit **directement l’argent** sans avoir besoin de compte Katika."
+                    },
+                    {
+                    "title": "Quels documents dois-je fournir ?",
+                    "content": "Pour les premières transactions :\n- Nom, prénom, adresse, numéro de téléphone\n- Au-delà de 100 € : un document d’identité"
+                    },
+                    {
+                    "title": "Est-ce sécurisé ?",
+                    "content": "✅ Oui, nous travaillons avec **Transak**, un partenaire certifié, pour la vérification KYC et le traitement bancaire. Les données sont chiffrées et stockées de façon sécurisée."
+                    },
+                    {
+                    "title": "Comment commencer ?",
+                    "content": "➡️ Allez sur https://send.katika.io\n➡️ Créez un compte\n➡️ Cliquez sur **“Envoyer de l’argent”**\n➡️ Suivez les instructions"
+                    },
+                    {
+                    "title": "Puis-je utiliser ma carte bancaire ?",
+                    "content": "Pas pour l’instant. Le **virement bancaire** est le seul mode de paiement activé."
+                    },
+                    {
+                    "title": "Où puis-je poser mes questions ?",
+                    "content": "Contactez notre support directement via **WhatsApp** ou depuis le bouton **“Logo WhatsApp”** sur notre site."
+                    }
+                ]
     },
     "statsContainer": {
         "cashbackAvailable": "Cashback disponible",

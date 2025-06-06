@@ -3,6 +3,7 @@ import { PiPlusCircle, PiMinusCircle } from "react-icons/pi";
 import { useTranslation } from "@/lib/hooks/useTranslation";
 
 import data from '@/public/locales/fr.json';
+import DOMPurify from 'dompurify';
 
 const FaqSection = () => {
 
@@ -18,13 +19,40 @@ const FaqSection = () => {
     };
 
     const formatContent = (content: string) => {
-        return content.split('\n').map((paragraph, i) => (
-        <React.Fragment key={i}>
-            { paragraph }
-            <br />
-        </React.Fragment>
-        ))
-    }
+        return content.split('\n').map((paragraph, i) => {
+            // Handle bold text
+            const boldText = paragraph.replace(
+                /\*\*(.*?)\*\*/g,
+                '<strong>$1</strong>'
+            );
+
+            // Handle links
+            const withLinks = boldText.replace(
+                /\[([^\]]+)\]\(([^)]+)\)/g,
+                '<a href="$2" class="text-pink_fluo hover:underline" target="_blank" rel="noopener noreferrer">$1</a>'
+            );
+
+            // Handle bullet points
+            const withBullets = withLinks.replace(
+                /^[•*✅❌➡️💶📲🏦⚡🕒💱💰🤝📦]\s/,
+                '<span class="inline-block w-6">$&</span>'
+            );
+
+            // dangerouslySetInnerHTML={{ 
+            //     __html: DOMPurify.sanitize(withBullets) 
+            // }}
+
+            return (
+                <p 
+                    key={i} 
+                    className="mb-2 last:mb-0"
+                    dangerouslySetInnerHTML={{ 
+                        __html: withBullets 
+                    }}
+                />
+            );
+        });
+    };
 
     const FAQData = data.settingsHelpFAQ.faq;
 
@@ -40,14 +68,14 @@ const FaqSection = () => {
                         } ${toggledIndex === index ? '' : 'hover:bg-primary/40 hover:border-b-[2px]'} border-gray`}
                     >
                         <h5 className='font-semibold text-[17px] lg:text-[18px] mb-[6px]'>{faq.title}</h5>
-                        <p
+                        <div
                             id={`content-${index}`}
-                            className={`text-[14px] lg:text-[16px] overflow-hidden transition-all duration-6000 ease-in-out ${
-                                index === toggledIndex ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+                            className={`text-[14px] lg:text-[16px] space-y-2 overflow-hidden transition-all duration-600 ease-in-out ${
+                                index === toggledIndex ? 'max-h-[500px] opacity-100 mt-4' : 'max-h-0 opacity-0'
                             }`}
                         >
                             {formatContent(faq.content)}
-                        </p>
+                        </div>
                         <button
                             className='absolute top-[30%] right-[24px] transition-all duration-6000 ease-in-out'
                             onClick={(e) => {e.stopPropagation(); handleToggle(index);}}

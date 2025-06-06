@@ -9,6 +9,7 @@ const HelpFAQSection = () => {
     const { t } = useTranslation();
 
     const handleToogle = (index: number) => {
+        
         if (toogledIndex === index) {
             setToogledIndex(null);
         } else {
@@ -18,13 +19,40 @@ const HelpFAQSection = () => {
 
     // Funtion to format content with line breaks
     const formatContent = (content: string) => {
-        return content.split('\n').map((paragraph, i) => (
-            <React.Fragment key={i}>
-                {paragraph}
-                <br />
-            </React.Fragment>
-        ))
-    }
+        return content.split('\n').map((paragraph, i) => {
+            // Handle bold text
+            const boldText = paragraph.replace(
+                /\*\*(.*?)\*\*/g,
+                '<strong>$1</strong>'
+            );
+
+            // Handle links
+            const withLinks = boldText.replace(
+                /\[([^\]]+)\]\(([^)]+)\)/g,
+                '<a href="$2" class="text-pink_fluo hover:underline" target="_blank" rel="noopener noreferrer">$1</a>'
+            );
+
+            // Handle bullet points
+            const withBullets = withLinks.replace(
+                /^[•*✅❌➡️💶📲🏦⚡🕒💱💰🤝📦]\s/,
+                '<span class="inline-block w-6">$&</span>'
+            );
+
+            // dangerouslySetInnerHTML={{ 
+            //     __html: DOMPurify.sanitize(withBullets) 
+            // }}
+
+            return (
+                <p 
+                    key={i} 
+                    className="mb-2 last:mb-0"
+                    dangerouslySetInnerHTML={{ 
+                        __html: withBullets 
+                    }}
+                />
+            );
+        });
+    }; 
 
     const FAQData = data.settingsHelpFAQ.faq; // Adjust the path to your JSON file
 

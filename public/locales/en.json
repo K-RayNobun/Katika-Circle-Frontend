@@ -228,28 +228,84 @@
         "helpAndFAQ": "Help & FAQ",
         "faq": [
             {
-                "title": "How long does a money transfer with a decentralized wallet take?",
-                "content": "Transactions with a decentralized wallet are generally almost instantaneous. However, the speed may vary depending on the blockchain network used and the level of congestion. In most cases, funds are transferred within seconds to a few minutes."
+            "title": "What is SendbyKatika?",
+            "content": "SendbyKatika is a web application that allows members of the **diaspora** to send money quickly, with no fees, to **Cameroon**, with a **favorable exchange rate** and a **referral rewards system**."
             },
             {
-                "title": "What are the ways to confirm my transaction?",
-                "content": "You can confirm your transaction by checking: \n- The transaction history of your Katika Wallet. \n- A confirmation notification in the app after validation."
+            "title": "What are the advantages of SendbyKatika?",
+            "content": "✅ **Zero transfer fees**\n💱 **Exchange rate up to 680 FCFA/€**\n💰 **Cashback (0.5%) for referred users only**\n🤝 **1% bonus for each transaction made by your referrals**\n📲 **Receive funds via Mobile Money or bank account**\n📦 **Send up to €70,000 per transaction**"
             },
             {
-                "title": "What payment methods do you accept?",
-                "content": "Katika Wallet supports several payment methods, including: \n- Cryptocurrencies compatible with the wallet. \n- Crypto purchases via integrated partners (credit cards, mobile money, orange money, etc.)."
+            "title": "Does SendbyKatika withdraw from my bank account?",
+            "content": "No. **SendbyKatika never automatically withdraws** money from your account.\nAt the end of the process, we provide you with a **temporary bank account in your name** (via our partner **Transak**), and you **make the transfer yourself from your bank**."
             },
             {
-                "title": "Can I pay in installments?",
-                "content": "Cryptocurrency transactions require a single payment to be validated on the blockchain. Therefore, it is not possible to make a payment in installments directly via the wallet."
+            "title": "What type of bank transfer should I make?",
+            "content": "⚡ **Instant transfer** → processed in **less than 10 minutes**\n🕒 **Standard SEPA transfer** → processed **after funds are received**"
             },
             {
-                "title": "How can I get an invoice for my transaction?",
-                "content": "Once your transaction is completed, you can generate a receipt from the transaction history of your Katika Wallet. Depending on the service used, an invoice may also be sent by email."
+            "title": "Why a bank account in my name?",
+            "content": "It is automatically generated to secure the process and **make your payment traceable**."
             },
             {
-                "title": "Can I modify or cancel my transaction?",
-                "content": "No. Blockchain transactions are irreversible once confirmed. Before validating a transfer, make sure you have entered the correct address and amount. In case of an error, it is recommended to contact the recipient directly if possible."
+            "title": "How does a transaction work?",
+            "content": "1. Click on **\"Send money\"**\n2. Enter the **amount** (min. €30, max. €70,000)\n3. Enter the **recipient's number** (name will auto-display)\n4. Check all details: rate, name, referral bonus, cashback (if applicable)\n5. Click **\"Pay\"**, you will be redirected to **Transak**\n6. Enter your info, receive an **IBAN in your name**\n7. Make a transfer from your bank\n8. Once received, the money is transferred to the recipient"
+            },
+            {
+            "title": "Is cashback for all users?",
+            "content": "❌ No. Only **referred users** receive **0.5% cashback** on each transaction.\nThey can then use this amount for future transfers."
+            },
+            {
+            "title": "How does the referral system work?",
+            "content": "If someone signs up using **your link or code**, you receive **1% of each of their transactions**, automatically and for life."
+            },
+            {
+            "title": "What are the minimum and maximum amounts?",
+            "content": "💶 **Minimum**: €30\n💶 **Maximum**: €70,000 per transaction"
+            },
+            {
+            "title": "What is USDC?",
+            "content": "**USDC** is a **stable digital currency** (stablecoin) pegged to the **US dollar**.\nWe use it in the background to ensure **speed, transparency, and security** of transfers.\n➡️ As a user, you **do not handle cryptocurrency** directly."
+            },
+            {
+            "title": "Do I have to verify my identity?",
+            "content": "✅ Yes, if you're sending more than **€100**, you must provide an ID document (passport, residence permit, or driver’s license – recommended)."
+            },
+            {
+            "title": "Where can I send money to?",
+            "content": "📲 **Mobile Money**: Orange Money, MTN Money\n🏦 **Bank account** in Cameroon"
+            },
+            {
+            "title": "Is it instant?",
+            "content": "✅ Instant transfer → **Under 10 minutes**\n⏳ Standard transfer → **Once funds are received**"
+            },
+            {
+            "title": "Can I cancel a transaction?",
+            "content": "❌ No. Once the transfer is made, it **cannot be cancelled**.\nPlease **carefully verify the information**."
+            },
+            {
+            "title": "Does my recipient need to create an account?",
+            "content": "No. They **receive the money directly** without needing a Katika account."
+            },
+            {
+            "title": "What documents do I need to provide?",
+            "content": "For the first transactions:\n- First name, last name, address, phone number\n- Over €100: an identity document"
+            },
+            {
+            "title": "Is it secure?",
+            "content": "✅ Yes, we work with **Transak**, a certified partner, for KYC verification and banking operations. Your data is encrypted and securely stored."
+            },
+            {
+            "title": "How do I get started?",
+            "content": "➡️ Go to https://send.katika.io\n➡️ Create an account\n➡️ Click **“Send money”**\n➡️ Follow the instructions"
+            },
+            {
+            "title": "Can I use my bank card?",
+            "content": "Not yet. **Bank transfer** is the only activated payment method for now."
+            },
+            {
+            "title": "Where can I ask my questions?",
+            "content": "Contact our support directly via **WhatsApp** or using the **“WhatsApp logo”** button on our website."
             }
         ]
     },

@@ -24,6 +24,7 @@
     "@transak/transak-sdk": "^3.2.0",
     "axios": "^1.7.9",
     "crypto-js": "^4.2.0",
+    "dompurify": "^3.2.6",
     "dotenv": "^16.4.7",
     "emailjs": "^4.0.3",
     "next": "^15.2.4",
