@@ -430,7 +430,7 @@ const SponsorSection = () => {
 
             {imgError && (
                 <div className="absolute top-0 left-0 right-0 bg-red-100 p-2 text-red-600 text-center">
-                Failed to load some images. Please check image paths.
+                
                 </div>
             )}
         </section>

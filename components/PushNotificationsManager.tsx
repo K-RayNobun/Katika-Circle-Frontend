@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { usePushNotifications } from "@/lib/hooks/usePushNotification";
+import { useTranslation } from "@/lib/hooks/useTranslation";
 
 
 function urlBase64ToUint8Array(base64String: string) {
@@ -16,6 +17,7 @@ function urlBase64ToUint8Array(base64String: string) {
 }
 
 function PushNotificationManager() {
+  const { t } = useTranslation();
   const { subscription, subscribe, unsubscribe, sendNotification } = usePushNotifications();
 
   const [isSupported, setIsSupported] = useState(false)
@@ -81,32 +83,38 @@ function PushNotificationManager() {
   }
  
   if (!isSupported) {
-    return <p>Push notifications are not supported in this browser.</p>
+    return <p>{t('pushNotifications.notSupported')}</p>;
   }
- 
+
   return (
     <div>
-      <h3>Push Notifications</h3>
+      <h3>{t('pushNotifications.title')}</h3>
       {subscription ? (
         <>
-          <p>You are subscribed to push notifications.</p>
-          <button onClick={handleUnsubscribe}>Unsubscribe</button>
+          <p>{t('pushNotifications.subscribed')}</p>
+          <button onClick={handleUnsubscribe}>
+            {t('pushNotifications.buttons.unsubscribe')}
+          </button>
           <input
             type="text"
-            placeholder="Enter notification message"
+            placeholder={t('pushNotifications.input.placeholder')}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
-          <button onClick={handleTestNotification}>Send Test</button>
+          <button onClick={handleTestNotification}>
+            {t('pushNotifications.buttons.sendTest')}
+          </button>
         </>
       ) : (
         <>
-          <p>You are not subscribed to push notifications.</p>
-          <button onClick={subscribeToPush}>Subscribe</button>
+          <p>{t('pushNotifications.notSubscribed')}</p>
+          <button onClick={subscribeToPush}>
+            {t('pushNotifications.buttons.subscribe')}
+          </button>
         </>
       )}
     </div>
-  )
+  );
 }
 
 export default PushNotificationManager;

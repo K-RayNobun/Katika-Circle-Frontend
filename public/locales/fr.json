@@ -4,10 +4,10 @@
     "sendMoney": "Envoyer de l'argent",
     "landing": {
         "navbar": {
-        "home": "Accueil",
-        "blog": "Blog",
-        "contact": "Contact",
-        "sendMoney": "Envoyer de l'argent"
+            "home": "Accueil",
+            "blog": "Blog",
+            "contact": "Contact",
+            "sendMoney": "Envoyer de l'argent"
         },
         "hero": {
             "title": "Ils sont loin, mais leur",
@@ -41,50 +41,53 @@
             }
         },
         "simulator": {
-        "form": {
-            "send": {
-            "label": "Vous envoyez",
-            "placeholder": "0"
+            "form": {
+                "send": {
+                "label": "Vous envoyez",
+                "placeholder": "0"
+                },
+                "receive": {
+                "label": "Ils reçoivent",
+                "placeholder": "0"
+                },
+                "details": {
+                    "exchangeRate": "Taux de change",
+                    "transferFees": "Frais de transfert",
+                    "cashbackGenerated": "Cashback généré"
+                }
             },
-            "receive": {
-            "label": "Ils reçoivent",
-            "placeholder": "0"
-            },
-            "details": {
-                "exchangeRate": "Taux de change",
-                "transferFees": "Frais de transfert",
-                "cashbackGenerated": "Cashback généré"
-            }
-        },
-        "title": "Preparez votre prochain",
-        "titleHighlight": "envoi",
-        "titleEnd": "",
-        "description": "Vous envoyez pour l'école, la santé, l'amour, les projets, nous on vous aide à le faire vite, bien et sans frais cachés."
+            "title": "Preparez votre prochain",
+            "titleHighlight": "envoi",
+            "titleEnd": "",
+            "description": "Vous envoyez pour l'école, la santé, l'amour, les projets, nous on vous aide à le faire vite, bien et sans frais cachés."
         },
         "slider": {
-        "title": "Pourquoi",
-        "titleHighlight": "envoyer",
-        "titleEnd": "de l'argent ?",
-        "description": "Parce qu'au delà des billets, c'est du soutien, de l'amour et de l'avenir que vous partagez."
+            "title": "Pourquoi",
+            "titleHighlight": "envoyer",
+            "titleEnd": "de l'argent ?",
+            "description": "Parce qu'au delà des billets, c'est du soutien, de l'amour et de l'avenir que vous partagez."
         },
         "features": {
-        "title": "Pourquoi",
-        "titleHighlight": "nous choisir",
-        "description": "Notre mission est de vous offrir la meilleure expérience de transfert d'argent",
-        "items": {
-            "security": "Sécurité",
-            "rates": "Taux de change avantageux",
-            "instant": "Réception instantanée",
-            "support": "Support humain et multilingue",
-            "assistance": "Assistance à la fois en Europe et en Afrique"
-        }
+            "title": "Pourquoi",
+            "titleHighlight": "nous choisir",
+            "description": "Notre mission est de vous offrir la meilleure expérience de transfert d'argent",
+            "items": {
+                "security": "Sécurité",
+                "rates": "Taux de change avantageux",
+                "instant": "Réception instantanée",
+                "support": "Support humain et multilingue",
+                "assistance": "Assistance à la fois en Europe et en Afrique"
+            }
+        },
+        "sponsors": {
+            "imageError": "Échec du chargement de certaines images. Veuillez vérifier les chemins d'accès."
         },
         "destinations": {
-        "title": "Les destinations",
-        "titleHighlight": "disponibles",
-        "countries": {
-            "cameroon": "Cameroun"
-        }
+            "title": "Les destinations",
+            "titleHighlight": "disponibles",
+            "countries": {
+                "cameroon": "Cameroun"
+            }
         }
     },
     "signin": {
@@ -527,6 +530,25 @@
         "invalidCode": "Code de vérification invalide",
         "verificationSuccess": "Vérification réussie",
         "placeholder": "Entrez le code"
+    },
+    "pushNotifications": {
+        "title": "Notifications Push",
+        "notSupported": "Les notifications push ne sont pas prises en charge par ce navigateur.",
+        "subscribed": "Vous êtes abonné aux notifications push.",
+        "notSubscribed": "Vous n'êtes pas abonné aux notifications push.",
+        "buttons": {
+        "subscribe": "S'abonner",
+        "unsubscribe": "Se désabonner",
+        "sendTest": "Envoyer Test"
+        },
+        "input": {
+        "placeholder": "Entrez le message de notification"
+        },
+        "errors": {
+        "subscriptionFailed": "L'abonnement aux notifications push a échoué",
+        "unsubscriptionFailed": "Le désabonnement aux notifications push a échoué",
+        "sendFailed": "Échec de l'envoi de la notification"
+        }
     },
     "welcomeContainer": {
         "welcome": "Bienvenue",
