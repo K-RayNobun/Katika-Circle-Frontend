@@ -5,7 +5,7 @@
     "landing": {
         "navbar": {
             "home": "Accueil",
-            "blog": "Blog",
+            "faq": "FAQ",
             "contact": "Contact",
             "sendMoney": "Envoyer de l'argent"
         },

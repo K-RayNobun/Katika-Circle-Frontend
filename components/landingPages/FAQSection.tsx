@@ -3,7 +3,7 @@ import { PiPlusCircle, PiMinusCircle } from "react-icons/pi";
 import { useTranslation } from "@/lib/hooks/useTranslation";
 
 import data from '@/public/locales/fr.json';
-import DOMPurify from 'dompurify';
+import SafeHTML from "../SafeHTML";
 
 const FaqSection = () => {
 
@@ -43,12 +43,10 @@ const FaqSection = () => {
             // }}
 
             return (
-                <p 
-                    key={i} 
-                    className="mb-2 last:mb-0"
-                    dangerouslySetInnerHTML={{ 
-                        __html: withBullets 
-                    }}
+                <SafeHTML 
+                    key={i}
+                    className="mb-2 last-mb-0"
+                    html={withBullets} 
                 />
             );
         });

@@ -43,7 +43,7 @@ const LandingNavbar = ({t, switchTabIndex, navigateTo}:{t: (path: string) => str
             {t('landing.navbar.home')}
           </Link>
           <Link onClick={() => handleTabSelection(2)} href='#' className={activeTabIndex === 2 ? 'font-semibold text-pink_fluo' : 'text-white'}>
-            {t('landing.navbar.blog')}
+            {t('landing.navbar.faq')}
           </Link>
           <Link href='#' className={activeTabIndex === 3 ? 'font-semibold text-pink_fluo' : 'text-white'}>
             {t('landing.navbar.contact')}
@@ -56,7 +56,7 @@ const LandingNavbar = ({t, switchTabIndex, navigateTo}:{t: (path: string) => str
             {t('landing.navbar.home')}
           </Link>
           <Link onClick={() => { handleTabSelection(2) }} href='#' className={`py-2 ${activeTabIndex === 2 ? 'font-semibold text-pink_fluo' : 'text-white'}`}>
-            {t('landing.navbar.blog')}
+            {t('landing.navbar.faq')}
           </Link>
           <Link href='#' className={`py-2 ${activeTabIndex === 3 ? 'font-semibold text-pink_fluo' : 'text-white'}`}>
             {t('landing.navbar.contact')}

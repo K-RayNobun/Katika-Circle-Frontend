@@ -24,13 +24,7 @@
         - Fix the discord occuring on amountReceived value change.
 
 
-
-
-
-
-
-# How to set up the carousel
-    - Add images
+        - Download and setup Pi AI...        
 
 
 

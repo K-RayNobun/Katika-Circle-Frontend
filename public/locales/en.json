@@ -2,7 +2,7 @@
     "landing": {
         "navbar": {
             "home": "Home",
-            "blog": "Blog",
+            "faq": "FAQ",
             "contact": "Contact",
             "sendMoney": "Send Money"
         },
