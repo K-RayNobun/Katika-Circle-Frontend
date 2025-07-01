@@ -13,7 +13,8 @@ import NotificationList from '@/components/NotificationList';
 import UserProfile from '@/components/pagesComponents/UserProfile';
 import FilleulList from '@/components/pagesComponents/FilleulList';
 import ReferralDialogBox from '@/components/ReferralDialogBox';
-import TransactionScreens from '@/components/pagesComponents/TransactionScreens';
+import TransactionScreens from '@/components/transaction_screens/TransactionScreens';
+import SignetBanner from '@/app/user/settings/tutorials/components/SignetBanner';
 import { resetTransaction, provideTransakReturnedData } from '@/lib/redux/features/transaction/transactionSlice';
 
 interface FilleulDetails {
@@ -206,7 +207,10 @@ const Home = () => {
     }, []);
 
     return (
-        <div className={`h-full grow flex flex-col lg:flex-row gap-[24px] rounded-lg sm:rounded-3xl`}>
+        <div className={`h-full relative grow flex flex-col lg:flex-row gap-[24px] rounded-lg sm:rounded-3xl`}>
+            {/* Signet Banner */}
+            <SignetBanner />
+
             {/* Left Panel */}
             <div className={`flex flex-col w-full grow mt-[80px] lg:mt-[0px] lg:w-[50%] px-[6px]`}>
                 <WelcomeContainer userData={userData} setIsScreenVisible={setIsScreenVisible} />
@@ -215,7 +219,7 @@ const Home = () => {
                     {/* Mobile View: Referral Section */}
                     <div className={`block lg:hidden`}>
                         <div className={`flex justify-between items-end mb-[16px] font-bold`}>
-                            <h4 className={`text-primary_dark text-[16px]`}>Parrainage</h4>
+                            <h4 className={`text-primary_dark text-[16px]`}>Parrainage{t('')}</h4>
                             <h4 className={`text-primary text-[12px]`}>Voir les filleuls</h4>
                         </div>
                         <ReferralSection referralCode={userData.referralCode!} isScreenVisible={isScreenVisible} />

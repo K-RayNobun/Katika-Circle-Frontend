@@ -381,11 +381,21 @@ const Signup = () => {
     }
 
     useEffect(() => {
+        console.log(' ---------- Countries -----------');
+        const selectElement = document.getElementById('country-select') as HTMLSelectElement;
+        
+        console.log('Actual country index is: ', selectElement.value);
+
+        setSelectedCountry(countriesList[10]);
+    }, [countriesList]);
+
+    useEffect(() => {
         const fetchCountries = async () => {
             let response = [] as CountryData[] | null;
             response = JsonRes["response"] as CountryData[];
-            console.log('Countries fetched from API: ', response);
+            // console.log('Countries fetched from API: ', response);
             const countriesArray: Array<CountryData> = response.filter((country) => country.currencyCode === 'EUR' || country.currencyCode === 'GBP');
+            console.log('Filtered countries: ', countriesArray);
             setCountriesList(countriesArray);
             // console.log('An example country: ', response.data.response[0])
             const {response: responseSecond} = await executePost('https://countriesnow.space/api/v0.1/countries/flag/images',

@@ -67,7 +67,7 @@ const HeroSection = ({t, navigateTo}:{t: (path: string) => string, navigateTo: (
         <section ref={sectionRef} className='relative w-screen min-h-screen border-t-4 border-white px-[4%] lg:pr-0 lg:pl-[7.5%] py-[6%] bg-blue_dark bg-gradient-to-tr from-[#0ff3] via-[#320754] via-20% to-[#f0f3] to-90% flex justify-center items-center'>
             <div className='w-full z-20 min-h-[402px] h-full opacity-100 flex flex-col md:flex-row items-center justify-between gap-[32px]'>
                 <div className='w-full lg:w-[50%] slide-in-left pr-0 md:pr-[2%] text-white space-y-[24px] md:space-y-[48px]'>
-                <h1 className='great text-center lg:text-start text-4xl lg:text-4xl lg:leading-[64px]'>
+                <h1 className='great text-center lg:text-start lg:leading-[64px]'>
                     {t('landing.hero.title')} <span className='text-green_fluo'>{t('landing.hero.titleHighlight')}</span> {t('landing.hero.titleEnd')}
                 </h1>
                 <p className='text-[16px] text-center lg:text-start'>
@@ -281,50 +281,50 @@ const FeaturesSection = ({t}:{t: (path: string) => string}) => {
         <section ref={sectionRef} className='w-full min-h-[660px] bg-purple-900 lg:bg-blue_dark px-4 md:px-[7.5%] py-[7%] flex justify-center items-center'>
             <div className='w-full rounded-[44px] lg:bg-purple-900 px-4 md:px-[5%] py-[36px] flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-0'>
                 <div className='w-[70%] md:w-[50%] slide-in-left flex flex-col gap-[14px] items-center lg:items-end text-center'>
-                <div className='flex feature-box flex-col gap-[12px] items-center lg:items-end'>
-                    <div className='feature-box'>
-                    <div className=' rounded-[8px] purple-glowing p-[8px] flex justify-center items-center'>
-                        <PiLockKey className='text-white font-bold text-[32px]' />
+                    <div className='flex feature-box flex-col gap-[12px] items-center lg:items-end'>
+                        <div className='feature-box'>
+                        <div className=' rounded-[8px] purple-glowing p-[8px] flex justify-center items-center'>
+                            <PiLockKey className='text-white font-bold text-[32px]' />
+                        </div>
+                        </div>
+                        <h4 className='text-white'>{t('landing.features.items.security')}</h4>
                     </div>
+                    <div className='flex flex-col gap-[12px] items-center lg:items-end'>
+                        <div className='feature-box'>
+                        <div className='rounded-[8px] purple-glowing p-[8px] flex justify-center items-center'>
+                            <RiExchangeLine className='text-white font-bold text-[32px]' />
+                        </div>
+                        </div>
+                        <h4 className='text-white'>{t('landing.features.items.rates')}</h4>
                     </div>
-                    <h4 className='text-white'>{t('landing.features.items.security')}</h4>
-                </div>
-                <div className='flex flex-col gap-[12px] items-center lg:items-end'>
-                    <div className='feature-box'>
-                    <div className='rounded-[8px] purple-glowing p-[8px] flex justify-center items-center'>
-                        <RiExchangeLine className='text-white font-bold text-[32px]' />
+                    <div className='flex flex-col gap-[12px] items-center lg:items-end'>
+                        <div className='feature-box'>
+                        <div className='rounded-[8px] purple-glowing p-[8px] flex justify-center items-center'>
+                            <RiHandCoinLine className='text-white font-bold text-[32px]' />
+                        </div>
+                        </div>
+                        <h4 className='text-white'>{t('landing.features.items.instant')}</h4>
                     </div>
+                    <div className='flex flex-col gap-[12px] items-center lg:items-end'>
+                        <div className='feature-box'>
+                        <div className='rounded-[8px] purple-glowing p-[8px] flex justify-center items-center'>
+                            <RiHeadphoneLine className='text-white font-bold text-[32px]' />
+                        </div>
+                        </div>
+                        <h4 className='text-white'>{t('landing.features.items.support')}</h4>
                     </div>
-                    <h4 className='text-white'>{t('landing.features.items.rates')}</h4>
-                </div>
-                <div className='flex flex-col gap-[12px] items-center lg:items-end'>
-                    <div className='feature-box'>
-                    <div className='rounded-[8px] purple-glowing p-[8px] flex justify-center items-center'>
-                        <RiHandCoinLine className='text-white font-bold text-[32px]' />
+                    <div className='flex flex-col gap-[12px] items-center lg:items-end'>
+                        <div className='feature-box'>
+                        <div className='rounded-[8px] purple-glowing p-[8px] flex justify-center items-center'>
+                            <PiSmiley className='text-white font-bold text-[32px]' />
+                        </div>
+                        </div>
+                        <h4 className='text-white'>{t('landing.features.items.assistance')}</h4>
                     </div>
-                    </div>
-                    <h4 className='text-white'>{t('landing.features.items.instant')}</h4>
-                </div>
-                <div className='flex flex-col gap-[12px] items-center lg:items-end'>
-                    <div className='feature-box'>
-                    <div className='rounded-[8px] purple-glowing p-[8px] flex justify-center items-center'>
-                        <RiHeadphoneLine className='text-white font-bold text-[32px]' />
-                    </div>
-                    </div>
-                    <h4 className='text-white'>{t('landing.features.items.support')}</h4>
-                </div>
-                <div className='flex flex-col gap-[12px] items-center lg:items-end'>
-                    <div className='feature-box'>
-                    <div className='rounded-[8px] purple-glowing p-[8px] flex justify-center items-center'>
-                        <PiSmiley className='text-white font-bold text-[32px]' />
-                    </div>
-                    </div>
-                    <h4 className='text-white'>{t('landing.features.items.assistance')}</h4>
-                </div>
                 </div>
                 <div className='w-full md:w-[32%] slide-in-right text-white text-center md:text-left'>
-                <h1 className='great text-[56px] font-bold leading-[74px] mb-4'>{t('landing.features.title')} <span className='text-blue_fluo'>{t('landing.features.titleHighlight')}</span></h1>
-                <p>{t('landing.features.description')}</p>
+                    <h1 className='great text-[56px] font-bold leading-[74px] mb-4'>{t('landing.features.title')} <span className='text-blue_fluo'>{t('landing.features.titleHighlight')}</span></h1>
+                    <p>{t('landing.features.description')}</p>
                 </div>
             </div>
         </section>
@@ -352,7 +352,7 @@ const DestinationSection = ({t}:{t: (path: string) => string}) => {
     );
 }
 
-const SponsorSection = () => {
+const SponsorSection = ({t}:{t:(path: string) => string}) => {
     const sponsorsImgUrlList = [
         '/landing/sponsors/founderInstitute.png',
         '/landing/sponsors/circle-logo-ondark.png',
@@ -381,11 +381,11 @@ const SponsorSection = () => {
 
     return (
         <section className="carousel relative lg:min-h-[300px] min-w-full px-[10px] lg:px-[20px] bg-blue_dark py-12">
-            <h1 className='great text-3xl md:text-[56px] slide-in-up text-white leading-tight md:leading-[74px] mb-4 text-center'>Ils nous <span className='text-gold_fluo'>soutiennent</span></h1>
+            <h1 className='great text-3xl md:text-[56px] slide-in-up text-white leading-tight md:leading-[74px] mb-4 text-center'>{t('landing.sponsors.title')} <span className='text-gold_fluo'>{t('landing.sponsors.titleHighlight')}</span></h1>
             <div className='relative flex items-center justify-center h-[120px] space-x-1 lg:space-x-8 px-3'>
                 <button 
                 onClick={handlePrevious}
-                className={`absolute z-10 top-[50%] left-[0px] -translate-y-1/2 lg:p-2 text-white hover:text-pink_fluo transition-colors inline-block ${sponsorsImgUrlList.length < 6 || currentIndex === 0 ? 'hidden' : 'block'} ${sponsorsImgUrlList.length < 6 || currentIndex === 0 ? 'lg:hidden' : 'lg:block'}`}
+                className={`absolute z-10 top-[50%] left-[0px] -translate-y-1/2 lg:p-2 text-white opacity-75 transition-colors inline-block ${sponsorsImgUrlList.length < 6 || currentIndex === 0 ? 'hidden' : 'block'} ${sponsorsImgUrlList.length < 6 || currentIndex === 0 ? 'lg:hidden' : 'lg:block'}`}
                 >
                 <FaChevronLeft className={`text-[20px] lg:text-[26px] 
                     ${window.innerWidth >= 1024 && sponsorsImgUrlList.length <= 6 
@@ -420,7 +420,7 @@ const SponsorSection = () => {
 
                 <button 
                 onClick={handleNext}
-                className="absolute z-10 top-[50%] right-[0px] -translate-y-1/2 lg:p-2 text-white hover:text-pink_fluo transition-colors"
+                className="absolute z-10 top-[50%] right-[0px] -translate-y-1/2 lg:p-2 text-white opacity-75 transition-colors"
                 >
                 <FaChevronRight className={`text-[20px] lg:text-[26px] 
                     ${window.innerWidth >= 1024 && sponsorsImgUrlList.length <= 6 || window.innerWidth >= 1024 && currentIndex === sponsorsImgUrlList.length - 6 
@@ -446,14 +446,14 @@ const HomeSections = () => {
     };
 
     return (
-        <>
+        <div id='home-sections' className='w-screen'>
             <HeroSection t={t} navigateTo={navigateTo} />
             <SimulatorSection t={t} />
             <SliderSection t={t} />
             <FeaturesSection t={t} />
-            <SponsorSection />
+            <SponsorSection t={t} />
             <DestinationSection t={t} />
-        </>
+        </div>
     )
 }
 

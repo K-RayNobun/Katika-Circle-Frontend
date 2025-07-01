@@ -7,10 +7,10 @@ const override =  {
     borderColor: "red",
 };
 
-const AsyncSpinner =  () => {
+const AsyncSpinner =  ({color, size}:{color?: string, size?: number}) => {
     return (
         <div className="z-20 flex justify-center items-center transition-all duration-150 ease-in-out">
-            <PulseLoader color="#fff" loading={true} cssOverride={override} size={12} aria-label="Loading Spinner" />
+            <PulseLoader color={color} loading={true} cssOverride={override} size={size} aria-label="Loading Spinner" />
         </div>
     )
 };

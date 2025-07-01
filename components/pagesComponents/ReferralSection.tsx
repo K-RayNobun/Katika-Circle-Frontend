@@ -8,6 +8,22 @@ import { useAppSelector } from '@/lib/redux/hooks';
 
 import { useTranslation } from '@/lib/hooks/useTranslation';
 
+/*
+    Sometimes, the user referral code is not displayed in the input field.
+    The possible causes are:
+    1. The referral code is not set in the user state.
+    2. The component is not receiving the referral code prop correctly.
+    3. The component is not rendering correctly due to some other issue.
+    4. The component is not mounted when the referral code is set.
+    5. The component is not re-rendering when the referral code is set.
+    6. The component is not receiving the referral code prop due to a bug in the
+    application logic.
+    7. The component is not receiving the referral code prop due to a bug in the
+    Redux store or the user slice.
+    8. The component is not receiving the referral code prop due to a bug in the
+    Redux store or the user slice.
+*/
+
 const ReferralSection = ({ referralCode,  isScreenVisible }: { referralCode:string, isScreenVisible?:boolean | null }) => {
     const [isReferralDialogVisible, setIsReferralDialogVisible] = useState(false);
     const [showQRCodeDialog, setShowQRCodeDialog] = useState(false);
@@ -80,7 +96,7 @@ const ReferralSection = ({ referralCode,  isScreenVisible }: { referralCode:stri
         <div className={`w-full bg-primary/15 rounded-[12px] p-[16px] flex flex-col gap-[16px]`}>
             <h5 className={`text-[14px] text-primary font-semibold`}>{String(t('referralSection.yourReferralCode'))}</h5>
             <div className={`relative flex bg-primary/30 justify-between h-[49px] rounded-[5px] p-[10px]`}>
-                <input type='text' value={referralCode} readOnly={true} className={`appearance-none bg-transparent text-[14px] text-primary font-bold`} style={{ MozAppearance: 'none' }} />
+                <input type='text' value={referralCode} readOnly={true} className={`appearance-none bg-transparent text-[14px] text-primary font-bold outline-none`} style={{ MozAppearance: 'none' }} />
                 <button disabled={isCopied} onClick={copyReferral} className={`absolute right-[10px] bg-primary hover:bg-primary_dark active:bg-primary_dark text-[12px] px-[8px] py-[6px] rounded-[4px] text-white font-bold`}>{isCopied ? 
                         t('referralSection.copied') : 
                         t('referralSection.copy')

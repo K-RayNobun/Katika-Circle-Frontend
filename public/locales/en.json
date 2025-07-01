@@ -77,6 +77,8 @@
         }
         },
         "sponsors": {
+            "title": "They ",
+            "titleHighlight": "support us",
             "imageError": "Failed to load some images. Please check image paths."
         },
         "destinations": {

@@ -168,8 +168,10 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
             // console.log('Invalid sent amount');
         }
         updateRate(newAmountSent);
+        // Calculate the amount received with no decimal places
+        const newAmountReceived = (Math.trunc(newAmountSent * katikaRate));
+        console.log(` The new amount received is ${formatAmount(newAmountReceived)} and the new amount sent is ${newAmountSent}`);
 
-        const newAmountReceived = newAmountSent * katikaRate;
 
         setAmountReceived(newAmountReceived);
         console.log('Amount Received:', newAmountReceived)
@@ -177,6 +179,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
 
         try {
             setAmountSentFormatted(formatAmount(newAmountSent));
+            console.log('The formatted amount sent is ', formatAmount(newAmountSent));
             if (newAmountSent === 0) {
                 setAmountSentFormatted('');
             }
@@ -410,7 +413,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                                 }}
                         />
                     :
-                        <input type="text" onClick={() => {setModifyingSentAmount(true)}} readOnly={true} value={amountSentFormatted} name='amount-sent' className='grow w-[75%] sm:w-full text-right' />
+                        <input type="text" onClick={() => {setModifyingSentAmount(true)}} readOnly={true} value={parseFloat(amountSentFormatted.replace(/,/g, ''))} name='amount-sent' className='grow w-[75%] sm:w-full text-right' />
                     }
                     <h5 className=''>{currenciesData[userData.currencySymbol || '€']?.symbol}</h5>
                 </div>

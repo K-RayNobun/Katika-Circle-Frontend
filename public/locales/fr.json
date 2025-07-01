@@ -80,6 +80,8 @@
             }
         },
         "sponsors": {
+            "title": "Ils nous",
+            "titleHighlight": "soutiennent",
             "imageError": "Échec du chargement de certaines images. Veuillez vérifier les chemins d'accès."
         },
         "destinations": {

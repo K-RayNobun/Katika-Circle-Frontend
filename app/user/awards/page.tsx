@@ -9,7 +9,7 @@ import axios, { AxiosError } from 'axios';
 import AwardsStats from '@/components/pagesComponents/AwardsStats';
 import AwardsCashback from '@/components/pagesComponents/AwardsCashback';
 import AwardsInitiateTransaction from '@/components/pagesComponents/AwardsInitiateTransaction';
-import TransactionScreens from '@/components/pagesComponents/TransactionScreens';
+import TransactionScreens from '@/components/transaction_screens/TransactionScreens';
 import FilleulList from '@/components/pagesComponents/FilleulList';
 import UserProfile from '@/components/pagesComponents/UserProfile';
 import ReferralSection from '@/components/pagesComponents/ReferralSection';

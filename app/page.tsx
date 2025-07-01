@@ -100,7 +100,7 @@ const HomePage: React.FC = () => {
   ]
 
 return (
-    <main id='landing' className='relative h-screen bg-[#320754] w-screen pb-24'>
+    <main id='landing' className='relative h-screen bg-[#320754] min-w-full w-screen pb-24'>
       <LandingNavbar t={t} switchTabIndex={switchTabIndex} navigateTo={navigateTo} />
       {
         page[tabIndex-1].component

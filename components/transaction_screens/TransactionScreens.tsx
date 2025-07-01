@@ -1,10 +1,10 @@
 import React from 'react';
-import ScreenOne from '@/components/transaction_screens/ScreenOne';
-import ScreenTwo from '@/components/transaction_screens/ScreenTwo';
-import ScreenThree from '@/components/transaction_screens/ScreenThree';
-import ScreenFour from '@/components/transaction_screens/ScreenFour';
+import ScreenOne from '@/components/transaction_screens/screens/ScreenOne';
+import ScreenTwo from '@/components/transaction_screens/screens/ScreenTwo';
+import ScreenThree from '@/components/transaction_screens/screens/ScreenThree';
+import ScreenFour from '@/components/transaction_screens/screens/ScreenFour';
 // import TransakSDK from '@/components/transaction_screens/TransakSDK';
-import TransakRedirect from '@/components/transaction_screens/TransakRedirect';
+import TransakRedirect from '@/components/transaction_screens/screens/TransakRedirect';
 
 const TransactionScreens = ({screenIndex, closeScreen, moveToScreen}: { screenIndex: number, closeScreen: () => void, moveToScreen: (index: number) => void }) => {
     return (

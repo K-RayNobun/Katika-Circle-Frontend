@@ -4,18 +4,33 @@ import React, { useState } from 'react';
 import UserProfile from '@/components/pagesComponents/UserProfile';
 import ProfileSection from '@/components/pagesComponents/SettingsProfile';
 import HelpFAQSection from '@/components/pagesComponents/SettingsHelpFAQ';
+import SettingsTutorials from './tutorials/components/MainPage';
 
 import { useAppSelector } from '@/lib/redux/hooks';
+import { useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 const SettingsPage = () => {
-    const [activeTab, setActiveTab] = useState<'profile' | 'notifications' | 'help'>('profile');
+    const [activeTab, setActiveTab] = useState<'profile' | 'notifications' | 'help' | 'tutorials'>('profile');
     const userData = useAppSelector((state) => state.user)
+
+    const tabList = ['profile', 'notifications', 'help', 'tutorials'] as const;
+
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        // Suppose url has the parameter
+        const tab = searchParams.get('tab');
+        if (tab && tabList.includes(tab as typeof tabList[number])) {
+            setActiveTab(tab as typeof tabList[number]);
+        }
+    }, [searchParams]);
 
     const SidebarButton = ({tabName, title}:{tabName:string, title:string}) => {
         return (
             <>  
                 <button
-                    onClick={() => {if(tabName === 'profile' || tabName === 'help') {setActiveTab(tabName)}}}
+                    onClick={() => {if(tabName === 'profile' || tabName === 'help' || tabName === 'tutorials') {setActiveTab(tabName)}}}
                     className={`grow flex items-center justify-center lg:justify-start h-full w-full px-[16px] py-[10px] rounded-[8px] ${
                         activeTab === tabName ? 'bg-primary/20 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary hover:font-bold'
                     }`}
@@ -44,6 +59,8 @@ const SettingsPage = () => {
                             <SidebarButton tabName={`profile`} title='Profil' />
                             <SidebarButton tabName={`notifications`} title='Notifications' />
                             <SidebarButton tabName={`help`} title='Aide et FAQ' />
+                            {/* Sidebar for Tutorials */}
+                            <SidebarButton tabName={`tutorials`} title='Tutoriels' />
                         </div>
                     </div>
 
@@ -51,6 +68,8 @@ const SettingsPage = () => {
                     <div className='w-full h-full'>
                         {activeTab === 'profile' && <ProfileSection />}
                         {activeTab === 'help' && <HelpFAQSection />}
+                        {activeTab === 'tutorials' && <SettingsTutorials />}
+                        {/* Placeholder for Notifications section */}
                     </div>
                 </section>
             </main>
