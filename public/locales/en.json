@@ -596,6 +596,10 @@
         "lastName": "Last Name",
         "invalidCredentials": "Invalid credentials provided"
     },
+    "settingsTutorials": {
+        "title": "Our Tutorials",
+        "subtitle": "Check out our list of tutorials designed to help you understand every aspect of the app. Don't hesitate to click on one of the following and follow the instructions."
+    },
     "footer": {
         "mission": "Katika's mission is to make people's financial lives easier through blockchain technology",
         "usefulLinks": "USEFUL LINKS",

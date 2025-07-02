@@ -11,7 +11,6 @@ import CookieConsent from "@/components/pagesComponents/CookiesConsent";
 import Script from "next/script";
 import './globals.css';
 
-import Script from "next/script";
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -56,7 +55,6 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-<<<<<<< HEAD
       <head>
         <Script 
           src="https://www.googletagmanager.com/gtag/js?id=G-L3Q83431MC"
@@ -73,22 +71,6 @@ export default function RootLayout({
         </Script>
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3Q83431MC"></script>
       </head>
-=======
-      <Script 
-        src="https://www.googletagmanager.com/gtag/js?id=G-L3Q83431MC"
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'G-L3Q83431MC');
-        `}
-      </Script>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3Q83431MC"></script>
->>>>>>> 0b2f869 (Tutorial Settings Section)
       <body className={`${poppins.className}`}>
         <Provider>
           <ReduxProvider>

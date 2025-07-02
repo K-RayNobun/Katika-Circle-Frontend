@@ -63,4 +63,4 @@ const SignetTutorialContainer = ({ goBack }: { goBack: () => void }) => {
     );
 };
 
-export default SignetTutorialContainer; []
+export default SignetTutorialContainer;

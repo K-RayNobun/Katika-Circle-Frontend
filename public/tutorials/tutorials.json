@@ -1,7 +1,7 @@
 {
     "tutorials": [
         {
-            "ios": "iOS",
+            "os": "iOS",
             "browser": "Safari",
             "steps": [
                 {

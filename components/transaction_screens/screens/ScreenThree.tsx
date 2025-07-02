@@ -1,12 +1,14 @@
 import { IoMdInformationCircle, IoMdArrowBack } from "react-icons/io";
 import { LiaTimesSolid } from "react-icons/lia";
 import React from 'react';
+import axios from "axios";
 
 // Redux related imports
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
 import { provideLatestTransactionId } from "@/lib/redux/features/transaction/transactionSlice";
+
 import { useTranslation } from '@/lib/hooks/useTranslation';
-import axios from "axios";
+import { useTutorial } from "../hooks/TutorialContext";
 
 interface screenProps {
     onClose: () => void,
@@ -15,6 +17,10 @@ interface screenProps {
 
 const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
     const { t } = useTranslation();
+    const { isActive, steps, currentStep } = useTutorial() || {};
+        const isFieldActive = (fieldId: string) =>
+            !isActive || steps?.[currentStep]?.fieldId === fieldId;
+
     const transactionDetails = useAppSelector((state) => state.transaction);
     const accessToken = useAppSelector((state) => state.token.token);
     const dispatch = useAppDispatch();
@@ -191,7 +197,11 @@ const ScreenThree = ({onClose, moveToScreen}: screenProps) => {
                     </button>
                 </div>
                 <div className={`grow lg:hidden`}></div>
-                <button type='submit' onClick={handleSubmit} className={`lg:hidden bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}>
+                <button type='submit'
+                        onClick={handleSubmit}
+                        className={`lg:hidden bg-primary hover:bg-primary_dark py-[10px] rounded-[8px] text-white w-full`}
+                        disabled={!isFieldActive('type-select')}
+                >
                     <h6 className={`text-center font-bold `}>
                         {t('transactionScreens.screenThree.buttons.pay')}
                     </h6>

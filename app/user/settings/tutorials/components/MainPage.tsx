@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from '@/lib/hooks/useTranslation';
-import { getDeviceType, detectAppNature } from '@/app/user/settings/tutorials/functions/WPAChecker';
-import AsyncSpinner from '@/components/AsyncSpinner'; 
 import SignetTutorialContainer from './SignetTutorial';
 import Image from 'next/image';
 
@@ -48,16 +46,7 @@ const tutorialsList = [
 const SettingsTutorials = () => {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const { t } = useTranslation();
-    const [message, setMessage] = useState<string>("");
-    const [loading, setLoading] = useState(false);
     const [expandedIndexes, setExpandedIndexes] = useState<{ [key: number]: boolean }>({});
-
-    useEffect(() => {
-        const { isMobile, hasTouchScreen, textResult } = getDeviceType();
-        const { isStandAlone } = detectAppNature();
-
-        setMessage(`Device Type: ${isMobile ? 'Mobile' : 'Desktop'}, Touch Screen: ${hasTouchScreen}, Standalone App: ${isStandAlone}`);
-    }, []);
 
     
     const toggleLength = (idx: number) => {
@@ -81,48 +70,43 @@ const SettingsTutorials = () => {
 
     return (
         <div className="w-full h-full flex flex-col item-center py-[24px] px-[16px] lg:p-[32px]">
-            <h4 className="text-[22px] lg:text-[28px] text-center text-wrap block font-bold text-primary_dark mb-8">
-                {t('settingsTutorials.generalTutorials') || "General Tutorials"}
+            <h4 className="text-[22px] lg:text-[28px] text-center text-wrap block font-bold text-primary_dark mb-4">
+                {t('settingsTutorials.title')}
             </h4>
-            { !loading ? 
-                <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {tutorialsList.map((tutorial, idx) => {
+            <h6 className="text-[16px] text-center text-wrap mb-8 px-[10%]">
+                {t('settingsTutorials.subtitle')}
+            </h6>
+            
+            <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+                {tutorialsList.map((tutorial, idx) => {
 
-                        const maxLength = 70;
-                        const isExpanded = !!expandedIndexes[idx];
-                        const displayText = tutorial.description.length > maxLength ? tutorial.description.slice(0, maxLength) : tutorial.description;
+                    const maxLength = 70;
+                    const isExpanded = !!expandedIndexes[idx];
+                    const displayText = tutorial.description.length > maxLength ? tutorial.description.slice(0, maxLength) : tutorial.description;
 
-                        return (<div
-                            key={tutorial.id}
-                            className={
-                                `relative rounded-[16px] border-[3px] h-[272px] border-primary_dark bg-gray/70 py-4 px-4 transition-shadow duration-700 cursor-pointer shadow-primary/80 shadow-sm hover:shadow-primary/80 hover:shadow-md `
-                            }
-                            onClick={() => setSelectedIndex(idx)}
-                        >
-                            <div className="flex items-center mb-4">
-                                <div>
-                                    <h5 className="font-semibold text-[18px] text-center text-primary_dark">{tutorial.title}</h5>
-                                </div>
+                    return (<div
+                        key={tutorial.id}
+                        className={
+                            `relative rounded-[8px] border-[3px] max-h-[272px] border-primary_dark bg-gray/70 py-4 px-4 transition-shadow duration-700 cursor-pointer shadow-primary/80 shadow-sm hover:shadow-primary/80 hover:shadow-md `
+                        }
+                        onClick={() => setSelectedIndex(idx)}
+                    >
+                        <div className="flex items-center mb-4">
+                            <div>
+                                <h5 className="font-semibold text-[18px] text-center text-primary_dark">{tutorial.title}</h5>
                             </div>
-                            <Image src={tutorial.image} width={10} height={196} alt='Img Not Found' className='rounded-xl w-full mb-2'/>
-                            <span className="text-[13px] mb-2">
-                                {isExpanded ? tutorial.description : displayText}
-                                <button className='text-violet-700 inline' onClick={ e => {e.stopPropagation(); toggleLength(idx)}}>
-                                    { isExpanded ? '... view less' : '... view more' }
-                                </button>
-                            </span>
-                        </div>)
-                    }
-                    )}
-                </div>
-                :
-                <div className="grow flex items-center justify-center">
-                    <AsyncSpinner color='#931ABD99' size={22} />
-                </div>
-            }
-            <h5 className='text-[22px] mt-3 font-semibold text-center'>
-                { message }
-            </h5>
+                        </div>
+                        <Image src={tutorial.image} width={10} height={196} alt='Img Not Found' className='rounded-xl w-full mb-2'/>
+                        <span className="text-[13px] mb-2">
+                            {isExpanded ? tutorial.description : displayText}
+                            <button className='text-violet-700 inline' onClick={ e => {e.stopPropagation(); toggleLength(idx)}}>
+                                { isExpanded ? '... view less' : '... view more' }
+                            </button>
+                        </span>
+                    </div>)
+                }
+                )}
+            </div>
         </div>
     );
 };

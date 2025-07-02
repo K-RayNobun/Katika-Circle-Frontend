@@ -90,7 +90,7 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
   const transakConfig: TransakConfig = {
     hideExchangeScreen: true,
     apiKey:  `${process.env.NEXT_PUBLIC_TRANSAK_API_KEY}`, // Replace with your Transak API Key
-    environment: Transak.ENVIRONMENTS.STAGING, // STAGING // Use 'PRODUCTION' for live environment
+    environment: Transak.ENVIRONMENTS.PRODUCTION, // STAGING // Use 'PRODUCTION' for live environment
     widgetHeight: '550px',
     widgetWidth: '450px',
     hideMenu: true,
@@ -114,6 +114,11 @@ const TransakSDK = ({onClose, moveToScreen}: ScreenProps) => {
     redirectURL: `${process.env.NEXT_PUBLIC_REDIRECT_URL}`,
   }
 
+//  https://global.transak.com/?apiKey=fcbaaf1a-e5ff-4883-b8e1-e9bf53768415&backgroundColors=%23D470FD&borderColors=008800&cryptoCurrencyCode=USDC&defaultCryptoCurrency=USDC&disablePaymentMethods=credit_debit_card%2Capple_pay%2Cgoogle_pay&disableWalletAddressForm=true&email=houohinkyoma%40gmail.com&fiatAmount=125&fiatCurrency=EUR&hideExchangeScreen=true&hideMenu=true&isFeeCalculationHidden=true&network=solana&paymentMethod=sepa_bank_transfer&productsAvailed=BUY&redirectURL=https%3A%2F%2Fsend.katika.io%2Fuser%2Fhome&sdkName=%40transak%2Ftransak-sdk&sdkVersion=3.2.0&themeColor=8C3DCA&userData=%7B%22firstName%22%3A%22Houohin%22%2C%22lastName%22%3A%22Kyoma%22%2C%22email%22%3A%22houohinkyoma%40gmail.com%22%2C%22mobileNumber%22%3A%22%22%2C%22dob%22%3A%22%22%2C%22address%22%3A%7B%22addressLine1%22%3A%22%22%2C%22addressLine2%22%3A%22%22%2C%22city%22%3A%22%22%2C%22state%22%3A%22%22%2C%22postCode%22%3A%22%22%2C%22countryCode%22%3A%22%22%7D%7D&walletAddress=GjT7QuA3xcBiM6Kn7pSbcHWATfggVZUXm4ziGKry3TK7
+//  https://global.transak.com/?apiKey=fcbaaf1a-e5ff-4883-b8e1-e9bf53768415&backgroundColors=%2523D470FD&borderColors=008800&cryptoCurrencyCode=USDC&defaultCryptoCurrency=USDC&disablePaymentMethods=credit_debit_card%252Capple_pay%252Cgoogle_pay&disableWalletAddressForm=true&email=houohinkyoma%2540gmail.com&fiatAmount=120&fiatCurrency=EUR&hideExchangeScreen=true&hideMenu=true&isFeeCalculationHidden=true&network=solana&paymentMethod=sepa_bank_transfer&productsAvailed=BUY&redirectURL=https%253A%252F%252Fsend.katika.io%252Fuser%252Fhome&sdkName=%2540transak%252Ftransak-sdk&sdkVersion=3.2.0&themeColor=8C3DCA&userData=%257B%2522firstName%2522%253A%2522Houohin%2522%252C%2522lastName%2522%253A%2522Kyoma%2522%252C%2522email%2522%253A%2522houohinkyoma%2540gmail.com%2522%252C%2522mobileNumber%2522%253A%2522%2522%252C%2522dob%2522%253A%2522%2522%252C%2522address%2522%253A%257B%2522addressLine1%2522%253A%2522%2522%252C%2522addressLine2%2522%253A%2522%2522%252C%2522city%2522%253A%2522%2522%252C%2522state%2522%253A%2522%2522%252C%2522postCode%2522%253A%2522%2522%252C%2522countryCode%2522%253A%2522%2522%257D%257D&walletAddress=GjT7QuA3xcBiM6Kn7pSbcHWATfggVZUXm4ziGKry3TK7
+{/*
+    / => Col31  %25
+*/}
   const transak: Transak = new Transak(transakConfig);
 
   Transak.on(Transak.EVENTS.TRANSAK_WIDGET_CLOSE, () => {

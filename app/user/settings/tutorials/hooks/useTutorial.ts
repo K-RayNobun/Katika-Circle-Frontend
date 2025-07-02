@@ -7,18 +7,25 @@ interface TutorialStepData {
     image: string;
 }
 
-const tutorialSteps: Record<string, TutorialStepData[]> = {
-    // Example: key is `${platform}_${browser}`
-    'ios_chrome': [
-        { title: 'Step 1', instruction: 'Open Chrome on iOS.', image: '/images/ios_chrome_1.png' },
-        { title: 'Step 2', instruction: 'Go to the tutorial page.', image: '/images/ios_chrome_2.png' },
-    ],
-    'android_chrome': [
-        { title: 'Step 1', instruction: 'Open Chrome on Android.', image: '/images/android_chrome_1.png' },
-        { title: 'Step 2', instruction: 'Go to the tutorial page.', image: '/images/android_chrome_2.png' },
-    ],
-    // Add more combinations as needed
+type TutorialJson = {
+    os: string;
+    browser: string;
+    steps: TutorialStepData[];
 };
+
+let tutorialsCache: TutorialJson[] | null = null;
+
+const loadTutorials = async (): Promise<TutorialJson[]> => {
+    if (tutorialsCache) return tutorialsCache;
+    const res = await fetch('/tutorials/tutorials.json');
+    const data = await res.json();
+    tutorialsCache = data.tutorials;
+    return tutorialsCache!;
+};
+
+const normalize = (str: string) =>
+    str.trim().toLowerCase().replace(/\s+/g, '');
+
 
 const useTutorial = () => {
     const [platform, setPlatform] = useState<Platform>('');
@@ -27,18 +34,37 @@ const useTutorial = () => {
     const [surveyDone, setSurveyDone] = useState(false);
     const [steps, setSteps] = useState<TutorialStepData[]>([]);
     const [currentStep, setCurrentStep] = useState(0);
+    const [loading, setLoading] = useState(false);
 
-    const startTutorial = () => {
+    const startTutorial = async () => {
+        console.log(`Platform: ${platform} Browser: ${browser}`);
         if (!platform || !browser) {
             setError('Please select both your platform and browser.');
             return;
         }
         setError('');
-        const key = `${platform}_${browser}`;
-        const foundSteps = tutorialSteps[key] || [];
-        setSteps(foundSteps);
-        setCurrentStep(0);
-        setSurveyDone(true);
+        setLoading(true);
+
+        try {
+            const tutorials = await loadTutorials();
+            // Find tutorial by normalized os and browser
+            tutorials.forEach(tutorial => {
+                console.log(`Tutorial OS: ${tutorial.os} Tutorial Browser: ${tutorial.browser}`);
+            })
+            const found = tutorials.find(
+                t =>
+                    normalize(t.os) === normalize(platform) &&
+                    normalize(t.browser) === normalize(browser === 'ms-explorer' ? 'Microsoft Edge' : browser)
+            );
+            setSteps(found?.steps || []);
+        } catch {
+            setError('Failed to load tutorials.');
+            setSteps([]);
+        } finally {
+            setCurrentStep(0);
+            setSurveyDone(true);
+            setLoading(false);
+        }
     };
 
     const nextStep = () => {
@@ -75,6 +101,7 @@ const useTutorial = () => {
         nextStep,
         prevStep,
         resetTutorial,
+        loading,
     };
 };
 

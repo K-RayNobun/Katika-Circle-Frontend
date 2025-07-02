@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { provideStepBankData, provideStepMobileData, provideToken } from '@/lib/redux/features/transaction/transactionSlice';
 
 import { useTranslation } from '@/lib/hooks/useTranslation';
+import { useTutorial } from "../hooks/TutorialContext";
 
 interface screenProps {
     onClose: () => void,
@@ -28,6 +29,12 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
     const tranzakToken = useAppSelector((state) => state.transaction.tranzaktoken);
     const transactionDetails = useAppSelector((state) => state.transaction);
 
+<<<<<<< HEAD
+=======
+    const { isActive, steps, currentStep } = useTutorial() || {};
+    const isFieldActive = (fieldId: string) =>
+        !isActive || steps?.[currentStep]?.fieldId === fieldId;
+>>>>>>> 7ac19ce (TutoContainer builded comp. Need to test and links everythg)
 
     const transfertTypes = [
         t('transactionScreens.screenTwo.transferType.options.mobileMoney'),
@@ -239,6 +246,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                             }
                             name="country"
                             className="bg-transparent w-full font-semibold"
+                            disabled={!isFieldActive('type-select')}
                             onChange={handleTransfertTypeChange}
                         >
                             {transactionDetails.amountReceived! > 1000000
@@ -272,6 +280,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                                     id="receiver-number"
                                     defaultValue={transactionDetails.receiverPhoneNumber}
                                     onChange={handlePhoneNumberChange}
+                                    disabled={!isFieldActive('receiver-number')}
                                     className={`appearance-none w-full float-left block text-right ${
                                         isFieldWrong ? 'border-red-500' : 'border-gray-400'
                                     }`}
@@ -301,6 +310,10 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                                 placeholder={t('transactionScreens.screenTwo.bank.accountHolder.placeholder')}
                                 name="owner-name"
                                 id="owner-name"
+<<<<<<< HEAD
+=======
+                                disabled={!isFieldActive('owner-name')}
+>>>>>>> 7ac19ce (TutoContainer builded comp. Need to test and links everythg)
                                 className={`w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 grow ${
                                     isFieldWrong ? 'border-red-500' : 'border-gray-400'
                                 }`}
@@ -316,6 +329,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                                 name="iban"
                                 id="iban"
                                 onChange={handleIbanChange}
+                                disabled={!isFieldActive('iban')}
                                 className={`w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 grow ${
                                     isFieldWrong ? 'border-red-500' : 'border-gray-400'
                                 }`}
@@ -333,6 +347,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                                 className={`w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 grow ${
                                     isFieldWrong ? 'border-red-500' : 'border-gray-400'
                                 }`}
+                                disabled={!isFieldActive('bank-name')}
                             />
                         </div>
                     </div>

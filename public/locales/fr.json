@@ -595,6 +595,10 @@
         "lastName": "Nom",
         "invalidCredentials": "Identifiants fournis invalides"
     },
+    "settingsTutorials": {
+        "title": "Nos Turoriels",
+        "subtitle": "Découvrez la liste de nos tutoriels concus pour vous permettre de comprendre chaque aspect de l'application. N'hesitez pas  cliquez sur un un des suivants et suivez les indications"
+    },
     "errors": {
         "axiosError": {
             "unauthorized": "Veuillez vous reconnecter pour continuer",
