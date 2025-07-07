@@ -18,7 +18,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://send.katika.io'),
-  title: 'Katika Wallet',
+  title: 'SendbyKatika',
   description: 'Envoyez de l’amour en Afrique, gratuitement. Jusqu’à 70 000 € par envoi, vers Mobile Money ou compte bancaire, à des taux imbattables. Recevez un cashback à chaque transaction avec Katika Wallet',
   openGraph: {
     title: 'Katika Wallet',

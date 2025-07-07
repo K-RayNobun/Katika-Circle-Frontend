@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { PiPlusCircle, PiMinusCircle } from "react-icons/pi";
 import { useTranslation } from "@/lib/hooks/useTranslation";
 
-import data from '@/public/locales/fr.json';
+import dataEn from '@/public/locales/fr.json';
+import dataFr from '@/public/locales/fr.json';
 import SafeHTML from "../SafeHTML";
 
 const FaqSection = () => {
 
-    const { t } = useTranslation();
+    const { t, locale } = useTranslation();
+    const data = locale === 'fr' ? dataFr : dataEn;
     const [toggledIndex, setToggledIndex] = useState<number | null>(null);
 
     const handleToggle = (index: number) => {

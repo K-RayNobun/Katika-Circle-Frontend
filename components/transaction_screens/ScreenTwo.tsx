@@ -116,6 +116,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
         setReceiverName('');
         // console.log('Resetted the name');
         if (isTypeMobile) {
+            console.log('Regext Test => ', testFieldsRegex())
             if (!testFieldsRegex()) {
                 // console.log('Phone number incorrect, please start with 6 not with 2376');
                 setErrorMsg(t('transactionScreens.screenTwo.errors.invalidFields'));
@@ -125,6 +126,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                 // console.log('This is a Cameroonian number: ', phoneNumber);
                 handleNameCheck();
             } else {
+                console.log('Not 8 characters');
                 // console.log('Phone number: ', phoneNumber);
             }
         }

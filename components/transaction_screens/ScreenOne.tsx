@@ -34,8 +34,6 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     const [modifyingSentAmount, setModifyingSentAmount] = useState(true);
     const formRef  = useRef<HTMLFormElement>(null);
 
-    const [lastEditedField, setLastEditedField] = useState<'send' | 'receive' | null>(null);
-
     const minimalAmount = 30;
     const maximalAmount = 70000;
     
@@ -98,7 +96,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
         // console.log('Rates index is', rateIndex.current);
         // console.log('Updated the rate to ', katikaRates[rateIndex.current]);
         setRateIndex(rateIndexVar);
-        setKatikaRate(katikaRates[rateIndexVar] + rateIndexVar * 2);
+        setKatikaRate(katikaRates[rateIndexVar]);
     }
     const fetchRate = async () => {
         // // console.log('Access Token is', accessToken);
@@ -157,7 +155,6 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
 
     const handleSentAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         // console.log('Resetting the amount received');
-        setLastEditedField('send');
 
         const value = e.target.value.replace(/,/g, '');
         const numericRegex = /^\d*\.?\d*$/;  // Allow decimals and numbers
@@ -195,7 +192,6 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     }
     
     const handleReceivedAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setLastEditedField('receive');
         const newAmountReceived = parseFloat(e.target.value.replace(/,/g, '')) || 0;
         console.log('The new amount received is ', newAmountReceived);
         setAmountReceived(newAmountReceived);
@@ -340,7 +336,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     const transactionDetails = useAppSelector((state) => state.transaction);
     // DEFAULT AMOUNT VALUES
     let amountSentDefault = '';
-    let amountReceivedDefault = '';
+    const amountReceivedDefault = '';
 
     try {
          amountSentDefault = transactionDetails.amountSent === 0 ? '' : formatAmount(transactionDetails.amountSent!);

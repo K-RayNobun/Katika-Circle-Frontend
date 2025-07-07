@@ -1,7 +1,10 @@
 import React from "react";
 import { FaWhatsapp } from "react-icons/fa";
+import { useStore } from "react-redux";
+import { provideState } from "@/lib/stateSaver";
 
 const WhatsappButton = () => {
+    const store = useStore();
     const [showOptions, setShowOptions] = React.useState(false);
 
     return (
@@ -33,6 +36,12 @@ const WhatsappButton = () => {
                         >
                             Join WhatsApp Group
                         </a>
+                        <button
+                            className="block text-sm text-green-500 hover:text-green hover:bg-gray p-2 rounded-lg"
+                            onClick={() => provideState(store)}
+                        >
+                            Get Session Data
+                        </button>
                     </div>
                 )} 
             </div>
