@@ -11,7 +11,7 @@ import { useTranslation } from '@/lib/hooks/useTranslation';
 // 30-50, 50-100, 100-250, 250-500, 500-2000, 2000-70000 
 interface screenProps {
     onClose: () => void,
-    moveToScreen: (index: number) => void,
+    moveToScreen: (index: number) => void;
 }
 
 const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
@@ -60,10 +60,6 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
 
         document.documentElement.style.setProperty('--info-content', `'${content}'`);
     }, [katikaRates, t]);
-
-    useEffect(() => {
-        console.log('The user country is ', userData.country);
-    }, [])
 
     const currenciesData: Record<string, {image:string; name:string; symbol:string}> = {
         '€': {
@@ -115,12 +111,10 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
             let responseData;
             if (userData.currencySymbol === '£') {
                 responseData = response.data.data.toCurrency[1];
-                console.log(`The rate of ${userData.currencySymbol} is `, responseData);
             } else if (userData.currencySymbol === '€') {
                 responseData = response.data.data.toCurrency[0]
             } else {
                 responseData = response.data.data.toCurrency[0];
-                console.log('The selected currency is ', userData.currencySymbol);
             }
             const ratesData = responseData.rates;
             const ratesArray = [ratesData.firstRate, ratesData.secondRate, ratesData.thirdRate, ratesData.fourthRate, ratesData.fifthRate, ratesData.sixthRate]            
@@ -157,6 +151,12 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
         // console.log('Resetting the amount received');
 
         const value = e.target.value.replace(/,/g, '');
+        e.target.value = e.target.value.replace(/,/g, '');
+        if (!/^(\d+)?(\.\d{0,2})?$/.test(value)) {
+            console.log('Uncaceptable value');
+            e.preventDefault();
+        }
+        // e.target.value = (Math.round(parseInt(value) * 100) / 100).toString();
         const numericRegex = /^\d*\.?\d*$/;  // Allow decimals and numbers
 
         const newAmountSent = parseFloat(e.target.value.replace(/,/g, '')) || 0;
@@ -169,18 +169,20 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
         }
         updateRate(newAmountSent);
 
-        setAmountReceived(newAmountSent * katikaRate);
+        const newAmountReceived = newAmountSent * katikaRate;
+
+        setAmountReceived(newAmountReceived);
+        console.log('Amount Received:', newAmountReceived)
         setGain(formatAmount((katikaRate - officialRate) * newAmountSent));
-        console.log('The amount sent is', newAmountSent.toLocaleString('en-US'), ' and the rate difference is ', (katikaRate - officialRate).toLocaleString('en-US'));
-        console.log('The Gain is ', ((katikaRate - officialRate) * newAmountSent).toLocaleString('en-US'));
 
         try {
             setAmountSentFormatted(formatAmount(newAmountSent));
             if (newAmountSent === 0) {
                 setAmountSentFormatted('');
             }
-            setAmountReceivedFormatted(formatAmount(amountReceived));
-            if (amountReceived === 0) {
+            setAmountReceivedFormatted(formatAmount(newAmountReceived));
+            console.log('Set amount received to', formatAmount(newAmountReceived));
+            if (newAmountReceived === 0) {
                 setAmountReceivedFormatted('');
             }
         }
@@ -188,26 +190,15 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
             console.error('Error formatting amount sent:', error);
             setAmountSentFormatted('0');
         }
-        console.log('The amount Received is', amountReceivedFormatted, ' and the amount sent is ', amountSentFormatted);
     }
     
     const handleReceivedAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newAmountReceived = parseFloat(e.target.value.replace(/,/g, '')) || 0;
-        console.log('The new amount received is ', newAmountReceived);
         setAmountReceived(newAmountReceived);
-        const numericRegex = /^[1-9]\d*$/
-        const formData = new FormData(formRef.current!);
-        const value = formData.get('amount-sent') as string;
 
-        if (!numericRegex.test(value)) {
-            setAmountSent(0);
-            // console.log('Valeur Recue invalide', )
-        }
         const newAmountSent = newAmountReceived / katikaRate;
         setAmountSent(newAmountSent);
         updateRate(newAmountSent);
-        // // console.log('Amount sent:', amountSent)
-        // // console.log(' Are we on EUR ?', modifyingSentAmount);
         setGain(formatAmount((katikaRate - officialRate) * newAmountSent));
         setAmountSentFormatted(formatAmount(newAmountSent));
 
@@ -221,8 +212,6 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
             console.error('Error formatting amount received:', error);
             setAmountReceivedFormatted('0');
         }
-        console.log('The amount sent is', formatAmount(newAmountSent), ' and the amount received is ', formatAmount(newAmountReceived));
-
     }
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -294,11 +283,10 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     }
 
     const verifyFields = () => {
-        const formData = new FormData(formRef.current!);
         let isValid = false;
 
-        const amountSent = parseInt(formData.get('amount-sent') as string);
-        const amountReceived = parseInt(formData.get('amount-received') as string);
+        // const amountSent = parseInt(formData.get('amount-sent') as string);
+        // const amountReceived = parseInt(formData.get('amount-received') as string);
         let maximalAmountFormatted = '0';
 
         try {
@@ -313,6 +301,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
             setErrorMsg("Le montant ne peut etre negatif");
         } else if (amountSent < 30) {
             setErrorMsg(`Le montant minimal d'une transaction est de ${minimalAmount} Euros`);
+            console.log(`The Amount in Question => ${amountSent}`);
         } else if (amountSent > 70000) {
             setErrorMsg(`Le montant maximal d'une transaction est de ${maximalAmountFormatted} Euros`);
         } else {
@@ -327,24 +316,14 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     }, [])
 
     const formatAmount = (amount: number): string =>
-        amount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+        typeof amount === 'number' && !isNaN(amount)
+        ? amount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })
+        : '0';
     
 
 
     const dispatch = useAppDispatch()
     const accessToken = useAppSelector((state) => state.token.token);
-    const transactionDetails = useAppSelector((state) => state.transaction);
-    // DEFAULT AMOUNT VALUES
-    let amountSentDefault = '';
-    const amountReceivedDefault = '';
-
-    try {
-         amountSentDefault = transactionDetails.amountSent === 0 ? '' : formatAmount(transactionDetails.amountSent!);
-    }
-    catch (error) {
-        console.error('Error formatting sent amount:', error);
-        amountSentDefault = '0';
-    }
 
     // Set the default amount received based on the sent amount and rate
     useEffect(() => {
@@ -357,6 +336,20 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
             setGain(gainValue.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 }));
         }
     }, [katikaRate, amountSent, officialRate]);
+
+    const handleSendBeforeInput = (e: React.FormEvent<HTMLInputElement>) => {
+        const input = e.currentTarget;
+        const { selectionStart, selectionEnd, value } = input;
+        const inputEvent = e.nativeEvent as InputEvent;
+        const insert = inputEvent.data ?? "";
+        console.log('Insert is: ', insert);
+
+        const nextValue = value.slice(0, selectionStart!) + insert + value.slice(selectionEnd!);
+
+        if (!/^(\d+)?(\.\d{0,2})?$/.test(nextValue)) {
+            e.preventDefault();
+        }
+    }
 
   return (
     <div className='w-full h-[90%] pb-[86px] lg:h-max lg:w-[502px] rounded-t-[12px] text-[14px] lg:text-[16px] lg:rounded-[12px] p-[32px] lg:p-[44px] gap-[18px] bg-white flex flex-col'>
@@ -402,7 +395,20 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                         src={`${currenciesData[userData.currencySymbol || '€'].image}`} alt={currenciesData[userData.currencySymbol || '€'].name} width={30} height={20} className='w-[30px]' />
                     {
                     modifyingSentAmount ?
-                        <input type="text" onChange={handleSentAmountChange} defaultValue={amountSentDefault} name='amount-sent' className='grow w-[75%] sm:w-full text-right' style={{ margin: 0, padding: 0}}/>
+                        <input  type="text" onChange={handleSentAmountChange}
+                                name='amount-sent' 
+                                className='grow w-[75%] sm:w-full text-right' 
+                                style={{ margin: 0, padding: 0}}
+                                onBeforeInput={handleSendBeforeInput}
+                                onKeyDown={(e) => {
+                                    // Prevent input of unwanted characters
+                                    if (!/^(\d+)?(\.\d{0,2})?$/.test(e.key) && 
+                                        !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key)) {
+                                            console.log('Key Pressed is unnaceptable');
+                                            e.preventDefault();
+                                    }
+                                }}
+                        />
                     :
                         <input type="text" onClick={() => {setModifyingSentAmount(true)}} readOnly={true} value={amountSentFormatted} name='amount-sent' className='grow w-[75%] sm:w-full text-right' />
                     }
@@ -417,9 +423,20 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                     <img src={`${countriesData[selectedCountry]?.image}`} alt="Img" className='w-[30px]' />
                     {
                         modifyingSentAmount ?
-                        <input onClick={() => {setModifyingSentAmount(false)}} type="text" readOnly={true} defaultValue={amountReceivedDefault} value={amountReceivedFormatted} name='amount-received' className='grow w-[75%] sm:w-full text-right' />
+                        <input onClick={() => {setModifyingSentAmount(false)}} type="text" readOnly={true} value={amountReceivedFormatted} name='amount-received' className='grow w-[75%] sm:w-full text-right' />
                         :
-                        <input type="text" name='amount-received' defaultValue={amountReceivedDefault} onChange={handleReceivedAmountChange} className='grow w-[75%] sm:w-full text-right' />
+                        <input  type="text" 
+                                name='amount-received' 
+                                onChange={handleReceivedAmountChange} 
+                                className='grow w-[75%] sm:w-full text-right'
+                                onKeyDown={(e) => {
+                                    // Prevent input of unwanted characters
+                                    if (!/^\d*$/.test(e.key) && 
+                                        !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                        />
 
                     }
                     <h5 className=''>{countriesData[selectedCountry]?.currency}</h5>

@@ -47,31 +47,5 @@ export default {
       }
     },
   },
-  plugins: [
-    require('tailwindcss-textshadow'),
-    plugin(function({addUtilities, theme}: { addUtilities: (utilities: Record<string, any>, options?: { variants?: string[], respectPrefix?: boolean, respectImportant?: boolean }) => void, theme: (path: string) => any }) {
-      const newUtilities = {
-        '.vibrate': {
-          animation: 'vibrate 2s infinite'
-        },
-        '@keyframes vibrate': {
-          '0%, 100%': {
-            transform: 'translateX(0)'
-          },
-          '50%': {
-            tranform: 'translateX(var(--vibrate-distance, 5px))',
-          },
-        }
-      };
-      addUtilities(newUtilities, { variants: ['responsive', 'hover'] });
-
-      const vibrateUtilities = Object.entries(theme('vibrate')).reduce<Record<string, { '--vibrate-distance': string }>>((acc, [key, value]) => {
-        acc[`.vibrate-${key}`] = {
-          '--vibrate-distance': value as string,
-        };
-        return acc;
-      }, {});
-      addUtilities(vibrateUtilities, {variants: ['responsive', 'hover']})
-    })
-  ],
+  plugins: [],
 } satisfies Config;

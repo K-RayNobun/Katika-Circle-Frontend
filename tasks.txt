@@ -19,12 +19,23 @@
         x ajouter le logo de Katika sur le signet
         x Allow a simple web icon on homescreen.
         x Regulate translations in : SponsorSection (landingPage, signet Notifications, mailCheck & renewPassword).
+        x Fix the discord occuring on amountReceived value change.
         - Place Whatsapp Icon aside user name.
         - Set up the Selenium test.
-        - Fix the discord occuring on amountReceived value change.
+        ---------------------- TUTORIAL ------------------------
+        - Create the TransactionTutorial.tsxx file and logic (30mins)
+        - Organize images and their description (35min)
+        - Join them and test (25min)
+        - Disable the first transaction if tutorial isn't seen (Redux) (30min)
+        
 
 
-        - Download and setup Pi AI...        
+        - Download and setup Pi AI...
+
+        CHanges From Previous Deployment:
+        - Rates + n*2 (ScreenOne.tsx)   
+
+
 
 
 
