@@ -4,7 +4,7 @@ import type { Platform, Browser } from '../components/SignetSurvey';
 interface TutorialStepData {
     title: string;
     instruction: string;
-    image: string;
+    images: string[];
 }
 
 type TutorialJson = {
@@ -17,7 +17,7 @@ let tutorialsCache: TutorialJson[] | null = null;
 
 const loadTutorials = async (): Promise<TutorialJson[]> => {
     if (tutorialsCache) return tutorialsCache;
-    const res = await fetch('/tutorials/tutorials.json');
+    const res = await fetch('/tutorials/signetTutorials.json');
     const data = await res.json();
     tutorialsCache = data.tutorials;
     return tutorialsCache!;
@@ -48,9 +48,6 @@ const useTutorial = () => {
         try {
             const tutorials = await loadTutorials();
             // Find tutorial by normalized os and browser
-            tutorials.forEach(tutorial => {
-                console.log(`Tutorial OS: ${tutorial.os} Tutorial Browser: ${tutorial.browser}`);
-            })
             const found = tutorials.find(
                 t =>
                     normalize(t.os) === normalize(platform) &&

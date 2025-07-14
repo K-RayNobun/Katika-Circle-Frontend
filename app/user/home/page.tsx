@@ -14,7 +14,7 @@ import UserProfile from '@/components/pagesComponents/UserProfile';
 import FilleulList from '@/components/pagesComponents/FilleulList';
 import ReferralDialogBox from '@/components/ReferralDialogBox';
 import TransactionScreens from '@/components/transaction_screens/TransactionScreens';
-import SignetBanner from '@/app/user/settings/tutorials/components/SignetBanner';
+import SignetBanner from '@/app/user/settings/tutorials/signetTutorial/components/SignetBanner';
 import { resetTransaction, provideTransakReturnedData } from '@/lib/redux/features/transaction/transactionSlice';
 
 interface FilleulDetails {
@@ -26,19 +26,20 @@ interface FilleulDetails {
 }
 
 const Home = () => {
+    const userData = useAppSelector((state) => state.user);
+    const accessToken = useAppSelector((state) => state.token.token);
+    const latestTransactionId = useAppSelector((state) => state.transaction.latestTransactionId);
+    
     // State Management
     const [isScreenVisible, setIsScreenVisible] = useState(false);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
-    const [screenIndex, setScreenIndex] = useState<number>(1);
+    const [screenIndex, setScreenIndex] = useState<number>(userData?.passedTutorials ? 1 : 0);
     const [filleulList, setFilleulList] = useState<FilleulDetails[]>([]);
     const [referralBonus, setReferralBonus] = useState<number>(0);
     const [errorMsg, setErrorMsg] = useState<string>('');
     const { t } = useTranslation();
     const router = useRouter();
 
-    const userData = useAppSelector((state) => state.user);
-    const accessToken = useAppSelector((state) => state.token.token);
-    const latestTransactionId = useAppSelector((state) => state.transaction.latestTransactionId);
     const dispatch = useAppDispatch();
     const urlParams = useMemo(() => new URLSearchParams(window.location.search), []);
 

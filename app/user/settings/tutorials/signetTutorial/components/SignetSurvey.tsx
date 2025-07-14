@@ -1,5 +1,6 @@
 import React from 'react';
 import { LiaTimesCircleSolid } from 'react-icons/lia';
+import { useTranslation } from '@/lib/hooks/useTranslation';
 
 export type Platform = 'ios' | 'android' | '';
 export type Browser = 'chrome' | 'safari' | 'ms-explorer' | '';
@@ -34,6 +35,8 @@ const SignetSurvey: React.FC<SignetSurveyProps> = ({
     onStart,
     handleBack
 }) => {
+
+    const { t } = useTranslation();
     return (
         <div className="relative w-full p-[15%] flex flex-col justify-center items-center">
             <button
@@ -43,14 +46,14 @@ const SignetSurvey: React.FC<SignetSurveyProps> = ({
                 <LiaTimesCircleSolid size={36} className='text-primary_dark' />
             </button>
             <h2 className="text-[28px] font-bold text-primary mb-4 text-center">
-                Pre-requisites before starting the tutorial
+                {t('settingsTutorials.signetSurvey.title')}
             </h2>
             <p className="text-gray-700 mb-6 px-14 text-center">
-                Please answer the following questions to tailor the tutorial to your device and browser.
+                {t('settingsTutorials.signetSurvey.description')}
             </p>
             <div>
                 <div className="w-full mb-5 flex flex-col ">
-                    <label className="block font-semibold mb-2">Which platform are you using?</label>
+                    <label className="block font-semibold mb-2">{t('settingsTutorials.signetSurvey.platformLabel')}</label>
                     <div className="flex gap-8">
                         {platforms.map((p) => (
                             <label key={p.value} className="flex items-center gap-2 cursor-pointer">
@@ -69,7 +72,7 @@ const SignetSurvey: React.FC<SignetSurveyProps> = ({
                 </div>
 
                 <div className="w-full mb-5">
-                    <label className="block font-semibold mb-2">Which browser are you using?</label>
+                    <label className="block font-semibold mb-2">{t('settingsTutorials.signetSurvey.br')}</label>
                     <div className="flex gap-8 flex-wrap">
                         {browsers.map((b) => (
                             <label key={b.value} className="flex items-center gap-2 cursor-pointer">
@@ -88,14 +91,14 @@ const SignetSurvey: React.FC<SignetSurveyProps> = ({
                 </div>
             </div>
 
-            {error && <div className="text-red-500 mb-4">{error}</div>}
+            {error && <div className="text-red-500 mb-4">{t('settingsTutorials.signetSurvey.error')}</div>}
 
             <button
                 className="mt-4 px-6 py-2 bg-primary text-white rounded shadow hover:bg-primary/80 active:bg-primary_dark transition"
                 onClick={onStart}
                 disabled={!platform || !browser}
             >
-                Start Tutorial
+            { t('settingsTutorials.signetSurvey.startButton') }
             </button>
         </div>
     );

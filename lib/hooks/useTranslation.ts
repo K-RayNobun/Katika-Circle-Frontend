@@ -112,7 +112,7 @@ export function useTranslation() {
       setTranslations(data);
       setLocale(initialLang);
     });
-  }, [loadTranslations]);
+  }, [loadTranslations, availableLanguages]);
 
   return { locale, translations, switchLanguage, t };
 }

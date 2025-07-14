@@ -1,12 +1,13 @@
 import React from 'react';
 import SignetSurvey from './SignetSurvey';
 import TutorialStep from './TutorialStep';
-import useTutorial from '../hooks/useTutorial'; // Create this hook
+import useTutorial from '../hooks/useTutorial';
+import { useTranslation } from '@/lib/hooks/useTranslation';
 
 const SignetTutorialContainer = ({ goBack }: { goBack: () => void }) => {
     const {
         surveyDone,
-        steps,
+        steps, 
         currentStep,
         platform,
         browser,
@@ -18,6 +19,8 @@ const SignetTutorialContainer = ({ goBack }: { goBack: () => void }) => {
         prevStep,
         resetTutorial,
     } = useTutorial();
+
+    const { t } = useTranslation();
 
     if (!surveyDone) {
         return (
@@ -36,24 +39,31 @@ const SignetTutorialContainer = ({ goBack }: { goBack: () => void }) => {
     if (!steps.length) {
         return (
             <div className="flex flex-col items-center justify-center p-8">
-                <p className="text-red-500 mb-4">Sorry, no tutorial found for your selection.</p>
+                <p className="text-red-500 mb-4">
+                    { t('settingsTutorials.signetTutorial.noTutorialFound') }
+                </p>
                 <button
                     className="px-4 py-2 bg-primary text-white rounded shadow hover:bg-primary/80"
-                    onClick={resetTutorial}
+                    onClick={() => {
+                        resetTutorial();
+                        goBack();
+                    }}
                 >
-                    ← Back
+                    { t('settingsTutorials.signetTutorial.backButton') }
                 </button>
             </div>
         );
     }
 
     const step = steps[currentStep];
+    console.log('Step Details', step);
+    console.log('This Step Images', step.images);
 
     return (
         <TutorialStep
             title={step.title}
             instruction={step.instruction}
-            imageSrc={step.image}
+            images={step.images}
             onNext={nextStep}
             onPrev={prevStep}
             onExit={goBack}

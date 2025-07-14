@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { getDeviceType, detectAppNature } from "../functions/WPAChecker";
 import { LiaTimesSolid } from "react-icons/lia";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "@/lib/hooks/useTranslation";
 
 const BannerMessage = "Ajoutez Send à votre écran d'accueil pour y accéder plus facilement !";
 
 const SignetBanner: React.FC = () => {
     const router = useRouter();
+    const { t } = useTranslation();
+
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
@@ -23,7 +26,7 @@ const SignetBanner: React.FC = () => {
 
     return (
         <div className="fixed top-2 left-1/2 z-50 -translate-x-1/2 bg-white dark:bg-gray-800 text-sm shadow-lg shadow-black/60 rounded-xl px-6 pt-8 pb-4 flex flex-col items-center gap-4 max-w-md w-[95%]">
-            <span className="flex-1 text-gray-900 dark:text-gray-100">{BannerMessage}</span>
+            <span className="flex-1 text-gray-900 dark:text-gray-100">{t('settingsTutorials.signetBanner.message')}</span>
             <div className="flex w-4/5 justify-between">
                 <button
                     className="bg-primary hover:bg-primary_dark text-white font-semibold px-4 py-2 rounded-lg shadow transition"
@@ -32,7 +35,7 @@ const SignetBanner: React.FC = () => {
                         router.push(`/user/settings?${query}`);
                     }}
                 >
-                    Ajouter
+                    {t('settingsTutorials.signetBanner.addButton')}
                 </button>
                 <button
                     className="bg-white border-2 border-primary hover:bg-primary_dark text-primary font-semibold px-4 py-2 rounded-lg shadow transition"
@@ -40,7 +43,7 @@ const SignetBanner: React.FC = () => {
                         setVisible(false);
                     }}
                 >
-                    Compris
+                    {t('settingsTutorials.signetBanner.understoodButton')}
                 </button>
             </div>
             <button

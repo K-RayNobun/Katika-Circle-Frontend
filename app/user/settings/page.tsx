@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import UserProfile from '@/components/pagesComponents/UserProfile';
 import ProfileSection from '@/components/pagesComponents/SettingsProfile';
 import HelpFAQSection from '@/components/pagesComponents/SettingsHelpFAQ';
-import SettingsTutorials from './tutorials/components/MainPage';
+import SettingsTutorials from './tutorials/signetTutorial/components/MainPage';
 
 import { useAppSelector } from '@/lib/redux/hooks';
 import { useEffect } from 'react';

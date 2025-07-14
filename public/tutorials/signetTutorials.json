@@ -8,25 +8,25 @@
                     "order": 1,
                     "title": "Open the Website",
                     "instruction": "Navigate to the website you want to add to your home screen using Safari.",
-                    "image": "https://placehold.co/600x200?text=Transcoding"
+                    "images": ["https://placehold.co/600x200?text=Transcoding"]
                 },
                 {
                     "order": 2,
                     "title": "Open the Share Menu",
                     "instruction": "Tap the Share icon (a square with an arrow pointing up) at the bottom of the screen.",
-                    "image": "https://placehold.co/600x200?text=Transcoding"
+                    "images": ["https://placehold.co/600x200?text=Transcoding"]
                 },
                 {
                     "order": 3,
                     "title": "Select 'Add to Home Screen'",
                     "instruction": "Scroll down and tap 'Add to Home Screen' from the list of options.",
-                    "image": "https://placehold.co/600x200?text=Transcoding"
+                    "images": ["https://placehold.co/600x200?text=Transcoding"]
                 },
                 {
                     "order": 4,
                     "title": "Confirm and Add",
                     "instruction": "Edit the name if desired, then tap 'Add' in the top right corner.",
-                    "image": "images/ios_safari_step4.png"
+                    "images": ["images/ios_safari_step4.png"]
                 }
             ]
         },
@@ -38,25 +38,25 @@
                     "order": 1,
                     "title": "Open the Website",
                     "instruction": "Go to the website you want to bookmark using Chrome.",
-                    "image": "images/ios_chrome_step1.png"
+                    "images": ["images/ios_chrome_step1.png"]
                 },
                 {
                     "order": 2,
                     "title": "Open the Share Menu",
                     "instruction": "Tap the Share icon (three dots or a square with an arrow) at the top right.",
-                    "image": "images/ios_chrome_step2.png"
+                    "images": ["images/ios_chrome_step2.png"]
                 },
                 {
                     "order": 3,
                     "title": "Select 'Add to Home Screen'",
                     "instruction": "In the share sheet, scroll and tap 'Add to Home Screen'.",
-                    "image": "images/ios_chrome_step3.png"
+                    "images": ["images/ios_chrome_step3.png"]
                 },
                 {
                     "order": 4,
                     "title": "Confirm and Add",
                     "instruction": "Edit the name if you wish, then tap 'Add'.",
-                    "image": "images/ios_chrome_step4.png"
+                    "images": ["images/ios_chrome_step4.png"]
                 }
             ]
         },
@@ -68,25 +68,25 @@
                     "order": 1,
                     "title": "Open the Website",
                     "instruction": "Navigate to the website you want to add using Chrome.",
-                    "image": "images/android_chrome_step1.png"
+                    "images": ["images/android_chrome_step1.png"]
                 },
                 {
                     "order": 2,
                     "title": "Open the Menu",
                     "instruction": "Tap the three dots menu icon in the top right corner.",
-                    "image": "images/android_chrome_step2.png"
+                    "images": ["images/android_chrome_step2.png"]
                 },
                 {
                     "order": 3,
                     "title": "Select 'Add to Home screen'",
                     "instruction": "Tap 'Add to Home screen' from the menu.",
-                    "image": "images/android_chrome_step3.png"
+                    "images": ["images/android_chrome_step3.png"]
                 },
                 {
                     "order": 4,
                     "title": "Confirm and Add",
                     "instruction": "Edit the name if needed, then tap 'Add'.",
-                    "image": "images/android_chrome_step4.png"
+                    "images": ["images/android_chrome_step4.png"]
                 }
             ]
         },
@@ -98,25 +98,25 @@
                     "order": 1,
                     "title": "Open the Website",
                     "instruction": "Go to the website you want to add using Microsoft Edge.",
-                    "image": "images/android_edge_step1.png"
+                    "images": ["images/android_edge_step1.png"]
                 },
                 {
                     "order": 2,
                     "title": "Open the Menu",
                     "instruction": "Tap the three dots menu icon at the bottom center.",
-                    "image": "images/android_edge_step2.png"
+                    "images": ["images/android_edge_step2.png"]
                 },
                 {
                     "order": 3,
                     "title": "Select 'Add to Home screen'",
                     "instruction": "Tap 'Add to Home screen' from the menu options.",
-                    "image": "images/android_edge_step3.png"
+                    "images":[ "images/android_edge_step3.png"]
                 },
                 {
                     "order": 4,
                     "title": "Confirm and Add",
                     "instruction": "Edit the shortcut name if you wish, then tap 'Add'.",
-                    "image": "images/android_edge_step4.png"
+                    "images": ["images/android_edge_step4.png"]
                 }
             ]
         }

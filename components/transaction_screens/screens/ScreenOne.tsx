@@ -51,11 +51,6 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     const [modifyingSentAmount, setModifyingSentAmount] = useState(true);
     const formRef  = useRef<HTMLFormElement>(null);
 
-<<<<<<< HEAD
-=======
-    // const [lastEditedField, setLastEditedField] = useState<'send' | 'receive' | null>(null);
-
->>>>>>> 7ac19ce (TutoContainer builded comp. Need to test and links everythg)
     const minimalAmount = 30;
     const maximalAmount = 70000;
     
@@ -82,29 +77,6 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
 
         document.documentElement.style.setProperty('--info-content', `'${content}'`);
     }, [katikaRates, t]);
-
-<<<<<<< HEAD
-    const currenciesData: Record<string, {image:string; name:string; symbol:string}> = {
-        '€': {
-            name: 'EUR',
-            symbol: '€',
-            image: '/currencies/euro.png'
-        },
-        '£': {
-            name: 'GBP',
-            symbol: '£',
-            image: '/currencies/sterling.svg'
-=======
-    useEffect(() => {
-        console.log('The user country is ', userData.country);
-    }, [])
-
-    useEffect(() => {
-        if (isActive) {
-            registerValidation(validateCurrentField);
->>>>>>> 7ac19ce (TutoContainer builded comp. Need to test and links everythg)
-        }
-    }, [isActive, currentStep, steps]);
 
     const isFieldActive = (fieldId: string) =>
         !isActive || steps?.[currentStep]?.fieldId === fieldId;
@@ -245,13 +217,7 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
     }
     
     const handleReceivedAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-<<<<<<< HEAD
         const newAmountReceived = parseFloat(e.target.value.replace(/,/g, '')) || 0;
-=======
-        console.log(` Input value ${e.target.value} `)
-        const newAmountReceived = parseInt(e.target.value.replace(/,/g, '')) || 0;
-        console.log('The new amount received is ', newAmountReceived);
->>>>>>> 7ac19ce (TutoContainer builded comp. Need to test and links everythg)
         setAmountReceived(newAmountReceived);
 
         const newAmountSent = newAmountReceived / katikaRate;
@@ -382,21 +348,6 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
 
     const dispatch = useAppDispatch()
     const accessToken = useAppSelector((state) => state.token.token);
-<<<<<<< HEAD
-=======
-    const transactionDetails = useAppSelector((state) => state.transaction);
-    // DEFAULT AMOUNT VALUES
-    let amountSentDefault = '';
-    const amountReceivedDefault = '';
-
-    try {
-         amountSentDefault = transactionDetails.amountSent === 0 ? '' : formatAmount(transactionDetails.amountSent!);
-    }
-    catch (error) {
-        console.error('Error formatting sent amount:', error);
-        amountSentDefault = '0';
-    }
->>>>>>> 7ac19ce (TutoContainer builded comp. Need to test and links everythg)
 
     // Set the default amount received based on the sent amount and rate
     useEffect(() => {
@@ -468,35 +419,19 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                         src={`${currenciesData[userData.currencySymbol || '€'].image}`} alt={currenciesData[userData.currencySymbol || '€'].name} width={30} height={20} className='w-[30px]' />
                     {
                     modifyingSentAmount ?
-<<<<<<< HEAD
                         <input  type="text" onChange={handleSentAmountChange}
                                 name='amount-sent' 
                                 className='grow w-[75%] sm:w-full text-right' 
                                 style={{ margin: 0, padding: 0}}
                                 onBeforeInput={handleSendBeforeInput}
-=======
-                        <input type="text" 
-                                onChange={handleSentAmountChange}
-                                defaultValue={amountSentDefault}
-                                name='amount-sent' 
-                                id="amount-sent"
-                                className='grow w-[75%] sm:w-full text-right' style={{ margin: 0, padding: 0}}
->>>>>>> 7ac19ce (TutoContainer builded comp. Need to test and links everythg)
                                 onKeyDown={(e) => {
                                     // Prevent input of unwanted characters
                                     if (!/^(\d+)?(\.\d{0,2})?$/.test(e.key) && 
                                         !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key)) {
-<<<<<<< HEAD
                                             console.log('Key Pressed is unnaceptable');
                                             e.preventDefault();
                                     }
                                 }}
-=======
-                                        e.preventDefault();
-                                    }}
-                                }
-                                disabled={!isFieldActive('amount-sent')}
->>>>>>> 7ac19ce (TutoContainer builded comp. Need to test and links everythg)
                         />
                     :
                         <input  type="text"
@@ -520,28 +455,10 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                     <img src={`${countriesData[selectedCountry]?.image}`} alt="Img" className='w-[30px]' />
                     {
                         modifyingSentAmount ?
-<<<<<<< HEAD
                         <input onClick={() => {setModifyingSentAmount(false)}} type="text" readOnly={true} value={amountReceivedFormatted} name='amount-received' className='grow w-[75%] sm:w-full text-right' />
                         :
                         <input  type="text" 
                                 name='amount-received' 
-=======
-                        <input  onClick={() => {setModifyingSentAmount(false)}}
-                                type="text"
-                                readOnly={true}
-                                defaultValue={amountReceivedDefault}
-                                value={amountReceivedFormatted}
-                                name='amount-received'
-                                id="amount-received"
-                                className='grow w-[75%] sm:w-full text-right'
-                                disabled={!isFieldActive('amount-sent')}
-                        />
-                        :
-                        <input  type="text" 
-                                name='amount-received'
-                                id="amount-received"
-                                defaultValue={amountReceivedDefault} 
->>>>>>> 7ac19ce (TutoContainer builded comp. Need to test and links everythg)
                                 onChange={handleReceivedAmountChange} 
                                 className='grow w-[75%] sm:w-full text-right'
                                 onKeyDown={(e) => {
@@ -549,16 +466,9 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                                     if (!/^\d*$/.test(e.key) && 
                                         !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key)) {
                                         e.preventDefault();
-<<<<<<< HEAD
                                     }
                                 }}
                         />
-=======
-                                    }}
-                                }
-                                disabled={!isFieldActive('amount-received')}
-                         />
->>>>>>> 7ac19ce (TutoContainer builded comp. Need to test and links everythg)
 
                     }
                     <h5 className=''>{countriesData[selectedCountry]?.currency}</h5>
