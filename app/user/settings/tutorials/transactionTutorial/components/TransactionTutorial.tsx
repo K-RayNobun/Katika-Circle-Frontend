@@ -3,7 +3,7 @@ import useTutorial from "../hooks/useTutorial";
 import { useTranslation } from "@/lib/hooks/useTranslation";
 import TutorialStep from "../../signetTutorial/components/TutorialStep";
 
-const TransactionsTutorialContainer = ({ goBack }: { goBack: () => void }) => {
+const TransactionsTutorialContainer = ({ goBack , onFinish}: { goBack: () => void, onFinish: () => void }) => {
 
     const { t } = useTranslation();
 
@@ -44,14 +44,14 @@ const TransactionsTutorialContainer = ({ goBack }: { goBack: () => void }) => {
     console.log('This Step Images', step.images);
 
     return (
-        <section className="h-full w-full flex flex-col items-center justify-center bg-lime-400/25 overflow-y-auto">
+        <section className="w-full flex flex-col items-center justify-center overflow-y-auto">
             <TutorialStep
                 title={step.title}
                 instruction={step.instruction}
                 images={step.images}
                 onNext={nextStep}
                 onPrev={prevStep}
-                onExit={goBack}
+                onExit={onFinish}
                 isFirstStep={currentStep === 0}
                 isLastStep={currentStep === steps.length - 1}
             />

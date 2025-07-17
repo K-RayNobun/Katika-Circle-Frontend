@@ -599,6 +599,8 @@
     "settingsTutorials": {
         "title": "Our Tutorials",
         "subtitle": "Check out our list of tutorials designed to help you understand every aspect of the app. Don't hesitate to click on one of the following and follow the instructions.",
+        "viewLess": " ...view less",
+        "viewMore": " ...view more",
         "signetBanner": {
             "message": "Add Send to your home screen for easier access!",
             "addButton": "Add",

@@ -48,7 +48,7 @@ const SettingsTutorials = () => {
     } else if (selectedIndex === 1) {
         return (
             <div className="w-full">
-                <TransactionsTutorialContainer goBack={handleBack} />
+                <TransactionsTutorialContainer onFinish={handleBack} goBack={handleBack} />
             </div>
         );
     }
@@ -87,7 +87,7 @@ const SettingsTutorials = () => {
                         <span className="text-[12px] lg:text-[13px] leading-4 mb-2">
                             {isExpanded ? tutorial.description : displayText}
                             <button className='text-violet-700 inline' onClick={ e => {e.stopPropagation(); toggleLength(idx)}}>
-                                { isExpanded ? '... view less' : '... view more' }
+                                { isExpanded ? t('settingsTutorials.viewLess') : t('settingsTutorials.viewMore')}
                             </button>
                         </span>
                     </div>)

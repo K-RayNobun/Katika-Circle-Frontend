@@ -29,7 +29,7 @@ const TutorialStep: React.FC<TutorialStepProps> = ({
 
     const hasUserPassedTutorialOnce = useAppSelector((state) => state.user.passedTutorials);
 
-    const [expanded, setExpanded] = useState<boolean>(true);
+    const [expanded, setExpanded] = useState<boolean>(false);
 
     const maxLength = 70;
     const displayText = instruction.length > maxLength ? instruction.slice(0, maxLength) : instruction;
@@ -52,7 +52,7 @@ const TutorialStep: React.FC<TutorialStepProps> = ({
             <p className="text-[13px] lg:text-[15px] text-gray-700 mb-6 text-center">
                 {expanded ? instruction : displayText}
                 <button className='text-violet-700 inline' onClick={ e => {e.stopPropagation(); setExpanded(prev => !prev); }}>
-                    { expanded ? '... view less' : '... view more' }
+                { expanded ? t('settingsTutorials.viewLess') : t('settingsTutorials.viewMore') }
                 </button>
             </p>
             <div className="mb-2 lg:mb-8 flex justify-center items-center w-full max-w-[300px] gap-4">
