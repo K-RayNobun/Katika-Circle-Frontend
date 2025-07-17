@@ -14,8 +14,8 @@ const FirstTutorialContainer: React.FC<FirstTutorialContainerProps> = ({ onClose
     };
 
     return (
-        <div className="w-full h-full flex items-center justify-center bg-black/30 p-4">
-            <div className="max-w-2xl h-[100%] shadow-lg bg-yellow-500/70">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+            <div className="w-full max-w-2xl h-[70vh] lg:h-[100%] shadow-lg rounded-xl bg-pink/35 p-2 overflow-hidden flex flex-col ">
                 <TransactionsTutorialContainer goBack={handleGoBack} />
             </div>
         </div>

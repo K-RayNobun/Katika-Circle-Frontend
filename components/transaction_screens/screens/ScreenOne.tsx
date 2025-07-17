@@ -191,7 +191,9 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
         updateRate(newAmountSent);
         // Calculate the amount received with no decimal places
         const newAmountReceived = (Math.trunc(newAmountSent * katikaRate));
+        
         console.log(` The new amount received is ${formatAmount(newAmountReceived)} and the new amount sent is ${newAmountSent}`);
+        updateRate(newAmountSent);
 
 
         setAmountReceived(newAmountReceived);
@@ -434,14 +436,13 @@ const ScreenOne = ({onClose, moveToScreen}:screenProps) => {
                                 }}
                         />
                     :
-                        <input  type="text"
+                        <input type="text"
                                 onClick={() => {setModifyingSentAmount(true)}}
                                 readOnly={true}
-                                value={parseFloat(amountSentFormatted.replace(/,/g, ''))}
+                                value={ amountSentFormatted }
                                 name='amount-sent'
                                 id="amount-sent"
                                 className='grow w-[75%] sm:w-full text-right'
-                                disabled={!isFieldActive('amount-sent')}
                         />
                     }
                     <h5 className=''>{currenciesData[userData.currencySymbol || '€']?.symbol}</h5>

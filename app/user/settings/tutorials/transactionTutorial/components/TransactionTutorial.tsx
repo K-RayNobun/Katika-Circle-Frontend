@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import useTutorial from "../hooks/useTutorial";
+import { useTranslation } from "@/lib/hooks/useTranslation";
 import TutorialStep from "../../signetTutorial/components/TutorialStep";
 
 const TransactionsTutorialContainer = ({ goBack }: { goBack: () => void }) => {
 
+    const { t } = useTranslation();
 
     useEffect(() => {
         startTutorial();
@@ -12,7 +14,6 @@ const TransactionsTutorialContainer = ({ goBack }: { goBack: () => void }) => {
     const {
         steps,
         currentStep,
-        loading,
         startTutorial,
         nextStep,
         prevStep,
@@ -22,7 +23,9 @@ const TransactionsTutorialContainer = ({ goBack }: { goBack: () => void }) => {
     if (!steps.length) {
         return (
             <div className="flex flex-col items-center justify-center p-8">
-                <p className="text-red-500 mb-4">Sorry, no tutorial found for your selection.</p>
+                <p className="text-red-500 mb-4">
+                    {t("settingsTutorials.transactionTutorial.noTutorialFound")}
+                </p>
                 <button
                     className="px-4 py-2 bg-primary text-white rounded shadow hover:bg-primary/80"
                     onClick={() => {
@@ -30,7 +33,7 @@ const TransactionsTutorialContainer = ({ goBack }: { goBack: () => void }) => {
                         goBack();
                     }}
                 >
-                    ← Back
+                    {t("settingsTutorials.transactionTutorial.backButton")}
                 </button>
             </div>
         )
@@ -41,7 +44,7 @@ const TransactionsTutorialContainer = ({ goBack }: { goBack: () => void }) => {
     console.log('This Step Images', step.images);
 
     return (
-        <section className="w-full h-full  flex flex-col items-center justify-center">
+        <section className="h-full w-full flex flex-col items-center justify-center bg-lime-400/25 overflow-y-auto">
             <TutorialStep
                 title={step.title}
                 instruction={step.instruction}

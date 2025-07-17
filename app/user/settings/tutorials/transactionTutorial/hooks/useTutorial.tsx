@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from '@/lib/hooks/useTranslation';
-import { format } from 'path';
-
 
 type TutorialJson = {
     order: number;
@@ -9,28 +7,6 @@ type TutorialJson = {
     instruction: string;
     images: string[];
 }
-
-const formatContent = (content: string) => {
-    return content.split('\n\n').map((paragraph, i) => (
-        <React.Fragment key={i}>
-            {
-              paragraph.split('\n').map((line, j) => (
-                <React.Fragment key={j}>
-                  {
-                    // Check Display the content between \b in bold
-                    // For example in the sentence "The lion is a little \bchildish\b", the word childish will be in bold
-                        <span key={j} className="">
-                          {line}
-                        </span>
-                  }
-                  <br />
-                </React.Fragment>
-              ))
-            }
-            <br />
-        </React.Fragment>
-    ))
-  }
 
 const loadTutorials = async (): Promise<TutorialJson[]> => {
     const locale = navigator.language.split("-")[0]
@@ -52,11 +28,7 @@ const useTutorial = () => {
         setLoading(true);
         try {
             const tutorialSteps = await loadTutorials();
-            const formattedSteps = tutorialSteps.map((step: any) => ({
-                ...step,
-                instruction: formatContent(step.instruction),
-            }));
-            setSteps(formattedSteps);
+            setSteps(tutorialSteps);
             setCurrentStep(0);
         } catch (error) {
             console.error('Failed to load tutorial steps:', error);

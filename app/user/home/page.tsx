@@ -128,14 +128,14 @@ const Home = () => {
         if (index === 1) {
             if (screenIndex < 5) {
                 setScreenIndex((prev) => prev + 1);
-                // console.log('Moved to next screen :>', screenIndex + 1);
+                console.log('Moved to next screen :>', screenIndex + 1);
             } else {
-                setScreenIndex(1);
+                setScreenIndex(5);
             }
         } else if (index === -1) {
             if (screenIndex > 1) {
                 setScreenIndex((prev) => prev - 1);
-                // console.log('Moved to previous screen :>', screenIndex - 1);
+                console.log('Moved to previous screen :>', screenIndex - 1);
             } else {
                 setScreenIndex(1);
             }

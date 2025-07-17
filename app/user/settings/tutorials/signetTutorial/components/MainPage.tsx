@@ -8,17 +8,17 @@ import Image from 'next/image';
 const tutorialsList = [
     {
         id: 1,
-        title: "Installez l'application Send",
+        title: "Installer l'application Send",
         description: "Installez l'application Send sur votre téléphone et accédez-y depuis votre écran d'accueil.",
         icon: "📱",
         image: "/tutorials/signetTuto.png", // Added image
     },
     {
         id: 2,
-        title: "Effectuez votre primière transaction",
+        title: "Lancez votre première transaction",
         description: "Effectuez votre première transaction en suivant les étapes simples de l'application, en faisant votre identification",
         icon: "💶",
-        image: "/tutorials/transactionTuto.png"
+        image: "/tutorials/signetTuto.png"
     }
 ];
 
@@ -55,10 +55,10 @@ const SettingsTutorials = () => {
 
     return (
         <div className="w-full h-full flex flex-col item-center py-[24px] px-[16px] lg:p-[32px]">
-            <h4 className="text-[22px] lg:text-[28px] text-center text-wrap block font-bold text-primary_dark mb-4">
+            <h4 className="text-[22px] lg:text-[28px] text-center text-wrap block font-bold text-primary_dark mb-2 lg:mb-4">
                 {t('settingsTutorials.title')}
             </h4>
-            <h6 className="w-full text-[16px] text-center text-wrap mb-8 px-[10%]">
+            <h6 className="w-full text-[14px] lg:text-[16px] text-center text-wrap mb-8 lg:px-[10%]">
                 {t('settingsTutorials.subtitle')}
             </h6>
             
@@ -77,14 +77,14 @@ const SettingsTutorials = () => {
                         onClick={() => setSelectedIndex(idx)}
                     >
                         <div className="flex items-center mb-2">
-                            <div>
-                                <h5 className="font-semibold text-[18px] text-center text-primary_dark">{tutorial.title}</h5>
+                            <div className='w-full'>
+                                <h5 className="font-semibold text-[16px] lg:text-[18px] text-center text-primary_dark">{tutorial.title}</h5>
                             </div>
                         </div>
                         <div className="w-full">
-                            <Image src={tutorial.image} width={10} height={196} alt='Img Not Found' className='rounded-xl w-full mb-2 h-36 object-cover'/>
+                            <Image src={tutorial.image} width={10} height={196} alt='Img Not Found' className='rounded-md w-full mb-2 h-36 object-cover'/>
                         </div>
-                        <span className="text-[13px] mb-2">
+                        <span className="text-[12px] lg:text-[13px] leading-4 mb-2">
                             {isExpanded ? tutorial.description : displayText}
                             <button className='text-violet-700 inline' onClick={ e => {e.stopPropagation(); toggleLength(idx)}}>
                                 { isExpanded ? '... view less' : '... view more' }

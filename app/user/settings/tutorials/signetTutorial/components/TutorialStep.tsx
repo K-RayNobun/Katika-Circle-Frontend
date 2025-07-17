@@ -1,6 +1,6 @@
 import { useTranslation } from '@/lib/hooks/useTranslation';
 import { useAppSelector } from '@/lib/redux/hooks';
-import React from 'react';
+import React, { useState } from 'react';
 import { LiaTimesCircleSolid } from 'react-icons/lia';
 
 interface TutorialStepProps {
@@ -29,8 +29,15 @@ const TutorialStep: React.FC<TutorialStepProps> = ({
 
     const hasUserPassedTutorialOnce = useAppSelector((state) => state.user.passedTutorials);
 
+    const [expanded, setExpanded] = useState<boolean>(true);
+
+    const maxLength = 70;
+    const displayText = instruction.length > maxLength ? instruction.slice(0, maxLength) : instruction;
+
+
+
     return (
-        <div className={`relative w-full h-full flex flex-col justify-center items-center bg-white ${ hasUserPassedTutorialOnce ? 'p-[15%]': 'p-[32px] rounded-xl overflow-scroll' }`}>
+        <div className={`relative w-full flex flex-col flex-shrink-0 justify-center items-center bg-white rounded-xl ${ hasUserPassedTutorialOnce ? 'p-[7%] lg:p-[15%]': 'p-[20px] lg:p-[32px]' }`}>
            { hasUserPassedTutorialOnce &&
                 <button
                     className="absolute top-6 right-6"
@@ -39,13 +46,16 @@ const TutorialStep: React.FC<TutorialStepProps> = ({
                     <LiaTimesCircleSolid size={36} className='text-primary_dark' />
                 </button>
             }
-            <h2 className="text-[28px] font-bold text-primary mt-2 mb-4 text-center">
+            <h2 className="text-[22px] lg:text-[28px] font-bold text-primary mt-2 mb-4 text-center">
                 {title}
             </h2>
-            <p className="text-gray-700 mb-6 text-center">
-                {instruction}
+            <p className="text-[13px] lg:text-[15px] text-gray-700 mb-6 text-center">
+                {expanded ? instruction : displayText}
+                <button className='text-violet-700 inline' onClick={ e => {e.stopPropagation(); setExpanded(prev => !prev); }}>
+                    { expanded ? '... view less' : '... view more' }
+                </button>
             </p>
-            <div className="mb-8 flex justify-center items-center w-full max-w-2xl gap-4">
+            <div className="mb-2 lg:mb-8 flex justify-center items-center w-full max-w-[300px] gap-4">
                 {images.map((imageLink, index) => (
                     <img
                         key={index}
@@ -55,16 +65,16 @@ const TutorialStep: React.FC<TutorialStepProps> = ({
                     />
                 ))}
             </div>
-            <div className="flex justify-center items-center gap-20">
+            <div className="flex justify-center items-center gap-8 lg:gap-20">
                 <button
-                    className={`mt-4 px-6 py-2 ${ isFirstStep ? 'hidden' : 'block' } bg-primary text-white rounded shadow hover:bg-primary/80 active:bg-primary_dark transition `}
+                    className={`mt-4 px-6 py-2 ${ isFirstStep ? 'hidden' : 'block' } bg-primary text-[14px] lg:text-[16px] text-white rounded shadow hover:bg-primary/80 active:bg-primary_dark transition `}
                     onClick={onPrev}
                     disabled={isFirstStep}
                 >
                     { t('settingsTutorials.tutorialStep.prevButton')}
                 </button>
                 <button
-                    className="mt-4 px-6 py-2 bg-primary text-white rounded shadow hover:bg-primary/80 active:bg-primary_dark transition"
+                    className="mt-4 px-6 py-2 bg-primary text-[14px] lg:text-[16px] text-white rounded shadow hover:bg-primary/80 active:bg-primary_dark transition"
                     onClick={isLastStep ? onExit : onNext}
                 >
                     {isLastStep ? t('settingsTutorials.tutorialStep.finishButton') : t('settingsTutorials.tutorialStep.nextButton')}

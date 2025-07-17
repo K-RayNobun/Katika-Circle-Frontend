@@ -628,6 +628,12 @@
             "prevButton": "Précédent",
             "nextButton": "Suivant",
             "finishButton": "Terminer"
+        },
+        "transactionTutorial": {
+            "title": "Comment effectuer une transaction",
+            "description": "Ce tutoriel vous explique comment effectuer votre première transaction sur l'application SendByKatika. Votre transaction se déroule en deux étapes:\n La première s'effectue dans l'application, où vous fournissez les informations essentielles.\n La seconde étape consiste à vous rediriger vers notre partenaire, qui vous attribuera un compte bancaire sur lequel effectuer le virement.\nP.S. Pour votre première transaction, il vous sera demandé de vous identifier avec une pièce d'identité.\n Appuyez sur le bouton « Continuer » pour commencer.",
+            "noTutorialFound": "Désolé, aucun tutoriel trouvé pour votre sélection.",
+            "backButton": "← Retour"
         }
     },
     "errors": {

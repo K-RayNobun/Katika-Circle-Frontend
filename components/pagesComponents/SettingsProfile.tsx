@@ -173,9 +173,9 @@ const ProfileSettings = () => {
                     {!isEditingCredentials && (
                         <button
                             onClick={() => setIsEditingCredentials(true)}
-                            className='flex items-center gap-[8px] p-[8px] rounded-[8px] border-2 border-primary'
+                            className='flex items-center lg:gap-[8px] p-1 lg:p-[8px] rounded-[8px] border-2 border-primary'
                         >
-                            <h5 className='font-bold text-primary'>{t('settingsProfile.edit')}</h5>
+                            <h5 className='hidden lg:block font-bold text-primary'>{t('settingsProfile.edit')}</h5>
                             <PiPencilSimpleLineDuotone size={20} className='text-primary' />
                         </button>
                     )}
