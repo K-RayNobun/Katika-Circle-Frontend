@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import useTutorial from "../hooks/useTutorial";
 import { useTranslation } from "@/lib/hooks/useTranslation";
-import TutorialStep from "../../signetTutorial/components/TutorialStep";
+import TransactionIntro from "./TransactionIntro";
+import TutorialStep from "../../TutorialStep";
 
 const TransactionsTutorialContainer = ({ goBack , onFinish}: { goBack: () => void, onFinish: () => void }) => {
 
@@ -19,6 +20,8 @@ const TransactionsTutorialContainer = ({ goBack , onFinish}: { goBack: () => voi
         prevStep,
         resetTutorial
     } = useTutorial();
+
+    const [passedIntro, setPassedIntro] = useState(false);
 
     if (!steps.length) {
         return (
@@ -45,6 +48,9 @@ const TransactionsTutorialContainer = ({ goBack , onFinish}: { goBack: () => voi
 
     return (
         <section className="w-full flex flex-col items-center justify-center overflow-y-auto">
+            {!passedIntro ? (
+            <TransactionIntro onContinue={() => setPassedIntro(true)} />
+            ) : (
             <TutorialStep
                 title={step.title}
                 instruction={step.instruction}
@@ -52,9 +58,10 @@ const TransactionsTutorialContainer = ({ goBack , onFinish}: { goBack: () => voi
                 onNext={nextStep}
                 onPrev={prevStep}
                 onExit={onFinish}
-                isFirstStep={currentStep === 0}
+                isFirstStep={currentStep === 1}
                 isLastStep={currentStep === steps.length - 1}
             />
+            )}
         </section>
     );
 };

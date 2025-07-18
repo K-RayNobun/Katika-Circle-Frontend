@@ -445,9 +445,18 @@
                 "back": "Retour"
             }
         },
+        "screenRedirect": {
+            "title": "Transaction initiée",
+            "windowOpened": "La fenêtre de transaction a été ouverte dans un nouvel onglet. Vous pouvez vérifier le statut avec le bouton ci-dessous.",
+            "checkStatus": "Vérifier le statut de la transaction",
+            "success": "Transaction réussie",
+            "notProcessed": "Transaction non traitée pour le moment",
+            "error": "Transaction non traitée",
+            "tryAgain": "Réessayer"
+        },
         "screenFour": {
             "title": "Transaction terminée",
-            "verificationMessage": "Nous avons envoyé un code de vérification à votre email. Saisissez-le ci-dessous pour terminer votre connexion",
+            "verificationMessage": "Votre transaction a été effectuée. Vous recevrez un email de confirmation sous peu.",
             "buttons": {
                 "backToHome": "Retour à l'accueil",
                 "close": "Fermer"
@@ -633,7 +642,7 @@
         },
         "transactionTutorial": {
             "title": "Comment effectuer une transaction",
-            "description": "Ce tutoriel vous explique comment effectuer votre première transaction sur l'application SendByKatika. Votre transaction se déroule en deux étapes:\n La première s'effectue dans l'application, où vous fournissez les informations essentielles.\n La seconde étape consiste à vous rediriger vers notre partenaire, qui vous attribuera un compte bancaire sur lequel effectuer le virement.\nP.S. Pour votre première transaction, il vous sera demandé de vous identifier avec une pièce d'identité.\n Appuyez sur le bouton « Continuer » pour commencer.",
+            "description": "Bienvenue, nous sommes heureux de vous voir réaliser votre première transaction! Ce tutoriel vous explique comment effectuer votre première transaction sur l'application SendByKatika. Votre transaction se déroule en deux étapes:\n La première s'effectue dans l'application, où vous fournissez les informations essentielles.\n La seconde étape consiste à vous rediriger vers notre partenaire, qui vous attribuera un compte bancaire sur lequel effectuer le virement.\nP.S. Pour votre première transaction, il vous sera demandé de vous identifier avec une pièce d'identité.\n Appuyez sur le bouton « Continuer » pour commencer.",
             "noTutorialFound": "Désolé, aucun tutoriel trouvé pour votre sélection.",
             "backButton": "← Retour"
         }

@@ -257,7 +257,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                     </div>
                 </div>
                 {isTypeMobile ? (
-                    <div className="flex flex-col h-full">
+                    <div className="flex flex-col">
                         <label className="mb-[4px] text-[14px] text-gray_dark/60">
                             {t('transactionScreens.screenTwo.recipient.phoneLabel')}
                         </label>

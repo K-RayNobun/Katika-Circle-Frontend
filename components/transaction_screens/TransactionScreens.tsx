@@ -72,7 +72,6 @@ const TransactionScreens = ({screenIndex, closeScreen, moveToScreen}: { screenIn
                                                 () => {
                                                     moveToScreen(1);
                                                     dispatch(setPassedTutorials(true));
-                                                    console.log('Tutorial completed, moving to screen 1');
                                                 }
                                             } />
                 }

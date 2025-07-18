@@ -35,9 +35,11 @@
         CHanges From Previous Deployment:
         - Rates + n*2 (ScreenOne.tsx)   
 
-        - Tutorial window fits 70% and scrolls
-        - Redirects to screenOne.tsx ( screenIndex )
-        - Disable tutorial for transactions[] users       
+        x Tutorial window fits 70% and scrolls
+        x Redirects to screenOne.tsx ( screenIndex )
+        + Disable tutorial for transactions[] users  
+        - ScreenFour Image and checkState
+        x Tutorial Presentation page & screenTwo length
 
 
 

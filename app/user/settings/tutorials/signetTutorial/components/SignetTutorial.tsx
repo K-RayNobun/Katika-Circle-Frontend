@@ -1,6 +1,6 @@
 import React from 'react';
 import SignetSurvey from './SignetSurvey';
-import TutorialStep from './TutorialStep';
+import TutorialStep from '../../TutorialStep';
 import useTutorial from '../hooks/useTutorial';
 import { useTranslation } from '@/lib/hooks/useTranslation';
 

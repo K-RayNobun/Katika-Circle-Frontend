@@ -422,9 +422,18 @@
                 "back": "Back"
             }
         },
+        "screenRedirect": {
+            "title": "Transaction Initiated",
+            "windowOpened": "Transaction window has been opened in a new tab. You can verify the status with the button below.",
+            "checkStatus": "Check Transaction Status",
+            "success": "Transaction successful",
+            "notProcessed": "Transaction not processed yet",
+            "error": "Transaction not processed",
+            "tryAgain": "Try Again"
+        },
         "screenFour": {
             "title": "Transaction Complete",
-            "verificationMessage": "We've sent a verification code to your email. Enter it below to complete your login",
+            "verificationMessage": "Your transaction has been completed. You will receive a confirmation email shortly.",
             "buttons": {
                 "backToHome": "Back to Home",
                 "close": "Close"
@@ -634,7 +643,7 @@
         },
         "transactionTutorial": {
             "title": "How to Make a Transaction",
-            "description": "This tutorial explains how to make your first transaction on the SendByKatika app. Your transaction takes place in two steps: \n The first is done in the app, where you provide essential information.\n The second step is to redirect you to our partner, who will assign you a bank account to make the transfer.\n P.S. For your first transaction, you will be asked to provide identification.\n Click the 'Continue' button to begin.",
+            "description": "Welcome, we are glad to see you make your first transaction! This tutorial explains how to make your first transaction on the SendByKatika app. Your transaction takes place in two steps: \n The first is done in the app, where you provide essential information.\n The second step is to redirect you to our partner, who will assign you a bank account to make the transfer.\n P.S. For your first transaction, you will be asked to provide identification.\n Click the 'Continue' button to begin.",
             "noTutorialFound": "Sorry, no tutorial found for your selection.",
             "backButton": "← Back"
         }

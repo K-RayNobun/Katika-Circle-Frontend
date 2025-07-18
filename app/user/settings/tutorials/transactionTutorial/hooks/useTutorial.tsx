@@ -20,7 +20,7 @@ const useTutorial = () => {
     const { locale } =  useTranslation();
     console.log('Using locale:', locale);
     const [steps, setSteps] = useState<TutorialJson[]>([]);
-    const [currentStep, setCurrentStep] = useState(0);
+    const [currentStep, setCurrentStep] = useState(-1);
     const [loading, setLoading] = useState(false);
 
     const startTutorial = async () => {
