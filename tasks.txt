@@ -41,6 +41,10 @@
         - ScreenFour Image and checkState
         x Tutorial Presentation page & screenTwo length
 
+        - Images bolder and green
+        - Pop-up height on signet task in mobile
+        - Signet Survey options dynamics
+
 
 
 

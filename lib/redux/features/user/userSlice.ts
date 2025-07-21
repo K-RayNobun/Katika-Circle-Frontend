@@ -115,7 +115,6 @@ const userSlice = createSlice({
         state.referralList = [];
         state.cashback = 0;
         state.isLoggedOut = true;
-        console.log('USER DATA HAVE BEEN RESET');
        }
     }
 });

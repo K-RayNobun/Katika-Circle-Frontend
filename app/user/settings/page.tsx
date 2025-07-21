@@ -40,12 +40,12 @@ const SettingsPage = () => {
             <>  
                 <button
                     onClick={() => {if(tabName === 'profile' || tabName === 'help' || tabName === 'tutorials') {setActiveTab(tabName)}}}
-                    className={`w-full flex flex-col items-center justify-center lg:justify-start h-full px-[16px] py-[10px] rounded-[8px] ${
+                    className={`flex flex-col items-center justify-center lg:justify-start h-full px-[16px] py-[10px] rounded-[8px] ${
                         activeTab === tabName ? 'bg-primary/20 text-primary font-bold' : 'hover:bg-primary/10 hover:text-primary hover:font-bold'
                     }`}
                 >
                     <span className="block lg:hidden font-bold">{sidebarData.find(item => item.name === tabName)?.icon}</span>
-                    <h5 className="text-[10px] lg:text-[14px]">{title}</h5>
+                    <h5 className="text-[10px] lg:text-[16px]">{title}</h5>
                 </button>
 
             </>
@@ -65,7 +65,7 @@ const SettingsPage = () => {
                 <section className='flex flex-col lg:flex-row grow bg-white rounded-[12px]'>
                     {/* Settings Sidebar */}
                     <div className='h-full border-r-2 border-r-gray px-[12px] py-[8px]'>
-                        <div className='flex lg:flex-col text-center lg:justify-start w-full lg:w-[160px] h-[64px] lg:h-max space-x-[6px] lg:space-y-[24px] overflow-x-auto'>
+                        <div className='flex lg:flex-col text-center lg:justify-center w-full lg:w-[160px] h-[64px] lg:h-max space-x-[6px] lg:space-x-0 lg:space-y-[24px] overflow-x-auto'>
                             {sidebarData.map((item) => (
                                 <SidebarButton key={item.name} tabName={item.name} title={item.title} />
                             ))}

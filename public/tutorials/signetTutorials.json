@@ -1,124 +1,214 @@
 {
-    "tutorials": [
-        {
-            "os": "iOS",
-            "browser": "Safari",
-            "steps": [
-                {
+    "en": {
+            "tutorials": [
+            {
+                "os": "iOS",
+                "browser": "Safari",
+                "steps": [
+                        {
+                            "order": 1,
+                            "title": "Step #1: Open Menu",
+                            "instruction": "Tap the button at the middle bottom of Safari to open the menu options.",
+                            "images": ["/tutorials/signet/ios_safari_step01.svg"]
+                        },
+                        {
+                            "order": 2,
+                            "title": "Step #2: Scroll Menu",
+                            "instruction": "Scroll the menu up to reveal more options.",
+                            "images": ["/tutorials/signet/ios_safari_step02.svg"]
+                        },
+                        {
+                            "order": 3,
+                            "title": "Step #3: Add Bookmark",
+                            "instruction": "Tap on 'Add Bookmark' (Ajouter un signet) to save the website.",
+                            "images": ["/tutorials/signet/ios_safari_step03.svg"]
+                        },
+                        {
+                            "order": 4,
+                            "title": "Step #4: Validate Installation",
+                            "instruction": "Confirm the action to add the bookmark to your device.",
+                            "images": ["/tutorials/signet/ios_safari_step04.svg"]
+                        },
+                        {
+                        "order": 5,
+                        "title": "Step #5: Access from Home Screen",
+                        "instruction": "The app is now available on your home screen for quick access.",
+                        "images": ["/tutorials/signet/ios_safari_step05.svg"]
+                        }
+                    ]
+            },
+            {
+                "os": "iOS",
+                "browser": "Chrome",
+                "steps": [
+                    {
                     "order": 1,
-                    "title": "Open the Website",
-                    "instruction": "Navigate to the website you want to add to your home screen using Safari.",
-                    "images": ["https://placehold.co/600x200?text=Transcoding"]
-                },
-                {
+                    "title": "Step #1: Open Menu",
+                    "instruction": "Tap the button at the middle bottom of Chrome to open the menu.",
+                    "images": ["/tutorials/signet/ios_chrome_step01.svg"]
+                    },
+                    {
                     "order": 2,
-                    "title": "Open the Share Menu",
-                    "instruction": "Tap the Share icon (a square with an arrow pointing up) at the bottom of the screen.",
-                    "images": ["https://placehold.co/600x200?text=Transcoding"]
-                },
-                {
+                    "title": "Step #2: Scroll Menu",
+                    "instruction": "Scroll the menu up to see more options.",
+                    "images": ["/tutorials/signet/ios_chrome_step02.svg"]
+                    },
+                    {
                     "order": 3,
-                    "title": "Select 'Add to Home Screen'",
-                    "instruction": "Scroll down and tap 'Add to Home Screen' from the list of options.",
-                    "images": ["https://placehold.co/600x200?text=Transcoding"]
+                    "title": "Step #3: Add to Home Screen",
+                    "instruction": "Tap on 'Add to Home Screen' (Sur l'écran d'accueil) to install the app.",
+                    "images": ["/tutorials/signet/ios_chrome_step03.svg"]
+                    },
+                    {
+                    "order": 4,
+                    "title": "Step #4: Validate Installation",
+                    "instruction": "Confirm the action to add the app to your device.",
+                    "images": ["/tutorials/signet/ios_chrome_step04.svg"]
+                    },
+                    {
+                    "order": 5,
+                    "title": "Step #5: Access from Home Screen",
+                    "instruction": "The app is now available on your home screen for easy access.",
+                    "images": ["/tutorials/signet/ios_chrome_step05.svg"]
+                    }
+                ]
+            },
+            {
+                "os": "Android",
+                "browser": "Chrome",
+                "steps": [
+                    {
+                        "order": 1,
+                        "title": "Open the Website",
+                        "instruction": "Navigate to the website you want to add using Chrome.",
+                        "images": ["images/android_chrome_step1.png"]
+                    },
+                    {
+                        "order": 2,
+                        "title": "Open the Menu",
+                        "instruction": "Tap the three dots menu icon in the top right corner.",
+                        "images": ["images/android_chrome_step2.png"]
+                    },
+                    {
+                        "order": 3,
+                        "title": "Select 'Add to Home screen'",
+                        "instruction": "Tap 'Add to Home screen' from the menu.",
+                        "images": ["images/android_chrome_step3.png"]
+                    },
+                    {
+                        "order": 4,
+                        "title": "Confirm and Add",
+                        "instruction": "Edit the name if needed, then tap 'Add'.",
+                        "images": ["images/android_chrome_step4.png"]
+                    }
+                ]
+            },
+            {
+                "os": "Android",
+                "browser": "Microsoft Edge",
+                "steps": [
+                    {
+                        "order": 1,
+                        "title": "Open the Website",
+                        "instruction": "Go to the website you want to add using Microsoft Edge.",
+                        "images": ["images/android_edge_step1.png"]
+                    },
+                    {
+                        "order": 2,
+                        "title": "Open the Menu",
+                        "instruction": "Tap the three dots menu icon at the bottom center.",
+                        "images": ["images/android_edge_step2.png"]
+                    },
+                    {
+                        "order": 3,
+                        "title": "Select 'Add to Home screen'",
+                        "instruction": "Tap 'Add to Home screen' from the menu options.",
+                        "images":[ "images/android_edge_step3.png"]
+                    },
+                    {
+                        "order": 4,
+                        "title": "Confirm and Add",
+                        "instruction": "Edit the shortcut name if you wish, then tap 'Add'.",
+                        "images": ["images/android_edge_step4.png"]
+                    }
+                ]
+            }
+        ]
+    },
+    "fr": {
+            "tutorials": [
+                {
+                "os": "iOS",
+                "browser": "Safari",
+                "steps": [
+                    {
+                    "order": 1,
+                    "title": "Step #1: Ouvrir le menu",
+                    "instruction": "Appuyez sur le bouton au centre en bas de Safari pour ouvrir les options du menu.",
+                    "images": ["/tutorials/signet/ios_safari_step01.svg"]
+                    },
+                    {
+                    "order": 2,
+                    "title": "Step #2: Faire défiler le menu",
+                    "instruction": "Faites défiler le menu vers le haut pour afficher plus d'options.",
+                    "images": ["/tutorials/signet/ios_safari_step02.svg"]
+                    },
+                    {
+                    "order": 3,
+                    "title": "Step #3: Ajouter un signet",
+                    "instruction": "Appuyez sur 'Ajouter un signet' pour enregistrer le site web.",
+                    "images": ["/tutorials/signet/ios_safari_step03.svg"]
+                    },
+                    {
+                    "order": 4,
+                    "title": "Step #4: Valider l'installation",
+                    "instruction": "Confirmez l'action pour ajouter le signet à votre appareil.",
+                    "images": ["/tutorials/signet/ios_safari_step04.svg"]
+                    },
+                    {
+                    "order": 5,
+                    "title": "Step #5: Accéder depuis l'écran d'accueil",
+                    "instruction": "L'application est maintenant disponible sur votre écran d'accueil pour un accès rapide.",
+                    "images": ["/tutorials/signet/ios_safari_step05.svg"]
+                    }
+                ]
                 },
                 {
+                "os": "iOS",
+                "browser": "Chrome",
+                "steps": [
+                    {
+                    "order": 1,
+                    "title": "Step #1: Ouvrir le menu",
+                    "instruction": "Appuyez sur le bouton au centre en bas de Chrome pour ouvrir le menu.",
+                    "images": ["/tutorials/signet/ios_chrome_step01.svg"]
+                    },
+                    {
+                    "order": 2,
+                    "title": "Step #2: Faire défiler le menu",
+                    "instruction": "Faites défiler le menu vers le haut pour voir plus d'options.",
+                    "images": ["/tutorials/signet/ios_chrome_step02.svg"]
+                    },
+                    {
+                    "order": 3,
+                    "title": "Step #3: Ajouter à l'écran d'accueil",
+                    "instruction": "Appuyez sur 'Sur l'écran d'accueil' pour installer l'application.",
+                    "images": ["/tutorials/signet/ios_chrome_step03.svg"]
+                    },
+                    {
                     "order": 4,
-                    "title": "Confirm and Add",
-                    "instruction": "Edit the name if desired, then tap 'Add' in the top right corner.",
-                    "images": ["images/ios_safari_step4.png"]
+                    "title": "Step #4: Valider l'installation",
+                    "instruction": "Confirmez l'action pour ajouter l'application à votre appareil.",
+                    "images": ["/tutorials/signet/ios_chrome_step04.svg"]
+                    },
+                    {
+                    "order": 5,
+                    "title": "Step #5: Accéder depuis l'écran d'accueil",
+                    "instruction": "L'application est maintenant disponible sur votre écran d'accueil pour un accès facile.",
+                    "images": ["/tutorials/signet/ios_chrome_step05.svg"]
+                    }
+                ]
                 }
             ]
-        },
-        {
-            "os": "iOS",
-            "browser": "Chrome",
-            "steps": [
-                {
-                    "order": 1,
-                    "title": "Open the Website",
-                    "instruction": "Go to the website you want to bookmark using Chrome.",
-                    "images": ["images/ios_chrome_step1.png"]
-                },
-                {
-                    "order": 2,
-                    "title": "Open the Share Menu",
-                    "instruction": "Tap the Share icon (three dots or a square with an arrow) at the top right.",
-                    "images": ["images/ios_chrome_step2.png"]
-                },
-                {
-                    "order": 3,
-                    "title": "Select 'Add to Home Screen'",
-                    "instruction": "In the share sheet, scroll and tap 'Add to Home Screen'.",
-                    "images": ["images/ios_chrome_step3.png"]
-                },
-                {
-                    "order": 4,
-                    "title": "Confirm and Add",
-                    "instruction": "Edit the name if you wish, then tap 'Add'.",
-                    "images": ["images/ios_chrome_step4.png"]
-                }
-            ]
-        },
-        {
-            "os": "Android",
-            "browser": "Chrome",
-            "steps": [
-                {
-                    "order": 1,
-                    "title": "Open the Website",
-                    "instruction": "Navigate to the website you want to add using Chrome.",
-                    "images": ["images/android_chrome_step1.png"]
-                },
-                {
-                    "order": 2,
-                    "title": "Open the Menu",
-                    "instruction": "Tap the three dots menu icon in the top right corner.",
-                    "images": ["images/android_chrome_step2.png"]
-                },
-                {
-                    "order": 3,
-                    "title": "Select 'Add to Home screen'",
-                    "instruction": "Tap 'Add to Home screen' from the menu.",
-                    "images": ["images/android_chrome_step3.png"]
-                },
-                {
-                    "order": 4,
-                    "title": "Confirm and Add",
-                    "instruction": "Edit the name if needed, then tap 'Add'.",
-                    "images": ["images/android_chrome_step4.png"]
-                }
-            ]
-        },
-        {
-            "os": "Android",
-            "browser": "Microsoft Edge",
-            "steps": [
-                {
-                    "order": 1,
-                    "title": "Open the Website",
-                    "instruction": "Go to the website you want to add using Microsoft Edge.",
-                    "images": ["images/android_edge_step1.png"]
-                },
-                {
-                    "order": 2,
-                    "title": "Open the Menu",
-                    "instruction": "Tap the three dots menu icon at the bottom center.",
-                    "images": ["images/android_edge_step2.png"]
-                },
-                {
-                    "order": 3,
-                    "title": "Select 'Add to Home screen'",
-                    "instruction": "Tap 'Add to Home screen' from the menu options.",
-                    "images":[ "images/android_edge_step3.png"]
-                },
-                {
-                    "order": 4,
-                    "title": "Confirm and Add",
-                    "instruction": "Edit the shortcut name if you wish, then tap 'Add'.",
-                    "images": ["images/android_edge_step4.png"]
-                }
-            ]
-        }
-    ]
+    }
 }

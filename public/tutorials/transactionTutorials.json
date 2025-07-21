@@ -12,8 +12,8 @@
                 "title": "Step #2: Enter the Amount",
                 "instruction": "Please enter the amount to send in euros. You will notice that the conversion rate improves as the amount increases.",
                 "images": [
-                    "/tutorials/transactions/transaction_step02-1.png",
-                    "/tutorials/transactions/transaction_step02-2.png"
+                    "/tutorials/transactions/transaction_step02-#1.svg",
+                    "/tutorials/transactions/transaction_step02-#2.svg"
                 ]
             },
             {

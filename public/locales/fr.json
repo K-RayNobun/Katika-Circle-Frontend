@@ -605,13 +605,13 @@
         "invalidCredentials": "Identifiants fournis invalides"
     },
     "settingsTutorials": {
-        "title": "Nos Turoriels",
+        "title": "Nos Tutoriels",
         "subtitle": "Découvrez la liste de nos tutoriels concus pour vous permettre de comprendre chaque aspect de l'application. N'hesitez pas  cliquez sur un un des suivants et suivez les indications",
         "viewLess": " ...voir moins",
         "viewMore": " ...voir plus",
         "signetBanner": {
-            "message": "Ajoutez Send à votre écran d'accueil pour y accéder plus facilement !",
-            "addButton": "Ajouter",
+            "message": "Téléchargez l'application SendbyKatika. Plus besoin de chercher le lien!",
+            "downloadButton": "Télécharger",
             "understoodButton": "Compris"
         },
         "signetSurvey": {

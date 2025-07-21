@@ -38,23 +38,23 @@ const SignetSurvey: React.FC<SignetSurveyProps> = ({
 
     const { t } = useTranslation();
     return (
-        <div className="relative w-full p-[15%] flex flex-col justify-center items-center">
+        <div className="relative w-full p-[20px] lg:p-[15%] flex flex-col justify-center items-center">
             <button
-                className="absolute top-6 right-6 "
+                className="absolute top-4 lg:top-6 right-4 lg:right-6 "
                 onClick={handleBack}
             >
-                <LiaTimesCircleSolid size={36} className='text-primary_dark' />
+                <LiaTimesCircleSolid className='text-primary_dark text-[24px] lg:text-[40px]' />
             </button>
-            <h2 className="text-[28px] font-bold text-primary mb-4 text-center">
+            <h2 className="text-[19px] lg:text-[28px] font-bold text-primary mb-4 text-center">
                 {t('settingsTutorials.signetSurvey.title')}
             </h2>
-            <p className="text-gray-700 mb-6 px-14 text-center">
+            <p className="text-gray-700 mb-6 lg:px-14 text-center text-[14px] lg:text-[16px]">
                 {t('settingsTutorials.signetSurvey.description')}
             </p>
-            <div>
+            <div className='w-full text-[14px] lg:text-[16px] px-[10px] lg:px-[18%]'>
                 <div className="w-full mb-5 flex flex-col ">
-                    <label className="block font-semibold mb-2">{t('settingsTutorials.signetSurvey.platformLabel')}</label>
-                    <div className="flex gap-8">
+                    <label className="block font-semibold mb-2 text-center">{t('settingsTutorials.signetSurvey.platformLabel')}</label>
+                    <div className="w-full flex lg:justify-center lg:gap-12">
                         {platforms.map((p) => (
                             <label key={p.value} className="flex items-center gap-2 cursor-pointer">
                                 <input
@@ -72,10 +72,10 @@ const SignetSurvey: React.FC<SignetSurveyProps> = ({
                 </div>
 
                 <div className="w-full mb-5">
-                    <label className="block font-semibold mb-2">{t('settingsTutorials.signetSurvey.br')}</label>
-                    <div className="flex gap-8 flex-wrap">
+                    <label className="block font-semibold mb-2 text-center">{t('settingsTutorials.signetSurvey.browserLabel')}</label>
+                    <div className="w-full flex justify-between lg:gap-8 flex-wrap">
                         {browsers.map((b) => (
-                            <label key={b.value} className="flex items-center gap-2 cursor-pointer">
+                            <label key={b.value} className="flex items-center lg:gap-2 cursor-pointer">
                                 <input
                                     type="radio"
                                     name="browser"
@@ -94,7 +94,7 @@ const SignetSurvey: React.FC<SignetSurveyProps> = ({
             {error && <div className="text-red-500 mb-4">{t('settingsTutorials.signetSurvey.error')}</div>}
 
             <button
-                className="mt-4 px-6 py-2 bg-primary text-white rounded shadow hover:bg-primary/80 active:bg-primary_dark transition"
+                className="mt-4 px-6 py-2 bg-primary text-[13px] lg:text-base text-white rounded shadow hover:bg-primary/80 active:bg-primary_dark transition"
                 onClick={onStart}
                 disabled={!platform || !browser}
             >

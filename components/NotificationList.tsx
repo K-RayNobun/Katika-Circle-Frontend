@@ -10,7 +10,6 @@ import { useTranslation } from '@/lib/hooks/useTranslation';
 //Redux related imports
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { provideCashback } from '@/lib/redux/features/user/userSlice';
-import { useAppSelector } from '@/lib/redux/hooks';
 
 // Differentt status types: complete, pending, failed
 interface notificationDetails {
@@ -64,7 +63,6 @@ const handleStatus = (status:string) => {
 const Notification = ({details}:{details: notificationDetails}) => {
   const { t } = useTranslation();
   const style = handleStatus(details.status);
-  const userCurrency = useAppSelector((state) => state.user.currencySymbol);
   let amount = '0';
 
   try {
@@ -89,7 +87,7 @@ const Notification = ({details}:{details: notificationDetails}) => {
             </div>
             <div className='flex flex-col items-end'>
                 <h5 className='text-[14px] text-primary_dark font-bold'>
-                    {userCurrency} {amount}
+                    {t(`notifications.currency.default`)} {amount}
                 </h5>
                 <h5 className='text-[10px] text-gray_dark/60 font-semibold'>
                     {details.amountSent} {details.currencySent}

@@ -13,14 +13,13 @@ type TutorialJson = {
     steps: TutorialStepData[];
 };
 
-let tutorialsCache: TutorialJson[] | null = null;
 
 const loadTutorials = async (): Promise<TutorialJson[]> => {
-    if (tutorialsCache) return tutorialsCache;
+    const locale = navigator.language.split("-")[0];
     const res = await fetch('/tutorials/signetTutorials.json');
-    const data = await res.json();
-    tutorialsCache = data.tutorials;
-    return tutorialsCache!;
+    const jsonRes = await res.json();
+    const data = await jsonRes[`${locale}`];
+    return data.tutorials;
 };
 
 const normalize = (str: string) =>

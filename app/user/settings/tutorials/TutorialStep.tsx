@@ -30,6 +30,7 @@ const TutorialStep: React.FC<TutorialStepProps> = ({
     const hasUserPassedTutorialOnce = useAppSelector((state) => state.user.passedTutorials);
 
     const [expanded, setExpanded] = useState<boolean>(false);
+    const [currentImage, setCurrentImage] = useState<number>(0);
 
     const maxLength = 70;
     const displayText = instruction.length > maxLength ? instruction.slice(0, maxLength) : instruction;
@@ -50,20 +51,38 @@ const TutorialStep: React.FC<TutorialStepProps> = ({
                 {title}
             </h2>
             <p className="text-[13px] lg:text-[15px] text-gray-700 mb-6 text-center">
-                {expanded ? instruction : displayText}
+                { instruction.length > maxLength ? ( expanded ? instruction : displayText ) : instruction }
                 <button className='text-violet-700 inline' onClick={ e => {e.stopPropagation(); setExpanded(prev => !prev); }}>
-                { expanded ? t('settingsTutorials.viewLess') : t('settingsTutorials.viewMore') }
+                { instruction.length > maxLength ? ( expanded ? t('settingsTutorials.viewLess') : t('settingsTutorials.viewMore')) : '' }
                 </button>
             </p>
-            <div className="mb-2 lg:mb-8 flex justify-center items-center w-full max-w-[300px] gap-4">
-                {images.map((imageLink, index) => (
+            <div className="mb-2 lg:mb-8 flex flex-col items-center w-full max-w-[300px] gap-4">
+                {images.length > 0 && (
                     <img
-                        key={index}
-                        src={imageLink}
-                        alt={`Tutorial Step ${index + 1}`}
-                        className=" max-h-[360px] rounded shadow border border-gray-200 object-contain"
+                        src={images[currentImage]}
+                        alt={`Tutorial Step Image ${currentImage + 1}`}
+                        className="max-h-[360px] rounded shadow border border-gray-200 object-contain"
                     />
-                ))}
+                )}
+                {images.length > 1 && (
+                    <div className="flex justify-center items-center gap-4 mt-2">
+                        <button
+                            onClick={() => setCurrentImage((prev) => Math.max(prev - 1, 0))}
+                            disabled={currentImage === 0}
+                            className="px-2 py-1 bg-gray-200 rounded disabled:opacity-50"
+                        >
+                            &lt;
+                        </button>
+                        <span className="text-sm">{currentImage + 1} / {images.length}</span>
+                        <button
+                            onClick={() => setCurrentImage((prev) => Math.min(prev + 1, images.length - 1))}
+                            disabled={currentImage === images.length - 1}
+                            className="px-2 py-1 bg-gray-200 rounded disabled:opacity-50"
+                        >
+                            &gt;
+                        </button>
+                    </div>
+                )}
             </div>
             <div className="flex justify-center items-center gap-8 lg:gap-20">
                 <button

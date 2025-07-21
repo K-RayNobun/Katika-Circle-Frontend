@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { getDeviceType, detectAppNature } from "../functions/WPAChecker";
 import { LiaTimesSolid } from "react-icons/lia";
-import { useRouter } from "next/navigation";
 import { useTranslation } from "@/lib/hooks/useTranslation";
 
 
-const SignetBanner: React.FC = () => {
-    const router = useRouter();
+const SignetBanner = ( { showSignetPopup } : { showSignetPopup: (arg: boolean) => void }) => {
     const { t } = useTranslation();
 
     const [visible, setVisible] = useState(false);
@@ -30,11 +28,10 @@ const SignetBanner: React.FC = () => {
                 <button
                     className="bg-primary hover:bg-primary_dark text-white font-semibold px-4 py-2 rounded-lg shadow transition"
                     onClick={() => {
-                        const query = new URLSearchParams({ tab: 'tutorials' }).toString();
-                        router.push(`/user/settings?${query}`);
+                        showSignetPopup(true);
                     }}
                 >
-                    {t('settingsTutorials.signetBanner.addButton')}
+                    {t('settingsTutorials.signetBanner.downloadButton')}
                 </button>
                 <button
                     className="bg-white border-2 border-primary hover:bg-primary_dark text-primary font-semibold px-4 py-2 rounded-lg shadow transition"

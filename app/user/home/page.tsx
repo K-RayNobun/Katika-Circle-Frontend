@@ -15,6 +15,7 @@ import FilleulList from '@/components/pagesComponents/FilleulList';
 import ReferralDialogBox from '@/components/ReferralDialogBox';
 import TransactionScreens from '@/components/transaction_screens/TransactionScreens';
 import SignetBanner from '@/app/user/settings/tutorials/signetTutorial/components/SignetBanner';
+import SignetPopupContainer from '@/components/transaction_screens/components/SignetPopupContainer';
 import { resetTransaction, provideTransakReturnedData } from '@/lib/redux/features/transaction/transactionSlice';
 
 interface FilleulDetails {
@@ -37,6 +38,7 @@ const Home = () => {
     const [filleulList, setFilleulList] = useState<FilleulDetails[]>([]);
     const [referralBonus, setReferralBonus] = useState<number>(0);
     const [errorMsg, setErrorMsg] = useState<string>('');
+    const [showSignetPopup, setShowSignetPopup] = useState<boolean>(false);
     const { t } = useTranslation();
     const router = useRouter();
 
@@ -210,7 +212,11 @@ const Home = () => {
     return (
         <div className={`h-full relative grow flex flex-col lg:flex-row gap-[24px] rounded-lg sm:rounded-3xl`}>
             {/* Signet Banner */}
-            <SignetBanner />
+            <SignetBanner showSignetPopup={setShowSignetPopup} />
+            {
+                showSignetPopup && <SignetPopupContainer onClose={() => setShowSignetPopup(false)} />
+                    
+            }
 
             {/* Left Panel */}
             <div className={`flex flex-col w-full grow mt-[80px] lg:mt-[0px] lg:w-[50%] px-[6px]`}>
