@@ -1,175 +1,224 @@
 {
-    "en": {
-        "tutorialSteps": [
-            {
-                "order": 1,
-                "title": "Step #1: Start a Transaction",
-                "instruction": "To begin your transaction, make sure the destination country and the currency you are sending are correct.",
-                "images": ["/tutorials/transactions/transaction_step01.png"]
-            },
-            {
-                "order": 2,
-                "title": "Step #2: Enter the Amount",
-                "instruction": "Please enter the amount to send in euros. You will notice that the conversion rate improves as the amount increases.",
-                "images": [
-                    "/tutorials/transactions/transaction_step02-#1.svg",
-                    "/tutorials/transactions/transaction_step02-#2.svg"
-                ]
-            },
-            {
-                "order": 3,
-                "title": "Step #3: Choose Transfer Type",
-                "instruction": "On this screen, select the type of transfer you want to make. This determines how the recipient will receive the money. Mobile Money transfers will be sent to the recipient's Orange Money / MTN Momo account. Bank transfers will be sent directly to their bank account. Note: Bank transfer is only available for amounts >= 1,000,000 FCFA.",
-                "images": [
-                    "/tutorials/transactions/transaction_step03-1.png",
-                    "/tutorials/transactions/transaction_step03-2.png"
-                ]
-            },
-            {
-                "order": 4,
-                "title": "Step #4: Enter Recipient Details",
-                "instruction": "Depending on the payment type, enter the required information: For bank transfer, enter the account holder's name, IBAN, and bank name. For Mobile Money, enter the recipient's number starting with '6'. Once entered, the owner's name will appear. If not, make sure the number has an active account before going back to retry.",
-                "images": [
-                    "/tutorials/transactions/transaction_step04-1.png",
-                    "/tutorials/transactions/transaction_step04-2.png"
-                ]
-            },
-            {
-                "order": 5,
-                "title": "Step #5: Review Transaction",
-                "instruction": "Check your transaction details on this screen before confirming. Cashback is the amount you earn on each transaction. Referral bonus is what your sponsor earns from this transaction. You can also earn from your referrals' transactions.",
-                "images": ["/tutorials/transactions/transaction_step05.png"]
-            },
-            {
-                "order": 6,
-                "title": "Step #6: Identification (KYC)",
-                "instruction": "You are redirected to a new page. Only for your first transaction, you will need to complete identification (KYC), which takes a few minutes. Enter the URL and start the process.",
-                "images": ["/tutorials/transactions/transaction_step06.png"]
-            },
-            {
-                "order": 7,
-                "title": "Step #7: Enable Camera",
-                "instruction": "To identify yourself, please enable your camera.",
-                "images": ["/tutorials/transactions/transaction_step07.png"]
-            },
-            {
-                "order": 8,
-                "title": "Step #8: Upload ID Photos",
-                "instruction": "Next, you must take a photo of the front and back of your ID card or passport. Make sure the photo is clear and the information is readable.",
-                "images": [
-                    "/tutorials/transactions/transaction_step08-1.png",
-                    "/tutorials/transactions/transaction_step08-2.png",
-                    "/tutorials/transactions/transaction_step08-3.png"
-                ]
-            },
-            {
-                "order": 9,
-                "title": "Step #9: Wait for KYC Validation",
-                "instruction": "Please wait a moment for your KYC validation. You will then be able to make transactions.",
-                "images": ["/tutorials/transactions/transaction_step09.png"]
-            },
-            {
-                "order": 10,
-                "title": "Step #10: Transaction Purpose",
-                "instruction": "Choose the option 'Buy crypto to use a Web3 protocol'.",
-                "images": ["/tutorials/transactions/transaction_step10.png"]
-            },
-            {
-                "order": 11,
-                "title": "Step #11: Confirm Transaction",
-                "instruction": "Confirm your transaction by clicking the confirm button. We have assigned a bank account in your name on the platform. To complete the transaction, transfer the funds from your bank. We recommend doing this within 60 minutes for fast processing.",
-                "images": ["/tutorials/transactions/transaction_step11.png"]
-            },
-            {
-                "order": 12,
-                "title": "Step #12: Transaction Processing",
-                "instruction": "Perfect! Your transaction is being processed. You can track its progress in the 'Transactions' tab of your app. If you have questions, contact us via the Whatsapp link at the bottom of the screen.",
-                "images": ["/tutorials/transactions/transaction_step12.svg"]
-            }
+  "en": {
+    "tutorialSteps": [
+      {
+        "order": 1,
+        "title": "Step #1: Start a Transaction",
+        "instruction": "To begin your transaction, make sure the destination country and the currency you are sending are correct.",
+        "images": ["/tutorials/transactions/transaction_step01.svg"]
+      },
+      {
+        "order": 2,
+        "title": "Step #2: Enter the Amount",
+        "instruction": "Please enter the amount to send in euros. You will notice that the conversion rate improves as the amount increases.",
+        "images": [
+          "/tutorials/transactions/transaction_step02_1.svg",
+          "/tutorials/transactions/transaction_step02_2.svg"
         ]
-    },
-    "fr": {
-        "tutorialSteps": [
-            {
-                "order": 1,
-                "title": "Step #1: Commencez une transaction",
-                "instruction": "Pour commencer votre transaction, assurez-vous que le pays de destination et la devise que vous envoyez sont corrects.",
-                "images": ["/tutorials/transactions/transaction_step01.png"]
-            },
-            {
-                "order": 2,
-                "title": "Step #2: Entrez le montant",
-                "instruction": "Veuillez entrer le montant à envoyer en euros. Vous remarquerez que plus le montant envoyé est grand, plus le taux de conversion augmente.",
-                "images": [
-                    "/tutorials/transactions/transaction_step02.svg"
-                ]
-            },
-            {
-                "order": 3,
-                "title": "Step #3: Choisissez le type de transfert",
-                "instruction": "Sur cet écran, choisissez le type de transfert que vous souhaitez effectuer. Cela précise par quel moyen le destinataire recevra l’argent. Les transferts Mobile Money seront envoyés sur le compte Orange Money / MTN Momo du destinataire. Les transferts bancaires seront envoyés directement sur son compte bancaire. PS : Le paiement par virement bancaire est possible uniquement pour les transferts >= 1,000,000 FCFA.",
-                "images": [
-                    "/tutorials/transactions/transaction_step03.svg"
-                ]
-            },
-            {
-                "order": 4,
-                "title": "Step #4: Entrez les informations du destinataire",
-                "instruction": "Selon le type de paiement, veuillez entrer les informations nécessaires : Pour un virement bancaire, entrez le nom du propriétaire du compte, son IBAN et le nom de sa banque. Pour un transfert Mobile Money, entrez le numéro du destinataire en commençant par le “6”. Une fois le numéro saisi, le nom du propriétaire apparaîtra. Si le nom n’apparaît pas, assurez-vous que le numéro possède bien un compte avant de revenir en arrière pour reprendre cette étape.",
-                "images": [
-                    "/tutorials/transactions/transaction_step04.svg"
-                ]
-            },
-            {
-                "order": 5,
-                "title": "Step #5: Vérifiez la transaction",
-                "instruction": "Vérifiez les informations de votre transaction sur cet écran avant de confirmer. Le cashback représente le montant que vous gagnez sur chaque transaction. Le bonus de parrainage représente le gain de votre parrain sur cette transaction. Vous pouvez également gagner sur les transactions de vos filleuls.",
-                "images": ["/tutorials/transactions/transaction_step05.svg"]
-            },
-            {
-                "order": 6,
-                "title": "Step #6: Identification (KYC)",
-                "instruction": "Vous êtes redirigé vers une nouvelle page. Uniquement pour votre première transaction, vous devrez effectuer une identification (KYC) qui prendra quelques minutes. Entrez l’URL et commencez le processus.",
-                "images": ["/tutorials/transactions/transaction_step06.svg"]
-            },
-            {
-                "order": 7,
-                "title": "Step #7: Activez la caméra",
-                "instruction": "Afin de vous identifier, veuillez activer votre caméra.",
-                "images": ["/tutorials/transactions/transaction_step07.svg"]
-            },
-            {
-                "order": 8,
-                "title": "Step #8: Téléchargez les photos de votre pièce d'identité",
-                "instruction": "Ensuite, vous devrez prendre une photo du recto et du verso de votre carte d’identité ou de votre passeport. Assurez-vous que la photo est bien prise et que les informations sont lisibles.",
-                "images": [
-                    "/tutorials/transactions/transaction_step08.svg"
-                ]
-            },
-            {
-                "order": 9,
-                "title": "Step #9: Attendez la validation KYC",
-                "instruction": "Patientez un instant pour la validation de votre KYC. Vous pourrez désormais effectuer des transactions.",
-                "images": ["/tutorials/transactions/transaction_step09.svg"]
-            },
-            {
-                "order": 10,
-                "title": "Step #10: Motif de transaction",
-                "instruction": "Choisissez l'option 'Acheter de la crypto pour utiliser un protocole Web3.",
-                "images": ["/tutorials/transactions/transaction_step10.svg"]
-            },
-            {
-                "order": 11,
-                "title": "Step #11: Confirmez la transaction",
-                "instruction": "Confirmez votre transaction en cliquant sur le bouton confirmer. Nous vous avons attribué un compte bancaire à votre nom sur la plateforme. Pour terminer la transaction, vous devez y transférer les fonds depuis votre banque. Nous vous recommandons de le faire dans les 60 minutes qui suivent pour un traitement rapide.",
-                "images": ["/tutorials/transactions/transaction_step11.svg"]
-            },
-            {
-                "order": 12,
-                "title": "Step #12: Traitement de la transaction",
-                "instruction": "Parfait ! Votre transaction est en cours de traitement. Vous pouvez suivre son avancement dans l’onglet ‘Transactions’ de votre application. Si vous avez des questions, contactez-nous via le lien Whatsapp en bas de l’écran.",
-                "images": ["/tutorials/transactions/transaction_step12.svg"]
-            }
+      },
+      {
+        "order": 3,
+        "title": "Step #3: Choose Transfer Type",
+        "instruction": "On this screen, select the type of transfer you want to make. This determines how the recipient will receive the money. Mobile Money transfers will be sent to the recipient's Orange Money / MTN Momo account. Bank transfers will be sent directly to their bank account. Note: Bank transfer is only available for amounts >= 1,000,000 FCFA.",
+        "images": [
+          "/tutorials/transactions/transaction_step03_1.svg",
+          "/tutorials/transactions/transaction_step03_2.svg"
         ]
-    }
+      },
+      {
+        "order": 4,
+        "title": "Step #4: Enter Recipient Details",
+        "instruction": "Depending on the payment type, enter the required information: For bank transfer, enter the account holder's name, IBAN, and bank name. For Mobile Money, enter the recipient's number starting with '6'. Once entered, the owner's name will appear. If not, make sure the number has an active account before going back to retry.",
+        "images": [
+            "/tutorials/transactions/transaction_step04_1.svg",
+            "/tutorials/transactions/transaction_step04_2.svg"
+        ]
+      },
+      {
+        "order": 5,
+        "title": "Step #5: Review Transaction",
+        "instruction": "Check your transaction details on this screen before confirming. Cashback is the amount you earn on each transaction. Referral bonus is what your sponsor earns from this transaction. You can also earn from your referrals' transactions.",
+        "images": ["/tutorials/transactions/transaction_step05.svg"]
+      },
+      {
+        "order": 6,
+        "title": "Step #6: Identification (KYC)",
+        "instruction": "You are redirected to a new page. Only for your first transaction, you will need to complete identification (KYC), which takes a few minutes. Enter the URL and start the process.",
+        "images": ["/tutorials/transactions/transaction_step06.svg"]
+      },
+      {
+        "order": 7,
+        "title": "Step #7: Enable Camera",
+        "instruction": "To identify yourself, please enable your camera.",
+        "images": [
+          "/tutorials/transactions/transaction_step07_1.svg",
+          "/tutorials/transactions/transaction_step07_2.svg",
+          "/tutorials/transactions/transaction_step07_3.svg"
+        ]
+      },
+      {
+        "order": 8,
+        "title": "Step #8: Upload ID Photos",
+        "instruction": "Next, you must take a photo of the front and back of your ID card or passport. Make sure the photo is clear and the information is readable.",
+        "images": [
+          "/tutorials/transactions/transaction_step08_1.svg",
+          "/tutorials/transactions/transaction_step08_2.svg"
+        ]
+      },
+      {
+        "order": 9,
+        "title": "Step #9: Wait for KYC Validation",
+        "instruction": "Please wait a moment for your KYC validation. You will then be able to make transactions.",
+        "images": [
+          "/tutorials/transactions/transaction_step09_1.svg",
+          "/tutorials/transactions/transaction_step09_2.svg"
+        ]
+      },
+      {
+        "order": 10,
+        "title": "Step #10: Identification Completed",
+        "instruction": "Great! Your KYC photo is validated. You can now proceed with your transactions. In the next screen, Choose the option 'Buy crypto to use a Web3 protocol', to complete your KYC.",
+        "images": [
+            "/tutorials/transactions/transaction_step10_1.svg",
+            "/tutorials/transactions/transaction_step10_2.svg"
+        ]
+      },
+      {
+        "order": 11,
+        "title": "Step #11: Check Transaction",
+        "instruction": "Confirm your transaction by clicking the confirm button. We have assigned a bank account in your name on the platform. To complete the transaction, transfer the funds from your bank to the account with the IBAN given. We recommend doing this within 60 minutes for fast processing.",
+        "images": [
+            "/tutorials/transactions/transaction_step11_1.svg",
+            "/tutorials/transactions/transaction_step11_2.svg"
+        ]
+      },
+      {
+        "order": 12,
+        "title": "Step #12: Confirm Payment",
+        "instruction": "After doing the transfer, return to the app and click 'Yes, I Have Paid'. This will notify us that you have sent the funds. We will then process your transaction.",
+        "images": [
+          "/tutorials/transactions/transaction_step12.svg"
+        ]
+      },
+      {
+        "order": 13,
+        "title": "Step #13: Transaction Processing",
+        "instruction": "Perfect! Your transaction is being processed. You can track its progress in the 'Transactions' tab of your app. If you have questions, contact us via the Whatsapp link at the bottom of the screen.",
+        "images": [
+          "/tutorials/transactions/transaction_step13.svg"
+        ]
+      }
+    ]
+  },
+  "fr": {
+    "tutorialSteps": [
+      {
+        "order": 1,
+        "title": "Step #1: Commencez une transaction",
+        "instruction": "Pour commencer votre transaction, assurez-vous que le pays de destination et la devise que vous envoyez sont corrects.",
+        "images": ["/tutorials/transactions/transaction_step01.svg"]
+      },
+      {
+        "order": 2,
+        "title": "Step #2: Entrez le montant",
+        "instruction": "Veuillez entrer le montant à envoyer en euros. Vous remarquerez que plus le montant envoyé est grand, plus le taux de conversion augmente.",
+        "images": [
+          "/tutorials/transactions/transaction_step02_1.svg",
+            "/tutorials/transactions/transaction_step02_2.svg"
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Step #3: Choisissez le type de transfert",
+        "instruction": "Sur cet écran, choisissez le type de transfert que vous souhaitez effectuer. Cela précise par quel moyen le destinataire recevra l’argent. Les transferts Mobile Money seront envoyés sur le compte Orange Money / MTN Momo du destinataire. Les transferts bancaires seront envoyés directement sur son compte bancaire. PS : Le paiement par virement bancaire est possible uniquement pour les transferts >= 1,000,000 FCFA.",
+        "images": [
+          "/tutorials/transactions/transaction_step03_1.svg",
+            "/tutorials/transactions/transaction_step03_2.svg"
+        ]
+      },
+      {
+        "order": 4,
+        "title": "Step #4: Entrez les informations du destinataire",
+        "instruction": "Selon le type de paiement, veuillez entrer les informations nécessaires : Pour un virement bancaire, entrez le nom du propriétaire du compte, son IBAN et le nom de sa banque. Pour un transfert Mobile Money, entrez le numéro du destinataire en commençant par le “6”. Une fois le numéro saisi, le nom du propriétaire apparaîtra. Si le nom n’apparaît pas, assurez-vous que le numéro possède bien un compte avant de revenir en arrière pour reprendre cette étape.",
+        "images": [
+           "/tutorials/transactions/transaction_step04_1.svg",
+            "/tutorials/transactions/transaction_step04_2.svg"
+        ]
+      },
+      {
+        "order": 5,
+        "title": "Step #5: Vérifiez la transaction",
+        "instruction": "Vérifiez les informations de votre transaction sur cet écran avant de confirmer. Le cashback représente le montant que vous gagnez sur chaque transaction. Le bonus de parrainage représente le gain de votre parrain sur cette transaction. Vous pouvez également gagner sur les transactions de vos filleuls.",
+        "images": ["/tutorials/transactions/transaction_step05.svg"]
+      },
+      {
+        "order": 6,
+        "title": "Step #6: Identification (KYC)",
+        "instruction": "Vous êtes redirigé vers une nouvelle page. Uniquement pour votre première transaction, vous devrez effectuer une identification (KYC) qui prendra quelques minutes. Entrez l’URL et commencez le processus.",
+        "images": ["/tutorials/transactions/transaction_step06.svg"]
+      },
+      {
+        "order": 7,
+        "title": "Step #7: Activez la caméra",
+        "instruction": "Afin de vous identifier, veuillez activer votre caméra.",
+        "images": [
+          "/tutorials/transactions/transaction_step07_1.svg",
+          "/tutorials/transactions/transaction_step07_2.svg",
+          "/tutorials/transactions/transaction_step07_3.svg"
+        ]
+      },
+      {
+        "order": 8,
+        "title": "Step #8: Téléchargez les photos de votre pièce d'identité",
+        "instruction": "Ensuite, vous devrez prendre une photo du recto et du verso de votre carte d’identité ou de votre passeport. Assurez-vous que la photo est bien prise et que les informations sont lisibles.",
+        "images": [
+          "/tutorials/transactions/transaction_step08_1.svg",
+          "/tutorials/transactions/transaction_step08_2.svg"
+        ]
+      },
+      {
+        "order": 9,
+        "title": "Step #9: Attendez la validation KYC",
+        "instruction": "Patientez un instant pour la validation de votre KYC. Vous pourrez désormais effectuer des transactions.",
+        "images": [
+          "/tutorials/transactions/transaction_step09_1.svg",
+          "/tutorials/transactions/transaction_step09_2.svg"
+        ]
+      },
+      {
+        "order": 10,
+        "title": "Step #10: Identification terminée",
+        "instruction": "Parfait ! Votre photo KYC est validée. Vous pouvez maintenant procéder à vos transactions. Sur l’écran suivant, choisissez l’option ‘Acheter de la crypto pour utiliser un protocole Web3’, pour compléter votre KYC.",
+        "images": [
+          "/tutorials/transactions/transaction_step10_1.svg",
+          "/tutorials/transactions/transaction_step10_2.svg"
+        ]
+      },
+      {
+        "order": 11,
+        "title": "Step #11: Vérifiez la transaction",
+        "instruction": "Confirmez votre transaction en cliquant sur le bouton de confirmation. Nous avons attribué un compte bancaire à votre nom sur la plateforme. Pour finaliser la transaction, transférez les fonds de votre banque vers le compte dont l’IBAN est indiqué. Nous vous recommandons de le faire dans les 60 minutes pour un traitement rapide.",
+        "images": [
+          "/tutorials/transactions/transaction_step11_1.svg",
+          "/tutorials/transactions/transaction_step11_2.svg"
+        ]
+      },
+      {
+        "order": 12,
+        "title": "Step #12: Confirmez le paiement",
+        "instruction": "Après avoir effectué le transfert, revenez sur l’application et cliquez sur ‘Oui, j’ai payé’. Cela nous informera que vous avez envoyé les fonds. Nous traiterons ensuite votre transaction.",
+        "images": [
+          "/tutorials/transactions/transaction_step12.svg"
+        ]
+      },
+      {
+        "order": 13,
+        "title": "Step #13: Traitement de la transaction",
+        "instruction": "Parfait ! Votre transaction est en cours de traitement. Vous pouvez suivre son avancement dans l’onglet ‘Transactions’ de votre application. Si vous avez des questions, contactez-nous via le lien Whatsapp en bas de l’écran.",
+        "images": [
+          "/tutorials/transactions/transaction_step13.svg"
+        ]
+      }
+    ]
+  }
 }

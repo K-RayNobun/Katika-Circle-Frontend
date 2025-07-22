@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useTranslation } from '@/lib/hooks/useTranslation';
 
 type TutorialJson = {
     order: number;
@@ -17,14 +16,11 @@ const loadTutorials = async (): Promise<TutorialJson[]> => {
 }
 
 const useTutorial = () => {
-    const { locale } =  useTranslation();
-    console.log('Using locale:', locale);
     const [steps, setSteps] = useState<TutorialJson[]>([]);
     const [currentStep, setCurrentStep] = useState(-1);
     const [loading, setLoading] = useState(false);
 
     const startTutorial = async () => {
-        console.log('Starting tutorial...');
         setLoading(true);
         try {
             const tutorialSteps = await loadTutorials();

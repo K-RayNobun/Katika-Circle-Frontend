@@ -1,6 +1,6 @@
 import { useTranslation } from '@/lib/hooks/useTranslation';
 import { useAppSelector } from '@/lib/redux/hooks';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LiaTimesCircleSolid } from 'react-icons/lia';
 
 interface TutorialStepProps {
@@ -35,7 +35,10 @@ const TutorialStep: React.FC<TutorialStepProps> = ({
     const maxLength = 70;
     const displayText = instruction.length > maxLength ? instruction.slice(0, maxLength) : instruction;
 
-
+    // Display Step Images
+    useEffect(() => {
+        setCurrentImage(0);
+    }, [title]);
 
     return (
         <div className={`relative w-full flex flex-col flex-shrink-0 justify-center items-center bg-white rounded-xl ${ hasUserPassedTutorialOnce ? 'p-[7%] lg:p-[15%]': 'p-[20px] lg:p-[32px]' }`}>
@@ -67,7 +70,10 @@ const TutorialStep: React.FC<TutorialStepProps> = ({
                 {images.length > 1 && (
                     <div className="flex justify-center items-center gap-4 mt-2">
                         <button
-                            onClick={() => setCurrentImage((prev) => Math.max(prev - 1, 0))}
+                            onClick={() => {
+                                setCurrentImage((prev) => Math.max(prev - 1, 0));
+                                }
+                            }
                             disabled={currentImage === 0}
                             className="px-2 py-1 bg-gray-200 rounded disabled:opacity-50"
                         >
@@ -75,7 +81,10 @@ const TutorialStep: React.FC<TutorialStepProps> = ({
                         </button>
                         <span className="text-sm">{currentImage + 1} / {images.length}</span>
                         <button
-                            onClick={() => setCurrentImage((prev) => Math.min(prev + 1, images.length - 1))}
+                            onClick={() => {
+                                setCurrentImage((prev) => Math.min(prev + 1, images.length - 1));
+                            }
+                            }
                             disabled={currentImage === images.length - 1}
                             className="px-2 py-1 bg-gray-200 rounded disabled:opacity-50"
                         >

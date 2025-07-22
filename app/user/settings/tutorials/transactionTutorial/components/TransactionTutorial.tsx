@@ -43,8 +43,8 @@ const TransactionsTutorialContainer = ({ goBack , onFinish}: { goBack: () => voi
     }
 
     const step = steps[currentStep];
-    console.log('Step Details', step);
-    console.log('This Step Images', step.images);
+    // console.log('Step Details', step);
+    console.log(`Step ${step.order} Images ${step.images}`);
 
     return (
         <section className="w-full flex flex-col items-center justify-center overflow-y-auto">
@@ -58,7 +58,7 @@ const TransactionsTutorialContainer = ({ goBack , onFinish}: { goBack: () => voi
                 onNext={nextStep}
                 onPrev={prevStep}
                 onExit={onFinish}
-                isFirstStep={currentStep === 1}
+                isFirstStep={currentStep === 0}
                 isLastStep={currentStep === steps.length - 1}
             />
             )}
