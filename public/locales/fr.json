@@ -399,7 +399,8 @@
             "recipient": {
                 "phoneLabel": "Numéro de téléphone du destinataire",
                 "notFound": "Utilisateur non trouvé",
-                "tryAgain": "Veuillez réessayer dans 5 secondes"
+                "tryAgain": "Veuillez réessayer dans 5 secondes",
+                "checkName": "Vérifier"
             },
             "bank": {
                 "accountHolder": {

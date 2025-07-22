@@ -6,6 +6,7 @@ import axios, { AxiosError } from 'axios';
 //Redux related imports
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { provideStepBankData, provideStepMobileData, provideToken } from '@/lib/redux/features/transaction/transactionSlice';
+
 import { useTranslation } from '@/lib/hooks/useTranslation';
 
 interface screenProps {
@@ -26,6 +27,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
     const dispatch = useAppDispatch();
     const tranzakToken = useAppSelector((state) => state.transaction.tranzaktoken);
     const transactionDetails = useAppSelector((state) => state.transaction);
+
 
     const transfertTypes = [
         t('transactionScreens.screenTwo.transferType.options.mobileMoney'),
@@ -116,7 +118,6 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
         setReceiverName('');
         // console.log('Resetted the name');
         if (isTypeMobile) {
-            console.log('Regext Test => ', testFieldsRegex())
             if (!testFieldsRegex()) {
                 // console.log('Phone number incorrect, please start with 6 not with 2376');
                 setErrorMsg(t('transactionScreens.screenTwo.errors.invalidFields'));
@@ -126,7 +127,6 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                 // console.log('This is a Cameroonian number: ', phoneNumber);
                 handleNameCheck();
             } else {
-                console.log('Not 8 characters');
                 // console.log('Phone number: ', phoneNumber);
             }
         }
@@ -174,13 +174,6 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
         }
     };
 
-    useEffect(() => {
-        if (transactionDetails.receiverPhoneNumber) {
-            // console.log('Checking the name with predefined data');
-            handleNameCheck();
-        }
-    }, []);
-
     const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
         const form = document.getElementById('form-one') as HTMLFormElement;
@@ -219,7 +212,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
     };
 
     return (
-        <div className="flex flex-col w-full lg:w-[502px] h-[90%] rounded-t-[12px] lg:rounded-[12px] p-[44px] pb-[30%] bg-white">
+        <div className="flex flex-col w-full lg:w-[502px] h-[90%] rounded-t-[12px] lg:rounded-[12px] p-[44px] bg-white">
             <div className="flex items-center gap-[12px] ml-[-12px]">
                 <button onClick={() => moveToScreen(-1)} className="p-1 rounded-[50%] active:bg-gray">
                     <IoMdArrowBack size={24} className="text-primary_dark" />
@@ -231,7 +224,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                     </button>
                 </div>
             </div>
-            <form id="form-one" ref={formRef} onSubmit={handleSubmit} className="grow flex flex-col gap-[12px] pt-[32px]">
+            <form id="form-one" ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-[12px] pt-[32px]">
                 <div className="flex flex-col">
                     <label className="mb-[4px] text-[14px] text-gray_dark/60">
                         {t('transactionScreens.screenTwo.transferType.label')}
@@ -276,6 +269,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                                 <input
                                     type="number"
                                     name="receiver-number"
+                                    id="receiver-number"
                                     defaultValue={transactionDetails.receiverPhoneNumber}
                                     onChange={handlePhoneNumberChange}
                                     className={`appearance-none w-full float-left block text-right ${
@@ -284,7 +278,17 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                                 />
                             </div>
                         </div>
-                        <h4 className="text-[14px]">{receiverName}</h4>
+                        <div className="flex items-center justify-between gap-3 mt-3">
+                            <h4 className="text-[14px]">{receiverName}</h4>
+                            <button
+                                type="button"
+                                onClick={handleNameCheck}
+                                className="text-primary hover:text-primary_dark font-semibold text-[12px] rounded-[8px] px-[12px] py-[6px] border-2 border-primary hover:border-primary_dark"
+                            >
+                                {t('transactionScreens.screenTwo.recipient.checkName')}
+                            </button>
+                        </div>
+                        <div className="h-[10vh]"></div>
                     </div>
                 ) : (
                     <div className="flex flex-col gap-[12px]">
@@ -296,6 +300,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                                 type="text"
                                 placeholder={t('transactionScreens.screenTwo.bank.accountHolder.placeholder')}
                                 name="owner-name"
+                                id="owner-name"
                                 className={`w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 grow ${
                                     isFieldWrong ? 'border-red-500' : 'border-gray-400'
                                 }`}
@@ -309,6 +314,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                                 type="text"
                                 placeholder={t('transactionScreens.screenTwo.bank.iban.placeholder')}
                                 name="iban"
+                                id="iban"
                                 onChange={handleIbanChange}
                                 className={`w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 grow ${
                                     isFieldWrong ? 'border-red-500' : 'border-gray-400'
@@ -323,6 +329,7 @@ const ScreenTwo = ({ onClose, moveToScreen }: screenProps) => {
                                 type="text"
                                 placeholder={t('transactionScreens.screenTwo.bank.bankName.placeholder')}
                                 name="bank-name"
+                                id="bank-name"
                                 className={`w-full rounded-[8px] px-[14px] py-[8px] border-2 border-gray-400 grow ${
                                     isFieldWrong ? 'border-red-500' : 'border-gray-400'
                                 }`}

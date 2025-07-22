@@ -339,7 +339,8 @@
             "recipient": {
                 "phoneLabel": "Recipient Phone Number",
                 "notFound": "User not found",
-                "tryAgain": "Please try again in 5 seconds"
+                "tryAgain": "Please try again in 5 seconds",
+                "checkName": "Check"
             },
             "bank": {
                 "accountHolder": {

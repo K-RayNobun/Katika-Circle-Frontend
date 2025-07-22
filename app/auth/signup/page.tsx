@@ -63,7 +63,7 @@ const Signup = () => {
     const [isBoxChecked, setIsBoxChecked] = useState(false);
     const [error, setError] = useState<string | null>(null)
     const [errorField, setErrorField] = useState('')
-    const [selectedCountry, setSelectedCountry] = useState<CountryData>({name: 'France', image: '', currencyCode: 'EUR', alpha2: 'FR'});
+    const [selectedCountry, setSelectedCountry] = useState<CountryData>({name: 'Germany', image: '', currencyCode: 'EUR', alpha2: 'DE'});
     const [countryFlagURL, setCountryFlagURL] = useState('');
     const [countriesList, setCountriesList] = useState<Array<CountryData>>([]);
     const [isRefCodeProvided, setIsRefCodeProvided] = useState(false);
