@@ -3,7 +3,7 @@ import { LiaTimesCircleSolid } from 'react-icons/lia';
 import { useTranslation } from '@/lib/hooks/useTranslation';
 
 export type Platform = 'ios' | 'android' | '';
-export type Browser = 'chrome' | 'safari' | 'ms-explorer' | '';
+export type Browser = 'chrome' | 'safari' | 'firefox' | '';
 
 interface SignetSurveyProps {
     platform: Platform;
@@ -21,9 +21,9 @@ const platforms = [
 ];
 
 const browsers = [
-    { value: 'chrome', label: 'Chrome' },
-    { value: 'safari', label: 'Safari' },
-    { value: 'ms-explorer', label: 'MS Explorer' },
+    { value: 'chrome', label: 'Chrome', os: 'ios - android' },
+    { value: 'safari', label: 'Safari', os: 'ios' },
+    { value: 'firefox', label: 'Mozilla Firefox', os: 'android' },
 ];
 
 const SignetSurvey: React.FC<SignetSurveyProps> = ({
@@ -54,7 +54,7 @@ const SignetSurvey: React.FC<SignetSurveyProps> = ({
             <div className='w-full text-[14px] lg:text-[16px] px-[10px] lg:px-[18%]'>
                 <div className="w-full mb-5 flex flex-col ">
                     <label className="block font-semibold mb-2 text-center">{t('settingsTutorials.signetSurvey.platformLabel')}</label>
-                    <div className="w-full flex lg:justify-center lg:gap-12">
+                    <div className="w-full flex justify-center gap-4 lg:gap-12">
                         {platforms.map((p) => (
                             <label key={p.value} className="flex items-center gap-2 cursor-pointer">
                                 <input
@@ -73,20 +73,23 @@ const SignetSurvey: React.FC<SignetSurveyProps> = ({
 
                 <div className="w-full mb-5">
                     <label className="block font-semibold mb-2 text-center">{t('settingsTutorials.signetSurvey.browserLabel')}</label>
-                    <div className="w-full flex justify-between lg:gap-8 flex-wrap">
-                        {browsers.map((b) => (
-                            <label key={b.value} className="flex items-center lg:gap-2 cursor-pointer">
-                                <input
-                                    type="radio"
-                                    name="browser"
-                                    value={b.value}
-                                    checked={browser === b.value}
-                                    onChange={() => onBrowserChange(b.value as Browser)}
-                                    className="accent-primary"
-                                />
-                                {b.label}
-                            </label>
-                        ))}
+                    <div className="w-full flex justify-center lg:justify-between gap-4 lg:gap-8 flex-wrap">
+                        {browsers
+                            .filter(b => !platform || b.os.includes(platform))
+                            .map((b) => (
+                                <label key={b.value} className="flex items-center gap-2 cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        name="browser"
+                                        value={b.value}
+                                        checked={browser === b.value}
+                                        onChange={() => onBrowserChange(b.value as Browser)}
+                                        className="accent-primary"
+                                    />
+                                    {b.label}
+                                </label>
+                            )
+                        )}
                     </div>
                 </div>
             </div>

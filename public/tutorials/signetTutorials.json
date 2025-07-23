@@ -79,57 +79,69 @@
                 "steps": [
                     {
                         "order": 1,
-                        "title": "Open the Website",
-                        "instruction": "Navigate to the website you want to add using Chrome.",
-                        "images": ["images/android_chrome_step1.png"]
+                        "title": "Open the Browser menu",
+                        "instruction": "Navigate to the website you want to add using Chrome and tap the three dots menu icon in the top right corner.",
+                        "images": ["/tutorials/signet/android_chrome_step01.svg"]
                     },
                     {
                         "order": 2,
-                        "title": "Open the Menu",
-                        "instruction": "Tap the three dots menu icon in the top right corner.",
-                        "images": ["images/android_chrome_step2.png"]
+                        "title": "Scroll to the bottom",
+                        "instruction": "In the menu that appears, scroll until the bottom of the list",
+                        "images": ["/tutorials/signet/android_chrome_step02.svg"]
                     },
                     {
                         "order": 3,
                         "title": "Select 'Add to Home screen'",
                         "instruction": "Tap 'Add to Home screen' from the menu.",
-                        "images": ["images/android_chrome_step3.png"]
+                        "images": ["/tutorials/signet/android_chrome_step03.svg"]
                     },
                     {
                         "order": 4,
-                        "title": "Confirm and Add",
-                        "instruction": "Edit the name if needed, then tap 'Add'.",
-                        "images": ["images/android_chrome_step4.png"]
+                        "title": "Choose Installation Type",
+                        "instruction": "In the modal that appears, tap on the first option.",
+                        "images": ["/tutorials/signet/android_chrome_step04.svg"]
+                    },
+                    {
+                        "order": 5,
+                        "title": "Confim Installation",
+                        "instruction": "Select the \"Install\" button",
+                        "images": ["/tutorials/signet/android_chrome_step05.svg"]
+                    },
+                    {
+                        "order": 6,
+                        "title": "Choose Installation Type",
+                        "instruction": "The application is now available on your home screen. You can now access the website from here.",
+                        "images": ["/tutorials/signet/android_chrome_step06.svg"]
                     }
                 ]
             },
             {
                 "os": "Android",
-                "browser": "Microsoft Edge",
+                "browser": "Mozilla Firefox",
                 "steps": [
                     {
                         "order": 1,
-                        "title": "Open the Website",
-                        "instruction": "Go to the website you want to add using Microsoft Edge.",
-                        "images": ["images/android_edge_step1.png"]
+                        "title": "Open the Browser menu",
+                        "instruction": "Go to the website you want to add in Mozilla Firefox and tap the three dots menu icon at the bottom center.",
+                        "images": ["/tutorials/signet/android_firefox_step01.svg"]
                     },
                     {
                         "order": 2,
-                        "title": "Open the Menu",
-                        "instruction": "Tap the three dots menu icon at the bottom center.",
-                        "images": ["images/android_edge_step2.png"]
+                        "title": "Scroll to the bottom",
+                        "instruction": "In the menu that appears, scroll until the bottom of the list",
+                        "images": ["/tutorials/signet/android_firefox_step02.svg"]
                     },
                     {
                         "order": 3,
                         "title": "Select 'Add to Home screen'",
                         "instruction": "Tap 'Add to Home screen' from the menu options.",
-                        "images":[ "images/android_edge_step3.png"]
+                        "images":[ "/tutorials/signet/android_firefox_step03.svg"]
                     },
                     {
                         "order": 4,
-                        "title": "Confirm and Add",
-                        "instruction": "Edit the shortcut name if you wish, then tap 'Add'.",
-                        "images": ["images/android_edge_step4.png"]
+                        "title": "Check the Home screen",
+                        "instruction": "The application is now available on your home screen. You can now access the website from here.",
+                        "images": ["/tutorials/signet/android_firefox_step04.svg"]
                     }
                 ]
             }
@@ -208,6 +220,78 @@
                     "images": ["/tutorials/signet/ios_chrome_step05.svg"]
                     }
                 ]
+                },
+                {
+                    "os": "Android",
+                    "browser": "Chrome",
+                    "steps": [
+                        {
+                        "order": 1,
+                        "title": "Ouvrir le site web",
+                        "instruction": "Accédez au site web que vous souhaitez ajouter via Chrome et appuyez sur l'icône des trois points en haut à droite.",
+                        "images": ["/tutorials/signet/android_chrome_step01.svg"]
+                        },
+                        {
+                        "order": 2,
+                        "title": "Faire défiler le menu",
+                        "instruction": "Dans le menu qui apparaît, faites défiler jusqu'en bas de la liste.",
+                        "images": ["/tutorials/signet/android_chrome_step02.svg"]
+                        },
+                        {
+                        "order": 3,
+                        "title": "Ajouter à l'écran d'accueil",
+                        "instruction": "Appuyez sur 'Ajouter à l'écran d'accueil' dans le menu.",
+                        "images": ["/tutorials/signet/android_chrome_step03.svg"]
+                        },
+                        {
+                        "order": 4,
+                        "title": "Confirmer l'installation",
+                        "instruction": "Appuyez sur le bouton \"Installer\".",
+                        "images": ["/tutorials/signet/android_chrome_step04.svg"]
+                        },
+                        {
+                        "order": 5,
+                        "title": "Choisir le type d'installation",
+                        "instruction": "Dans la fenêtre qui apparaît, sélectionnez la première option.",
+                        "images": ["/tutorials/signet/android_chrome_step05.svg"]
+                        },
+                        {
+                        "order": 6,
+                        "title": "Vérifier l'écran d'accueil",
+                        "instruction": "L'application est maintenant disponible sur votre écran d'accueil. Vous pouvez accéder au site web depuis ici.",
+                        "images": ["/tutorials/signet/android_chrome_step06.svg"]
+                        }
+                    ]
+                },
+                {
+                    "os": "Android",
+                    "browser": "Mozilla Firefox",
+                    "steps": [
+                        {
+                        "order": 1,
+                        "title": "Ouvrir le site web",
+                        "instruction": "Accédez au site web que vous souhaitez ajouter via Firefox et appuyez sur l'icône des trois points en bas au centre.",
+                        "images": ["/tutorials/signet/android_firefox_step01.svg"]
+                        },
+                        {
+                        "order": 2,
+                        "title": "Faire défiler le menu",
+                        "instruction": "Dans le menu qui apparaît, faites défiler jusqu'en bas de la liste.",
+                        "images": ["/tutorials/signet/android_firefox_step02.svg"]
+                        },
+                        {
+                        "order": 3,
+                        "title": "Ajouter à l'écran d'accueil",
+                        "instruction": "Appuyez sur 'Ajouter à l'écran d'accueil' dans les options du menu.",
+                        "images": ["/tutorials/signet/android_firefox_step03.svg"]
+                        },
+                        {
+                        "order": 4,
+                        "title": "Vérifier l'écran d'accueil",
+                        "instruction": "L'application est maintenant disponible sur votre écran d'accueil. Vous pouvez accéder au site web depuis ici.",
+                        "images": ["/tutorials/signet/android_firefox_step04.svg"]
+                        }
+                    ]
                 }
             ]
     }

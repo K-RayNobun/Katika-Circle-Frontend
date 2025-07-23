@@ -14,7 +14,7 @@ const SignetPopupContainer: React.FC<SignetPopupContainerProps> = ({ onClose }) 
     return (
         <div className="fixed inset-0 z-50 h-[100vh] flex items-center justify-center bg-black/50 px-4">
             <div className="h-[70%] w-full max-w-3xl overflow-y-auto rounded-lg bg-white flex justify-center">
-                <SignetTutorialContainer goBack={handleGoBack} />
+                <SignetTutorialContainer goBack={handleGoBack} isPopUpMode={true} />
             </div>
         </div>
 

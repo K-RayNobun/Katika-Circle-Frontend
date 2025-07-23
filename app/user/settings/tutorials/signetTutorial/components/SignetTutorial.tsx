@@ -4,7 +4,12 @@ import TutorialStep from '../../TutorialStep';
 import useTutorial from '../hooks/useTutorial';
 import { useTranslation } from '@/lib/hooks/useTranslation';
 
-const SignetTutorialContainer = ({ goBack }: { goBack: () => void }) => {
+type SignetTutorialContainerProps = {
+    goBack: () => void;
+    isPopUpMode?: boolean; // Optional prop to indicate if this is in a popup context
+};
+
+const SignetTutorialContainer = ({ goBack, isPopUpMode=false }: SignetTutorialContainerProps) => {
     const {
         surveyDone,
         steps, 
@@ -69,6 +74,7 @@ const SignetTutorialContainer = ({ goBack }: { goBack: () => void }) => {
             onExit={goBack}
             isFirstStep={currentStep === 0}
             isLastStep={currentStep === steps.length - 1}
+            isPopUpMode={isPopUpMode} // Assuming this is for a popup context
         />
     );
 };

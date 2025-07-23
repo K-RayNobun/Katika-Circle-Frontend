@@ -50,8 +50,9 @@ const useTutorial = () => {
             const found = tutorials.find(
                 t =>
                     normalize(t.os) === normalize(platform) &&
-                    normalize(t.browser) === normalize(browser === 'ms-explorer' ? 'Microsoft Edge' : browser)
+                    normalize(t.browser) === normalize(browser === 'firefox' ? 'Mozilla Firefox' : browser)
             );
+            console.log('Found Tutorial', found);
             setSteps(found?.steps || []);
         } catch {
             setError('Failed to load tutorials.');

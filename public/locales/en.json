@@ -618,7 +618,7 @@
         "signetSurvey": {
             "title": "Pre-requisites before starting the tutorial",
             "description": "Please answer the following questions to tailor the tutorial to your device and browser.",
-            "platformLabel": "Which platform are you using?",
+            "platformLabel": "Which phone are you using?",
             "browserLabel": "Which browser are you using?",
             "startButton": "Start Tutorial",
             "error": "Please select both your platform and browser.",

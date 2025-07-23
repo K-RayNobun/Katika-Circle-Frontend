@@ -79,7 +79,7 @@ export default function UserLayout({
     return (
         <section className={`relative w-full bg-gray min-h-screen lg:h-[1024px] lg:px-[12px] px-[4px] pt-[12px] pb-[84px] lg:pb-[12px] flex justify-center flex-col lg:flex-row gap-[16px] rounded-lg sm:rounded-3xl mx-auto`}>
             {userData.verified && (
-                <aside className={`hidden lg:flex lg:w-[320px] flex-col justify-between bg-primary rounded-3xl p-[32px]`}>
+                <aside className={`hidden lg:flex lg:w-[320px] h-full flex-col justify-between bg-primary rounded-3xl p-[32px]`}>
                     <div className={`flex flex-col justify-between h-[456px]`}>
                         <Image src={'/logo_white.svg'} height={60} width={200} alt='' />
                         <div className={`h-[60%] flex flex-col justify-between cursor-pointer`}>

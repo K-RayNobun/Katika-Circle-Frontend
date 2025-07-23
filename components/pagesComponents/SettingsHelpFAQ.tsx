@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { PiPlusCircle, PiMinusCircle } from "react-icons/pi";
 import { useTranslation } from '@/lib/hooks/useTranslation';
-import data from '@/public/locales/en.json';
+import dataEn from '@/public/locales/en.json';
+import dataFr from '@/public/locales/fr.json';
 
 
 const HelpFAQSection = () => {
     const [toogledIndex, setToogledIndex] = useState<number | null>(null);
-    const { t } = useTranslation();
+    const { t, locale } = useTranslation();
 
     const handleToogle = (index: number) => {
         
@@ -54,12 +55,12 @@ const HelpFAQSection = () => {
         });
     }; 
 
-    const FAQData = data.settingsHelpFAQ.faq; // Adjust the path to your JSON file
+    const FAQData = locale === 'fr' ? dataFr.settingsHelpFAQ.faq : dataEn.settingsHelpFAQ.faq;
 
     return (
         <div className='w-full p-[16px] lg:p-[32px] lg:space-y-[64px]'>
             <h4 className='text-[24px] hidden lg:block font-bold text-primary'>{t('settingsHelpFAQ.helpAndFAQ')}</h4>
-            <div>
+            <div className=''>
                 {FAQData.map((faq, index) => (
                     <div
                         key={index} onClick={() => handleToogle(index)}
@@ -67,17 +68,17 @@ const HelpFAQSection = () => {
                             index === FAQData.length - 1 ? '' : 'border-b-2 border-gray_dark/15'
                         } ${toogledIndex === index ? '' : 'hover:bg-gray hover:border-b-[2px]'} border-gray`}
                     >
-                        <h5 className='font-semibold text-[17px] lg:text-[18px] mb-[6px]'>{faq.title}</h5>
+                        <h5 className='font-semibold text-[17px] lg:text-[18px] mb-[24px]'>{faq.title}</h5>
                         <p
                             id={`content-${index}`}
-                            className={`text-[14px] lg:text-[16px] overflow-hidden transition-all duration-3000 ease-in-out ${
+                            className={`text-[14px] lg:text-[16px] overflow-hidden pl-[12px]] transition-all duration-3000 ease-in-out ${
                                 index === toogledIndex ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
                             }`}
                         >
                             {formatContent(faq.content)}
                         </p>
                         <button
-                            className='absolute top-[30%] right-[24px] transition-all duration-3000 ease-in-out'
+                            className='absolute top-[30%] right-[24px] transition-all duration-7000 ease-in-out'
                             onClick={(e) => {e.stopPropagation(); handleToogle(index);}}
                         >
                             {toogledIndex === index ?

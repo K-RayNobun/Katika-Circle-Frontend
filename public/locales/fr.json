@@ -617,7 +617,7 @@
         "signetSurvey": {
             "title": "Pré-requis avant de commencer le tutoriel",
             "description": "Veuillez répondre aux questions suivantes pour adapter le tutoriel à votre appareil et navigateur.",
-            "platformLabel": "Quel est votre plateforme ?",
+            "platformLabel": "Quel est votre téléphone ?",
             "browserLabel": "Quel navigateur utilisez-vous ?",
             "startButton": "Commencer le tutoriel",
             "error": "Veuillez sélectionner votre plateforme et votre navigateur.",

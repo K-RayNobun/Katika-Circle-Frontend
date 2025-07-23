@@ -1,5 +1,4 @@
 import { useTranslation } from '@/lib/hooks/useTranslation';
-import { useAppSelector } from '@/lib/redux/hooks';
 import React, { useState, useEffect } from 'react';
 import { LiaTimesCircleSolid } from 'react-icons/lia';
 
@@ -12,6 +11,7 @@ interface TutorialStepProps {
     onExit: () => void;
     isFirstStep?: boolean;
     isLastStep?: boolean;
+    isPopUpMode?: boolean;
 }
 
 const TutorialStep: React.FC<TutorialStepProps> = ({
@@ -23,11 +23,10 @@ const TutorialStep: React.FC<TutorialStepProps> = ({
     onExit,
     isFirstStep = false,
     isLastStep = false,
+    isPopUpMode,
 }) => {
 
     const { t } = useTranslation();
-
-    const hasUserPassedTutorialOnce = useAppSelector((state) => state.user.passedTutorials);
 
     const [expanded, setExpanded] = useState<boolean>(false);
     const [currentImage, setCurrentImage] = useState<number>(0);
@@ -41,16 +40,16 @@ const TutorialStep: React.FC<TutorialStepProps> = ({
     }, [title]);
 
     return (
-        <div className={`relative w-full flex flex-col flex-shrink-0 justify-center items-center bg-white rounded-xl ${ hasUserPassedTutorialOnce ? 'p-[7%] lg:p-[15%]': 'p-[20px] lg:p-[32px]' }`}>
-           { hasUserPassedTutorialOnce &&
+        <div className={`relative w-full flex flex-col flex-shrink-0 justify-center items-center rounded-xl ${ isPopUpMode ? 'p-[32px] lg:p-[15%]': 'p-[20px] lg:p-[32px]' }`}>
+           { isPopUpMode &&
                 <button
-                    className="absolute top-6 right-6"
+                    className="absolute top-4 lg:top-6 right-4 lg:right-6 "
                     onClick={onExit}
                 >
-                    <LiaTimesCircleSolid size={36} className='text-primary_dark' />
+                    <LiaTimesCircleSolid className='text-primary_dark text-[24px] lg:text-[40px]' />
                 </button>
             }
-            <h2 className="text-[22px] lg:text-[28px] font-bold text-primary mt-2 mb-4 text-center">
+            <h2 className="text-[19px] lg:text-[28px] font-bold text-primary mt-2 mb-4 text-center">
                 {title}
             </h2>
             <p className="text-[13px] lg:text-[15px] text-gray-700 mb-6 text-center">
@@ -64,7 +63,7 @@ const TutorialStep: React.FC<TutorialStepProps> = ({
                     <img
                         src={images[currentImage]}
                         alt={`Tutorial Step Image ${currentImage + 1}`}
-                        className="max-h-[360px] rounded shadow border border-gray-200 object-contain"
+                        className={`max-h-[360px] ${isPopUpMode ? 'h-[264px]' : 'h-[360px]'} rounded shadow border border-gray-200 object-contain`}
                     />
                 )}
                 {images.length > 1 && (

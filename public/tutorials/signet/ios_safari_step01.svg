@@ -1,7 +1,9 @@
 <svg width="255" height="553" viewBox="0 0 255 553" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect width="255" height="553" fill="url(#pattern0_61_45)"/>
-<path d="M127.5 342C127.5 341.172 126.828 340.5 126 340.5C125.172 340.5 124.5 341.172 124.5 342L127.5 342ZM124.939 491.061C125.525 491.646 126.475 491.646 127.061 491.061L136.607 481.515C137.192 480.929 137.192 479.979 136.607 479.393C136.021 478.808 135.071 478.808 134.485 479.393L126 487.879L117.515 479.393C116.929 478.808 115.979 478.808 115.393 479.393C114.808 479.979 114.808 480.929 115.393 481.515L124.939 491.061ZM126 342L124.5 342L124.5 490L126 490L127.5 490L127.5 342L126 342Z" fill="#FFFF00"/>
-<rect x="114.5" y="505.5" width="25" height="26" rx="5.5" stroke="#FFFF00" stroke-width="3"/>
+<rect x="113" y="506" width="26" height="26" rx="5" stroke="#00FF00" stroke-width="4"/>
+<path d="M126 369L126 484" stroke="#00FF00" stroke-width="8" stroke-linecap="round"/>
+<line x1="135.292" y1="478.693" x2="126.807" y2="487.178" stroke="#00FF00" stroke-width="8" stroke-linecap="round"/>
+<line x1="116.657" y1="478.819" x2="125.142" y2="487.305" stroke="#00FF00" stroke-width="8" stroke-linecap="round"/>
 <defs>
 <pattern id="pattern0_61_45" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#image0_61_45" transform="scale(0.00169492 0.000781561)"/>
