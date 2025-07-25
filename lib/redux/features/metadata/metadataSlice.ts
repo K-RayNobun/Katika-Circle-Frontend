@@ -5,6 +5,7 @@ interface Metadata {
     theme: 'light' | 'dark';
     isCookieConsent: boolean;
     pushSubscription: PushSubscriptionData | null,
+    passedTutorials?: boolean
 }
 
 interface PushSubscriptionData {
@@ -19,6 +20,7 @@ const initialState: Metadata = {
     theme: 'light',
     isCookieConsent: false,
     pushSubscription: null,
+    passedTutorials: false,
 }
 
 const metadataSlice = createSlice({
@@ -59,16 +61,21 @@ const metadataSlice = createSlice({
         
         // Load stored subscription on app initialization
         loadStoredSubscription: (state) => {
-        if (typeof window !== 'undefined') {
-            const storedSub = localStorage.getItem('pushSubscription');
-            if (storedSub) {
-            state.pushSubscription = JSON.parse(storedSub);
+            if (typeof window !== 'undefined') {
+                const storedSub = localStorage.getItem('pushSubscription');
+                if (storedSub) {
+                state.pushSubscription = JSON.parse(storedSub);
+                }
             }
-        }
+        },
+        // Set the user as passed the tutorials
+        setPassedTutorials: (state, action: PayloadAction<boolean>) => {
+            state.passedTutorials = action.payload;
+            console.log(`\t ### The user has passed the tutorials: ${state.passedTutorials}`);
         },
     }
 });
 
-export const { changeTheme, detectSystemTheme, setCookieConsent, setPushSubscription, loadStoredSubscription } = metadataSlice.actions;
+export const { changeTheme, detectSystemTheme, setCookieConsent, setPushSubscription, loadStoredSubscription, setPassedTutorials  } = metadataSlice.actions;
 
 export default metadataSlice.reducer;

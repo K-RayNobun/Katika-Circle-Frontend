@@ -3,9 +3,13 @@ import { getDeviceType, detectAppNature } from "../functions/WPAChecker";
 import { LiaTimesSolid } from "react-icons/lia";
 import { useTranslation } from "@/lib/hooks/useTranslation";
 
+import { useAppDispatch } from "@/lib/redux/hooks";
+import { setPassedTutorials } from "@/lib/redux/features/metadata/metadataSlice";
+
 
 const SignetBanner = ( { showSignetPopup } : { showSignetPopup: (arg: boolean) => void }) => {
     const { t } = useTranslation();
+    const dispatch = useAppDispatch();
 
     const [visible, setVisible] = useState(false);
 
@@ -36,6 +40,7 @@ const SignetBanner = ( { showSignetPopup } : { showSignetPopup: (arg: boolean) =
                 <button
                     className="bg-white border-2 border-primary hover:bg-primary_dark text-primary font-semibold px-4 py-2 rounded-lg shadow transition"
                     onClick={() => {
+                        dispatch(setPassedTutorials(true));
                         setVisible(false);
                     }}
                 >

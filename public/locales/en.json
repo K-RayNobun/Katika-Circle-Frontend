@@ -643,7 +643,7 @@
         },
         "transactionTutorial": {
             "title": "How to Make a Transaction",
-            "description": "Welcome, we are glad to see you make your first transaction! This tutorial explains how to make your first transaction on the SendByKatika app. Your transaction takes place in two steps: \n The first is done in the app, where you provide essential information.\n The second step is to redirect you to our partner, who will assign you a bank account to make the transfer.\n P.S. For your first transaction, you will be asked to provide identification.\n Click the 'Continue' button to begin.",
+            "description": "Welcome! We're glad you're making your first transaction. This tutorial will guide you through entering the required information in the SendByKatika app. For your first transaction, you’ll be asked to provide identification. Click the 'Continue' button to get started.",
             "noTutorialFound": "Sorry, no tutorial found for your selection.",
             "backButton": "← Back"
         }

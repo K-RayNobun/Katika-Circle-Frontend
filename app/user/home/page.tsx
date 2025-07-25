@@ -17,6 +17,7 @@ import TransactionScreens from '@/components/transaction_screens/TransactionScre
 import SignetBanner from '@/app/user/settings/tutorials/signetTutorial/components/SignetBanner';
 import SignetPopupContainer from '@/components/transaction_screens/components/SignetPopupContainer';
 import { resetTransaction, provideTransakReturnedData } from '@/lib/redux/features/transaction/transactionSlice';
+import { setPassedTutorials } from '@/lib/redux/features/metadata/metadataSlice';
 
 interface FilleulDetails {
     order: number;
@@ -28,13 +29,14 @@ interface FilleulDetails {
 
 const Home = () => {
     const userData = useAppSelector((state) => state.user);
+    const metaData = useAppSelector((state) => state.metadata);
     const accessToken = useAppSelector((state) => state.token.token);
     const latestTransactionId = useAppSelector((state) => state.transaction.latestTransactionId);
     
     // State Management
     const [isScreenVisible, setIsScreenVisible] = useState(false);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
-    const [screenIndex, setScreenIndex] = useState<number>(userData?.passedTutorials ? 1 : 0);
+    const [screenIndex, setScreenIndex] = useState<number>(metaData?.passedTutorials ? 1 : 0);
     const [filleulList, setFilleulList] = useState<FilleulDetails[]>([]);
     const [referralBonus, setReferralBonus] = useState<number>(0);
     const [errorMsg, setErrorMsg] = useState<string>('');
@@ -212,9 +214,11 @@ const Home = () => {
     return (
         <div className={`h-full relative grow flex flex-col lg:flex-row gap-[24px] rounded-lg sm:rounded-3xl`}>
             {/* Signet Banner */}
-            <SignetBanner showSignetPopup={setShowSignetPopup} />
+            {   
+                !metaData?.passedTutorials && <SignetBanner showSignetPopup={setShowSignetPopup} />
+            }
             {
-                showSignetPopup && <SignetPopupContainer onClose={() => setShowSignetPopup(false)} />
+                showSignetPopup && <SignetPopupContainer onClose={() => setShowSignetPopup(false)} onFinish={() => dispatch(setPassedTutorials(true))} />
                     
             }
 

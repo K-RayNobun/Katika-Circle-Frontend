@@ -3,18 +3,15 @@ import SignetTutorialContainer from "@/app/user/settings/tutorials/signetTutoria
 
 interface SignetPopupContainerProps {
     onClose: () => void;
+    onFinish: () => void;
 }
 
-const SignetPopupContainer: React.FC<SignetPopupContainerProps> = ({ onClose }) => {
-    // Handler for when the tutorial is exited or finished
-    const handleGoBack = () => {
-        onClose();
-    };
-
+const SignetPopupContainer: React.FC<SignetPopupContainerProps> = ({ onClose, onFinish }) => {
+   
     return (
         <div className="fixed inset-0 z-50 h-[100vh] flex items-center justify-center bg-black/50 px-4">
             <div className="h-[70%] w-full max-w-3xl overflow-y-auto rounded-lg bg-white flex justify-center">
-                <SignetTutorialContainer goBack={handleGoBack} isPopUpMode={true} />
+                <SignetTutorialContainer goBack={onClose} onFinish={onFinish} isPopUpMode={true} />
             </div>
         </div>
 

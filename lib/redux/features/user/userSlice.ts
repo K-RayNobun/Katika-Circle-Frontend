@@ -20,7 +20,6 @@ interface User {
     profileImageKey?: string,
     language: string,
     isLoggedOut?: boolean,
-    passedTutorials?: boolean
 }
 interface Referral {
     id: number,
@@ -95,11 +94,6 @@ const userSlice = createSlice({
        setLanguage: (state, action: PayloadAction<string>) => {
         state.language = action.payload;
        },
-       // Set the user as passed the tutorials
-       setPassedTutorials: (state, action: PayloadAction<boolean>) => {
-        state.passedTutorials = action.payload;
-        console.log(`\t ### The user ${state.name} has passed the tutorials: ${state.passedTutorials}`);
-       },
        // Logout logic
        resetUser: (state) => {
         state.id = '';
@@ -119,6 +113,6 @@ const userSlice = createSlice({
     }
 });
 
-export const { createUser, verifyUser, setWalletAdress, setReferralCode, setDefaultReferringCode, setProfileImageKey, setReferralList, setLanguage, provideCashback, provideId, provideFilleulsList, provideReferralGain, setPassedTutorials, resetUser } = userSlice.actions;
+export const { createUser, verifyUser, setWalletAdress, setReferralCode, setDefaultReferringCode, setProfileImageKey, setReferralList, setLanguage, provideCashback, provideId, provideFilleulsList, provideReferralGain, resetUser } = userSlice.actions;
 
 export default userSlice.reducer;

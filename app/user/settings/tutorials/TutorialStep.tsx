@@ -8,6 +8,7 @@ interface TutorialStepProps {
     images: string[];
     onNext: () => void;
     onPrev: () => void;
+    onFinish: () => void;
     onExit: () => void;
     isFirstStep?: boolean;
     isLastStep?: boolean;
@@ -20,6 +21,7 @@ const TutorialStep: React.FC<TutorialStepProps> = ({
     images,
     onNext,
     onPrev,
+    onFinish,
     onExit,
     isFirstStep = false,
     isLastStep = false,
@@ -102,7 +104,7 @@ const TutorialStep: React.FC<TutorialStepProps> = ({
                 </button>
                 <button
                     className="mt-4 px-6 py-2 bg-primary text-[14px] lg:text-[16px] text-white rounded shadow hover:bg-primary/80 active:bg-primary_dark transition"
-                    onClick={isLastStep ? onExit : onNext}
+                    onClick={isLastStep ? () => {onFinish(); onExit()} : onNext}
                 >
                     {isLastStep ? t('settingsTutorials.tutorialStep.finishButton') : t('settingsTutorials.tutorialStep.nextButton')}
                 </button>

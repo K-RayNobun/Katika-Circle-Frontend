@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '@/lib/hooks/useTranslation';
+import { useAppDispatch } from '@/lib/redux/hooks';
+import { setPassedTutorials } from '@/lib/redux/features/metadata/metadataSlice';
 import SignetTutorialContainer from './SignetTutorial';
 import TransactionsTutorialContainer from '../../transactionTutorial/components/TransactionTutorial';
 import Image from 'next/image';
@@ -25,6 +27,7 @@ const tutorialsList = [
 const SettingsTutorials = () => {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const { t } = useTranslation();
+    const dispatch = useAppDispatch();
     const [expandedIndexes, setExpandedIndexes] = useState<{ [key: number]: boolean }>({});
 
     
@@ -42,7 +45,7 @@ const SettingsTutorials = () => {
     if (selectedIndex === 0) {
         return (
             <div className="w-full">
-                <SignetTutorialContainer goBack={handleBack} />
+                <SignetTutorialContainer goBack={handleBack} onFinish={() => dispatch(setPassedTutorials(true))} />
             </div>
         );
     } else if (selectedIndex === 1) {

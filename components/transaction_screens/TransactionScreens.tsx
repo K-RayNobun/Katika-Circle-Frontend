@@ -11,7 +11,7 @@ import ScreenFour from '@/components/transaction_screens/screens/ScreenFour';
 import TransakRedirect from '@/components/transaction_screens/screens/TransakRedirect';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { useApiGet } from '@/lib/hooks/useApiRequest';
-import { setPassedTutorials } from '@/lib/redux/features/user/userSlice';
+import { setPassedTutorials } from '@/lib/redux/features/metadata/metadataSlice';
 
 
 

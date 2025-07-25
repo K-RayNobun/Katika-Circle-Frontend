@@ -57,6 +57,7 @@ const TransactionsTutorialContainer = ({ goBack , onFinish}: { goBack: () => voi
                 images={step.images}
                 onNext={nextStep}
                 onPrev={prevStep}
+                onFinish={() => {}}
                 onExit={onFinish}
                 isFirstStep={currentStep === 0}
                 isLastStep={currentStep === steps.length - 1}
@@ -65,5 +66,4 @@ const TransactionsTutorialContainer = ({ goBack , onFinish}: { goBack: () => voi
         </section>
     );
 };
-
 export default TransactionsTutorialContainer;
